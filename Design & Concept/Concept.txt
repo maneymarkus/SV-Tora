@@ -1,0 +1,51 @@
+
+Websites:
+    - Registration for tournaments for other clubs
+        - Landing Page (meta-information!; more general (if enrollment time exceeded login should be possible still (to see enrolled persons)))
+        - Choose-Club-Page
+        - Login-Club-Page
+        - Club-Registration-Page (verification via email an Marcus + website; + club E-Mail -> verification successful or not (e-mail))
+        - Club-Dashboard (+ tournament context; person registration as modal window -> difference between registration and tournament-Anmeldung + html-form depends on type of person)
+    - Dashboard for "admins" (Marcus, Flori, etc.) to administer tournaments, create/delete teams/fighter, etc.
+        - Login-page
+        - tournaments ( + add category to existing fighters that enrolled for tournament (they already have two categories (kata and kumite) but might start in a higher or lower category too (however: very rare))
+            - persons
+                - starter ( + sort by category -> individual list for each category; + manual administration of categories (split large categories || merge small categories))
+                    - categories (individual page?? -> choose fighting system)
+                - coaches (sorted by club)
+                - referees (sorted by club)
+                - helpher (sorted by club)
+            - teams ( + manual administration of categories (split large categories || merge small categories))
+                - categories (individual page?? -> choose fighting system)
+        - teams
+        - categories (static but different for different tournaments; maybe editable?)
+        - persons
+            - fighter (name, surname, age, sex, category, graduation, club)
+            - coaches (name, surname, club)
+            - referees (name, surname, club)
+            - helpher (name, surname, club)
+        - Contact Page // contact clubs to submit any changes to tournament (only enrolled Clubs?)
+
+Printmedium!
+
+Databases:
+    - User (id, username, role, dark_mode, picture) // "role" for this website
+    - Passwords (id, username, hashed_password)
+    - Persons (id, surname, name, type (coach, fighter, helper, ...), club_id)
+    - Starter (id, person_id, birth_date, sex, graduation, category kata, category kumite, category kihon) // category kihon depends on graduation (only Weißgurte)
+    - Fighter_Team (id, name, team_id)
+    - Teams (id, name, team_category, club_id) // team_category is only Kata
+    - Clubs (id, name)
+    - Graduation (id, name) // id depicts order
+    - Category (id, type, number, name, age, sex, graduation) // type = Kata|Kumite|Kihon|Team (Team only has number and age attribute)
+    - Tournaments (id, name, age, graduation, teams, kihon) // 3 Templates; Teams is boolean; kihon is boolean
+    - Tournament (id, enrollment_start, enrollment_end, date, time, name)
+    - Tournament Categories (id, category_id, name)
+    - Tournament Persons (id, person_id, type)
+    - Tournament Starter (id, tournament_persons_id, tournament_categories_id)
+    - Tournament Teams (id, team_id, tournament_category_id)
+
+
+Details:
+    - add already added fighter will open window: "this fighter has already been added. Do you want to add him to another category?" // only possible for admins? -> otherwise error message
+    - Download-Page: Freikampfliste, leere Kategorienliste
