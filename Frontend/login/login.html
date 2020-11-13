@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Login</title>
+
+    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="css/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="css/login.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="js/login.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <span class="light-spot"></span>
+    <img class="light-fighter" src="images/fighter-symbol-white.png"  alt="fighter image"/>
+
+    <main>
+
+        <div class="modal-window login-container">
+            <div class="modal-window-header">
+                <p>Login</p>
+            </div>
+            <div class="mw-content">
+                <form class="login" action="" method="post">
+                    <div class="row">
+                        <span class="text-input-container">
+                            <label class="icon" for="username"><i class="material-icons">person</i></label>
+                            <input class="text-input" type="text" id="username" name="username" />
+                            <label class="text" for="username">Username</label>
+                            <span class="underline"></span>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="text-input-container">
+                            <label class="icon" id="password-label" for="password"><i class="material-icons">lock</i></label>
+                            <input class="text-input" type="password" id="password" name="password" />
+                            <label class="text" for="password">Password</label>
+                            <span class="underline"></span>
+                        </span>
+                    </div>
+                    <button type="submit" class="login-button">Login</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

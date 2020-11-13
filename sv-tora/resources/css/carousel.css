@@ -1,0 +1,177 @@
+/*
+    SETUP:
+
+    <div class="carousel-container">
+        <a class="left"><i class="material-icons">navigate_before</i></a>
+        <a class="right"><i class="material-icons">navigate_next</i></a>
+        <div class="page-wrapper">
+            <div class="page1 page">
+                <h3>Tafelsystem</h3>
+                <a class="button1" href="#">Wählen</a>
+            </div>
+            <div class="page2 page">
+                <h3>Doppel-KO-System mit finalen Tafeln</h3>
+                <a class="button1" href="#">Wählen</a>
+            </div>
+
+            <div class="page3 page">
+                <h3>Doppel-KO-System</h3>
+                <a class="button1" href="#">Wählen</a>
+            </div>
+            <div class="page4 page">
+                <h3>KO-System</h3>
+                <a class="button1" href="#">Wählen</a>
+            </div>
+            <div class="page5 page">
+                <h3>Jeder-Gegen-Jeden</h3>
+                <a class="button1" href="#">Wählen</a>
+            </div>
+            <div class="page">
+                <h3>Brasilianisches KO-System</h3>
+                <a class="button1" href="#">Wählen</a>
+            </div>
+        </div>
+    </div>
+
+
+
+ */
+
+.carousel-container {
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    height: 15rem;
+    transition: 0.5s ease;
+    z-index: 100;
+}
+
+.carousel-container > a {
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 1rem;
+    background-color: #272727;
+    border-radius: 5px;
+    box-shadow: 0 3px 5px #282828;
+}
+
+.carousel-container > a i {
+    font-size: 3rem;
+}
+
+.carousel-container > a:hover {
+    background-color: black;
+}
+
+.carousel-container > a:hover i {
+    color: #2699FB;
+}
+
+.carousel-container .left {
+    left: -5rem;
+}
+
+.carousel-container .right {
+    right: -5rem;
+}
+
+.carousel-container .page-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.carousel-container .page {
+    border-radius: 5px;
+    width: 13em;
+    height: calc(15em - 5px);
+    padding: 1em;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.5s ease;
+    opacity: 0;
+    z-index: 1;
+    box-shadow: 0 3px 5px #282828;
+}
+
+.carousel-container .page.inactive {
+    opacity: 0.5;
+    color: #828282;
+}
+
+.carousel-container .page.inactive a {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+}
+
+.page h3 {
+    margin: 0;
+    font-size: 1.5em;
+    border-bottom: 3px solid #4A4A4A;
+}
+
+.page .button1 {
+    position: absolute;
+    bottom: 2em;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5em 2em;
+}
+
+.page .button1:hover {
+    color: #2699FB;
+    background-color: black;
+}
+
+.carousel-container .page1 {
+    left: 15%;
+    z-index: 2;
+    background-color: #363636;
+    font-size: 0.8rem;
+    opacity: 1;
+    margin-top: 2.5em;
+}
+
+.carousel-container .page2 {
+    left: 30%;
+    z-index: 3;
+    font-size: 0.9rem;
+    background-color: #3E3E3E;
+    opacity: 1;
+    margin-top: 1em;
+}
+
+.carousel-container .page3 {
+    left: 50%;
+    z-index: 4;
+    font-size: 1rem;
+    background-color: #454545;
+    opacity: 1;
+    margin-top: 0;
+}
+
+.carousel-container .page4 {
+    left: 70%;
+    z-index: 3;
+    font-size: 0.9rem;
+    background-color: #3E3E3E;
+    opacity: 1;
+    margin-top: 1em;
+}
+
+.carousel-container .page5 {
+    left: 85%;
+    z-index: 2;
+    font-size: 0.8rem;
+    background-color: #363636;
+    opacity: 1;
+    margin-top: 2.5em;
+}
+

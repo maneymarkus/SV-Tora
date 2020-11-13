@@ -1,0 +1,97 @@
+main.categories-settings {
+    position: relative;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.accordion .accordion-header {
+    text-align: center;
+}
+
+.darkmode .accordion-header {
+    background-color: #272727;
+}
+
+.darkmode .accordion-header:hover {
+    color: #2699FB;
+    background-color: #373737;
+}
+
+.accordion-bar i:first-child {
+    left: 1rem;
+}
+
+.accordion-bar i:last-child {
+    right: 1rem;
+}
+
+.accordion-content > :last-child {
+    margin-bottom: 2rem;
+}
+
+.accordion-content .edit {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 5rem;
+}
+
+.accordion-content h4 {
+    text-align: center;
+    font-size: 2rem;
+    margin: 2rem auto;
+}
+
+.accordion-content table {
+    margin: 0 auto;
+}
+
+.darkmode .accordion-content table {
+    color: black;
+}
+
+.accordion-content table td {
+    transition: 0.2s ease;
+    padding: 0.5rem 1.5rem;
+}
+
+.darkmode table th {
+    background-color: #808080;
+    padding: 0.5rem 1.5rem;
+}
+
+.accordion-content table, .accordion-content th, .accordion-content td {
+    border: 1px solid black;
+}
+
+.darkmode .accordion-content tr:nth-child(odd) td:nth-child(odd) {
+    background-color: #808080;
+}
+
+.darkmode .accordion-content tr:nth-child(odd) td:nth-child(even) {
+    background-color: #CCCCCC;
+}
+
+.darkmode .accordion-content tr:nth-child(even) td:nth-child(odd) {
+    background-color: #CCCCCC;
+}
+
+.darkmode .accordion-content tr:nth-child(even) td:nth-child(even) {
+    background-color: #808080;
+}
+
+.darkmode main.categories-settings .accordion-content table td:hover, .darkmode main.categories-settings .accordion-content table th:hover {
+    background-color: #666666;
+}
+
+@media screen and (min-width: 600px) {
+
+}
+
+@media screen and (min-width: 960px) {
+
+}
+
+@media print {
+
+}

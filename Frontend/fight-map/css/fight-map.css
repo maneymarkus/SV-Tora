@@ -1,0 +1,502 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+  url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+  url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html {
+  height: 100%;
+  font-size: 1em;
+  color: white;
+  font-family: sans-serif;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  background-color: #222222;
+  background-image: url("../images/background.svg");
+  background-size: 300px;
+  background-position: center;
+  background-repeat: repeat;
+  position: relative;
+  overflow: auto;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.meta-info {
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+  width: 90%;
+  overflow: hidden;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  z-index: 100;
+}
+
+.meta-info.top {
+  padding: 1.25em 0 2em 0;
+}
+
+.meta-info.bottom {
+  padding: 2em 0 1.25em 0;
+}
+
+.meta-info.bottom {
+  bottom: 0;
+}
+
+.meta-info:before {
+  content: '';
+  position: absolute;
+  width: 90%;
+  height: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  box-shadow: 0 0 25px 15px black;
+}
+
+.meta-info.top:before {
+  top: -25%;
+  border-radius: 0 0 5em 5em;
+}
+
+.meta-info.bottom:before {
+  bottom: -25%;
+  border-radius: 5em 5em 0 0;
+}
+
+.chunk {
+  min-width: 7em;
+  width: 15%;
+  height: 3.5em;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  padding: 0 1em;
+  color: #A8A8A8;
+  margin: 0 0.25em;
+}
+
+.chunk.main .value {
+  font-size: 2em;
+  top: -0.2em;
+  color: white;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.75);
+}
+
+.chunk .value {
+  font-size: 1.5em;
+  text-shadow: 2px 2px 5px black;
+}
+
+.chunk span {
+  position: absolute;
+  width: 100%;
+  display: inline-block;
+  left: 0;
+}
+
+.chunk .value {
+  top: 0;
+  font-weight: bold;
+}
+
+.chunk .separator {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 60%;
+  margin: 0;
+  border: 1px solid white;
+}
+
+.top .separator {
+  border: 1px dashed white;
+}
+
+.chunk .key {
+  bottom: 0;
+  font-size: 0.9em;
+}
+
+/*****************************************************************
+           FIGHT-TREES for KO-System, Doppel-KO-System
+ ****************************************************************/
+
+.fight-map {
+  width: 500em;
+  height: 500em;
+  overflow: scroll;
+  font-size: 1rem; /* ADJUST SIZE */
+  padding: 10rem;
+}
+
+.tree {
+  display: inline-block;
+
+}
+
+.tree .column {
+  float: left;
+  position: relative;
+  width: 15em;
+  margin-left: 1em;
+}
+
+.tree .column:nth-child(1) .fight {
+  height: 4em;
+  margin-bottom: 3em;
+}
+
+.tree .column:nth-child(2) {
+  padding-top: 2em;
+}
+
+.tree .column:nth-child(2) .fight {
+  height: 7.2em;
+  margin-bottom: 7.1em;
+}
+
+.tree .column:nth-child(3) {
+  padding-top: 5.5em;
+}
+
+.tree .column:nth-child(3) .fight {
+  height: 14.6em;
+  margin-bottom: 14.3em;
+}
+
+.tree .column:nth-child(4) {
+  padding-top: 12.8em;
+}
+
+.tree .column:nth-child(4) .fight {
+  height: 29.2em;
+}
+
+.tree .column:nth-child(5) {
+  padding-top: 27.3em;
+}
+
+.tree .fight {
+  position: relative;
+  left: 0;
+  display: inline-block;
+  width: 100%;
+  height: 10em;
+  border-right: 0.1em solid white;
+}
+
+.tree .fight:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  width: 1em;
+  height: 0.1em;
+  background-color: white;
+}
+
+.fight.winner {
+  height: 2.5em;
+  border-right: none;
+  margin-top: -1.25em;
+}
+
+.fight.winner:after {
+  display: none;
+}
+
+.tree .fighter-name {
+  position: absolute;
+  display: inline-block;
+  width: 95%;
+  left: 0;
+  font-size: 1em;
+  padding: 0.25em 0.5em 0.1em 0.75em;
+  border-bottom: 0.1em dashed #A8A8A8;
+}
+
+.tree .fighter-name:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: calc(-5% - 0.1em);
+  transform: translateY(-50%);
+  width: 5%;
+  height: 0.1em;
+  background-color: white;
+}
+
+.tree .fight .fighter-name:nth-of-type(1) {
+  top: -0.75em;
+}
+
+.tree .fight .fighter-name:nth-of-type(2) {
+  bottom: -0.8em;
+}
+
+.fight.winner .fighter-name:nth-child(1) {
+  border-color: gold;
+  color: gold;
+  font-weight: bold;
+  font-size: 1.5em;
+  top: 0;
+}
+
+.fight.winner .fighter-name:after {
+  display: none;
+}
+
+.tree .fight .fight-number {
+  font-size: 2em;
+  font-weight: bold;
+  text-shadow: 3px 3px 8px black;
+  position: absolute;
+  top: calc(50% + 0.25em);
+  right: 0.5em;
+  transform: translateY(-50%);
+}
+
+/*****************************************************************
+            MAP-CONTROLS
+ ****************************************************************/
+
+.map-controls {
+  position: fixed;
+  width: 6em;
+  border-radius: 5em;
+  bottom: 6em;
+  right: 2em;
+  background-color: #171717;
+  box-shadow: 0 0 10px 5px black;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.map-controls .primary-button {
+  text-align: center;
+  display: inline-block;
+  width: 4em;
+  height: 4em;
+  margin: 2em;
+  color: white;
+  transition: 0.2s ease;
+  background-color: transparent;
+  transform-style: preserve-3d;
+  font-size: 0.7em;
+  z-index: 100;
+}
+
+a.primary-button:before {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid white;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: -1;
+  transition: 0.2s ease;
+  box-shadow: 0 0 20px 3px #2699FB inset, 0 0 10px 3px black;
+}
+
+a.primary-button.cancel:before,
+a.primary-button.close:before {
+  box-shadow: 0 0 20px 3px #F71735 inset, 0 0 10px 3px black;
+}
+
+a.primary-button.documents:before,
+a.primary-button.documents:before {
+  box-shadow: 0 0 20px 3px #5EFC8D inset, 0 0 10px 3px black;
+}
+
+a.primary-button.messages:before,
+a.primary-button.messages:before {
+  box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
+}
+
+a.primary-button:hover:before {
+  width: 220%;
+  height: 220%;
+  opacity: 1;
+  border-color: #2699FB;
+}
+
+a.primary-button.cancel:hover:before,
+a.primary-button.close:hover:before {
+  border-color: #F71735;
+}
+
+a.primary-button.documents:hover:before,
+a.primary-button.documents:hover:before {
+  border-color: #5EFC8D;
+}
+
+a.primary-button.messages:hover:before,
+a.primary-button.messages:hover:before {
+  border-color: #FFF275;
+}
+
+.primary-button i {
+  color: #3D76E1;
+  position: absolute;
+  font-size: 5em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.2s ease;
+  z-index: 2;
+  transform-style: preserve-3d;
+}
+
+.primary-button:hover i {
+  color: #2699FB;
+  top: 20%;
+  transform: translate(-50%, -50%) scale(1.1) translateZ(30px);
+}
+
+.primary-button.cancel i,
+.primary-button.close i {
+  color: #B23A48;
+}
+
+.primary-button.documents i,
+.primary-button.documents i {
+  color: #20BF55;
+}
+
+.primary-button.messages i,
+.primary-button.messages i {
+  color: #E3B505;
+}
+
+.primary-button.cancel:hover i,
+.primary-button.close:hover i {
+  font-weight: bold;
+  color: #F71735;
+}
+
+.primary-button.documents:hover i,
+.primary-button.documents:hover i {
+  color: #5EFC8D;
+}
+
+.primary-button.messages:hover i,
+.primary-button.messages:hover i {
+  color: #FFF275;
+}
+
+.primary-button p {
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-size: 1em;
+  transition: 0.2s ease;
+  z-index: 1;
+  opacity: 0;
+  transform-style: preserve-3d;
+}
+
+.primary-button:hover p {
+  top: 100%;
+  opacity: 1;
+  transform: translate(-50%, -50%) translateZ(15px);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+  .meta-info {
+    width: 90%;
+    font-size: 1rem;
+  }
+
+  .map-controls {
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .meta-info {
+    width: 75%;
+    font-size: 1.2rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .meta-info {
+    width: 900px;
+  }
+
+  .map-controls {
+    font-size: 1rem;
+  }
+}

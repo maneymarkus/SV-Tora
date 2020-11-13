@@ -1,0 +1,204 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+  url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+  url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html {
+  height: 100%;
+  font-size: 1em;
+  color: white;
+  font-family: sans-serif;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  background-color: #222222;
+  perspective: 1000px;
+  background-image: url("../images/background.svg");
+  background-size: 300px;
+  background-position: center;
+  background-repeat: repeat;
+  position: relative;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+main {
+  width: 100%;
+  padding: 3rem;
+  text-shadow: 2px 2px 10px black;
+  position: relative;
+}
+
+main h2, main p {
+  margin-left: 5%;
+}
+
+main h2 {
+  font-size: 3.5rem;
+}
+
+main p {
+  font-size: 2rem;
+}
+
+main span {
+  position: relative;
+  display: inline-block;
+  color: #2699FB;
+  transition: 0.2s ease;
+}
+
+main span:hover {
+  transform: scale(1.2);
+}
+
+.is-typing:after, .typed:after {
+  content: '|';
+  color: #2699FB;
+  -webkit-animation: blink 650ms infinite;
+  animation: blink 650ms infinite;
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+main a.enroll {
+  position: relative;
+  color: white;
+  font-size: 2.5rem;
+  transition: 0.2s ease;
+  float: right;
+  right: 2rem;
+  margin: 5rem 0;
+  visibility: visible;
+  opacity: 1;
+  text-decoration: none;
+}
+
+a.enroll.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+main a.enroll:hover,
+main a.enroll:focus {
+  color: #2699FB;
+  text-decoration: none;
+}
+
+main a.enroll:before {
+  content: '';
+  position: absolute;
+  width: 7em;
+  height: 4px;
+  bottom: 20%;
+  left: 0;
+  background-color: #2699FB;
+  transition: 0.2s ease;
+  transition-delay: 0.2s;
+}
+
+main a.enroll:hover:before,
+main a.enroll:focus:before {
+  width: 0;
+  left: 7em;
+  transition-delay: 0s;
+}
+
+main a.enroll i {
+  font-size: 4rem;
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  display: inline-block;
+  line-height: 1.2;
+  border: 3px solid white;
+  text-align: center;
+  vertical-align: middle;
+  margin-left: 1rem;
+  transition: 0.2s ease;
+  transition-delay: 0s;
+  color: #2699FB;
+}
+
+main a.enroll:hover i,
+main a.enroll:focus i {
+  border-color: #2699FB;
+  transform: scale(1.2);
+  transition-delay: 0.2s;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

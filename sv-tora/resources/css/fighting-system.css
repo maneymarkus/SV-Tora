@@ -1,0 +1,482 @@
+.print {
+    position: fixed;
+    background-color: #272727;
+    border-radius: 50%;
+    box-shadow: 0 3px 5px #282828;
+    width: 7rem;
+    height: 7rem;
+    text-align: center;
+    padding: 1rem 0;
+    bottom: 3rem;
+    right: 3rem;
+}
+
+.print:hover {
+    color: #2699FB;
+}
+
+.print i {
+    font-size: 2.5rem;
+}
+
+.print p {
+    margin-top: 0.5rem;
+}
+
+.first-row {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 3rem;
+}
+
+.first-row .info, .first-row .user-input {
+    width: 10%;
+    text-align: center;
+}
+
+.first-row .info {
+    float: left;
+    margin-right: 1.5%;
+}
+
+.info h3 {
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.info p, .user-input p {
+    margin-top: 0.5rem;
+}
+
+.first-row .user-input {
+    float: right;
+    margin-left: 1.5%;
+}
+
+.user-input h3 {
+    margin-top: 3rem;
+}
+
+.user-input hr {
+    border: 1px dashed;
+}
+
+.info.part {
+    letter-spacing: 5px;
+}
+
+/*
+    Fight-Tree expects this syntax:
+
+    <div class="fight-tree clearfix">
+            <div class="column column-5" style="background: black">
+                <div class="first-fight fight fight-0">
+                    <div class="fighter-slot top">
+                        <span class="fight-number">0</span>
+                        <span class="fighter-name">Markus</span>
+                        <span class="underline"></span>
+                    </div>
+                    <div class="fighter-slot bottom">
+                        <span class="fight-number">0</span>
+                        <span class="fighter-name">Markus</span>
+                        <span class="underline"></span>
+                    </div>
+                </div>
+
+ */
+
+.fight-tree {
+    width: 90%;
+    height: 70em;
+    margin: 0 auto;
+    font-size: 0.8rem;
+    min-width: 81em;
+}
+
+.fight-tree.height-0 {
+    height: 10em;
+}
+
+.height-0 .column.column-1 .first-fight {
+    margin-top: 10%;
+}
+
+.fight-tree.height-1 {
+    height: 20em;
+}
+
+.height-1 .column.column-2 .first-fight {
+    margin-top: 5%;
+}
+
+.height-1 .column.column-1 .fighter-slot:after {
+    height: 250%;
+}
+
+.fight-tree.height-2 {
+    height: 35em;
+}
+
+.height-2 .column.column-3 .first-fight {
+    margin-top: 5%;
+}
+
+.height-2 .column.column-1 .fighter-slot:after {
+    height: 450%;
+}
+
+.height-2 .column.column-2 .fighter-slot:after {
+    height: 200%;
+}
+
+.height-2 .column.column-2 .first-fight .fighter-slot:after {
+    height: 50%;
+}
+
+.fight-tree.height-3 {
+    height: 55em;
+}
+
+.height-3 .column.column-4 .first-fight {
+    margin-top: 3%;
+}
+
+.fight-tree.height-4 {
+    height: 70em;
+}
+
+.column {
+    width: 17em;
+    float: left;
+    height: 100%;
+    position: relative;
+}
+
+.column .fight {
+    position: absolute;
+    width: 100%;
+    min-height: 4em;
+}
+
+/*
+    Winner Column
+ */
+
+.column.column-0 .fighter-slot {
+    position: relative;
+    width: 100%;
+    top: 47.5%;
+}
+
+/*
+    Finale Column
+ */
+
+.column.column-1 .fight {
+    height: 54%;
+    top: 22.5%;
+}
+
+.column.column-1 .fighter-slot:after {
+    height: 21em;
+}
+
+/*
+    Half-finals Column
+ */
+
+.column.column-2 .fight {
+    height: 27.5%;
+    top: 11%;
+}
+
+.column.column-2 .fight-1 {
+    top: 61%;
+}
+
+.column.column-2 .fighter-slot:after {
+    height: 500%;
+}
+
+.column.column-2 .first-fight {
+    margin-top: 19%;
+}
+
+/*
+    Quarter-finals Column
+ */
+
+.column.column-3 .fight {
+    height: 15%;
+    top: 4.5%;
+}
+
+.column.column-3 .fight-1 {
+    top: 30%;
+}
+
+.column.column-3 .fight-2 {
+    top: 55%;
+}
+
+.column.column-3 .fight-3 {
+    top: 80%;
+}
+
+.column.column-3 .fighter-slot:after {
+    height: 300%;
+}
+
+.column.column-3 .first-fight {
+    margin-top: 13%;
+}
+
+/*
+    Round of Sixteen Column
+ */
+
+.column.column-4 .fight {
+    height: 8.5%;
+    top: 1.5%;
+}
+
+.column.column-4 .fight-1 {
+    top: 14%;
+}
+
+.column.column-4 .fight-2 {
+    top: 27%;
+}
+
+.column.column-4 .fight-3 {
+    top: 39.5%;
+}
+
+.column.column-4 .fight-4 {
+    top: 52%;
+}
+
+.column.column-4 .fight-5 {
+    top: 64.5%;
+}
+
+.column.column-4 .fight-6 {
+    top: 77%;
+}
+
+.column.column-4 .fight-7 {
+    top: 89.5%;
+}
+
+.column.column-4 .fighter-slot:after {
+    height: 150%;
+}
+
+.column.column-4 .first-fight {
+    margin-top: 7.5%;
+}
+
+/*
+    Round of 32
+ */
+
+.column.column-5 .fight-1 {
+    top: 6%;
+}
+
+.column.column-5 .fight-2 {
+    top: 12.5%;
+}
+
+.column.column-5 .fight-3 {
+    top: 18.5%;
+}
+
+.column.column-5 .fight-4 {
+    top: 25.5%;
+}
+
+.column.column-5 .fight-5 {
+    top: 31.5%;
+}
+
+.column.column-5 .fight-6 {
+    top: 38%;
+}
+
+.column.column-5 .fight-7 {
+    top: 44%;
+}
+
+.column.column-5 .fight-8 {
+    top: 50.5%;
+}
+
+.column.column-5 .fight-9 {
+    top: 56.5%;
+}
+
+.column.column-5 .fight-10 {
+    top: 63%;
+}
+
+.column.column-5 .fight-11 {
+    top: 69%;
+}
+
+.column.column-5 .fight-12 {
+    top: 76%;
+}
+
+.column.column-5 .fight-13 {
+    top: 82%;
+}
+
+.column.column-5 .fight-14 {
+    top: 88%;
+}
+
+.column.column-5 .fight-15 {
+    top: 94%;
+}
+
+/*
+    General Styling Stuff
+ */
+
+.fighter-slot {
+    margin: 0 auto;
+    width: 70%;
+    height: 2em;
+    position: absolute;
+    color: #A8A8A8;
+}
+
+.fighter-slot.top {
+    top: 0;
+}
+
+.fighter-slot.bottom {
+    bottom: 0;
+}
+
+.fighter-slot .fight-number {
+    position: absolute;
+    top: -0.1em;
+    left: -1.2em;
+    font-size: 1.7em;
+}
+
+.fighter-slot.winner {
+    left: 9%;
+}
+
+.fighter-slot:before {
+    content: "";
+    height: 0.1em;
+    width: 12%;
+    background-color: #A8A8A8;
+    position: absolute;
+    top: 50%;
+    left: -31%;
+}
+
+.fighter-slot.winner:before {
+    width: 15%;
+    left: -31%;
+}
+
+.fighter-slot:after {
+    content: "";
+    border-color: #A8A8A8;
+    border-right: 0.1em solid;
+    min-height: 1em;
+    width: 1em;
+    position: absolute;
+    right: -1.5em;
+}
+
+.fighter-slot.top:after {
+    top: 50%;
+    border-top: 0.1em solid;
+    border-radius: 0 4px 0 0;
+}
+
+.fighter-slot.bottom:after {
+    bottom: 50%;
+    border-bottom: 0.1em solid;
+    border-radius: 0 0 4px 0;
+}
+
+.fighter-slot.winner .underline, .fighter-slot.winner .fighter-name, .fighter-slot.winner:after {
+    display: none;
+}
+
+.fighter-slot .fighter-name {
+    font-size: 1.5em;
+}
+
+.fighter-slot .underline {
+    position: absolute;
+    border-top: 2px dashed #A8A8A8;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: inline-block;
+}
+
+.fighter-slot.unsymmetrical .underline {
+    border-top: 1px solid;
+}
+
+.fighter-slot.unsymmetrical .fight-number, .fighter-slot.unsymmetrical:before {
+    display: none;
+}
+
+.fight-tree .column .first-fight {
+    height: 4em;
+}
+
+.column .first-fight.unsymmetrical .fighter-slot:after {
+    height: 3em;
+}
+
+.fight-tree .column .first-fight .fighter-slot:nth-child(even) .underline {
+    border-top: 1px solid;
+}
+
+.fight-tree .column .first-fight .fighter-slot:nth-child(odd) .underline {
+    border-top: none;
+}
+
+.first-fight .fight-number, .column .first-fight .fighter-slot:before {
+    display: none;
+}
+
+.column .first-fight .fighter-slot:after {
+    height: 1em;
+}
+
+@media print {
+
+    @page {
+        size: landscape;
+    }
+
+    .first-row {
+        margin-top: 0;
+    }
+
+    body .print {
+        display: none;
+    }
+
+    .first-row {
+        width: 100%;
+    }
+
+    .fight-tree {
+        font-size: 0.5rem;
+    }
+}

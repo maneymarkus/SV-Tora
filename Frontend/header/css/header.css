@@ -1,0 +1,197 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+  url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+  url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  font-size: 1em;
+  color: white;
+  font-family: sans-serif;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  background-color: #222222;
+  perspective: 1000px;
+  overflow: hidden;
+  background-image: url("../images/background.svg");
+  background-size: 300px;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+header {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  padding: 1.5rem 0 1rem 0;
+  transition: 0.5s ease;
+}
+
+header:before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: 150%;
+  background-color: #171717;
+  z-index: -1;
+  border-radius: 0 0 50% 50%/0 0 75% 75%;
+  box-shadow: 0 0 10px 3px black;
+  opacity: 0.75;
+}
+
+header p {
+  position: relative;
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+header a {
+  display: block;
+  position: absolute;
+  border-radius: 10%;
+  width: 5rem;
+  height: 5rem;
+  background-color: #171717;
+  text-align: center;
+  top: -0.5rem;
+  box-shadow: 0 0 10px 3px black;
+  transition: 0.5s ease;
+  cursor: pointer;
+  z-index: 2;
+  text-decoration: none;
+  color: white;
+}
+
+header a:hover,
+header a:focus {
+  background-color: #2699FB;
+
+}
+
+header .menu {
+  left: 0;
+  transform: rotate(-5deg);
+}
+
+header .profile {
+  right: 0;
+  transform: rotate(5deg);
+}
+
+.header a i {
+  font-size: 2rem;
+  line-height: 3;
+  color: #3D76E1;
+  transition: 0.2s ease;
+}
+
+.header a:hover i {
+  color: white;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+  header {
+    top: 0;
+    padding: 1.5rem 0 1rem 0;
+  }
+
+  header:before {
+    top: -50%;
+    height: 150%;
+  }
+
+  header:hover {
+    transform: translateY(50%);
+  }
+
+  header p {
+    font-size: 2rem;
+  }
+
+  header a {
+    width: 8rem;
+    height: 8rem;
+    top: -2.5rem;
+  }
+
+  header .menu {
+    left: -2rem;
+    transform: rotate(-30deg);
+  }
+
+  header:hover .menu {
+    left: -0.5rem;
+    transform: rotate(-5deg);
+  }
+
+  header .profile {
+    right: -2rem;
+    transform: rotate(30deg);
+  }
+
+  header:hover .profile {
+    right: -0.5rem;
+    transform: rotate(5deg);
+  }
+
+  .header a i {
+    font-size: 3rem;
+    line-height: 3;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

@@ -1,4 +1,8 @@
 {
+    "name": "sv-tora",
+    "version": "0.1.0",
+    "description": "CMS - Competition Management System for SV Tora",
+    "author": "Markus Städler",
     "private": true,
     "scripts": {
         "dev": "npm run development",
@@ -7,7 +11,8 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "scss": "node-sass resources/sass -o resources/css"
     },
     "devDependencies": {
         "axios": "^0.19",
@@ -15,5 +20,14 @@
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.19",
         "resolve-url-loader": "^3.1.0"
+    },
+    "dependencies": {
+        "bootstrap": "^4.5.3",
+        "embla-carousel": "^4.0.6",
+        "jquery": "^3.5.1",
+        "node-sass": "^4.14.1",
+        "sass": "^1.27.0",
+        "theaterjs": "^3.2.0",
+        "tilt.js": "^1.2.1"
     }
 }

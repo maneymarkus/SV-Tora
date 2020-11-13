@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Mail</title>
+
+    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="css/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="css/mail.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/tilt.jquery.js"></script>
+    <script src="js/mail.js"></script>
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <form class="mail-content clearfix">
+        <h3>Wem willst du schreiben?</h3>
+        <div class="container receiver clearfix">
+            <label class="radio-input-container">
+                Alle
+                <input type="radio" name="receiver" value="all" />
+                <span class="checkmark"></span>
+            </label>
+            <br />
+            <label class="radio-input-container">
+                Angemeldete Vereine zum aktuellen Wettkampf
+                <input type="radio" name="receiver" value="only-enrolled" />
+                <span class="checkmark"></span>
+            </label>
+            <br />
+            <label class="radio-input-container">
+                Ausgewählten Vereinen
+                <input type="radio" name="receiver" value="chosen" />
+                <span class="checkmark"></span>
+            </label>
+            <br />
+            <div class="chosen-clubs">
+
+            </div>
+            <a href="#" class="disabled button1 choose-clubs">Auswählen</a>
+        </div>
+        <h3>Worum geht's?</h3>
+        <span class="text-input-container">
+            <label class="icon" for="subject"><i class="material-icons">person</i></label>
+            <input class="text-input" type="text" id="subject" name="subject" />
+            <label class="text" for="subject">Betreff</label>
+            <span class="underline"></span>
+        </span>
+        <h3>Was willst du genau mitteilen?</h3>
+        <textarea placeholder="Deine Nachricht..."></textarea>
+        <h3>Senden?</h3>
+        <a class="primary-button send" href="#">
+            <i class="material-icons">mail</i>
+            <p>Senden</p>
+        </a>
+        <a class="primary-button cancel" href="#">
+            <i class="material-icons">close</i>
+            <p>Abbrechen</p>
+        </a>
+    </form>
+
+    <i class="envelope material-icons">drafts</i>
+
+    <!--
+
+    <div class="overlay"></div>
+
+    <div class="modal-window choose-clubs-modal">
+        <div class="modal-window-header">
+            <p class="topic">Vereine auswählen</p>
+            <a class="close"><i class="material-icons">close</i></a>
+        </div>
+        <form class="" action="#" method="post">
+            <div class="all-clubs">
+
+            </div>
+            <button type="submit" class="modal-button choose-button">Auswählen</button>
+        </form>
+    </div>
+
+    -->
+
+</body>
+</html>

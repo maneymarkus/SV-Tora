@@ -1,0 +1,1112 @@
+/*
+    SWITCH (CHECKBOX)
+
+    <label for="switch" class="switch-container">
+        <input type="checkbox" id="switch" name="switch" checked="">
+        <span class="switch"></span>
+        <span class="text">Switch</span>
+    </label>
+
+ */
+
+.switch-container {
+    position: relative;
+    display: inline-block;
+    font-size: 1rem; /* Adjust size */
+}
+
+.switch-container input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-container .switch {
+    position: absolute;
+    cursor: pointer;
+    width: 4em;
+    height: 2em;
+    background-color: #9B9B9B;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 2em;
+}
+
+.switch-container .switch:before {
+    position: absolute;
+    content: "";
+    height: 1.5em;
+    width: 1.5em;
+    left: 0.25em;
+    top: 0.25em;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.switch-container input:checked + .switch {
+    background-color: #3D76E1;
+}
+
+.switch-container input:focus + .switch {
+    box-shadow: 0 0 10px 5px #2699FB inset;
+}
+
+.switch-container:hover .switch {
+    background-color: #2699FB !important;
+}
+
+.switch-container input:checked + .switch:before {
+    -webkit-transform: translateX(2em);
+    -ms-transform: translateX(2em);
+    transform: translateX(2em);
+}
+
+.switch-container .text {
+    font-size: 1.5em;
+    position: relative;
+    margin-left: 3.5em;
+    top: 0.1em;
+    cursor: pointer;
+}
+
+/*
+    TEXT-INPUT
+
+    <span class="text-input-container">
+        <label class="icon" for="input"><i class="material-icons">person</i></label>
+        <input class="text-input" type="text" id="input" name="input"/>
+        <label class="text" for="input">Placeholder</label>
+        <span class="underline"></span>
+    </span>
+
+ */
+
+input {
+    cursor: pointer;
+}
+
+.text-input-container,
+.date-input-container,
+.time-input-container {
+    box-sizing: content-box;
+    position: relative;
+    display: block;
+    height: 2.5em;
+    font-size: 1rem; /* adjust size */
+    margin-top: 1.5em;
+    cursor: pointer;
+}
+
+.text-input-container.disabled input,
+.date-input-container.disabled input,
+.time-input-container.disabled input {
+    cursor: not-allowed;
+    color: #b4b4b4;
+}
+
+.text-input,
+.date-input,
+.time-input {
+    font-size: 1.5em; /* Adjust size */
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 0.25em 0 0 1.5em;
+    -webkit-appearance: none;
+    outline: none;
+    color: white;
+}
+
+.text-input-container .underline,
+.date-input-container .underline,
+.time-input-container .underline {
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    background-color: #3D76E1;
+    transition: 0.2s linear;
+}
+
+.text-input-container:hover .underline,
+.date-input-container:hover .underline,
+.time-input-container:hover .underline {
+    background-color: #2699FB;
+}
+
+.text-input-container input:focus ~ .underline,
+.text-input-container input.filled ~ .underline,
+.date-input-container input:focus ~ .underline,
+.date-input-container input.filled ~ .underline,
+.time-input-container input:focus ~ .underline,
+.time-input-container input.filled ~ .underline {
+    height: 3px;
+    background-color: #2699FB;
+}
+
+.text-input-container label.icon,
+.date-input-container label.icon,
+.time-input-container label.icon {
+    position: absolute;
+    top: 0.25em;
+    left: 0;
+    color: white;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.text-input-container label.icon i,
+.date-input-container label.icon i,
+.time-input-container label.icon i {
+    font-size: 1.75em;
+}
+
+.text-input-container label.text,
+.date-input-container label.text,
+.time-input-container label.text {
+    position: absolute;
+    font-size: 1.5em;
+    top: 0.25em;
+    left: 1.5em;
+    color: white;
+    opacity: 0.4;
+    font-style: italic;
+    transition: 0.5s ease, color 0.2s ease;
+    cursor: pointer;
+}
+
+.text-input-container:hover label.icon,
+.text-input-container:hover label.text,
+.date-input-container:hover label.icon,
+.date-input-container:hover label.text,
+.time-input-container:hover label.icon,
+.time-input-container:hover label.text {
+    color: #2699FB;
+}
+
+.text-input-container input:focus ~ label.text,
+.text-input-container input.filled ~ label.text,
+.date-input-container input:focus ~ label.text,
+.date-input-container input.filled ~ label.text,
+.time-input-container input:focus ~ label.text,
+.time-input-container input.filled ~ label.text {
+    top: -1em;
+    left: 2em;
+    font-size: 1em;
+    opacity: 0.8;
+}
+
+/*
+    CHECKBOX
+
+    <label class="checkbox-input-container">
+        Inhalt
+        <input type="checkbox" value="value" />
+        <span class="checkmark"></span>
+    </label>
+
+ */
+
+.checkbox-input-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 2em;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 1.5rem; /* Adjust size */
+    margin: 0.25em 0;
+}
+
+.checkbox-input-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-input-container .checkmark {
+    border-radius: 4px;
+    position: absolute;
+    top: 5%;
+    left: 0;
+    height: 1em;
+    width: 1em;
+    border: 0.15em solid #3D76E1;
+    transition: 0.2s ease;
+}
+
+.checkbox-input-container:hover input ~ .checkmark {
+    border: 0;
+    background-color: #3D76E1;
+}
+
+.checkbox-input-container:hover input ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-input-container input:checked ~ .checkmark {
+    border: 0;
+    background-color: #2196F3;
+}
+
+.checkbox-input-container .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 50%;
+    top: 40%;
+    width: 25%;
+    height: 50%;
+    border: solid #222222; /* color of background to mock transparent checkmark */
+    border-width: 0 0.15em 0.15em 0;
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    -ms-transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.checkbox-input-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/*
+    RADIO-BUTTON
+
+    <label class="radio-input-container">
+        Inhalt
+        <input type="radio" name="name" value="value" />
+        <span class="checkmark"></span>
+    </label>
+
+ */
+
+.radio-input-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 2em;
+    cursor: pointer;
+    font-size: 1.5rem; /* Adjust size */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0.25em 0;
+}
+
+.radio-input-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.radio-input-container .checkmark {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    height: 1em;
+    width: 1em;
+    border: 0.15em solid #3D76E1;
+    border-radius: 50%;
+}
+
+.radio-input-container:hover input ~ .checkmark:after {
+    display: block;
+}
+
+.radio-input-container input:checked ~ .checkmark {
+    border-color: #2699FB;
+}
+
+.radio-input-container input:checked ~ .checkmark:after {
+    background-color: #2699FB;
+}
+
+.radio-input-container .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    background-color: #3D76E1;
+}
+
+.radio-input-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/*
+    SELECT
+
+    <div class="select-input-container">
+        <label class="icon"><i class="material-icons">list</i></label>
+        <span class="select-input chosen placeholder">Platzhalter</span>
+        <i class="material-icons">expand_more</i>
+        <div class="options">
+            <div class="option">1</div>
+            <div class="option">2</div>
+            <div class="option">3</div>
+            <div class="option">4</div>
+            <div class="option">5</div>
+            <div class="option">6</div>
+        </div>
+    </div>
+
+ */
+
+.select-input-container {
+    box-sizing: content-box;
+    position: relative;
+    display: block;
+    height: 2.5em;
+    font-size: 1rem; /* adjust size */
+    margin-top: 1.5em;
+    cursor: pointer;
+    border: 1px solid #3D76E1;
+    padding: 0.5em 1em;
+    transition: 0.2s ease;
+}
+
+.select-input-container:not(.open):hover {
+    border-color: #2699FB;
+}
+
+.select-input-container.open {
+    background-color: #3D76E1;
+}
+
+.select-input-container.disabled input {
+    cursor: not-allowed;
+    color: #b4b4b4;
+}
+
+.select-input {
+    font-size: 1.5em; /* Adjust size */
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 0.25em 0 0 1.5em;
+    -webkit-appearance: none;
+    outline: none;
+    color: white;
+    transition: 0.2s ease;
+}
+
+.select-input-container label.icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 1em;
+    color: white;
+    cursor: pointer;
+}
+
+.select-input-container:not(.open):hover i,
+.select-input-container:not(.open):hover .select-input {
+    color: #2699FB;
+}
+
+.select-input-container label.icon i {
+    font-size: 1.75em;
+    transition: 0.2s ease;
+}
+
+.select-input-container > i {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    right: 1em;
+    transition: 0.2s ease;
+}
+
+.select-input-container.open > i {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.select-input-container {
+    margin-top: 0;
+    font-size: 1rem; /* Adjust size */
+    cursor: pointer;
+}
+
+.select-input-container .select-input {
+    display: block;
+}
+
+.select-input-container .options {
+    width: calc(100% + 1px);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    height: auto;
+    max-height: calc(5 * (1em + 0.6em));
+    overflow-y: auto;
+    transition: 0.5s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 5;
+}
+
+.select-input-container .options.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.select-input-container .option {
+    font-size: 1.2em;
+    padding: 0.5em 0.5em 0.5em 4em;
+    border: 0;
+    transition: 0.2s ease;
+    background: #3D76E1;
+}
+
+.select-input-container .option:hover {
+    background-color: #2699FB;
+}
+
+/*
+    DATEPICKER
+
+    <div class="date-input-container">
+        <label class="icon" for="date"><i class="material-icons">today</i></label>
+        <input class="date-input" type="text" id="date" name="date" />
+        <label class="text" for="input">Placeholder</label>
+        <span class="underline"></span>
+    </div>
+
+ */
+
+.date-input-container {
+    font-size: 1rem; /* adjust size */
+}
+
+.datepicker-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    transform: scale(0);
+    z-index: 10000000;
+    transition: 0.5s ease;
+    font-size: 1rem; /* Adjust size */
+}
+
+.datepicker-container.show {
+    transform: scale(1);
+    display: block;
+}
+
+.datepicker {
+    width: 20em;
+    cursor: auto;
+    font-size: 1em;
+    margin: 6em auto;
+    box-shadow: 1px 2px 4px .5px rgba(0,0,0,.22), 1px 2px 4px .5px transparent;
+}
+
+.darkmode .datepicker {
+    background-color: #474747;
+}
+
+.datepicker .header {
+    text-align: center;
+    background-color: #2699FB;
+    color: #fff;
+    padding: 1em 0;
+}
+
+.datepicker .header i {
+    font-size: 2em;
+}
+
+.datepicker .header a {
+    position: relative;
+    color: white;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.datepicker .header a:after {
+    content: "";
+    border-radius: 50%;
+    width: 2.25em;
+    height: 2.25em;
+    top: -0.125em;
+    left: -0.125em;
+    position: absolute;
+    opacity: 0;
+    transition: 0.2s ease;
+    background-color: #474747;
+    z-index: -1;
+}
+
+.datepicker .header a:hover {
+    color: #2699FB;
+}
+
+.datepicker .header a:hover:after {
+    opacity: 1;
+    z-index: -1;
+}
+
+.datepicker .previous-month {
+    float: left;
+    position: relative;
+    top: 0.1em;
+    left: 1em;
+}
+
+.datepicker .next-month {
+    float: right;
+    position: relative;
+    top: 0.1em;
+    right: 1em;
+}
+
+.datepicker .header span {
+    margin-right: 0.5em;
+    position: relative;
+    font-size: 1.75em;
+    left: 0.25em;
+    top: 0.1em;
+}
+
+.datepicker .footer {
+    padding: 2em 0 1em 0;
+    position: relative;
+    text-align: right;
+}
+
+.datepicker .footer a {
+    position: relative;
+    padding: 0.5em 1em;
+    color: #2699FB;
+    border: 1px solid #2699FB;
+    cursor: pointer;
+}
+
+.datepicker .footer a:hover {
+    background-color: #2699FB;
+    color: #474747;
+}
+
+.datepicker .footer .pick {
+    right: 1em;
+}
+
+.datepicker .footer .cancel {
+    right: 2em;
+}
+
+.calender table {
+    width: 100%;
+    font-size: 1.2em;
+    color: white;
+}
+
+.calender thead th {
+    font-weight: normal;
+    font-size: 0.8em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    text-align: center;
+}
+
+.calender tbody td {
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.5em;
+    z-index: 1;
+}
+
+.calender tbody td:after {
+    content: "";
+    visibility: hidden;
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(0,0,0,0.25);
+}
+
+.calender tbody td.selectable {
+    cursor: pointer;
+}
+
+.calender tbody td.selectable:hover:after {
+    visibility: visible;
+}
+
+.calender tbody td.selected, .calender tbody td:active {
+    color: #fff;
+}
+
+.calender tbody .selected:after, .calender tbody td:active:after {
+    visibility: visible;
+    background-color: #2699FB;
+    z-index: -1;
+}
+
+/*
+    TIMEPICKER
+
+    <div class="time-input-container">
+        <label class="icon" for="time"><i class="material-icons">schedule</i></label>
+        <input class="time-input" type="text" id="time" name="time" />
+        <label class="text" for="input">Placeholder</label>
+        <span class="underline"></span>
+    </div>
+
+    <div class="timepicker-container show">
+        <div class="timepicker">
+            <div class="header">
+                <span class="hour">15</span>
+                <span>:</span>
+                <span class="minute">13</span>
+            </div>
+            <div class="clock">
+                <div class="clockface hours">
+                    <div class="clockhand"></div>
+                    <span class="hour1">1</span>
+                    <span class="hour2">2</span>
+                    <span class="hour3">3</span>
+                    <span class="hour4">4</span>
+                    <span class="hour5">5</span>
+                    <span class="hour6">6</span>
+                    <span class="hour7">7</span>
+                    <span class="hour8">8</span>
+                    <span class="hour9">9</span>
+                    <span class="hour10">10</span>
+                    <span class="hour11">11</span>
+                    <span class="hour12">12</span>
+                    <span class="hour13 small">13</span>
+                    <span class="hour14 small">14</span>
+                    <span class="hour15 small">15</span>
+                    <span class="hour16 small">16</span>
+                    <span class="hour17 small">17</span>
+                    <span class="hour18 small">18</span>
+                    <span class="hour19 small">19</span>
+                    <span class="hour20 small">20</span>
+                    <span class="hour21 small">21</span>
+                    <span class="hour22 small">22</span>
+                    <span class="hour23 small">23</span>
+                    <span class="hour00 small">00</span>
+                </div>
+                <div class="clockface minutes">
+                    <div class="clockhand"></div>
+                    <span class="minute5">5</span>
+                    <span class="minute10">10</span>
+                    <span class="minute15">15</span>
+                    <span class="minute20">20</span>
+                    <span class="minute25">25</span>
+                    <span class="minute30">30</span>
+                    <span class="minute35">35</span>
+                    <span class="minute40">40</span>
+                    <span class="minute45">45</span>
+                    <span class="minute50">50</span>
+                    <span class="minute55">55</span>
+                    <span class="minute00">00</span>
+                </div>
+            </div>
+            <div class="footer">
+                <a class="cancel">Abbrechen</a>
+                <a class="pick">Wählen</a>
+            </div>
+        </div>
+    </div>
+
+ */
+
+.time-input-container {
+    font-size: 1rem; /* Adjust size */
+}
+
+.timepicker-container {
+    position: fixed;
+    top: 0;
+    left:0;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    transform: scale(0);
+    z-index: 1000000000;
+    transition: 0.5s ease;
+    font-size: 1rem; /* Adjust size */
+}
+
+.timepicker-container.show {
+    transform: scale(1);
+    display: block;
+}
+
+.timepicker {
+    width: 20em;
+    cursor: auto;
+    font-size: 1em;
+    margin: 6em auto;
+    box-shadow: 1px 2px 4px .5px rgba(0,0,0,.22), 1px 2px 4px .5px transparent;
+}
+
+.darkmode .timepicker {
+    background-color: #474747;
+}
+
+.timepicker .header {
+    text-align: center;
+    background-color: #2699FB;
+    color: #fff;
+    padding: 1em 0;
+}
+
+.timepicker .header span {
+    margin-right: 0.5em;
+    position: relative;
+    font-size: 2em;
+    left: 0.5em;
+    display: inline-block;
+}
+
+.timepicker .header span.active {
+    font-weight: bold;
+    transform: scale(1.5);
+}
+
+.timepicker .clock {
+    padding: 1em 0;
+}
+
+.timepicker .clockface {
+    width: 15em;
+    height: 15em;
+    border-radius: 50%;
+    background-color: white;
+    margin: 0 auto;
+    position: relative;
+    display: none;
+}
+
+.timepicker .clockface.active {
+    display: block;
+}
+
+.timepicker .clockface:before { /* dot in the middle */
+    content: "";
+    position: absolute;
+    background-color: #2699FB;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.5em;
+    height: 0.5em;
+}
+
+.timepicker .clockface .clockhand { /* line between dot and chosen time */
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 0.1em;
+    height: 5em;
+    top: 2.5em;
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg);
+    transform-origin: center bottom;
+    z-index: 100;
+    display: none;
+}
+
+.timepicker .clockface:hover .clockhand,
+.timepicker .clock.chosen .clockhand {
+    display: block;
+    background-color: #2699FB;
+}
+
+.timepicker .clockface .clockhand.short {
+    top: 4.5em;
+    height: 3em;
+}
+
+.clockface span {
+    color: black;
+    transition: 0.2s ease;
+    z-index: 1;
+    position: absolute;
+    cursor: pointer;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.clockface span.small {
+    font-size: 1em;
+}
+
+.clockface span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2em;
+    height: 2em;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    transition: 0.2s ease;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.clockface span.small:after {
+    width: 1.8em;
+    height: 1.8em;
+}
+
+.clockface span:hover {
+    color: white;
+    z-index: 10;
+}
+
+.clockface span:hover:after {
+    background-color: rgba(0,0,0,0.25);
+}
+
+.clockface span.chosen:after {
+    background-color: #2699FB;
+}
+
+.hour1, .minute5 {
+    top: 11%;
+    left: 68%;
+}
+
+.hour2, .minute10 {
+    top: 25%;
+    left: 82%;
+}
+
+.hour3 {
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+}
+
+.minute15 {
+    top: 50%;
+    right: 6%;
+    transform: translateY(-50%);
+}
+
+.hour4, .minute20 {
+    bottom: 25%;
+    left: 82%;
+}
+
+.hour5 {
+    bottom: 11%;
+    left: 68%;
+}
+
+.minute25 {
+    bottom: 11%;
+    left: 66%;
+}
+
+.hour6, .minute30 {
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hour7 {
+    bottom: 11%;
+    left: 28%;
+}
+
+.minute35 {
+    bottom: 11%;
+    left: 26%;
+}
+
+.hour8 {
+    bottom: 25%;
+    left: 15%;
+}
+
+.minute40 {
+    bottom: 25%;
+    left: 12%;
+}
+
+.hour9 {
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.minute45 {
+    left: 6%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hour10 {
+    top: 25%;
+    left: 13%;
+}
+
+.minute50 {
+    top: 25%;
+    left: 12%;
+}
+
+.hour11, .minute55 {
+    top: 11%;
+    left: 26%;
+}
+
+.hour12, .minute00 {
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hour13 {
+    top: 23%;
+    left: 59%;
+}
+
+.hour14 {
+    top: 33%;
+    left: 68%;
+}
+
+.hour15 {
+    top: 50%;
+    right: 22%;
+    transform: translateY(-50%);
+}
+
+.hour16 {
+    top: 59%;
+    left: 68%;
+}
+
+.hour17 {
+    top: 68%;
+    left: 59%;
+}
+
+.hour18 {
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hour19 {
+    top: 68%;
+    left: 34%;
+}
+
+.hour20 {
+    top: 59%;
+    left: 25%;
+}
+
+.hour21 {
+    left: 22%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hour22 {
+    top: 33%;
+    left: 25%;
+}
+
+.hour23 {
+    top: 23%;
+    left: 34%;
+}
+
+.hour00 {
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timepicker .footer {
+    padding: 1em 0;
+    position: relative;
+    text-align: right;
+}
+
+.timepicker .footer a {
+    position: relative;
+    padding: 0.5em 1em;
+    color: #2699FB;
+    border: 1px solid #2699FB;
+    cursor: pointer;
+}
+
+.timepicker .footer a:hover {
+    background-color: #2699FB;
+    color: #474747;
+}
+
+.timepicker .footer .pick {
+    right: 1em;
+}
+
+.timepicker .footer .cancel {
+    right: 2em;
+}
+
+/*
+    TEXTAREA
+ */
+
+textarea {
+    background: transparent;
+    backdrop-filter: blur(8px);
+    width: 100%;
+    height: 10rem;
+    max-width: 100%;
+    max-height: 15rem;
+    border-radius: 10px;
+    border: 2px solid #3D76E1;
+    padding: 0.75rem 0.75rem;
+    font-family: "Source Sans Pro", sans-serif;
+    transition: 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+textarea:hover {
+    backdrop-filter: blur(2px);
+    border-color: #2699FB;
+}
+
+.darkmode textarea {
+    color: white;
+}
+
+textarea::placeholder {
+    color: #b4b4b4;
+}

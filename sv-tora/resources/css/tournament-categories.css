@@ -1,0 +1,359 @@
+main {
+    margin-bottom: 15rem;
+}
+
+main h3 {
+    text-align: center;
+    font-size: 2.5rem;
+    border-bottom: 3px solid #4A4A4A;
+    margin: 3rem auto;
+    margin-top: 5rem;
+    width: 20%;
+}
+
+.accordion {
+    margin: 0 auto;
+    width: 60%;
+    min-width: 600px;
+}
+
+.darkmode .accordion .accordion-header {
+    background-color: #4A4A4A;
+}
+
+.darkmode .accordion .accordion-header:hover {
+    background-color: #272727;
+}
+
+.accordion-bar .open-indicator {
+    left: 0.5rem;
+}
+
+.accordion-bar h4 {
+    display: inline-block;
+    width: auto;
+    float: left;
+    padding-left: 2rem;
+    margin-left: 5%;
+    position: relative;
+}
+
+.accordion-bar h4:nth-of-type(2) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
+    margin-left: 0;
+    top: 1rem;
+}
+
+.accordion-bar .tools {
+    float: right;
+    position: relative;
+    width: auto;
+    right: 2rem;
+    top: 1rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s ease;
+}
+
+.accordion-bar.open .tools {
+    visibility: visible;
+    opacity: 1;
+}
+
+.accordion-bar a {
+    margin-right: 0.5rem;
+}
+
+.accordion-bar a i {
+    font-size: 2rem;
+}
+
+.accordion-bar a:hover i {
+    color: #2699FB;
+}
+
+.accordion-content table {
+    width: 100%;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.accordion-content tr {
+    border-bottom: 1px solid #4A4A4A;
+}
+
+.accordion-content table td {
+    width: 50%;
+    padding: 0.5rem 0 0.5rem 3%;
+}
+
+.accordion-content table, .accordion-content th {
+    border-collapse: collapse;
+}
+
+.carousel-container {
+    position: fixed;
+    bottom: -10rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+body.open-accordion .carousel-container {
+    bottom: 2rem;
+}
+
+a.print.button2 {
+    position: fixed;
+    right: 5rem;
+    top: 8rem;
+    padding: 0.5rem 2rem;
+    font-size: 1rem;
+}
+
+a.print.button2 i {
+    font-size: 2.5rem;
+}
+
+a.print.button2 p {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.split-container {
+    position: fixed;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    top: 8rem;
+    height: calc(90vh - 8rem);
+    transition: 0.5s ease;
+    z-index: 100000;
+}
+
+.overlay.show ~ .split-container.show {
+    transform: translateX(-50%) scale(1);
+}
+
+.special-modal {
+    position: relative;
+    overflow: auto;
+    transform: translate(0, 0);
+    width: 50%;
+    box-shadow: none;
+    max-height: none;
+    height: 100%;
+    top: 0;
+}
+
+.modal-window.category-left {
+    left: 0;
+    border-right: 1px solid black;
+    float: left;
+}
+
+.modal-window.category-right {
+    left: auto;
+    right: 0;
+    float: right;
+}
+
+.category-left .modal-window-header {
+    border-right: 1px solid white;
+}
+
+.special-modal .modal-window-header {
+    margin-bottom: 0;
+}
+
+.special-modal .modal-window-header p {
+    font-size: 1.5rem;
+    padding-left: 2rem;
+    color: white;
+}
+
+.special-modal .modal-window-header a {
+    margin-right: 1rem;
+    margin-top: 0.3rem;
+}
+
+.special-modal .modal-window-header a i {
+    font-size: 2rem;
+}
+
+.special-modal .modal-window-header a:hover i {
+    color: #2699FB;
+}
+
+.modal-window .person-content {
+    width: 100%;
+    height: calc(100% - 5rem);
+    overflow: auto;
+}
+
+.old-category {
+    position: absolute;
+    width: 30%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+}
+
+.old-category .person-content {
+    height: 100%;
+}
+
+.darkmode .old-category {
+    background-color: #272727;
+}
+
+.darkmode .old-category .modal-window-header {
+    background-color: #1a1a1a;
+}
+
+.modal-window-header .just-a-span {
+    float: left;
+    margin-right: 5%;
+}
+
+.modal-window-header .text-input-container {
+    width: 15rem;
+    float: left;
+}
+
+.old-category .modal-window-header p {
+    font-size: 1.2rem;
+    padding-left: 1rem;
+}
+
+.old-category .modal-window-header .close {
+    top: 0;
+}
+
+.split-container > a {
+    position: absolute;
+    padding: 0.2rem 1rem;
+    background-color: #272727;
+    border-radius: 5px;
+    top: 80%;
+    z-index: 100000000;
+}
+
+.split-container > a:hover {
+    background-color: black;
+}
+
+.split-container > a i {
+    font-size: 2rem;
+}
+
+.split-container > a:hover i {
+    color: #2699FB;
+}
+
+.split-container .to-left {
+    left: 42.5%;
+}
+
+.split-container .to-right {
+    right: 42.5%;
+}
+
+.split-container .split {
+    font-size: 1.5rem;
+    top: auto;
+    bottom: -1.5rem;
+    padding: 0.5rem 3rem;
+    transform: translateX(-50%);
+}
+
+.split-container .split:hover {
+    color: #2699FB;
+}
+
+.person {
+    cursor: pointer;
+    width: 100%;
+    height: 2.3rem;
+    position: relative;
+    transition: 0.2s ease;
+    margin-top: 0;
+}
+
+.person i {
+    font-size: 2rem;
+    top: 0.1rem;
+    position: relative;
+}
+
+.person:hover i {
+    color: #2699FB;
+}
+
+.person span {
+    font-size: 1.1rem;
+    position: absolute;
+    top: 0.5rem;
+    transition: 0.2s ease;
+}
+
+.person:hover span {
+    color: #2699FB;
+}
+
+.person i {
+    left: 2%;
+}
+
+.person .person-name {
+    left: 10%;
+}
+
+.person .person-club {
+    left: 50%;
+}
+
+.category-right .person i {
+    position: absolute;
+    left: auto;
+    right: 2%;
+}
+
+.category-right .person .person-name {
+    left: auto;
+    right: 10%;
+}
+
+.category-right .person .person-club {
+    left: auto;
+    right: 50%;
+}
+
+.person.drag-before {
+    margin-top: 2.3rem;
+}
+
+.person.dragging {
+    width: 400px;
+    transition: none;
+    z-index: 1000000000000;
+    position: fixed;
+}
+
+.modal-window form .row {
+    text-align: left;
+}
+
+.merge-container .modal-window-header {
+    margin-bottom: 1rem;
+}
+
+.merge-container .old-category-properties {
+    font-size: 1.25rem;
+}
+
+.merge-container .row {
+    margin-top: 1rem;
+}

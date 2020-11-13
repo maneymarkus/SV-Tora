@@ -1,0 +1,198 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  font-size: 1em;
+  color: white;
+  font-family: sans-serif;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  background-color: #222222;
+  background-image: url("../images/background.svg");
+  background-size: 300px;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+main {
+  height: auto;
+  position: relative;
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.card {
+  display: inline-block;
+  border-radius: 15px;
+  width: 13rem;
+  min-height: 20rem;
+  height: 50vw;
+  background-color: #303030;
+  transition: 0.5s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 3px 3px 15px black;
+  margin: 0 2.5% 2rem 2.5%;
+  text-decoration: none;
+}
+
+.card:before {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 60%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #3D76E1;
+  transform: skewY(15deg);
+  transition: 0.5s ease;
+  z-index: 1;
+}
+
+.card:hover {
+  background-color: #4A4A4A;
+  transform: scale(1.05);
+  box-shadow: 3px 3px 25px black;
+}
+
+.card:hover:before {
+  top: 75%;
+  transform: skewY(-20deg);
+  background-color: #2699FB;
+}
+
+.card .bg {
+  position: absolute;
+  top: -5%;
+  right: 5%;
+  text-align: center;
+  font-size: 10rem;
+  background: url("../images/gradient-background_non-transparent.png");
+  background-size: 25rem;
+  background-position: 40% 50%;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  z-index: 5;
+  opacity: 0.4;
+  transition: 0.5s ease;
+}
+
+.card .number {
+  margin: 0;
+  padding: 0;
+  /*text-shadow: 1px 0 0 #F2F2F2, -1px 0 0 #F2F2F2, 0 1px 0 #F2F2F2, 0 -1px 0 #F2F2F2;*/
+}
+
+.card:hover .bg {
+  transform: scale(1.5);
+  top: -15%;
+  right: -15%;
+  opacity: 0.2;
+}
+
+.card .bg-text {
+  position: absolute;
+  top: 30%;
+  left: -15%;
+  margin: 0;
+  font-size: 5rem;
+  color: black;
+  opacity: 0.2;
+  text-align: center;
+  font-weight: 900;
+  z-index: 0;
+}
+
+.card .district {
+  position: relative;
+  text-align: center;
+  margin: 0;
+  color: #222222;
+  font-size: 2rem;
+  top: 75%;
+  width: 100%;
+  z-index: 10;
+  transition: 0.5s ease;
+}
+
+.card:hover .district {
+  color: #C6C6C6;
+  top: 45%;
+  font-size: 3rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .card {
+    width: 15rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .card {
+    width: 18rem;
+  }
+
+  .card .bg {
+    font-size: 13rem;
+  }
+
+  .card .bg-text {
+    font-size: 7rem;
+  }
+
+  .card .district {
+    font-size: 3rem;
+  }
+
+  .card:hover .district {
+    font-size: 4rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .card {
+    width: 22rem;
+    margin-bottom: 3rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .card {
+    width: 20%;
+    max-width: 25rem;
+    min-height: 35rem;
+    height: 40rem;
+    max-height: 90vh;
+    margin: 0 1.5rem 2rem;
+  }
+
+  .card .bg {
+    font-size: 20rem;
+  }
+
+  .card .bg-text {
+    font-size: 10rem;
+  }
+
+  .card .district {
+    font-size: 3rem;
+  }
+
+  .card:hover .district {
+    font-size: 4.5rem;
+  }
+}

@@ -2,6 +2,7 @@
 
 /vendor/
 node_modules/
+sv-tora/node_modules
 npm-debug.log
 yarn-error.log
 
