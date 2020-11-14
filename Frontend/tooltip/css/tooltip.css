@@ -71,10 +71,6 @@ p {
   margin-top: 15rem;
 }
 
-.tt-container {
-  position: relative;
-}
-
 .tt-trigger {
   color: #3D76E1;
   cursor: pointer;
@@ -88,38 +84,22 @@ p {
 
 .tt-trigger:hover i {
   color: #2699FB;
+  transform: scale(1.2);
 }
 
-.tooltip {
-  position: absolute;
-  visibility: hidden;
-  font-size: 1.5rem;
-  background-color: #3D76E1;
-  color: black;
-  padding: 0.5em;
-  min-width: 10rem;
-  top: -3.5em;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: 0.2s ease;
-  opacity: 0;
+.tippy-box[data-theme~='svtora'] {
+  font-size: 1.3rem;
+  background-color: #171717;
+  padding: 0.2rem 0.4rem;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+  box-shadow: 0 2px 10px 3px black, 0 0 5px 2px #2699FB inset;
+  word-wrap: break-word;
 }
 
-.tooltip:before {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-top: 10px solid #3D76E1;
-  border-right: 10px solid transparent;
-  border-left: 10px solid transparent;
-}
-
-.tt-trigger:hover ~ .tooltip,
-.tooltip:hover {
-  visibility: visible;
-  opacity: 0.8;
+.tippy-box[data-theme~='svtora'] > .tippy-svg-arrow {
+  fill: #2699FB;
+  transform: scale(1.5);
 }
 
 @media only screen and (min-width: 600px) {
