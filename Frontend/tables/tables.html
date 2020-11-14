@@ -15,9 +15,11 @@
     <script src="/SV-Tora/js/html5shiv.js"></script>
     <![endif]-->
 
+    <!--
     <script src="js/jquery.min.js"></script>
     <script src="js/tilt.jquery.js"></script>
     <script src="js/tables.js"></script>
+    -->
     <!--
 
         Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
@@ -29,10 +31,16 @@
 
     <main>
         <h1>Starter</h1>
-        <a class="primary-button add-starter" href="#">
-            <i class="material-icons">add</i>
-            <p>Starter hinzufügen</p>
-        </a>
+        <div class="actions clearfix">
+            <a class="primary-button add-starter" href="#">
+                <i class="material-icons">add</i>
+                <p>Starter hinzufügen</p>
+            </a>
+            <a class="primary-button print" href="#">
+                <i class="material-icons">print</i>
+                <p>Drucken</p>
+            </a>
+        </div>
         <div class="filter clearfix">
             <p>Filter:</p>
             <div class="chosen-filters">
@@ -46,39 +54,481 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><span class="column-header">Nr.</span><a class="sort"><i class="material-icons">expand_less</i><i class="material-icons">expand_more</i></a></th>
-                    <th><span class="column-header">Name</span><a class="sort"><i class="material-icons">expand_less</i><i class="material-icons">expand_more</i></a></th>
-                    <th><span class="column-header">Vorname</span><a class="sort"><i class="material-icons">expand_less</i><i class="material-icons">expand_more</i></a></th>
-                    <th><span class="column-header">Alter</span><a class="sort"><i class="material-icons">expand_less</i><i class="material-icons">expand_more</i></a></th>
-                    <th><span class="column-header">Geschlecht</span><a class="sort"><i class="material-icons">expand_less</i><i class="material-icons">expand_more</i></a></th>
-                    <th><span class="column-header">Graduierung</span><a class="sort"><i class="material-icons">expand_less</i><i class="material-icons">expand_more</i></a></th>
-                    <th><span class="column-header">Kategorie</span><a class="sort"><i class="material-icons">expand_less</i><i class="material-icons">expand_more</i></a></th>
-                    <th><span class="column-header">Verein</span><a class="sort"><i class="material-icons">expand_less</i><i class="material-icons">expand_more</i></a></th>
+                    <th>
+                        <a class="sort">
+                            <span class="column-header">Nr.</span>
+                            <span class="icon">
+                                <i class="material-icons">expand_less</i>
+                                <i class="material-icons">expand_more</i>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a class="sort">
+                            <span class="column-header">Name</span>
+                            <span class="icon">
+                                <i class="material-icons">expand_less</i>
+                                <i class="material-icons">expand_more</i>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a class="sort">
+                            <span class="column-header">Vorname</span>
+                            <span class="icon">
+                                <i class="material-icons">expand_less</i>
+                                <i class="material-icons">expand_more</i>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a class="sort">
+                        <span class="column-header">Alter</span>
+                            <span class="icon">
+                                <i class="material-icons">expand_less</i>
+                                <i class="material-icons">expand_more</i>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a class="sort">
+                        <span class="column-header">Geschlecht</span>
+                            <span class="icon">
+                                <i class="material-icons">expand_less</i>
+                                <i class="material-icons">expand_more</i>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a class="sort">
+                        <span class="column-header">Graduierung</span>
+                            <span class="icon">
+                                <i class="material-icons">expand_less</i>
+                                <i class="material-icons">expand_more</i>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a class="sort">
+                        <span class="column-header">Kategorie</span>
+                            <span class="icon">
+                                <i class="material-icons">expand_less</i>
+                                <i class="material-icons">expand_more</i>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a class="sort">
+                        <span class="column-header">Verein</span>
+                            <span class="icon">
+                                <i class="material-icons">expand_less</i>
+                                <i class="material-icons">expand_more</i>
+                            </span>
+                        </a>
+                    </th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>Popopopopov</td>
-                    <td>Marcus</td>
-                    <td>21</td>
-                    <td>m?</td>
-                    <td>6. Dan</td>
-                    <td>1</td>
-                    <td>SV Tora</td>
-                    <td><a class="create" href="#"><i class="material-icons">create</i></a><a class="delete" href="#"><i class="material-icons">delete</i></a></td>
+                    <td data-column="Nr.">1</td>
+                    <td data-column="Name">Popopopopovvovovovovovovovovovovov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>Popopopopov</td>
-                    <td>Marcus</td>
-                    <td>21</td>
-                    <td>m?</td>
-                    <td>6. Dan</td>
-                    <td>1</td>
-                    <td>SV Tora</td>
-                    <td><a class="create" href="#"><i class="material-icons">create</i></a><a class="delete" href="#"><i class="material-icons">delete</i></a></td>
+                    <td data-column="Nr.">2</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">3</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">4</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">5</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">6</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">7</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">8</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">9</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">10</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">11</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">12</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">13</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">14</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">15</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">16</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">17</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">18</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">19</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-column="Nr.">20</td>
+                    <td data-column="Name">Popopopopov</td>
+                    <td data-column="Vorname">Marcus</td>
+                    <td data-column="Alter">21</td>
+                    <td data-column="Geschlecht">m?</td>
+                    <td data-column="Graduierung">6. Dan</td>
+                    <td data-column="Kategorie">1</td>
+                    <td data-column="Verein">SV Tora</td>
+                    <td data-column="Aktionen">
+                        <a class="primary-button create" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>

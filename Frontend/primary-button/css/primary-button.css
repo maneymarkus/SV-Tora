@@ -93,16 +93,15 @@ a.primary-button:before {
 }
 
 a.primary-button.cancel:before,
-a.primary-button.close:before {
+a.primary-button.close:before,
+a.primary-button.delete:before {
   box-shadow: 0 0 20px 3px #F71735 inset, 0 0 10px 3px black;
 }
 
-a.primary-button.documents:before,
 a.primary-button.documents:before {
   box-shadow: 0 0 20px 3px #5EFC8D inset, 0 0 10px 3px black;
 }
 
-a.primary-button.messages:before,
 a.primary-button.messages:before {
   box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
 }
@@ -115,16 +114,15 @@ a.primary-button:hover:before {
 }
 
 a.primary-button.cancel:hover:before,
-a.primary-button.close:hover:before {
+a.primary-button.close:hover:before,
+a.primary-button.delete:hover:before {
   border-color: #F71735;
 }
 
-a.primary-button.documents:hover:before,
 a.primary-button.documents:hover:before {
   border-color: #5EFC8D;
 }
 
-a.primary-button.messages:hover:before,
 a.primary-button.messages:hover:before {
   border-color: #FFF275;
 }
@@ -148,32 +146,30 @@ a.primary-button.messages:hover:before {
 }
 
 .primary-button.cancel i,
-.primary-button.close i {
+.primary-button.close i,
+.primary-button.delete i {
   color: #B23A48;
 }
 
-.primary-button.documents i,
 .primary-button.documents i {
   color: #20BF55;
 }
 
-.primary-button.messages i,
 .primary-button.messages i {
   color: #E3B505;
 }
 
 .primary-button.cancel:hover i,
-.primary-button.close:hover i {
+.primary-button.close:hover i,
+.primary-button.delete:hover i {
   font-weight: bold;
   color: #F71735;
 }
 
-.primary-button.documents:hover i,
 .primary-button.documents:hover i {
   color: #5EFC8D;
 }
 
-.primary-button.messages:hover i,
 .primary-button.messages:hover i {
   color: #FFF275;
 }

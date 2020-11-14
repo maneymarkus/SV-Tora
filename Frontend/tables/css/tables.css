@@ -80,6 +80,25 @@ main h1 {
   text-shadow: 2px 2px 10px black;
 }
 
+main .actions {
+  position: relative;
+  width: 100%;
+}
+
+main .actions:before {
+  content: 'Aktionen';
+  position: absolute;
+  font-size: 7rem;
+  color: black;
+  font-style: italic;
+  font-weight: 900;
+  opacity: 0.3;
+  letter-spacing: 0.05em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) skewY(-3deg);
+}
+
 a.primary-button {
   text-align: center;
   display: inline-block;
@@ -92,6 +111,10 @@ a.primary-button {
   transform-style: preserve-3d;
   font-size: 1rem;
   z-index: 100;
+}
+
+a.primary-button.print {
+  float: right;
 }
 
 a.primary-button:before {
@@ -111,16 +134,15 @@ a.primary-button:before {
 }
 
 a.primary-button.cancel:before,
-a.primary-button.close:before {
+a.primary-button.close:before,
+a.primary-button.delete:before {
   box-shadow: 0 0 20px 3px #F71735 inset, 0 0 10px 3px black;
 }
 
-a.primary-button.documents:before,
 a.primary-button.documents:before {
   box-shadow: 0 0 20px 3px #5EFC8D inset, 0 0 10px 3px black;
 }
 
-a.primary-button.messages:before,
 a.primary-button.messages:before {
   box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
 }
@@ -133,16 +155,15 @@ a.primary-button:hover:before {
 }
 
 a.primary-button.cancel:hover:before,
-a.primary-button.close:hover:before {
+a.primary-button.close:hover:before,
+a.primary-button.delete:hover:before {
   border-color: #F71735;
 }
 
-a.primary-button.documents:hover:before,
 a.primary-button.documents:hover:before {
   border-color: #5EFC8D;
 }
 
-a.primary-button.messages:hover:before,
 a.primary-button.messages:hover:before {
   border-color: #FFF275;
 }
@@ -166,32 +187,30 @@ a.primary-button.messages:hover:before {
 }
 
 .primary-button.cancel i,
-.primary-button.close i {
+.primary-button.close i,
+.primary-button.delete i {
   color: #B23A48;
 }
 
-.primary-button.documents i,
 .primary-button.documents i {
   color: #20BF55;
 }
 
-.primary-button.messages i,
 .primary-button.messages i {
   color: #E3B505;
 }
 
 .primary-button.cancel:hover i,
-.primary-button.close:hover i {
+.primary-button.close:hover i,
+.primary-button.delete:hover i {
   font-weight: bold;
   color: #F71735;
 }
 
-.primary-button.documents:hover i,
 .primary-button.documents:hover i {
   color: #5EFC8D;
 }
 
-.primary-button.messages:hover i,
 .primary-button.messages:hover i {
   color: #FFF275;
 }
@@ -216,7 +235,22 @@ a.primary-button.messages:hover:before {
 }
 
 div.filter {
+  position: relative;
   margin-bottom: 2rem;
+}
+
+main .filter:before {
+  content: 'Filter';
+  position: absolute;
+  font-size: 7rem;
+  color: black;
+  font-style: italic;
+  font-weight: 900;
+  opacity: 0.3;
+  letter-spacing: 0.05em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) skewY(-3deg);
 }
 
 .filter p {
@@ -403,56 +437,56 @@ table, th, td {
 table {
   position: relative;
   width: 100%;
+  max-width: 1900px;
   text-align: left;
   font-size: 1rem;
 }
 
-table thead th {
-  position: sticky;
+thead {
   text-align: left;
-  top: 4em; /* for position sticky */
-  padding: 0.5em 2em 0.5em 2%;
-  box-shadow: 0 3px 3px black;
+}
+
+thead th {
+  display: inline-block;
+  width: 100%;
+  color: white;
   background-color: #171717;
+  z-index: 10;
 }
 
-table th:last-child {
-  border: none;
-}
-
-tbody td {
-  padding: 0.25em 0.5em 0.25em 1%;
-  border-right: 1px solid #171717;
-}
-
-table td:last-child {
-  border: none;
-}
-
-tbody tr {
-  transition: 0.2s ease;
-}
-
-table tbody tr:hover {
-  background-color: #303950;
-  transform: scale(1.05);
-}
-
-tbody tr:nth-child(even) {
-  background-color: #4A4A4A;
-}
-
-tbody tr:nth-child(odd) {
-  background-color: #303030;
+th:last-of-type {
+  display: none;
 }
 
 table .sort {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  padding: 0.75em 2em 0.5em 1em;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 1em;
+}
+
+table .sort:hover {
+  color: #2699FB;
+  transform: scale(1.05);
+}
+
+table .sort .icon {
   margin: 0;
   position: absolute;
-  top: 0.2em;
-  right: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2em;
   width: 1em;
-  height: 2em;
+  height: 1.5em;
+  color: #3D76E1;
+  transition: 0.2s ease;
+}
+
+table .sort:hover .icon {
+  color: #2699FB;
 }
 
 table .sort i {
@@ -485,21 +519,92 @@ table .sort:hover i:last-child {
   bottom: -0.5em;
 }
 
-table a {
-  margin-right: 1rem;
+tr {
+  width: 100%;
   transition: 0.2s ease;
 }
 
-table a:hover {
-  color: #2699FB;
+table tbody tr:hover {
+  background-color: #303950;
+  transform: scale(1.05);
 }
 
-table .delete:hover {
-  color: #8D0909;
+tbody tr:nth-child(even) {
+  background-color: #4A4A4A;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #303030;
+}
+
+td {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding: 0.25em 0.5em 0.25em 45%;
+  border-right: 1px solid #171717;
+  word-wrap: break-word;
+}
+
+td:first-child {
+  margin-top: 1em;
+}
+
+td:last-child {
+  margin-bottom: 1em;
+}
+
+td:before {
+  content: attr(data-column);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  color: #171717;
+  font-size: 1.1em;
+  font-weight: 900;
+  font-style: italic;
+  opacity: 0.9;
+  text-align: right;
+  display: inline-block;
+  max-width: 100%;
+  padding-right: 58%;
+  text-shadow: 1px 1px 1px black;
+}
+
+td:last-child {
+  padding-left: 0;
+  height: 3em;
+  position: relative;
+}
+
+td:last-child a.primary-button {
+  position: absolute;
+  margin: 0;
+  font-size: 0.5em;
+}
+
+td:last-child a:first-child {
+  left: 20%;
+}
+
+td:last-child a:last-child {
+  right: 20%;
+}
+
+td:last-child:before {
+  right: auto;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding-right: 0;
+  font-size: 1.5em;
 }
 
 @media only screen and (min-width: 600px) {
-
+  table {
+    font-size: 1.3rem;
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -507,9 +612,68 @@ table .delete:hover {
 }
 
 @media only screen and (min-width: 992px) {
+  table {
+    font-size: 1rem;
+  }
 
+  thead th {
+    display: table-cell;
+    position: sticky;
+    top: 4em; /* for position sticky */
+    width: auto;
+    box-shadow: 0px 7px 10px 0 black;
+  }
+
+  th:last-of-type {
+    display: table-cell;
+    border: none;
+  }
+
+  table .sort {
+    padding: 0.75em 2em 0.5em 1em;
+    font-size: 1em;
+  }
+
+  table .sort:hover {
+    transform: none;
+  }
+
+  table .sort .icon {
+    right: 1em;
+  }
+
+  td {
+    padding: 0.25em 0.5em 0.25em 1em;
+    display: table-cell;
+    width: auto;
+    max-width: 10em;
+  }
+
+  td:before {
+    display: none;
+  }
+
+  td:last-child a.primary-button {
+    position: static;
+    margin: 1em;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
+  table {
+    font-size: 1.2rem;
+    margin: 0 auto;
+  }
 
+  main .actions {
+    width: calc(1200px - 6rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  main .filter {
+    width: calc(1200px - 6rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
