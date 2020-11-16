@@ -15,9 +15,11 @@
     <script src="/SV-Tora/js/html5shiv.js"></script>
     <![endif]-->
 
-    <script src="js/competition-dashboard.js"></script>
-    <script src="js/jquery.js"></script>
+    <!--
+    <script src="js/jquery.min.js"></script>
     <script src="js/tilt.jquery.js"></script>
+    -->
+    <script src="js/competition-dashboard.js"></script>
 
     <!--
 
@@ -28,12 +30,108 @@
 </head>
 <body class="darkmode">
 
-    <main class="no-tournament">
-        <h1>Zur Zeit findet kein Wettkampf statt.</h1>
-        <a class="host-tournament">
-            <i class="material-icons">add</i>
-            <p>Wettkampf erstellen</p>
-        </a>
+    <main class="clearfix">
+        <h1>Wettkampf-Dashboard</h1>
+
+        <div class="status-container">
+            <h3 class="heading">Status: <span class="status">Anmeldung freigeschalten</span></h3>
+            <div data-step="1" class="step-container">
+                <p class="step">Wettkampf erstellt</p>
+                <p class="step">Anmeldung freigeschalten</p>
+                <p class="step">Anmeldung geschlossen</p>
+                <p class="step">Wettkampftag</p>
+            </div>
+            <div data-progress="25" class="progress-container">
+                <div class="progress-bar"></div>
+                <div class="progress"></div>
+                <span class="handle"></span>
+            </div>
+        </div>
+
+        <div class="tournament-container">
+            <h3 class="tournament-name">Tora-Pokal</h3>
+            <p>am</p>
+            <p><span class="tournament-date">24.04.2021</span>um<span class="tournament-time">13 Uhr</span></p>
+            <p class="more-spacing">Anmeldezeitraum:</p>
+            <p><span class="enrollment-start">01.04.2021</span> - <span class="enrollment-end">20.04.2021</span></p>
+        </div>
+
+        <div class="col">
+            <div class="info">
+                <h3>Info</h3>
+                <p class="clearfix"><span class="left">Graduierungen</span><span class="right">7. Kyu - 6. Dan</span></p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="actions clearfix">
+                <div class="change-actions">
+                    <a class="primary-button change-status" href="#">
+                        <i class="material-icons">settings</i>
+                        <p>Status ändern</p>
+                    </a>
+                    <a class="primary-button change-tournament" href="#">
+                        <i class="material-icons">event_note</i>
+                        <p>Wettkampf ändern</p>
+                    </a>
+                    <a class="primary-button change-category" href="#">
+                        <i class="material-icons">compare_arrows</i>
+                        <p>Kategorien ändern</p>
+                    </a>
+                    <a class="primary-button fight" href="#">
+                        <i class="material-icons">group</i>
+                        <p>Kämpfen</p>
+                    </a>
+                </div>
+                <a class="primary-button delete" href="#">
+                    <i class="material-icons">close</i>
+                    <p>Wettkampf löschen</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="persons-container">
+                <h3>Personen Anmeldungen</h3>
+                <div class="grid-container">
+                    <a class="starter group" href="#">
+                        <p class="text">Starter</p>
+                        <span class="circle">
+                            <span class="number">117</span>
+                        </span>
+                    </a>
+                    <a class="referees group" href="#">
+                        <p class="text">Kampf&shy;richter</p>
+                        <span class="circle">
+                            <span class="number">3</span>
+                        </span>
+                    </a>
+                    <a class="coaches group" href="#">
+                        <p class="text">Coaches</p>
+                        <span class="circle">
+                            <span class="number">5</span>
+                        </span>
+                    </a>
+                    <a class="helper group" href="#">
+                        <p class="text">Helfer</p>
+                        <span class="circle">
+                            <span class="number">2</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="teams-container">
+                <h3>Team Anmeldungen</h3>
+                <a class="teams" href="#">
+                    <span class="circle">
+                        <span class="number">13</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+
     </main>
 
 </body>

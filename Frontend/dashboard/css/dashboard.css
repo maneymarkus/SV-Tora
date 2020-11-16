@@ -169,7 +169,8 @@ main .blue:hover {
   transform: scale(1.05);
 }
 
-.tournaments:before, .tournaments:after {
+.tournaments:before,
+.tournaments:after {
   content: '';
   position: absolute;
   width: 7rem;
@@ -190,7 +191,8 @@ main .blue:hover {
   left: calc(100% - 3rem);
 }
 
-.tournaments:hover:before, .tournaments:hover:after {
+.tournaments:hover:before,
+.tournaments:hover:after {
   transform: rotate(45deg) scale(3);
   background-color: #2699FB;
 }
