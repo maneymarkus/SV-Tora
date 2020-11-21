@@ -132,7 +132,6 @@ body {
   display: inline-block;
   text-align: center;
   padding: 0 1em;
-  color: #A8A8A8;
   margin: 0 0.25em;
 }
 
@@ -146,6 +145,7 @@ body {
 .chunk .value {
   font-size: 1.5em;
   text-shadow: 2px 2px 5px black;
+  color: #A8A8A8;
 }
 
 .chunk span {
@@ -176,6 +176,7 @@ body {
 .chunk .key {
   bottom: 0;
   font-size: 0.9em;
+  color: #9B9B9B;
 }
 
 /*****************************************************************
@@ -257,13 +258,13 @@ body {
   background-color: white;
 }
 
-.fight.winner {
+.tree .fight.winner {
   height: 2.5em;
   border-right: none;
   margin-top: -1.25em;
 }
 
-.fight.winner:after {
+.tree .fight.winner:after {
   display: none;
 }
 
@@ -275,6 +276,20 @@ body {
   font-size: 1em;
   padding: 0.25em 0.5em 0.1em 0.75em;
   border-bottom: 0.1em dashed #A8A8A8;
+  transition: 0.2s ease;
+}
+
+.tree .fighter-name:hover {
+  font-size: 1.3em;
+}
+
+.tree .fighter-name.loser {
+  text-decoration: line-through;
+  color: #4A4A4A;
+}
+
+.tree .fighter-name.winner {
+  color: gold;
 }
 
 .tree .fighter-name:after {
@@ -296,7 +311,7 @@ body {
   bottom: -0.8em;
 }
 
-.fight.winner .fighter-name:nth-child(1) {
+.tree .fight.winner .fighter-name:nth-child(1) {
   border-color: gold;
   color: gold;
   font-weight: bold;
@@ -304,7 +319,7 @@ body {
   top: 0;
 }
 
-.fight.winner .fighter-name:after {
+.tree .fight.winner .fighter-name:after {
   display: none;
 }
 
@@ -316,6 +331,285 @@ body {
   top: calc(50% + 0.25em);
   right: 0.5em;
   transform: translateY(-50%);
+}
+
+/*****************************************************************
+            Tafeln
+ ****************************************************************/
+
+.tafeln {
+  margin: 2em 0;
+  font-size: 1rem;
+}
+
+table, th, td {
+  border-collapse: collapse;
+}
+
+.tafeln table {
+  border: 1px solid #9B9B9B;
+  background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+}
+
+.tafeln thead {
+  border-bottom: 3px solid #9B9B9B;
+}
+
+.tafeln th {
+  font-size: 1.5em;
+  padding: 0.25em 1em 0.25em 0.25em;
+  border: 1px solid #9B9B9B;
+  font-style: italic;
+}
+
+.tafeln td {
+  font-size: 1.5em;
+  padding: 0.25em 1em 0.25em 0.25em;
+  border: 1px solid #9B9B9B;
+}
+
+.tafeln .points {
+  min-width: 5em;
+  padding: 0.25em 0;
+  text-align: center;
+}
+
+.tafeln td.points {
+  padding: 0;
+  border: 1px solid #9B9B9B;
+  transition: 0.2s ease;
+}
+
+.tafeln td.points:hover {
+  background-color: rgba(23, 23, 23, 0.8);
+}
+
+.tafeln td.points input {
+  display: inline-block;
+  width: 5em;
+  height: 100%;
+  padding: 0.25em 0.25em;
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.tafeln td.points input:focus {
+  border: 1px solid white;
+  box-shadow: 0 0 5px 0 white inset;
+}
+
+.tafeln th:nth-child(8) {
+  border-right: 3px solid #9B9B9B;
+}
+
+.tafeln td:nth-child(8) {
+  border-right: 3px dashed #9B9B9B;
+}
+
+.tafeln th:nth-child(9) {
+  border-right: 3px solid #9B9B9B;
+}
+
+.tafeln td:nth-child(9) {
+  border-right: 3px solid #9B9B9B;
+}
+
+
+
+/*****************************************************************
+            DOG EAT DOG
+ ****************************************************************/
+
+.dog-eat-dog {
+  margin: 2em 0;
+  font-size: 1rem;
+}
+
+.dog-eat-dog table {
+  border: 1px solid #9B9B9B;
+  background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+  float: left;
+}
+
+.dog-eat-dog thead {
+  border-bottom: 3px solid #9B9B9B;
+}
+
+.dog-eat-dog th {
+  font-size: 1.5em;
+  padding: 0.25em 1em 0.25em 0.25em;
+  border: 1px solid #9B9B9B;
+  font-style: italic;
+}
+
+.dog-eat-dog td {
+  font-size: 1.5em;
+  padding: 0.25em 1em 0.25em 0.25em;
+  border: 1px solid #9B9B9B;
+}
+
+.dog-eat-dog .points {
+  min-width: 5em;
+  padding: 0.25em 0;
+  text-align: center;
+}
+
+.dog-eat-dog td.points {
+  padding: 0;
+  border: 1px solid #9B9B9B;
+  transition: 0.2s ease;
+}
+
+.dog-eat-dog td.points:hover {
+  background-color: rgba(23, 23, 23, 0.8);
+}
+
+.dog-eat-dog td.points input {
+  display: inline-block;
+  width: 7.5em;
+  height: 100%;
+  padding: 0.25em 0.25em;
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.dog-eat-dog td.points input:focus {
+  border: 1px solid white;
+  box-shadow: 0px 0px 5px 0 white inset;
+}
+
+.dog-eat-dog .fight-order {
+  font-size: 1.5em;
+  margin: 0 2em;
+  display: inline-block;
+}
+
+.dog-eat-dog .fight {
+  margin-bottom: 1em;
+  position: relative;
+  transition: 0.2s ease;
+  padding-top: 2em;
+}
+
+.dog-eat-dog .fight:hover {
+  background: rgba(23, 23, 23, 0.75);
+}
+
+.dog-eat-dog .fighter {
+  border-bottom: 2px dashed #9B9B9B;
+  color: white;
+  padding: 0 0.5em 0.1em 0.5em;
+  width: 10em;
+  display: inline-block;
+  transition: 0.2s ease;
+}
+
+.dog-eat-dog .fight:hover .fighter {
+  transform: scale(1.1);
+  border-color: white;
+}
+
+.dog-eat-dog .fighter:first-child {
+  text-align: right;
+  margin-right: 1.5em;
+}
+
+.dog-eat-dog .position {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0.25em;
+  font-weight: bold;
+  font-style: italic;
+  border-radius: 50%;
+  background-color: rgba(61, 118, 225, 0.5);
+  text-align: center;
+  width: 1.75em;
+  height: 1.75em;
+  line-height: 1.75;
+  transition: 0.2s ease;
+}
+
+.dog-eat-dog .fight:hover .position {
+  background-color: #2699FB;
+}
+
+.dog-eat-dog .position:after {
+  content: ':';
+  position: absolute;
+  top: 1.5em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 900;
+  font-style: normal;
+}
+
+/*****************************************************************
+            WINNERS
+ ****************************************************************/
+
+.winners {
+  width: 20em;
+  font-size: 1em;
+  margin-left: 2.5em;
+}
+
+.winners > span {
+  font-size: 1.5em;
+  display: inline-block;
+  width: 100%;
+  padding-left: 0.5em;
+  padding-bottom: 0.15em;
+  border-bottom: 2px dashed white;
+  margin: 0.5em 0;
+  position: relative;
+}
+
+.winners > span:before {
+  position: absolute;
+  left: -1.5em;
+  top: 0;
+}
+
+.winners .first {
+  color: gold;
+  border-color: gold;
+}
+
+.winners .first:before {
+  content: '1.';
+}
+
+.winners .second {
+  color: silver;
+  border-color: silver;
+}
+
+.winners .second:before {
+  content: '2.';
+}
+
+.winners .third {
+  color: #CD7F32;
+  border-color: #CD7F32;
+}
+
+.winners .third:before {
+  content: '3.';
+}
+
+.winners .origin {
+  position: absolute;
+  color: #9B9B9B;
+  font-size: 0.75em;
+  top: 50%;
+  transform: translateY(-50%);
+  left: calc(100% + 0.5em);
+  width: 13em;
 }
 
 /*****************************************************************

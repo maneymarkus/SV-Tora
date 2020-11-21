@@ -1,4 +1,6 @@
 function init(window, document, undefined) {
+  let drag = false;
+
   const map = document.documentElement;
 
   map.style.cursor = "grab";
@@ -38,10 +40,15 @@ function init(window, document, undefined) {
   };
 
   map.addEventListener("mousedown", function (e) {
-    map.style.cursor = "grabbing";
-    map.style.userSelect = "none";
-    mouseDownHandler(e);
+    if (!drag) {
+      map.style.cursor = "grabbing";
+      map.style.userSelect = "none";
+      mouseDownHandler(e);
+    }
   });
+
+
+  /* TODO: Activate
 
   let tiltOptions = {maxTilt: 15, scale: 1.15};
   const primaryButtonTilt = $(".primary-button").tilt(tiltOptions);
@@ -84,6 +91,63 @@ function init(window, document, undefined) {
     if (target.classList.contains("print")) {
       alert("Drucken!");
     }
+  });
+
+   */
+
+  let fightTrees = document.querySelectorAll("div.tree");
+  fightTrees.forEach((tree) => {
+    tree.addEventListener("click", function (e) {
+      let target = e.target;
+      if (target.classList.contains("winner") || target.classList.contains("loser") || target.classList.contains("last")) {
+        return;
+      }
+      if (target.classList.contains("fighter-name")) {
+        if (target.innerHTML === "") {
+          return;
+        }
+        target.classList.add("winner");
+        let winnerName = target.innerHTML.trim();
+        let loser = target.parentNode.querySelector("span.fighter-name:not(.winner)");
+        loser.classList.add("loser");
+        let place = 0;
+        let additionalPlace = 1;
+        if (target.previousElementSibling) {
+          additionalPlace = 2;
+        }
+        while (!target.classList.contains("fight")) {
+          target = target.parentNode;
+        }
+        while (target.previousElementSibling) {
+          target = target.previousElementSibling;
+          place++;
+        }
+        place *= 2;
+        place += additionalPlace;
+        while (!target.classList.contains("column") && !target.nodeName !== "BODY") {
+          target = target.parentNode;
+        }
+        if (target.classList.contains("column")) {
+          let nextCol = target.nextElementSibling;
+          let nextPlace = Math.ceil(place / 4);
+          let firstFighter = false;
+          let detailPlace = (place / 4) % 1;
+          if (detailPlace > 0 && detailPlace <= 0.5) {
+            firstFighter = true;
+          }
+          let nextFight = nextCol.querySelector("div.fight:nth-child(" + nextPlace + ")");
+          if (firstFighter) {
+            nextFight.querySelector("span.fighter-name:nth-child(1)").innerHTML = winnerName;
+          } else {
+            nextFight.querySelector("span.fighter-name:nth-child(2)").innerHTML = winnerName;
+          }
+        }
+      }
+    });
+    tree.addEventListener("mousedown", function (e) {
+      //drag = true;
+      console.log("mousedown");
+    });
   });
 
 }
