@@ -83,7 +83,8 @@ main .col {
   background-color: #2699FB;
 }
 
-.vertical-card .bg-text {
+.vertical-card:after {
+  content: attr(data-bg);
   position: absolute;
   bottom: -0.1em;
   left: 50%;
@@ -134,6 +135,7 @@ main .col {
 .vertical-card:hover .count {
   color: #2699FB;
   top: 50%;
+  right: 7.5%;
 }
 
 @media only screen and (min-width: 600px) {
