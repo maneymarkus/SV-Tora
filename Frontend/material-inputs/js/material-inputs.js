@@ -434,7 +434,6 @@ function init(window, document, undefined) {
 
     let selects = [];
 
-    /*let Select = function (classNames, placeholder, options = undefined, dataColumn = undefined) {*/
     let Select = function (selectElement) {
       let This = this;
       this.optionsElement = selectElement.querySelector("div.options");

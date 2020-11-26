@@ -87,15 +87,31 @@ main h3 {
   font-size: 0.9rem;
  }
 
-.accordion .bar-header {
+.accordion-bar {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.bar-header {
   position: relative;
   transition: 0.2s ease;
   background-color: #171717;
   overflow: hidden;
 }
 
-.accordion .bar-header:hover {
+.bar-header:hover {
   background-color: #303030;
+}
+
+.open .bar-header {
+  position: sticky;
+  top: 4em;
+  left: 0;
+  z-index: 5;
 }
 
 .bar-header:before,
@@ -143,6 +159,26 @@ main h3 {
   width: 2em;
 }
 
+.bar-header .open-indicator {
+  position: absolute;
+  font-size: 3em;
+  color: #3D76E1;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0.1em;
+  transition: 0.2s ease;
+}
+
+.bar-header:hover .open-indicator {
+  color: #171717;
+  transform: translateY(-50%) scale(1.5);
+}
+
+.accordion-bar.open .open-indicator {
+  color: #171717;
+  transform: translateY(-50%) rotate(180deg);
+}
+
 .accordion-bar .category {
   display: inline-block;
   width: auto;
@@ -159,71 +195,174 @@ main h3 {
   padding: 0.75em 0;
 }
 
-.accordion-bar .shortcuts {
-  float: right;
-  position: relative;
-  width: auto;
-  right: 2em;
-  top: 1em;
-  visibility: hidden;
-  opacity: 0;
-  transition: 0.5s ease;
+.bar-header input.category-name {
+  background-color: rgba(74, 74, 74, 0.75);
+  border: none;
+  color: white;
+  font-weight: bold;
+  display: inline;
+  min-width: 1em;
+  margin-right: 0.5em;
+  font-style: italic;
+  animation: color-blink 0.5s ease infinite alternate;
 }
 
-.accordion-bar.open .shortcuts {
+@keyframes color-blink {
+  from {
+    color: white;
+  }
+  to {
+    color: #2699FB;
+  }
+}
+
+.bar-header input.category-name:focus {
+  outline: none;
+}
+
+.bar-header .tools {
+  float: right;
+  position: relative;
+  margin-right: 2em;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s ease;
+}
+
+.open .bar-header .tools {
   visibility: visible;
   opacity: 1;
 }
 
-.accordion-bar a {
-  margin-right: 0.5em;
-}
-
-.accordion-bar a i {
-  font-size: 2em;
-}
-
-.accordion-bar a:hover i {
-  color: #2699FB;
-}
-
-.accordion .accordion-bar {
-  position: relative;
-  margin: 0;
-  width: 100%;
-  height: auto;
-  cursor: pointer;
+.bar-header a.primary-button {
+  text-align: center;
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+  margin: 1em;
+  color: white;
   transition: 0.2s ease;
+  background-color: transparent;
+  transform-style: preserve-3d;
+  font-size: 0.75em;
+  z-index: 100;
 }
 
-.accordion.open .bar-header {
-  position: sticky;
-  top: 4em;
-  left: 0;
-  z-index: 5;
-}
-
-.accordion-bar .open-indicator {
+a.primary-button:before {
+  content: '';
   position: absolute;
-  font-size: 3em;
-  color: #3D76E1;
+  border-radius: 50%;
+  border: 2px solid white;
+  width: 0;
+  height: 0;
   top: 50%;
-  transform: translateY(-50%);
-  left: 0.1em;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: -1;
   transition: 0.2s ease;
+  box-shadow: 0 0 20px 3px #2699FB inset, 0 0 10px 3px black;
 }
 
-.bar-header:hover .open-indicator {
-  color: #171717;
-  transform: translateY(-50%) scale(1.5);
+a.primary-button.cancel:before,
+a.primary-button.close:before,
+a.primary-button.delete:before {
+  box-shadow: 0 0 20px 3px #F71735 inset, 0 0 10px 3px black;
 }
 
-.open .bar-header .open-indicator {
-  color: #171717;
+a.primary-button.documents:before {
+  box-shadow: 0 0 20px 3px #5EFC8D inset, 0 0 10px 3px black;
 }
 
-.accordion-bar.open .open-indicator {
-  transform: translateY(-50%) rotate(180deg);
+a.primary-button.messages:before {
+  box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
+}
+
+a.primary-button:hover:before {
+  width: 220%;
+  height: 220%;
+  opacity: 1;
+  border-color: #2699FB;
+}
+
+a.primary-button.cancel:hover:before,
+a.primary-button.close:hover:before,
+a.primary-button.delete:hover:before {
+  border-color: #F71735;
+}
+
+a.primary-button.documents:hover:before {
+  border-color: #5EFC8D;
+}
+
+a.primary-button.messages:hover:before {
+  border-color: #FFF275;
+}
+
+.primary-button i {
+  color: #3D76E1;
+  position: absolute;
+  font-size: 3.5em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.2s ease;
+  z-index: 2;
+  transform-style: preserve-3d;
+}
+
+.primary-button:hover i {
+  color: #2699FB;
+  top: 20%;
+  transform: translate(-50%, -50%) scale(1.1) translateZ(30px);
+}
+
+.primary-button.cancel i,
+.primary-button.close i,
+.primary-button.delete i {
+  color: #B23A48;
+}
+
+.primary-button.documents i {
+  color: #20BF55;
+}
+
+.primary-button.messages i {
+  color: #E3B505;
+}
+
+.primary-button.cancel:hover i,
+.primary-button.close:hover i,
+.primary-button.delete:hover i {
+  font-weight: bold;
+  color: #F71735;
+}
+
+.primary-button.documents:hover i {
+  color: #5EFC8D;
+}
+
+.primary-button.messages:hover i {
+  color: #FFF275;
+}
+
+.primary-button p {
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-size: 1em;
+  transition: 0.2s ease;
+  z-index: 1;
+  opacity: 0;
+  transform-style: preserve-3d;
+}
+
+.primary-button:hover p {
+  top: 100%;
+  opacity: 1;
+  transform: translate(-50%, -50%) translateZ(15px);
 }
 
 .bar-content {
@@ -235,6 +374,14 @@ main h3 {
   transition: height 0.5s ease, border-color 0.2s ease;
   overflow: hidden;
   background-color: rgba(23, 23, 23, 0.5);
+}
+
+.open .bar-content {
+  border: 1px solid #3D76E1;
+}
+
+.open .bar-header:hover ~ .bar-content {
+  border: 1px solid #2699FB;
 }
 
 .bar-content table {
@@ -254,14 +401,6 @@ main h3 {
 
 .bar-content table, .bar-content th {
   border-collapse: collapse;
-}
-
-.accordion-bar.open .bar-content {
-  border: 1px solid #3D76E1;
-}
-
-.accordion-bar.open .bar-header:hover ~ .bar-content {
-  border: 1px solid #2699FB;
 }
 
 @media only screen and (min-width: 600px) {

@@ -15,6 +15,8 @@
     <script src="/SV-Tora/js/html5shiv.js"></script>
     <![endif]-->
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/tilt.jquery.js"></script>
     <script src="js/header.js"></script>
 
     <!--
@@ -26,10 +28,60 @@
 </head>
 <body class="darkmode">
 
+    <nav class="nav">
+        <a class="primary-button close" href="#">
+            <i class="material-icons">close</i>
+            <p>Schließen</p>
+        </a>
+        <p class="bg-text">
+        </p>
+        <ul>
+            <li>
+                <a href="#">
+                    <span class="text">Home</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="text">About</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="text">Projects</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+        </ul>
+        <div class="image-container">
+            <img src="images/fighter-symbol-white.png" />
+        </div>
+    </nav>
+
     <header class="header">
         <a href="#" class="menu"><i class="material-icons">menu</i></a>
         <p>SV Tora e.V.</p>
         <a href="#" class="profile"><i class="material-icons">person</i></a>
+        <div class="user-profile">
+            <div class="user-wrapper">
+                <div class="pic-container">
+                    <img src="images/Karate_Trainer_Markus_Popov.jpg" />
+                </div>
+                <p class="username">Marcus PoPopov</p>
+                <a class="secondary-button settings" href="#">
+              <span class="text">
+                Einstellungen
+              </span>
+                </a>
+                <a class="secondary-button logout" href="#">
+              <span class="text">
+                Abmelden
+              </span>
+                </a>
+            </div>
+        </div>
     </header>
 
 </body>

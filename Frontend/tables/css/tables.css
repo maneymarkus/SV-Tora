@@ -557,7 +557,7 @@ td:last-child {
 td:before {
   content: attr(data-column);
   position: absolute;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   right: 0;
   color: #171717;
@@ -570,6 +570,7 @@ td:before {
   max-width: 100%;
   padding-right: 58%;
   text-shadow: 1px 1px 1px black;
+  margin: 0;
 }
 
 td:last-child {

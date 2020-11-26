@@ -317,10 +317,6 @@ a.open-nav:hover {
 }
 
 @media only screen and (min-width: 768px) {
-  nav.nav .close {
-
-  }
-
   nav.nav .bg-text {
     font-size: 13rem;
     letter-spacing: 0.5rem;
@@ -347,10 +343,6 @@ a.open-nav:hover {
 }
 
 @media only screen and (min-width: 992px) {
-  nav.nav .close {
-
-  }
-
   nav.nav ul {
     width: 30%;
   }
@@ -377,10 +369,6 @@ a.open-nav:hover {
 }
 
 @media only screen and (min-width: 1200px) {
-  nav.nav .close {
-
-  }
-
   nav.nav ul a {
     font-size: 5rem;
     padding: 1rem;

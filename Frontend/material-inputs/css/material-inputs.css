@@ -123,12 +123,14 @@ body {
     background-color: #3D76E1;
 }
 
-.switch-container input:focus + .switch {
-    box-shadow: 0 0 10px 5px #2699FB inset;
+.switch-container input:focus + .switch,
+.switch-container:hover .switch {
+    box-shadow: 0 0 7px 2px #2699FB;
 }
 
-.switch-container:hover .switch {
-    background-color: #2699FB !important;
+.switch-container input:focus + .switch:before,
+.switch-container:hover .switch:before {
+    box-shadow: 0 0 5px 0 black;
 }
 
 .switch-container input:checked + .switch:before {
@@ -1150,6 +1152,44 @@ input {
 
 .timepicker .footer .cancel {
     right: 2em;
+}
+
+/*
+    FILE-INPUT
+
+    <label for="file-input" class="file-input-container">
+        <input type="file" name="file-input" value="value" id="file-input" />
+        <i class="material-icons">publish</i>
+        <span class="file-name">Datei auswählen</span>
+    </label>
+
+ */
+
+.file-input-container {
+    position: relative;
+    border: 1px solid black;
+    display: inline-block;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.file-input-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.file-input-container i {
+    font-size: 3em;
+    padding: 0.75rem;
+    border-radius: 50%;
+    background-color: #3D76E1;
+}
+
+.file-input-container .text {
+    display: block;
 }
 
 /*

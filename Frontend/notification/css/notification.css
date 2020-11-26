@@ -67,6 +67,17 @@ body {
   display: table;
 }
 
+/***********************************************************
+          NOTIFICATION
+
+   Mark-Up:
+   <div class="notification clearfix">
+        <i class="material-icons symbol">warning<!-- info --></i>
+        <p class="message">Info</p>
+        <i class="material-icons close">close</i>
+    </div>
+ **********************************************************/
+
 .notification {
   position: fixed;
   border: 1px solid #3D76E1;
@@ -82,13 +93,13 @@ body {
   transform-origin: 50% 100%;
 }
 
-.notification.hover {
+.notification.hoverable {
   transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 0s;
   animation: attention 2s ease 1s 3;
   right: 2em;
 }
 
-.notification.hover:hover {
+.notification.hoverable:hover {
   height: 7em;
   width: calc(100% - 4rem);
   background: rgba(61, 118, 225, 0.6);
@@ -147,6 +158,10 @@ body {
   font-size: 3em;
 }
 
+.notification .symbol.warning {
+  color: #FFF275;
+}
+
 .notification p {
   position: relative;
   width: 100%;
@@ -175,7 +190,7 @@ body {
   font-weight: bold;
   right: 0.5rem;
   top: 0.5rem;
-  color: #B23A48;
+  color: #171717;
   text-align: center;
   transition: color 0.2s ease, opacity 0.2s ease 0s;
   cursor: pointer;
@@ -189,7 +204,7 @@ body {
   width: 1.1em;
   height: 1.1em;
   border-radius: 50%;
-  background-color: #B23A48;
+  background-color: #4A4A4A;
   position: absolute;
   top: -0.05em;
   left: -0.05em;
