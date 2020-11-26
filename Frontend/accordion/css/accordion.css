@@ -395,8 +395,12 @@ a.primary-button.messages:hover:before {
 }
 
 .bar-content table td {
-  width: 50%;
+  width: 45%;
   padding: 0.4em 0 0.4em 3%;
+}
+
+.bar-content table td:first-child {
+  width: 10%;
 }
 
 .bar-content table, .bar-content th {
