@@ -1,6 +1,6 @@
 function init(window, document, undefined) {
     let main = document.getElementsByTagName("main")[0];
-    let theaterOptions = {locale: "de", minSpeed: {erase: 10, type: 40}, maxSpeed: {erase: 100, type: 300}};
+    let theaterOptions = {locale: "de", minSpeed: {erase: 10, type: 40}, maxSpeed: {erase: 100, type: 200}};
     let theater = theaterJS(theaterOptions);
     let heading = document.getElementsByClassName("heading")[0];
     let subText = document.getElementsByClassName("subtext")[0];

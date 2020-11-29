@@ -101,7 +101,6 @@ main .shadow {
   width: 100%;
   overflow-y: auto;
   flex-grow: 1;
-  padding-bottom: 1em;
   box-shadow: 0 -20px 5px -10px black inset;
   scroll-behavior: smooth;
 }
@@ -109,7 +108,11 @@ main .shadow {
 .message {
   width: 100%;
   position: relative;
-  transition: 1s ease;
+  transition: transform 1s ease;
+}
+
+.message:last-child {
+  margin-bottom: 1.5rem;
 }
 
 .message.new {

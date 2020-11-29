@@ -569,44 +569,120 @@ function init(window, document, undefined) {
       START TEXT INPUT
      */
 
-    if (document.querySelector("span.text-input-container") !== undefined) {
-      let textInputElements = document.querySelectorAll("span.text-input-container");
-      textInputElements.forEach((t) => {
-        t.addEventListener("focusout", function (e) {
-          let target = e.target;
-          if (target.value) {
-            target.classList.add("filled");
+    let inputs = [];
+
+    let Input = function (inputContainer) {
+      let This = this;
+      this.inputContainer = inputContainer;
+      this.inputElement = inputContainer.querySelector("input");
+      this.hasError = false;
+
+      this.inputContainer.addEventListener("focusout", function (e) {
+        let target = e.target;
+        if (target.value) {
+          target.classList.add("filled");
+        } else {
+          target.classList.remove("filled");
+        }
+      });
+
+      if (this.inputContainer.querySelector("#password-label")) {
+        let passwordLabel = This.inputContainer.querySelector("#password-label");
+        let passwordIcon = passwordLabel.querySelector("i");
+
+        passwordLabel.addEventListener("click", function (e) {
+          e.preventDefault();
+          This.inputContainer.focus();
+          if (This.inputElement.type == "password") {
+            passwordIcon.innerHTML = "lock_open";
+            This.inputElement.type = "text";
           } else {
-            target.classList.remove("filled");
+            passwordIcon.innerHTML = "lock";
+            This.inputElement.type = "password";
           }
         });
+      }
+
+    }
+
+    Input.prototype.addError = function (input, errorMessage) {
+      let errorElement = createErrorElement(errorMessage);
+      input.inputContainer.appendChild(errorElement);
+      input.hasError = true;
+    };
+
+    function createErrorElement(errorMessage) {
+      let errorSpan = Module.generateElementApi("SPAN", ["error"]);
+      errorSpan.appendChild(Module.generateElementApi("I", ["material-icons"], "error_outline"));
+      errorSpan.appendChild(Module.generateElementApi("SPAN", ["message"], errorMessage));
+      return errorSpan;
+    }
+
+    Input.prototype.removeError = function (input) {
+      if (input.hasError) {
+        let error = input.inputContainer.querySelector("span.error");
+        error.remove();
+        input.hasError = false;
+      }
+    }
+
+    if (document.querySelector(".input-container")) {
+      let inputContainers = document.querySelectorAll(".input-container");
+      inputContainers.forEach((i) => {
+        inputs.push(new Input(i));
       });
     }
 
-    if (document.getElementById("password-label")) {
-      let passwordLabel = document.getElementById("password-label");
-      let passwordIcon = passwordLabel.getElementsByTagName("i")[0];
-      let passwordInput = document.getElementById("password");
-
-      passwordLabel.addEventListener("click", function (e) {
-        let ev = e || window.event;
-        ev.preventDefault();
-        passwordInput.focus();
-        if (passwordInput.type == "password") {
-          passwordIcon.innerHTML = "lock_open";
-          passwordInput.type = "text";
-        } else {
-          passwordIcon.innerHTML = "lock";
-          passwordInput.type = "password";
+    function throwInputError(inputContainer, errorMessage) {
+      inputs.forEach((i) => {
+        if (i.inputContainer === inputContainer) {
+          i.addError(i, errorMessage);
         }
       });
     }
+
+    function revokeInputError(inputContainer) {
+      inputs.forEach((i) => {
+        if (i.inputContainer === inputContainer) {
+          i.removeError(i);
+        }
+      });
+    }
+
+    let input = document.querySelector(".text-input-container");
+    throwInputError(input, "Fehler");
 
     /*
       END TEXT INPUT
      */
 
+    /*
+      START FILE INPUT
+     */
 
+    let fileInputContainers = document.querySelectorAll(".file-input-container");
+    fileInputContainers.forEach((fIC) => {
+      let fInput = fIC.querySelector("input");
+      let fileNameSpan = fIC.querySelector("span.file-name");
+      let placeholder = fileNameSpan.innerHTML;
+      fInput.addEventListener("change", function (e) {
+        let fileName = undefined;
+        if (this.files && this.files.length > 1) {
+          fileName = (this.getAttribute("data-multiple-caption") || "").replace('{count}', this.files.length);
+        } else {
+          fileName = e.target.value.split("\\").pop();
+        }
+        if (fileName) {
+          fileNameSpan.innerHTML = fileName;
+        } else {
+          fileNameSpan.innerHTML = placeholder;
+        }
+      });
+    });
+
+    /*
+      END FILE INPUT
+     */
 
     function checkInputs(form) {
       // TODO: radio buttons and checkboxes

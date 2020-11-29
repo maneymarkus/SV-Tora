@@ -1,7 +1,7 @@
 function init(window, document, undefined) {
     let user = "Marcus";
     let main = document.getElementsByClassName("dashboard")[0];
-    let theaterOptions = {locale: "de", minSpeed: {erase: 10, type: 40}, maxSpeed: {erase: 100, type: 300}};
+    let theaterOptions = {locale: "de", minSpeed: {erase: 10, type: 40}, maxSpeed: {erase: 100, type: 200}};
     let theater = theaterJS(theaterOptions);
     let greeting = document.getElementsByClassName("greeting")[0];
     greeting.innerHTML = "";
