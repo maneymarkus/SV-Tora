@@ -127,6 +127,53 @@ main h1 {
   text-decoration: underline;
 }
 
+.file-input-container {
+   position: relative;
+   display: inline-block;
+   cursor: pointer;
+   text-align: center;
+   padding: 0.5em;
+   font-size: 1rem;
+   max-width: 15rem;
+   word-break: break-word;
+ }
+
+.file-input-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.file-input-container i {
+  font-size: 3em;
+  padding: 0.75rem;
+  border-radius: 50%;
+  background-color: #3D76E1;
+  margin-bottom: 0.25em;
+  transition: transform 0.1s ease-out 0s, background-color 0.2s ease;
+}
+
+.file-input-container:hover i {
+  transform: scale(1.25);
+  transition: transform 0.1s ease-out 0.3s, background-color 0.2s ease;
+  background-color: #2699FB;
+}
+
+.file-input-container .file-name {
+  display: block;
+  font-weight: bold;
+  font-size: 1.25em;
+  word-wrap: normal;
+  max-width: 100%;
+  transition: 0.2s ease;
+}
+
+.file-input-container:hover .file-name {
+  color: #2699FB;
+}
+
 a.primary-button {
    text-align: center;
    display: inline-block;
@@ -238,7 +285,7 @@ a.primary-button.delete:hover:before {
   left: 0;
   bottom: -18rem;
   width: 100%;
-  background-color: #222222;
+  background: linear-gradient(#303030 25%, #171717);
   box-shadow: 0 0 15px 5px black;
   text-align: center;
   transition: 0.5s ease;
@@ -298,12 +345,12 @@ a.primary-button.delete:hover:before {
 }
 
 @media only screen and (min-width: 992px) {
-  main {
-    width: 992px;
-    box-shadow: 2px 0 7px 3px black;
-  }
+
 }
 
 @media only screen and (min-width: 1200px) {
-
+  main {
+    width: 1200px;
+    box-shadow: 2px 0 7px 3px black;
+  }
 }

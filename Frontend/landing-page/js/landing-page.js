@@ -1,6 +1,6 @@
 function init(window, document, undefined) {
-  let options = {locale: "de", minSpeed: {erase: 0, type: 40}, maxSpeed: {erase: 0, type: 300}};
-  let theater = theaterJS(options);
+  let theaterOptions = {locale: "de", minSpeed: {erase: 10, type: 40}, maxSpeed: {erase: 100, type: 200}};
+  let theater = theaterJS(theaterOptions);
   let heading = document.getElementById("heading");
   let subtext = document.getElementById("subtext");
   let link = document.getElementsByClassName("enroll")[0];

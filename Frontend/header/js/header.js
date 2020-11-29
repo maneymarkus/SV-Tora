@@ -11,10 +11,16 @@ function init(window, document, undefined) {
 
     navBtn.addEventListener("click", function () {
       nav.classList.add("open");
+      header.classList.add("open-menu");
     });
 
     userBtn.addEventListener("click", function () {
       userMenu.classList.toggle("open");
+      if (userMenu.classList.contains("open")) {
+        header.classList.add("open-menu");
+      } else {
+        header.classList.remove("open-menu");
+      }
     });
 
     function closeHeader(target) {
@@ -26,6 +32,7 @@ function init(window, document, undefined) {
       }
       if (!t || t.nodeName === "BODY") {
         userMenu.classList.remove("open");
+        header.classList.remove("open-menu");
       }
     }
 
@@ -42,12 +49,14 @@ function init(window, document, undefined) {
 
   let NavModule = (function(window, document, undefined) {
 
+    let header = document.querySelector("header");
     let nav = document.querySelector("nav.nav");
     let closeBtn = nav.querySelector(".close");
     let navBgText = nav.querySelector(".bg-text");
 
     closeBtn.addEventListener("click", function () {
       nav.classList.remove("open");
+      header.classList.remove("open");
     });
 
     nav.addEventListener("mousemove", function(e) {

@@ -244,7 +244,6 @@ nav.nav ul a span.text {
 
 nav.nav ul a:hover span.text {
   transform: scale(1.1) skew(0, -15deg);
-  /*text-shadow: 1px 1px 15px #2699FB;*/
   font-weight: bold;
   animation: glowing 0.5s ease-in infinite alternate;
 }
