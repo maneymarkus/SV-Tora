@@ -25,26 +25,47 @@ body {
   position: relative;
   text-decoration: none;
   text-align: center;
+  margin: 3rem;
   cursor: pointer;
-  top: 50%;
-  left: 50%;
   display: inline-block;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   background: #171717;
   transition: 0.5s ease;
   font-size: 1.2em;
-  width: auto;
+  width: 15em;
   height: auto;
-  transform: translate(-50%, -50%);
   border: 2px solid #3D76E1;
   color: white;
+  padding: 0.5em 1.5em;
+}
+
+.secondary-button.delete {
+  border-color: #B23A48;
+  color: #B23A48;
+  transition: background-color 0.2s ease 0s, color 0.2s ease 0s, border 0.2s ease 0s;
+}
+
+.secondary-button.abort {
+  border-color: #B23A48;
 }
 
 .secondary-button:hover,
 .secondary-button:focus {
   border: 2px solid #2699FB;
   color: #2699FB;
+}
+
+.secondary-button.delete:hover {
+  border: 2px solid #171717;
+  color: #171717;
+  background-color: #F71735;
+  transition: background-color 0.2s ease 0.7s, color 0.2s ease 0.7s, border-color 0.2s ease 0.7s;
+}
+
+.secondary-button.abort:hover {
+  border: 2px solid #F71735;
+  color: #F71735;
 }
 
 .secondary-button:before {
@@ -71,6 +92,11 @@ body {
   transition: 0.5s ease;
 }
 
+.secondary-button.delete:before,
+.secondary-button.delete:after {
+  transition-delay: 0.3s;
+}
+
 .secondary-button:hover:before,
 .secondary-button:focus:before {
   top: 50%;
@@ -83,6 +109,13 @@ body {
   width: 0;
 }
 
+.secondary-button.delete:hover:before,
+.secondary-button.delete:focus:before,
+.secondary-button.delete:hover:after,
+.secondary-button.delete:focus:after {
+  transition-delay: 0s;
+}
+
 .secondary-button .text {
   position: relative;
   width: 100%;
@@ -91,7 +124,6 @@ body {
   left: 0;
   display: block;
   font-size: 1.5em;
-  padding: 0.5em 3em;
   overflow: hidden;
   z-index: 10;
 }

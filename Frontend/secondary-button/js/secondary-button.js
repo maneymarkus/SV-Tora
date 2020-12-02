@@ -4,15 +4,17 @@ function init(window, document, undefined) {
 
   secondaryButtons.forEach(btn => {
     btn.addEventListener("click", function(e) {
-      let x = e.clientX - btn.parentNode.offsetLeft;
-      let y = e.clientY - btn.parentNode.offsetTop;
+      e.preventDefault();
+      let btnRect = btn.getBoundingClientRect();
+      let x = e.clientX - btnRect.left * 1.025;
+      let y = e.clientY - btnRect.top;
 
       let ripple = document.createElement("span");
       ripple.classList.add("ripple");
       ripple.style.left = x + "px";
       ripple.style.top = y + "px";
 
-      btn.appendChild(ripple);
+      btn.querySelector("span").appendChild(ripple);
 
       window.setTimeout(() => {
         ripple.remove();
