@@ -234,12 +234,12 @@ a.primary-button.messages:hover:before {
   transform: translate(-50%, -50%) translateZ(15px);
 }
 
-div.filter {
+div.filter-container {
   position: relative;
   margin-bottom: 2rem;
 }
 
-main .filter:before {
+main .filter-container:before {
   content: 'Filter';
   position: absolute;
   font-size: 7rem;
@@ -253,16 +253,15 @@ main .filter:before {
   transform: translate(-50%, -50%) skewY(-3deg);
 }
 
-.filter p {
+.filter-container p {
   font-size: 1.5rem;
   margin: 1rem 0;
+  font-weight: bold;
 }
 
 div.chosen-filters {
   margin: 0;
   display: block;
-  width: 80%;
-  float: left;
 }
 
 .secondary-button {
@@ -281,6 +280,7 @@ div.chosen-filters {
   border: 2px solid #3D76E1;
   color: white;
   float: right;
+  margin-top: 2em;
 }
 
 .secondary-button:hover,
@@ -366,32 +366,32 @@ div.chosen-filters {
   }
 }
 
-.chosen-filters {
-  margin: 0;
-}
-
-.chosen-filters .filter-container {
-  background-color: #272727;
+.chosen-filters .filter {
+  position: relative;
+  background-color: #171717;
   border-radius: 50px;
   height: 2.5rem;
   display: inline-block;
   padding-left: 1rem;
   margin-right: 0.5rem;
+  margin-bottom: 0.75rem;
   transition: 0.2s ease;
+  z-index: 1;
+  box-shadow: 2px 2px 5px 2px black;
 }
 
-.chosen-filters .filter-container:hover {
-  background-color: #191919;
+.chosen-filters .filter:hover {
+  background-color: #303030;
   cursor: pointer;
 }
 
-.filter-container .filter-details {
+.filter .filter-details {
   position: relative;
   top: -0.9rem;
   margin-right: 0.5rem;
 }
 
-.filter-container a {
+.filter a {
   border-radius: 50%;
   height: 2.5rem;
   width: 2.5rem;
@@ -399,35 +399,33 @@ div.chosen-filters {
   text-align: center;
   top: 0;
   display: inline-block;
+  transition: 0.2s ease;
 }
 
-.filter-container a:hover {
-  background-color: #4A4A4A;
+.filter:hover a {
+  background-color: #171717;
 }
 
-.filter-container a i {
+.filter a:hover {
+  background-color: #B23A48;
+}
+
+.filter a i {
   font-size: 1.5rem;
   padding: 0.25rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transition: 0.2s ease;
 }
 
-.filter-container a:hover i {
-  color: #8D0909;
+.filter:hover a i {
+  color: #B23A48;
 }
 
-.filter-modal .filter-column {
-  width: 45%;
-}
-
-.filter-modal .filter-column-input {
-  float: left;
-}
-
-.filter-modal .filter-value-input {
-  float: right;
+.filter a:hover i {
+  color: #171717;
 }
 
 table, th, td {
@@ -526,15 +524,19 @@ tr {
 
 table tbody tr:hover {
   background-color: #303950;
-  transform: scale(1.05);
+  transform: scale(1.025);
 }
 
-tbody tr:nth-child(even) {
+tr.even {
   background-color: #4A4A4A;
 }
 
-tbody tr:nth-child(odd) {
+tr.odd {
   background-color: #303030;
+}
+
+tr.hidden {
+  display: none;
 }
 
 td {
@@ -672,7 +674,7 @@ td:last-child:before {
     margin-right: auto;
   }
 
-  main .filter {
+  main .filter-container {
     width: calc(1200px - 6rem);
     margin-left: auto;
     margin-right: auto;

@@ -31,28 +31,39 @@
     <form class="mail-content clearfix">
         <h3>Wem willst du schreiben?</h3>
         <div class="container receiver clearfix">
-            <label class="radio-input-container">
-                Alle
-                <input type="radio" name="receiver" value="all" />
-                <span class="checkmark"></span>
-            </label>
-            <br />
-            <label class="radio-input-container">
-                Angemeldete Vereine zum aktuellen Wettkampf
-                <input type="radio" name="receiver" value="only-enrolled" />
-                <span class="checkmark"></span>
-            </label>
-            <br />
-            <label class="radio-input-container">
-                Ausgewählten Vereinen
-                <input type="radio" name="receiver" value="chosen" />
-                <span class="checkmark"></span>
-            </label>
-            <br />
-            <div class="chosen-clubs">
-
+            <div class="receiver-selection">
+                <label class="radio-input-container">
+                    Allen Vereinen
+                    <input type="radio" name="receiver" value="all" />
+                    <span class="checkmark"></span>
+                </label>
+                <br />
+                <label class="radio-input-container">
+                    Angemeldete Vereine zum aktuellen Wettkampf
+                    <input type="radio" name="receiver" value="only-enrolled" />
+                    <span class="checkmark"></span>
+                </label>
+                <br />
+                <label class="radio-input-container">
+                    Ausgewählten Vereinen
+                    <input type="radio" name="receiver" value="choose" />
+                    <span class="checkmark"></span>
+                </label>
             </div>
-            <a href="#" class="disabled button1 choose-clubs">Auswählen</a>
+            <a class="secondary-button disabled choose-clubs">
+              <span class="text">
+                Auswählen
+              </span>
+            </a>
+            <br />
+            <a class="secondary-button free-text">
+              <span class="text">
+                Freitexteingabe
+              </span>
+            </a>
+            <div class="chosen-clubs">
+                <span class="to">An:</span>
+            </div>
         </div>
         <h3>Worum geht's?</h3>
         <span class="text-input-container">

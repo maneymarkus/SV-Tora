@@ -31,7 +31,7 @@
     <main>
         <h1>Starter</h1>
         <div class="actions clearfix">
-            <a class="primary-button add-starter" href="#">
+            <a id="add-starter" class="primary-button add-starter" href="#">
                 <i class="material-icons">add</i>
                 <p>Starter hinzufügen</p>
             </a>
@@ -40,9 +40,39 @@
                 <p>Drucken</p>
             </a>
         </div>
-        <div class="filter clearfix">
+        <div id="filter-starter" class="filter-container clearfix">
             <p>Filter:</p>
             <div class="chosen-filters">
+                <span class="filter">
+                    <span class="filter-details">
+                        <span class="filter-column">Verein</span>
+                        :
+                        <span class="filter-value">SV-Tora</span>
+                    </span>
+                    <a class="delete-button">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+                <span class="filter">
+                    <span class="filter-details">
+                        <span class="filter-column">Verein</span>
+                        :
+                        <span class="filter-value">SV-Tora</span>
+                    </span>
+                    <a class="delete-button">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
+                <span class="filter">
+                    <span class="filter-details">
+                        <span class="filter-column">Verein</span>
+                        :
+                        <span class="filter-value">SV-Tora</span>
+                    </span>
+                    <a class="delete-button">
+                        <i class="material-icons">close</i>
+                    </a>
+                </span>
             </div>
             <a class="secondary-button add-filter">
                 <span class="text">
@@ -50,7 +80,7 @@
                 </span>
             </a>
         </div>
-        <table class="table">
+        <table data-filter="filter-starter" data-add="add-starter" class="table">
             <thead>
                 <tr>
                     <th>

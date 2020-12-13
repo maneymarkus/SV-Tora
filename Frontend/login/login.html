@@ -16,6 +16,7 @@
     <script src="/SV-Tora/js/html5shiv.js"></script>
     <![endif]-->
 
+    <script src="js/theater.min.js"></script>
     <script src="js/login.js"></script>
 
     <!--
@@ -32,31 +33,56 @@
 
     <main>
 
-        <div class="modal-window login-container">
-            <div class="modal-window-header">
-                <p>Login</p>
-            </div>
-            <div class="mw-content">
-                <form class="login" action="" method="post">
-                    <div class="row">
-                        <span class="text-input-container">
-                            <label class="icon" for="username"><i class="material-icons">person</i></label>
-                            <input class="text-input" type="text" id="username" name="username" />
-                            <label class="text" for="username">Username</label>
-                            <span class="underline"></span>
-                        </span>
-                    </div>
-                    <div class="row">
-                        <span class="text-input-container">
-                            <label class="icon" id="password-label" for="password"><i class="material-icons">lock</i></label>
-                            <input class="text-input" type="password" id="password" name="password" />
-                            <label class="text" for="password">Password</label>
-                            <span class="underline"></span>
-                        </span>
-                    </div>
-                    <button type="submit" class="login-button">Login</button>
-                </form>
-            </div>
+        <p class="info">Noch nicht <span>registriert</span>? Klicken Sie hier und <span>registrieren</span> Sie sich erst.</p>
+        <img class="arrow" alt="arrow pointing to registration form" src="images/arrow.png" />
+
+        <div class="login-container">
+            <h1>Login</h1>
+            <form class="login clearfix" action="" method="post">
+                <span class="text-input-container input-container">
+                    <label class="icon" for="login-name"><i class="material-icons">person</i></label>
+                    <input class="text-input" type="text" id="login-name" name="username" required />
+                    <label class="text" for="login-name">Username</label>
+                    <span class="underline"></span>
+                </span>
+                <span class="text-input-container input-container">
+                    <label class="icon password-label" for="login-password"><i class="material-icons">lock</i></label>
+                    <input class="text-input" type="password" id="login-password" name="password" required />
+                    <label class="text" for="login-password">Password</label>
+                    <span class="underline"></span>
+                </span>
+                <a href="#" class="password-forgotten">Passwort vergessen</a>
+                <button type="submit" class="secondary-button login-button" >
+                    <span class="text">Login</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="registration-container small">
+            <h1>Registrieren</h1>
+            <form class="registration clearfix" action="" method="post">
+                <span class="text-input-container input-container">
+                    <label class="icon" for="register-username"><i class="material-icons">person</i></label>
+                    <input class="text-input" type="text" id="register-username" name="username" />
+                    <label class="text" for="register-username">Username</label>
+                    <span class="underline"></span>
+                </span>
+                <span class="text-input-container input-container">
+                    <label class="icon password-label" for="register-password-1"><i class="material-icons">lock</i></label>
+                    <input class="text-input" type="password" id="register-password-1" name="password" />
+                    <label class="text" for="register-password-1">Password</label>
+                    <span class="underline"></span>
+                </span>
+                <span class="text-input-container input-container">
+                    <label class="icon password-label" for="register-password-2"><i class="material-icons">lock</i></label>
+                    <input class="text-input" type="password" id="register-password-2" name="password" />
+                    <label class="text" for="register-password-2">Repeat Password</label>
+                    <span class="underline"></span>
+                </span>
+                <button type="submit" class="secondary-button register-button">
+                    <span class="text">Registrieren</span>
+                </button>
+            </form>
         </div>
 
     </main>

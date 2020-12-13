@@ -45,44 +45,43 @@ function init(window, document, undefined) {
       let overlay = Module.generateElementApi("div", ["overlay"]);
       let baseModal = createBaseModal(overlay, header, content, noCallback);
       switch (modalType) {
+
         case modalTypes.DELETE:
           let deleteModalFooter = Module.generateElementApi("div", ["mw-footer"]);
           let abortDeletionBtn = Module.generateElementApi("a", ["secondary-button"]);
           abortDeletionBtn.appendChild(Module.generateElementApi("span", ["text"], "Abbrechen"));
           deleteModalFooter.appendChild(abortDeletionBtn);
           abortDeletionBtn.addEventListener("click", function () {
-            closeModalWindow(overlay);
-            noCallback();
+            abortion(overlay, noCallback);
           });
           let deleteBtn = Module.generateElementApi("a", ["secondary-button", "delete"]);
           deleteBtn.appendChild(Module.generateElementApi("span", ["text"], "Löschen"));
           deleteModalFooter.appendChild(deleteBtn);
           deleteBtn.addEventListener("click", function () {
-            closeModalWindow(overlay);
-            yesCallback("1");
+            confirmation(overlay, yesCallback);
           });
           baseModal.appendChild(deleteModalFooter);
           overlay.appendChild(baseModal);
           break;
+
         case modalTypes.CONFIRM:
           let confirmModalFooter = Module.generateElementApi("div", ["mw-footer"]);
           let abortConfirmationBtn = Module.generateElementApi("a", ["secondary-button", "abort"]);
           abortConfirmationBtn.appendChild(Module.generateElementApi("span", ["text"], "Abbrechen"));
           confirmModalFooter.appendChild(abortConfirmationBtn);
           abortConfirmationBtn.addEventListener("click", function () {
-            closeModalWindow(overlay);
-            noCallback();
+            abortion(overlay, noCallback);
           });
           let confirmBtn = Module.generateElementApi("a", ["secondary-button"]);
           confirmBtn.appendChild(Module.generateElementApi("span", ["text"], "OK"));
           confirmModalFooter.appendChild(confirmBtn);
           confirmBtn.addEventListener("click", function () {
-            closeModalWindow(overlay);
-            yesCallback();
+            confirmation(overlay, yesCallback);
           });
           baseModal.appendChild(confirmModalFooter);
           overlay.appendChild(baseModal);
           break;
+
         case modalTypes.INFO:
           overlay.appendChild(baseModal);
           break;
@@ -97,10 +96,7 @@ function init(window, document, undefined) {
       closeBtn.appendChild(Module.generateElementApi("p", [], "Schließen"));
       modal.appendChild(closeBtn);
       closeBtn.addEventListener("click", function () {
-        closeModalWindow(overlay);
-        if (noCallback) {
-          noCallback();
-        }
+        abortion(overlay, noCallback);
       });
       let modalHeader = Module.generateElementApi("div", ["mw-header"]);
       modalHeader.appendChild(Module.generateElementApi("h2", [], header));
@@ -109,6 +105,21 @@ function init(window, document, undefined) {
       modalContent.appendChild(Module.generateElementApi("p", [], content));
       modal.appendChild(modalContent);
       return modal;
+    }
+
+    function abortion(overlay, noCallback) {
+      closeModalWindow(overlay);
+      if (noCallback) {
+        noCallback();
+      }
+    }
+
+    function confirmation(overlay, yesCallback) {
+      let modalContent = overlay.querySelector("div.mw-content");
+      if (InputsModule.checkRequiredInputsApi(modalContent)) {
+        closeModalWindow(overlay);
+        yesCallback();
+      }
     }
 
     function closeModalWindow(overlay) {

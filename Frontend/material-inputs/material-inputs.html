@@ -25,8 +25,10 @@
 </head>
 <body class="darkmode">
 
+    <main>
+
     <div class="container">
-        <label for="switch" class="switch-container">
+        <label for="switch" class="switch-container input-container">
             <input type="checkbox" id="switch" name="switch" checked="">
             <span class="switch"></span>
             <span class="text">Switch</span>
@@ -36,7 +38,7 @@
     <div class="container">
         <span class="text-input-container input-container">
             <label class="icon" for="input"><i class="material-icons">person</i></label>
-            <input class="text-input" type="text" id="input" name="input"/>
+            <input name="text-topic" class="text-input" type="text" id="input"/>
             <label class="text" for="input">Placeholder</label>
             <span class="underline"></span>
         </span>
@@ -44,8 +46,8 @@
 
     <div class="container">
         <label class="checkbox-input-container input-container">
-            Inhalt
-            <input type="checkbox" value="value" />
+            Option
+            <input type="checkbox" value="Option" name="Topic" />
             <span class="checkmark"></span>
         </label>
     </div>
@@ -53,7 +55,7 @@
     <div class="container">
         <div class="select-input-container input-container">
             <label class="icon"><i class="material-icons">list</i></label>
-            <span class="select-input chosen placeholder">Platzhalter</span>
+            <span data-name="topic" class="select-input chosen placeholder">Platzhalter</span>
             <i class="material-icons">expand_more</i>
             <div class="options">
                 <div class="option">1</div>
@@ -68,8 +70,8 @@
 
     <div class="container">
         <label class="radio-input-container input-container">
-            Inhalt
-            <input type="radio" name="name" value="value" />
+            Option
+            <input type="radio" name="Topic" value="Option" />
             <span class="checkmark"></span>
         </label>
     </div>
@@ -101,8 +103,10 @@
     </div>
 
     <div class="container">
-        <textarea placeholder="Deine Nachricht..."></textarea>
+        <textarea name="topic" class="input-container" placeholder="Deine Nachricht..."></textarea>
     </div>
+
+    </main>
 
 </body>
 </html>

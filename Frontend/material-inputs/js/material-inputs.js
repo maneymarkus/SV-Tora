@@ -1,9 +1,22 @@
 function init(window, document, undefined) {
 
+  const inputTypes = {
+    TEXT: "text",
+    PASSWORD: "password",
+    RADIO: "radio",
+    CHECKBOX: "checkbox",
+    SWITCH: "switch",
+    SELECT: "select",
+    DATE: "date",
+    TIME: "time",
+    TEXTAREA: "textarea",
+    FILE: "file"
+  }
+
   let Module = (function(window, document, undefined) {
 
     function generateElement(element, classNames = undefined, value = undefined) {
-      let el = document.createElement(element);
+      let el = document.createElement(element.toUpperCase());
       if (classNames) {
         classNames.forEach(function (item) {
           el.classList.add(item);
@@ -33,6 +46,18 @@ function init(window, document, undefined) {
 
     let timePicker = undefined;
 
+    let timePickers = [];
+
+    function getTimepickerObject(inputContainer) {
+      let iObject = undefined;
+      timePickers.forEach((timePicker) => {
+        if (timePicker.timeInputContainer === inputContainer) {
+          iObject = input;
+        }
+      });
+      return iObject;
+    }
+
     let TimePicker = function(timeInputContainer) {
       let This = this;
       if (timePicker !== undefined) {
@@ -47,6 +72,7 @@ function init(window, document, undefined) {
       this.minute = new Date().getMinutes();
       this.hourElement = this.timePickerElement.querySelector(".header span.chosenHour");
       this.minuteElement = this.timePickerElement.querySelector(".header span.chosenMinute");
+      this.hasUserInput = false;
 
       this.positionClockHand = function (position) {
         let clockhand = This.timePickerElement.querySelector(".active .clockhand");
@@ -111,6 +137,9 @@ function init(window, document, undefined) {
             This.timePickerElement.querySelector(".hours").classList.add("active");
             This.timeInputContainer.querySelector("input").value = This.hourElement.innerHTML.trim() + " : " + This.minuteElement.innerHTML.trim();
             This.timeInputContainer.querySelector("input").classList.add("filled");
+            if (!This.hasUserInput) {
+              This.hasUserInput = true;
+            }
             This.hide();
           }
           return;
@@ -237,7 +266,7 @@ function init(window, document, undefined) {
     function initializeTimePicker() {
       let timeInputElements = document.querySelectorAll("div.time-input-container");
       timeInputElements.forEach((t) => {
-        new TimePicker(t);
+        timePickers.push(new TimePicker(t));
       });
     }
 
@@ -256,6 +285,18 @@ function init(window, document, undefined) {
 
     let datePicker = undefined;
 
+    let datePickers = [];
+
+    function getDatepickerObject(inputContainer) {
+      let iObject = undefined;
+      datePickers.forEach((datePicker) => {
+        if (datePicker.dateInputContainer === inputContainer) {
+          iObject = input;
+        }
+      });
+      return iObject;
+    }
+
     let DatePicker = function(dateInputContainer) {
       let This = this;
       if (datePicker !== undefined) {
@@ -273,12 +314,16 @@ function init(window, document, undefined) {
       this.nextMonth = this.datePickerElement.querySelector(".header .next-month");
       this.monthElement = this.datePickerElement.querySelector(".header .month");
       this.yearElement = this.datePickerElement.querySelector(".header .year");
+      this.hasUserInput = false;
 
       this.datePickerElement.addEventListener("click", function (e) {
         let target = e.target;
         if (target.classList.contains("pick")) {
           This.dateInputContainer.querySelector("input").value = This.day + "." + (This.month + 1) + "." + This.year;
           This.dateInputContainer.querySelector("input").classList.add("filled");
+          if (!This.hasUserInput) {
+            This.hasUserInput = true;
+          }
           This.hide();
           return;
         }
@@ -419,7 +464,7 @@ function init(window, document, undefined) {
     function initializeDatePicker() {
       let dateInputElements = document.querySelectorAll("div.date-input-container");
       dateInputElements.forEach((d) => {
-        new DatePicker(d);
+        datePickers.push(new DatePicker(d));
       });
     }
 
@@ -434,6 +479,16 @@ function init(window, document, undefined) {
 
     let selects = [];
 
+    function getSelectObject(selectContainer) {
+      let sObject = undefined;
+      selects.forEach((select) => {
+        if (select.selectContainer === selectContainer) {
+          sObject = select;
+        }
+      });
+      return sObject;
+    }
+
     let Select = function (selectElement) {
       let This = this;
       this.optionsElement = selectElement.querySelector("div.options");
@@ -441,7 +496,7 @@ function init(window, document, undefined) {
       this.selectContainer = selectElement;
       this.selectInput = selectElement.querySelector("span.select-input");
       this.selected = this.selectInput.innerHTML.trim();
-      selects.push(this);
+      this.hasUserInput = false;
 
       this.selectContainer.addEventListener("click", function (e) {
         let ev = e || window.event;
@@ -457,6 +512,9 @@ function init(window, document, undefined) {
           }
         } else if (target && target.classList.contains("option")) {
           This.selectOption(target.innerHTML);
+          if (!This.hasUserInput) {
+            This.hasUserInput = true;
+          }
           This.hide();
         } else {
           This.hide();
@@ -491,32 +549,38 @@ function init(window, document, undefined) {
 
     };
 
-    Select.createSelect = function(classNames, placeholder, options, dataColumn) {
-      let selectContainer = Module.generateElementApi("DIV", classNames);
+    /**
+     *  Creates a select DOM element then creates a select object out of this and adds it to the selects array
+     *
+     *  @param classNames string array of classnames which will be applied to select container
+     *  @param name names the (mocked) input element for identification
+     *  @param placeholder if no option is selected this placeholder is displayed
+     *  @param options string array of all the options that should be available
+     *  @return Select Object
+     */
+    Select.createSelect = function(classNames, name, placeholder, options) {
+      let selectContainer = Module.generateElementApi("DIV", ["select-input-container", "input-container"].concat(classNames));
       let label = Module.generateElementApi("LABEL");
       let labelIcon = Module.generateElementApi("I", ["material-icons"], "list");
       label.appendChild(labelIcon);
       selectContainer.appendChild(label);
-      let select = Module.generateElementApi("DIV", ["select"]);
-      let valueSpan = Module.generateElementApi("SPAN", ["input", "chosen", "placeholder"], placeholder);
-      if (dataColumn) {
-        valueSpan.setAttribute("data-column", dataColumn);
+      let selectSpan = Module.generateElementApi("SPAN", ["select-input", "chosen", "placeholder"], placeholder);
+      if (name) {
+        selectSpan.setAttribute("data-name", name);
       }
-      let selectIcon = Module.generateElementApi("I", ["material-icons"], "expand_more");
-      let underline = Module.generateElementApi("SPAN", ["underline"]);
-      select.appendChild(valueSpan);
-      select.appendChild(selectIcon);
-      select.appendChild(underline);
-      selectContainer.appendChild(select);
+      selectContainer.appendChild(selectSpan);
+      selectContainer.appendChild(Module.generateElementApi("I", ["material-icons"], "expand_more"));
       let optionsContainer = Module.generateElementApi("DIV", ["options"]);
       if (options) {
-        options.forEach(function (item) {
-          let option = Module.generateElementApi("DIV", ["option"], item);
-          optionsContainer.appendChild(option);
+        options.forEach(function (option) {
+          let optionElement = Module.generateElementApi("DIV", ["option"], option);
+          optionsContainer.appendChild(optionElement);
         });
       }
       selectContainer.appendChild(optionsContainer);
-      return new Select(selectContainer);
+      let newSelect = new Select(selectContainer);
+      selects.push(newSelect);
+      return newSelect;
     };
 
     Select.prototype.removeOption = function (options, optionContent) {
@@ -557,7 +621,7 @@ function init(window, document, undefined) {
     function initializeSelects() {
       let selectElements = document.querySelectorAll("div.select-input-container");
       selectElements.forEach((s) => {
-        new Select(s);
+        selects.push(new Select(s));
       });
     }
 
@@ -571,23 +635,62 @@ function init(window, document, undefined) {
 
     let inputs = [];
 
+    function getInputObject(inputContainer) {
+      let iObject = undefined;
+      inputs.forEach((input) => {
+        if (input.inputContainer === inputContainer) {
+          iObject = input;
+        }
+      });
+      return iObject;
+    }
+
+    /**
+     * Input Object for all other input elements other than TimePicker, DatePicker, Selects and FileInputs
+     * @param inputContainer DOM Element of the particular surrounding container (every input element comes with a surrounding container due to custom styling)
+     * @constructor
+     */
     let Input = function (inputContainer) {
       let This = this;
       this.inputContainer = inputContainer;
-      this.inputElement = inputContainer.querySelector("input");
+      this.inputElement = (inputContainer.querySelector("input")) ? inputContainer.querySelector("input") : undefined;
       this.hasError = false;
+      this.hasUserInput = false;
 
-      this.inputContainer.addEventListener("focusout", function (e) {
-        let target = e.target;
-        if (target.value) {
-          target.classList.add("filled");
-        } else {
-          target.classList.remove("filled");
-        }
+      this.inputContainer.addEventListener("change", function (e) {
+        hasInput();
       });
 
-      if (this.inputContainer.querySelector("#password-label")) {
-        let passwordLabel = This.inputContainer.querySelector("#password-label");
+      function hasInput() {
+        if (This.inputContainer.nodeName === "TEXTAREA") {
+          This.hasUserInput = This.inputContainer.value.trim() !== "";
+          return;
+        }
+        if (This.inputContainer.classList.contains("text-input-container")) {
+          This.hasUserInput = This.inputElement.value.trim() !== "";
+          return;
+        }
+        if (This.inputContainer.classList.contains("radio-input-container") || This.inputContainer.classList.contains("checkbox-input-container") || This.inputContainer.classList.contains("switch-container")) {
+          This.hasUserInput = This.inputElement.checked;
+          return;
+        }
+      }
+
+      hasInput();
+
+      if (this.inputContainer.classList.contains("text-input-container")) {
+        this.inputContainer.addEventListener("focusout", function (e) {
+          let target = e.target;
+          if (target.value) {
+            target.classList.add("filled");
+          } else {
+            target.classList.remove("filled");
+          }
+        });
+      }
+
+      if (this.inputContainer.querySelector(".password-label")) {
+        let passwordLabel = This.inputContainer.querySelector(".password-label");
         let passwordIcon = passwordLabel.querySelector("i");
 
         passwordLabel.addEventListener("click", function (e) {
@@ -683,6 +786,557 @@ function init(window, document, undefined) {
     /*
       END FILE INPUT
      */
+
+    /*
+      START INPUT FACTORY
+     */
+
+
+    /**
+     *
+     *  This function creates input elements with all the individual mark-up and some individualization options for usage in e.g. modals
+     *
+     * @param inputType enum which determines which input should be created
+     * @param containerClass array of strings with classes to be applied to the container element
+     * @param inputId optional string that sets the id for the input (if none set then a random id is generated to make the labels work)
+     * @param name string that sets the name attribute on the input element for identification in general
+     * @param placeholder string that either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button
+     * @param checked optional boolean for switch checked attribute
+     * @param selectOptions array of strings to determine the options available in select element
+     * @param value String for value of value attribute
+     * @returns as the inputType has been chosen this function returns a DOM input element
+     */
+    function createInputFactory(inputType, containerClass, inputId, name, placeholder, checked = false, selectOptions, value) {
+      switch (inputType) {
+        case inputTypes.TEXT:
+          let textId = inputId;
+          let textPlaceholder = placeholder;
+          if (!textId) {
+            textId = Math.random().toString(16).substr(2, 10);
+          }
+          if (!textPlaceholder) {
+            textPlaceholder = "Platzhalter";
+          }
+          return createTextInput(containerClass, textId, name, textPlaceholder);
+
+        case inputTypes.PASSWORD:
+          let passwordId = inputId;
+          let passwordPlaceholder = placeholder;
+          if (!passwordId) {
+            passwordId = Math.random().toString(16).substr(2, 10);
+          }
+          if (!passwordPlaceholder) {
+            passwordPlaceholder = "Passwort";
+          }
+          return createPasswordInput(containerClass, passwordId, name, passwordPlaceholder);
+
+        case inputTypes.SWITCH:
+          let switchId = inputId;
+          let switchPlaceholder = placeholder;
+          if (!switchId) {
+            switchId = Math.random().toString(16).substr(2, 10);
+          }
+          if (!switchPlaceholder) {
+            switchPlaceholder = "Switch";
+          }
+          return createSwitch(containerClass, switchId, name, switchPlaceholder, checked);
+
+        case inputTypes.SELECT:
+          return InputsModule.createSelectApi(containerClass, name, placeholder, selectOptions).selectContainer;
+
+        case inputTypes.DATE:
+          let dateId = inputId;
+          let datePlaceholder = placeholder;
+          if (!dateId) {
+            dateId = Math.random().toString(16).substr(2, 10);
+          }
+          if (!datePlaceholder) {
+            datePlaceholder = "Datum";
+          }
+          return createDateInput(containerClass, dateId, name, datePlaceholder);
+
+        case inputTypes.TIME:
+          let timeId = inputId;
+          let timePlaceholder = placeholder;
+          if (!timeId) {
+            timeId = Math.random().toString(16).substr(2, 10);
+          }
+          if (!timePlaceholder) {
+            timePlaceholder = "Datum";
+          }
+          return createTimeInput(containerClass, timeId, name, timePlaceholder);
+
+        case inputTypes.TEXTAREA:
+          let textareaPlaceholder = placeholder;
+          if (!textareaPlaceholder) {
+            textareaPlaceholder = "Freitexteingabe";
+          }
+          return createTextarea(containerClass, inputId, name, textareaPlaceholder);
+
+        case inputTypes.CHECKBOX:
+          // TODO: restructure
+          return createCheckboxOrRadio(true, containerClass, name, placeholder, checked, value);
+
+        case inputTypes.RADIO:
+          // TODO: restructure
+          return createCheckboxOrRadio(false, containerClass, name, placeholder, checked, value);
+      }
+    }
+
+    function createTextInput(classes, inputId, name, placeholder) {
+      let inputContainer = Module.generateElementApi("span", ["text-input-container", "input-container"].concat(classes));
+      let icon = Module.generateElementApi("label", ["icon"]);
+      icon.setAttribute("for", inputId);
+      icon.appendChild(Module.generateElementApi("i", ["material-icons"], "person"));
+      inputContainer.appendChild(icon);
+      let input = Module.generateElementApi("input", ["text-input"]);
+      input.setAttribute("type", "text");
+      input.setAttribute("id", inputId);
+      if (name) {
+        input.setAttribute("name", name);
+      }
+      inputContainer.appendChild(input);
+      let pLabel = Module.generateElementApi("label", ["text"], placeholder);
+      pLabel.setAttribute("for", inputId);
+      inputContainer.appendChild(pLabel);
+      inputContainer.appendChild(Module.generateElementApi("span", ["underline"]));
+      inputs.push(new Input(inputContainer));
+      return inputContainer;
+    }
+
+    function createPasswordInput(classes, inputId, name, placeholder) {
+      let inputContainer = Module.generateElementApi("span", ["text-input-container", "input-container", "password-container"].concat(classes));
+      let icon = Module.generateElementApi("label", ["icon", "password-label"]);
+      icon.setAttribute("for", inputId);
+      icon.appendChild(Module.generateElementApi("i", ["material-icons"], "lock"));
+      inputContainer.appendChild(icon);
+      let input = Module.generateElementApi("input", ["text-input"]);
+      input.setAttribute("type", "password");
+      input.setAttribute("id", inputId);
+      if (name) {
+        input.setAttribute("name", name);
+      }
+      inputContainer.appendChild(input);
+      let pLabel = Module.generateElementApi("label", ["text"], placeholder);
+      pLabel.setAttribute("for", inputId);
+      inputContainer.appendChild(pLabel);
+      inputContainer.appendChild(Module.generateElementApi("span", ["underline"]));
+      inputs.push(new Input(inputContainer));
+      return inputContainer;
+    }
+
+    function createSwitch(classes, id, name, text, checked) {
+      let switchContainer = Module.generateElementApi("label", ["switch-input-container", "input-container"].concat(classes));
+      switchContainer.setAttribute("for", id);
+      let input = Module.generateElementApi("input", ["switch-input"]);
+      input.setAttribute("type", "checkbox");
+      input.setAttribute("id", id);
+      if (name) {
+        input.setAttribute("name", name);
+      }
+      if (checked) {
+        input.setAttribute("checked", "checked");
+      }
+      switchContainer.appendChild(input);
+      switchContainer.appendChild(Module.generateElementApi("span", ["switch"]));
+      switchContainer.appendChild(Module.generateElementApi("span", ["text"], text));
+      inputs.push(new Input(switchContainer));
+      return switchContainer;
+    }
+
+    function createDateInput(classes, inputId, name, placeholder) {
+      let inputContainer = Module.generateElementApi("span", ["date-input-container", "input-container"].concat(classes));
+      let icon = Module.generateElementApi("label", ["icon"]);
+      icon.setAttribute("for", inputId);
+      icon.appendChild(Module.generateElementApi("i", ["material-icons"], "today"));
+      inputContainer.appendChild(icon);
+      let input = Module.generateElementApi("input", ["date-input"]);
+      input.setAttribute("type", "text");
+      input.setAttribute("id", inputId);
+      if (name) {
+        input.setAttribute("name", name);
+      }
+      inputContainer.appendChild(input);
+      let pLabel = Module.generateElementApi("label", ["text"], placeholder);
+      pLabel.setAttribute("for", inputId);
+      inputContainer.appendChild(pLabel);
+      inputContainer.appendChild(Module.generateElementApi("span", ["underline"]));
+      timePickers.push(new TimePicker(inputContainer));
+      return inputContainer;
+    }
+
+    function createTimeInput(classes, inputId, name, placeholder) {
+      let inputContainer = Module.generateElementApi("span", ["time-input-container", "input-container"].concat(classes));
+      let icon = Module.generateElementApi("label", ["icon"]);
+      icon.setAttribute("for", inputId);
+      icon.appendChild(Module.generateElementApi("i", ["material-icons"], "schedule"));
+      inputContainer.appendChild(icon);
+      let input = Module.generateElementApi("input", ["time-input"]);
+      input.setAttribute("type", "text");
+      input.setAttribute("id", inputId);
+      if (name) {
+        input.setAttribute("name", name);
+      }
+      inputContainer.appendChild(input);
+      let pLabel = Module.generateElementApi("label", ["text"], placeholder);
+      pLabel.setAttribute("for", inputId);
+      inputContainer.appendChild(pLabel);
+      inputContainer.appendChild(Module.generateElementApi("span", ["underline"]));
+      timePickers.push(new TimePicker(inputContainer));
+      return inputContainer;
+    }
+
+    function createTextarea(classes, id, name, placeholder) {
+      let textArea = Module.generateElementApi("textarea", ["textarea", "input-container"].concat(classes));
+      if (id) {
+        textArea.id = id;
+      }
+      if (name) {
+        textArea.setAttribute("name", name);
+      }
+      if (placeholder) {
+        textArea.setAttribute("placeholder", placeholder);
+      }
+      inputs.push(new Input(textArea));
+      return textArea;
+    }
+
+    /**
+     * This function creates a checkbox or radio button
+     * @param checkbox determines if to create checkbox or radio button
+     * @param classes array of strings with classes to be applied to the container element
+     * @param name String to determine the value of the name attribute of the input element
+     * @param text String that is visible in the frontend
+     * @param checked Boolean that determines if input is already checked
+     * @param value String that determines the value of the value attribute
+     * @return returns array of input container (either checkboxes or radio buttons)
+     */
+    function createCheckboxOrRadio(checkbox, classes, name, text, checked, value) {
+      let type, containerClass;
+      if (!value) {
+        value = text;
+      }
+      if (checkbox) {
+        type = "checkbox";
+        containerClass = ["checkbox-input-container", "input-container"];
+      } else {
+        type = "radio";
+        containerClass = ["radio-input-container", "input-container"];
+      }
+      let label = Module.generateElementApi("label", containerClass.concat(classes));
+      label.appendChild(document.createTextNode(text));
+      let input = Module.generateElementApi("input");
+      input.setAttribute("type", type);
+      input.setAttribute("value", value);
+      input.setAttribute("name", name);
+      if (checked) {
+        input.setAttribute("checked", "checked");
+      }
+      label.appendChild(input);
+      label.appendChild(Module.generateElementApi("span", ["checkmark"]));
+      return label;
+    }
+
+    /*
+      END INPUT FACTORY
+     */
+
+
+    /*
+      START MISCELLANEOUS
+     */
+
+    /**
+     * This functions checks a given container DOM element (does not necessarily need to be a form element) if all the required input elements are filled
+     * @param form DOM element containing (required) input elements (containers actually)
+     * @return boolean
+     */
+    function checkRequiredInputs(form) {
+
+      // define some variables
+      let requiredContainers = form.querySelectorAll(".required");
+      requiredContainers = Array.apply(null, requiredContainers)
+      let radios = {};
+      let requiredRadioButtons = form.querySelectorAll(".radio-input-container.required");
+      let checkboxes = {};
+      let requiredCheckBoxes = form.querySelectorAll(".checkbox-input-container.required");
+
+      // group radio buttons according to name attribute
+      requiredRadioButtons.forEach((radioButton) => {
+        let key = radioButton.querySelector("input").getAttribute("name").trim();
+        if (key in radios) {
+          if (!radios[key].includes(radioButton)) {
+            radios[key].push(radioButton);
+          }
+        } else {
+          radios[key] = [radioButton];
+        }
+        requiredContainers.splice(requiredContainers.indexOf(radioButton), 1);
+      });
+
+      // group checkboxes according to name attribute
+      requiredCheckBoxes.forEach((checkbox) => {
+        let key = checkbox.querySelector("input").getAttribute("name").trim();
+        if (key in checkboxes) {
+          if (!checkboxes[key].includes(checkbox)) {
+            checkboxes[key].push(checkbox);
+          }
+        } else {
+          checkboxes[key] = [checkbox];
+        }
+        requiredContainers.splice(requiredContainers.indexOf(checkbox), 1);
+      });
+
+
+      let allFilled = true;
+
+      // check if all inputs other than radio buttons and checkboxes have user input
+      requiredContainers.forEach((required) => {
+        if (allFilled && !checkInput(required)) {
+          allFilled = false;
+        }
+      });
+      if (!allFilled) {
+        return false;
+      }
+
+      // check if at least one radio button of every required group is selected
+      for (let key in radios) {
+        let selection = false;
+        radios[key].forEach((radio) => {
+          if (radio.querySelector("input").checked) {
+            selection = true;
+          }
+        });
+        allFilled = selection;
+        if (!allFilled) {
+          return false;
+        }
+      }
+
+      // check if at least one checkbox of every required group is selected
+      for (let key in checkboxes) {
+        let selection = false;
+        checkboxes[key].forEach((checkbox) => {
+          if (checkbox.querySelector("input").checked) {
+            selection = true;
+          }
+        });
+        allFilled = selection;
+        if (!allFilled) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    /**
+     * This function checks all inputs if they have user input
+     * @param inputContainer DOM Element of the surrounding style container of the particular input element
+     * @returns Boolean whether input has user input or not
+     */
+    function checkInput(inputContainer) {
+      if (inputContainer.classList.contains("time-input-container")) {
+        let timeInput = getTimepickerObject(inputContainer);
+        return timeInput.hasUserInput;
+      }
+      if (inputContainer.classList.contains("date-picker-container")) {
+        let dateInput = getDatepickerObject(inputContainer);
+        return dateInput.hasUserInput;
+      }
+      if (inputContainer.classList.contains("select-input-container")) {
+        let select = getSelectObject(inputContainer);
+        return select.hasUserInput;
+      }
+      let input = getInputObject(inputContainer);
+      return input.hasUserInput;
+    }
+
+    /**
+     * This functions cleans objects out of arrays where the corresponding dom element has already been removed
+     */
+    function cleanInputArrays() {
+      inputs = inputs.filter(Boolean);
+      selects = selects.filter(Boolean);
+      timePickers = timePickers.filter(Boolean);
+      datePickers = datePickers.filter(Boolean);
+    }
+
+    /**
+     * This functions retrieves the user input of all input elements of a given DOM (container) element (does not necessarily need to be a form element)
+     * @param form DOM element containing input elements (containers actually)
+     * @return values Object that contains all user input in the following way:
+     *          values = {
+     *              nameAttributeOfInput1: userInputOfInput1,
+     *              nameAttributeOfInput2: userInputOfInput2,
+     *              ...
+     *          }
+     *          NOTICE: Every value is a string except if the corresponding input elements are checkboxes with the same name attribute. Than the (selected) values are stored in an array
+     */
+    function getUserInput(form) {
+
+      // define some variables
+      let values = {};
+      let inputContainers = form.querySelectorAll(".input-container");
+      inputContainers = Array.apply(null, inputContainers)
+      let radios = {};
+      let radioButtons = form.querySelectorAll(".radio-input-container");
+      let checkboxes = {};
+      let checkBoxes = form.querySelectorAll(".checkbox-input-container");
+
+      // group radio buttons according to name attribute
+      radioButtons.forEach((radioButton) => {
+        let name = radioButton.querySelector("input").getAttribute("name").trim();
+        if (name in radios) {
+          if (!radios[name].includes(radioButton)) {
+            radios[name].push(radioButton);
+          }
+        } else {
+          radios[name] = [radioButton];
+        }
+        inputContainers.splice(inputContainers.indexOf(radioButton), 1);
+      });
+
+      // group checkboxes according to name attribute
+      checkBoxes.forEach((checkbox) => {
+        let name = checkbox.querySelector("input").getAttribute("name").trim();
+        if (name in checkboxes) {
+          if (!checkboxes[name].includes(checkbox)) {
+            checkboxes[name].push(checkbox);
+          }
+        } else {
+          checkboxes[name] = [checkbox];
+        }
+        inputContainers.splice(inputContainers.indexOf(checkbox), 1);
+      });
+
+      // retrieve input of every input element other than radio buttons or checkboxes
+      inputContainers.forEach((inputContainer) => {
+        let name = "";
+        if (inputContainer.classList.contains("select-input-container")) {
+          name = inputContainer.querySelector("span.select-input").getAttribute("data-name");
+        } else if (inputContainer.nodeName === "TEXTAREA") {
+          name = inputContainer.getAttribute("name");
+        } else {
+          name = inputContainer.querySelector("input").getAttribute("name");
+        }
+        if (!name) {
+          return undefined;
+        }
+        let value = getInput(inputContainer);
+        values[name] = value;
+      });
+
+      // retrieve selected radio button of every group of radio buttons
+      for (let name in radios) {
+        radios[name].forEach((radio) => {
+          if (radio.querySelector("input").checked) {
+            values[name] = radio.querySelector("input").getAttribute("value");
+          }
+        });
+      }
+
+      // retrieve all selected checkboxes of every group of checkboxes
+      for (let name in checkboxes) {
+        checkboxes[name].forEach((checkbox) => {
+          let value = checkbox.querySelector("input").getAttribute("value");
+          if (checkbox.querySelector("input").checked) {
+            if (name in values) {
+              values[name].push(value);
+            } else {
+              values[name] = [value]
+            }
+          }
+        });
+      }
+      return values;
+    }
+
+    /**
+     * This function gets the input of any given input (container) except radio buttons and checkboxes (including switches)
+     * @param inputContainer DOM Element of the surrounding style container of the particular input element
+     * @returns String that contains the user input
+     *          Time format: "hh:mm"
+     *          Date format: "yyyy-mm-dd"
+     *          Select format: "selectedOption"
+     *          Text input: "Text"
+     */
+    function getInput(inputContainer) {
+      if (inputContainer.classList.contains("radio-input-container") || inputContainer.classList.contains("checkbox-input-container")) {
+        return undefined;
+      }
+      if (inputContainer.classList.contains("time-input-container")) {
+        let timeInput = getTimepickerObject(inputContainer);
+        return timeInput.hour + ":" + timeInput.minute;
+      }
+      if (inputContainer.classList.contains("date-input-container")) {
+        let dateInput = getDatepickerObject(inputContainer);
+        return dateInput.year + "-" + dateInput.month + "-" + dateInput.day;
+      }
+      if (inputContainer.classList.contains("select-input-container")) {
+        let select = getSelectObject(inputContainer);
+        return select.selected;
+      }
+      if (inputContainer.nodeName === "TEXTAREA") {
+        return inputContainer.value;
+      }
+      return inputContainer.querySelector("input").value;
+    }
+
+    /**
+     * This functions determines which radio button has been selected and returns the value attribute content of it
+     * @param radioInputContainers Array of DOM radio input container elements (logically they should relate to each other)
+     * @return String: content of value attribute of selected radio button
+     */
+    function getSelectedRadioButton(radioInputContainers) {
+      let selected = undefined;
+      radioInputContainers.forEach((radioInputContainer) => {
+        if (radioInputContainer.querySelector("input").checked) {
+          selected = radioInputContainer.querySelector("input").getAttribute("value");
+        }
+      });
+      return selected;
+    }
+
+    /**
+     * This functions determines which checkboxes have been selected and returns the value attribute content of all of the selected ones
+     * @param checkboxContainers Array of DOM checkbox input container elements (logically they should relate to each other)
+     * @return Array of Strings: content of value attributes of selected checkboxes
+     */
+    function getCheckedCheckboxes(checkboxContainers) {
+      let selections = [];
+      checkboxContainers.forEach((checkboxContainer) => {
+        if (checkboxContainer.querySelector("input").checked) {
+          selections.push(checkboxContainer.querySelector("input").getAttribute("value"));
+        }
+      });
+      return selections;
+    }
+
+    let main = document.querySelector("main");
+    window.setTimeout(function () {
+      console.log(getUserInput(main));
+    }, 2000);
+
+
+    /*
+      END MISCELLANEOUS
+     */
+
+
+
+
+
+    /*************************************************************************
+     *
+     *
+     *
+     *
+     *    NEEDS TO BE REVISED (PROBABLY SHIFT TO FORM MODULE)
+     *
+     *
+     *
+     *
 
     function checkInputs(form) {
       // TODO: radio buttons and checkboxes
@@ -808,37 +1462,16 @@ function init(window, document, undefined) {
       });
     }
 
+    *******************************************************************/
+
     return {
-      checkIfInputsFilledApi : function(form) {
-        return checkInputs(form);
-      },
       closeSelectsApi : function(target) {
         if (selects.length > 0) {
           closeSelects(target);
-        } else {
-          return;
         }
       },
-      checkAgeApi : function(form) {
-        let returnValue;
-        if (form.getElementsByClassName("from-age")[0]) {
-          returnValue = checkAgeRange(form);
-        } else {
-          returnValue = true;
-        }
-        return returnValue;
-      },
-      createSelectApi : function (classNames, placeholder, options, dataColumn) {
-        return Select.createSelect(classNames, placeholder, options, dataColumn);
-      },
-      createMemberInputApi : function (form, name) {
-        new MemberInput(form, name);
-      },
-      removeMemberInputApi : function (dataElement) {
-        removeMemberInput(dataElement);
-      },
-      removeAllMemberInputsApi : function (memberRow) {
-        removeAllMemberInputs(memberRow);
+      createSelectApi : function (classNames, name, placeholder, options) {
+        return Select.createSelect(classNames, name, placeholder, options);
       },
       getAllSelectsApi : function () {
         return selects;
@@ -849,9 +1482,31 @@ function init(window, document, undefined) {
       createTimePickerApi : function () {
         return TimePicker.createTimePicker();
       },
-      resetFormApi : function (form) {
-        resetForm(form);
+      returnSelectObjectApi : function (selectInputContainer) {
+        return getSelectObject(selectInputContainer);
+      },
+      createInputApi : function (inputType, containerClass, inputId, name, placeholder, checked, selectOptions, value) {
+        return createInputFactory(inputType, containerClass, inputId, placeholder, checked, selectOptions, value);
+      },
+      checkRequiredInputsApi : function (form) {
+        return checkRequiredInputs(form);
+      },
+      checkInputApi(inputContainer) {
+        return checkInput(inputContainer);
+      },
+      getUserInputApi : function(form) {
+        return getUserInput(form);
+      },
+      getInputApi : function (inputContainer) {
+        return getInput(inputContainer);
+      },
+      getSelectedRadioButton : function (radioInputContainers) {
+        return getSelectedRadioButton(radioInputContainers);
+      },
+      getCheckedCheckboxes : function (checkboxContainers) {
+        return getCheckedCheckboxes(checkboxContainers);
       }
+
     }
 
   })(window, document);

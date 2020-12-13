@@ -1,27 +1,23 @@
 function init(window, document, undefined) {
 
-  let secondaryButtons = document.querySelectorAll("a.secondary-button .text");
+  let ButtonModule = (function (window, document, undefined) {
 
-  secondaryButtons.forEach(btn => {
-    btn.addEventListener("click", function(e) {
-      e.preventDefault();
-      let btnRect = btn.getBoundingClientRect();
-      let x = e.clientX - btnRect.left * 1.025;
-      let y = e.clientY - btnRect.top;
+    let secondaryButtons = document.querySelectorAll("a.secondary-button");
 
-      let ripple = document.createElement("span");
-      ripple.classList.add("ripple");
-      ripple.style.left = x + "px";
-      ripple.style.top = y + "px";
-
-      btn.querySelector("span").appendChild(ripple);
-
-      window.setTimeout(() => {
-        ripple.remove();
-      }, 1000);
-
+    secondaryButtons.forEach(btn => {
+      btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        if (btn.classList.contains("disabled")) {
+          return;
+        }
+        btn.classList.add("clicked");
+        window.setTimeout(function () {
+          btn.classList.remove("clicked");
+        }, 100);
+      });
     });
-  });
+
+  })(window, document);
 
 }
 
