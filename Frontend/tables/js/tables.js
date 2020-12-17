@@ -180,15 +180,21 @@ function init(window, document, undefined) {
       this.appliedFilters = {};
 
       // Responsible filter element for this table
-      let filterContainerElementSelector = this.tableElement.getAttribute("data-filter");
-      this.filterContainerElement = document.querySelector("#" + filterContainerElementSelector);
+      this.filterContainerElement = undefined;
+      if (this.tableElement.getAttribute("data-filter")) {
+        let filterContainerElementSelector = this.tableElement.getAttribute("data-filter");
+        this.filterContainerElement = document.querySelector("#" + filterContainerElementSelector);
+      }
 
       // All the currently applied filters collected in an array
       this.activeFilterObjects = [];
 
       //Responsible add button for this table
-      let addElementBtnSelector = this.tableElement.getAttribute("data-add");
-      this.addElementBtn = document.querySelector("#" + addElementBtnSelector);
+      this.addElementBtn = undefined;
+      if (this.tableElement.getAttribute("data-add")) {
+        let addElementBtnSelector = this.tableElement.getAttribute("data-add");
+        this.addElementBtn = document.querySelector("#" + addElementBtnSelector);
+      }
 
       // Iterate over all available rows in table body and read them into objects
       this.trs.forEach((tr) => {
@@ -266,16 +272,20 @@ function init(window, document, undefined) {
       });
 
       // Listen for click on filter-add button
-      this.filterContainerElement.querySelector(".add-filter").addEventListener("click", function () {
-        // TODO: Create two selects (first one is key (column) and second one is value with possible filters -> Call Confirm Modal and give two selects and this.handleChosenFilter as positive callback
-        This.activeFilterObjects.push(new Filter("Vorname", "Marcus", This, This.filterContainerElement));
-        This.updateAppliedFilters();
-      });
+      if (this.filterContainerElement) {
+        this.filterContainerElement.querySelector(".add-filter").addEventListener("click", function () {
+          // TODO: Create two selects (first one is key (column) and second one is value with possible filters -> Call Confirm Modal and give two selects and this.handleChosenFilter as positive callback
+          This.activeFilterObjects.push(new Filter("Vorname", "Marcus", This, This.filterContainerElement));
+          This.updateAppliedFilters();
+        });
+      }
 
       // Listen for click on add element to table button
-      this.addElementBtn.addEventListener("click", function () {
-        // TODO: Generate Inputs based on table columns -> Call confirm modal api (Use data-column attribute on inputs?)
-      });
+      if (this.addElementBtn) {
+        this.addElementBtn.addEventListener("click", function () {
+          // TODO: Generate Inputs based on table columns -> Call confirm modal api (Use data-column attribute on inputs?)
+        });
+      }
 
       // Callback function if confirm modal is confirmed with proper input
       this.handleChosenFilter = function (modalContent) {

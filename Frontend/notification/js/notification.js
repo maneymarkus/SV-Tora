@@ -24,50 +24,95 @@ function init(window, document, undefined) {
   })(window, document);
 
 
+  let notificationTypes = {
+    INFO : "Info",
+    SUCCESS : "Success",
+    WARNING : "Warning",
+    ERROR : "Error",
+  }
 
 
   let NotificationModule = (function(window, document, undefined) {
 
     let body = document.querySelector("body");
 
-    function createNotification(content, status = "info") {
-      let notification;
-      if (notification = document.querySelector("div.notification")) {
-        notification.classList.remove("hoverable");
+    function notificationFactory(type, content, interactive = false) {
+      let notification = Module.generateElementApi("div", ["notification", "clearfix"]);
+      switch (type) {
+        case notificationTypes.INFO:
+          notification.classList.add("info");
+          notification.appendChild(Module.generateElementApi("i", ["material-icons", "symbol"], "info"))
+          break;
+        case notificationTypes.SUCCESS:
+          notification.classList.add("success");
+          notification.appendChild(Module.generateElementApi("i", ["material-icons", "symbol"], "done"))
+          break;
+        case notificationTypes.WARNING:
+          notification.classList.add("warning");
+          notification.appendChild(Module.generateElementApi("i", ["material-icons", "symbol"], "warning"))
+          break;
+        case notificationTypes.ERROR:
+          notification.classList.add("error");
+          notification.appendChild(Module.generateElementApi("i", ["material-icons", "symbol"], "error_outline"))
+          break;
+      }
+      if (interactive && (type === notificationTypes.INFO || type === notificationTypes.WARNING)) {
+        notification.classList.add("interactive");
+      }
+      notification.appendChild(Module.generateElementApi("p", ["message"], content));
+      notification.appendChild(Module.generateElementApi("i", ["material-icons", "close"], "close"));
+      notification.querySelector(".close").addEventListener("click", function () {
+        removeNotification(notification);
+      });
+      notification.addEventListener("mouseenter", function () {
+        notification.style.animation = "none";
+      });
+      return notification;
+    }
+
+    function createNotification(type, content, interactive) {
+      let newNotification = notificationFactory(type, content, interactive);
+      appendNotification(newNotification);
+    }
+
+    function appendNotification(notification) {
+      if (document.querySelector("div.notification")) {
+        let oldNotification = document.querySelector("div.notification");
+        removeNotification(oldNotification);
+        body.appendChild(notification);
         window.setTimeout(function () {
-          notification.remove();
-        }, 2000);
-      }
-      let newNotification = Module.generateElementApi("div", ["notification", "clearfix"]);
-      if (status.toLowerCase() === "warning") {
-        newNotification.appendChild(Module.generateElementApi("i", ["material-icons", "warning", "symbol"], "warning"));
+          notification.classList.add("visible");
+        }, 2100);
       } else {
-        newNotification.appendChild(Module.generateElementApi("i", ["material-icons", "symbol"], "info"));
+        body.appendChild(notification);
+        window.setTimeout(function () {
+          notification.classList.add("visible");
+        }, 100);
       }
-      newNotification.appendChild(Module.generateElementApi("p", ["message"], content));
-      newNotification.appendChild(Module.generateElementApi("i", ["material-icons", "close"], "close"));
-      body.appendChild(newNotification);
-      newNotification.querySelector(".close").addEventListener("click", function () {
-        newNotification.classList.remove("hoverable");
-      });
-      newNotification.addEventListener("mouseenter", function () {
-        newNotification.style.animation = "none";
-      });
+      if (notification.classList.contains("success") || notification.classList.contains("error")) {
+        window.setTimeout(function () {
+          removeNotification(notification);
+        }, 5000);
+      }
+    }
+
+    function removeNotification(notification) {
+      notification.classList.remove("visible");
       window.setTimeout(function () {
-        newNotification.classList.add("hoverable");
+        notification.remove();
       }, 2000);
     }
 
     return {
-      createNotificationApi : function (content, status) {
-        return createNotification(content, status);
+      createNotificationApi : function (type, content, interactive) {
+        return createNotification(type, content, interactive);
       }
     }
 
   })(window, document);
 
   window.setTimeout(function () {
-    NotificationModule.createNotificationApi("Wichtige Info", "info");
+    NotificationModule.createNotificationApi(notificationTypes.WARNING, "Irgendwas hat geklappt", true);
   },1000);
 
 }

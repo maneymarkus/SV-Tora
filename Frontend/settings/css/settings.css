@@ -164,6 +164,7 @@ main a {
 
 main a:hover {
   color: #2699FB;
+  text-decoration: underline;
 }
 
 .col .pic-container {
@@ -214,12 +215,14 @@ main a:hover {
 }
 
 @media only screen and (min-width: 992px) {
-  main {
-    width: 992px;
-    box-shadow: 2px 0 7px 3px black;
-  }
+
 }
 
 @media only screen and (min-width: 1200px) {
-
+  main {
+    width: 1200px;
+    box-shadow: 2px 0 7px 3px black;
+    background-color: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(3px);
+  }
 }

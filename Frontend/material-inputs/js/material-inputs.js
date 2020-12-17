@@ -678,7 +678,7 @@ function init(window, document, undefined) {
 
       hasInput();
 
-      if (this.inputContainer.classList.contains("text-input-container")) {
+      if (this.inputContainer.classList.contains("text-input-container") || this.inputContainer.nodeName === "TEXTAREA") {
         this.inputContainer.addEventListener("focusout", function (e) {
           let target = e.target;
           if (target.value) {
@@ -926,7 +926,7 @@ function init(window, document, undefined) {
     }
 
     function createSwitch(classes, id, name, text, checked) {
-      let switchContainer = Module.generateElementApi("label", ["switch-input-container", "input-container"].concat(classes));
+      let switchContainer = Module.generateElementApi("label", ["switch-container", "input-container"].concat(classes));
       switchContainer.setAttribute("for", id);
       let input = Module.generateElementApi("input", ["switch-input"]);
       input.setAttribute("type", "checkbox");
@@ -1313,11 +1313,6 @@ function init(window, document, undefined) {
       return selections;
     }
 
-    let main = document.querySelector("main");
-    window.setTimeout(function () {
-      console.log(getUserInput(main));
-    }, 2000);
-
 
     /*
       END MISCELLANEOUS
@@ -1337,31 +1332,6 @@ function init(window, document, undefined) {
      *
      *
      *
-
-    function checkInputs(form) {
-      // TODO: radio buttons and checkboxes
-      let inputs = form.getElementsByTagName("input");
-      let customInputs = form.getElementsByClassName("input");
-      inputs = Array.prototype.slice.call(inputs);
-      customInputs = Array.prototype.slice.call(customInputs);
-      let allInputsFilled = true;
-      inputs.forEach(function (item) {
-        if (!item.disabled) {
-          if (!item.value) {
-            allInputsFilled = false;
-          }
-        }
-      });
-      customInputs.forEach(function (item) {
-        if (item.classList.contains("placeholder")) {
-          allInputsFilled = false;
-        }
-      });
-      if (!allInputsFilled) {
-        alert("Bitte alle Inputs ausfüllen.");
-      }
-      return allInputsFilled;
-    }
 
     function checkAgeRange(form) {
 
@@ -1500,10 +1470,10 @@ function init(window, document, undefined) {
       getInputApi : function (inputContainer) {
         return getInput(inputContainer);
       },
-      getSelectedRadioButton : function (radioInputContainers) {
+      getSelectedRadioButtonApi : function (radioInputContainers) {
         return getSelectedRadioButton(radioInputContainers);
       },
-      getCheckedCheckboxes : function (checkboxContainers) {
+      getCheckedCheckboxesApi : function (checkboxContainers) {
         return getCheckedCheckboxes(checkboxContainers);
       }
 

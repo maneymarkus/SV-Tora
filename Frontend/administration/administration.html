@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Administration</title>
+
+    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="css/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="css/administration.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/tilt.jquery.js"></script>
+    <script src="js/administration.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main>
+        <h1>Administratoren</h1>
+        <div class="actions clearfix">
+            <a id="add-admin" class="primary-button add-admin" href="#">
+                <i class="material-icons">add</i>
+                <p>Admin hinzufügen</p>
+            </a>
+        </div>
+        <table data-add="add-admin" class="admin-table">
+            <thead>
+                <tr>
+                    <th class="hidden">
+                    </th>
+                    <th>
+                        Vereine hinzufügen
+                        <!-- TODO: insert tooltip for each right/privilege to explain it better -->
+                    </th>
+                    <th>
+                        Recht2
+                    </th>
+                    <th>
+                        Recht3
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="pic-container">
+                            <img src="images/placeholder.png" />
+                        </div>
+                        <span class="admin">Marcus Popopov</span>
+                    </td>
+                    <td data-privilege="Verein hinzufügen" class="privilege">
+                        <i class="material-icons">close</i>
+                    </td>
+                    <td data-privilege="Recht2" class="privilege privileged">
+                        <i class="material-icons">done</i>
+                    </td>
+                    <td data-privilege="Recht3" class="privilege">
+                        <i class="material-icons">close</i>
+                    </td>
+                    <td >
+                        <a class="primary-button edit" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="pic-container">
+                            <img src="images/placeholder.png" />
+                        </div>
+                        <span class="admin">Der Markus</span>
+                    </td>
+                    <td data-privilege="Verein hinzufügen" class="privilege privileged">
+                        <i class="material-icons">done</i>
+                    </td>
+                    <td data-privilege="Recht2" class="privilege privileged">
+                        <i class="material-icons">done</i>
+                    </td>
+                    <td data-privilege="Recht3" class="privilege privileged">
+                        <i class="material-icons">done</i>
+                    </td>
+                    <td>
+                        <a class="primary-button edit" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="pic-container">
+                            <img src="images/placeholder.png" />
+                        </div>
+                        <span class="admin">Flori auch noch</span>
+                    </td>
+                    <td data-privilege="Verein hinzufügen" class="privilege privileged">
+                        <i class="material-icons">done</i>
+                    </td>
+                    <td data-privilege="Recht2" class="privilege">
+                        <i class="material-icons">close</i>
+                    </td>
+                    <td data-privilege="Recht3" class="privilege">
+                        <i class="material-icons">close</i>
+                    </td>
+                    <td>
+                        <a class="primary-button edit" href="#">
+                            <i class="material-icons">create</i>
+                            <p>Bearbeiten</p>
+                        </a>
+                        <a class="primary-button delete" href="#">
+                            <i class="material-icons">delete</i>
+                            <p>Löschen</p>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+</body>
+</html>

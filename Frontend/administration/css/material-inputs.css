@@ -1,107 +1,3 @@
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
-    src: local('Material Icons'),
-    local('MaterialIcons-Regular'),
-    url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
-    url(../fonts/MaterialIcons-Regular.woff) format('woff'),
-    url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
-}
-
-.material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;  /* Preferred icon size */
-    display: inline-block;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-
-    /* Support for IE. */
-    font-feature-settings: 'liga';
-}
-
-* {
-    box-sizing: border-box;
-    outline: none;
-}
-
-html {
-    height: 100%;
-    font-size: 1em;
-    color: white;
-    font-family: sans-serif;
-}
-
-body {
-    min-height: 100%;
-    height: 100%;
-    width: 100%;
-    padding: 5rem;
-    background-color: #222222;
-    background-image: url("../images/background.svg");
-    background-size: 300px;
-    background-position: center;
-    background-repeat: repeat;
-    position: relative;
-}
-
-.clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-.container {
-    width: 100%;
-    height: auto;
-    margin-bottom: 5rem;
-}
-
-/*
-    ERROR MESSAGE (Applies to almost all input-containers
- */
-
-.error {
-    position: absolute;
-    left: 0;
-    top: calc(100% + 1em);
-    border: 2px solid #F71735;
-    width: 100%;
-    border-radius: 5px;
-    padding: 0.5em;
-    background: linear-gradient(90deg, rgba(34, 34, 34, 0.9) 65%, rgba(178, 58, 72, 0.95));
-    z-index: 100;
-    text-align: left;
-}
-
-.error i {
-    font-size: 2em;
-    color: #F71735;
-    vertical-align: middle;
-    margin: 0 0.25em 0.1em 0;
-}
-
-.error .message {
-    vertical-align: middle;
-    font-size: 1.25em;
-    line-height: 1.75;
-}
-
 /*
     SWITCH (CHECKBOX)
 
@@ -303,6 +199,32 @@ input {
     left: 2em;
     font-size: 1em;
     opacity: 0.8;
+}
+
+.error {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 1em);
+    border: 2px solid #F71735;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.5em;
+    background: linear-gradient(90deg, rgba(34, 34, 34, 0.9) 65%, rgba(178, 58, 72, 0.95));
+    z-index: 100;
+    text-align: left;
+}
+
+.error i {
+    font-size: 2em;
+    color: #F71735;
+    vertical-align: middle;
+    margin: 0 0.25em 0.1em 0;
+}
+
+.error .message {
+    vertical-align: middle;
+    font-size: 1.25em;
+    line-height: 1.75;
 }
 
 /*

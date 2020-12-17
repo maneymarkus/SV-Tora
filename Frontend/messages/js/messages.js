@@ -24,6 +24,12 @@ function init(window, document, undefined) {
   })(window, document);
 
 
+  let notificationTypes = {
+    SUCCESS : "Success",
+    ERROR : "Error",
+    WARNING : "Warning",
+    INFO : "Info",
+  };
 
 
   let MessagesModule = (function(window, document, undefined) {
@@ -31,22 +37,16 @@ function init(window, document, undefined) {
     let messageContainer = document.querySelector("div.message-container");
     messageContainer.scrollTop = messageContainer.scrollHeight;
 
-    function createMessage(content, timestamp, sender, status = "info", interactive = false) {
+    /**
+     * This function appends a notification to the message container (only necessary when new notification appears when user is currently on messages site)
+     * @param notification DOM element of the notification
+     * @param timestamp String when the notification has been created (Format: dd.mm.yyyy hh:mm (because no further frontend processing needed))
+     * @param sender String where the notification has been created (source)
+     */
+    function appendMessage(notification, timestamp, sender) {
       let message = Module.generateElementApi("div", ["message", "new", "unread"]);
       message.appendChild(Module.generateElementApi("p", ["time"], timestamp));
       message.appendChild(Module.generateElementApi("p", ["sender"], sender));
-      let notification;
-      if (interactive) {
-        notification = Module.generateElementApi("div", ["notification", "interactive", "clearfix"])
-      } else {
-        notification = Module.generateElementApi("div", ["notification", "clearfix"])
-      }
-      if (status.toLowerCase() === "warning") {
-        notification.appendChild(Module.generateElementApi("i", ["material-icons", "warning", "symbol"], "warning"));
-      } else {
-        notification.appendChild(Module.generateElementApi("i", ["material-icons", "symbol"], "info"));
-      }
-      notification.appendChild(Module.generateElementApi("p", ["message"], content));
       message.appendChild(notification);
       let scrollDown = false;
       if ((messageContainer.clientHeight + messageContainer.scrollTop) >= messageContainer.scrollHeight) {
@@ -79,16 +79,12 @@ function init(window, document, undefined) {
     }
 
     return {
-      createMessageApi : function (content, timestamp, sender, status, interactive) {
-        return createMessage(content, timestamp, sender, status, interactive);
+      appendMessageApi : function (notification, timestamp, sender) {
+        return appendMessage(notification, timestamp, sender);
       }
     }
 
   })(window, document);
-
-  window.setTimeout(function () {
-    MessagesModule.createMessageApi("Wichtige Info", "25.11.2020 20:11", "System", "info", true);
-  },1000);
 
 }
 

@@ -71,8 +71,8 @@ body {
           NOTIFICATION
 
    Mark-Up:
-   <div class="notification clearfix">
-        <i class="material-icons symbol">warning<!-- info --></i>
+   <div class="notification (error|success|interactive|warning)? clearfix">
+        <i class="material-icons symbol">info</i>
         <p class="message">Info</p>
         <i class="material-icons close">close</i>
     </div>
@@ -93,18 +93,52 @@ body {
   transform-origin: 50% 100%;
 }
 
-.notification.hoverable {
+.notification.visible {
   transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 0s;
-  animation: attention 2s ease 1s 3;
   right: 2em;
 }
 
-.notification.hoverable:hover {
+.notification.visible:hover {
   height: 7em;
   width: calc(100% - 4rem);
   background: rgba(61, 118, 225, 0.6);
   transition: width 0.75s ease 0s, height 0.5s ease 0.75s;
   animation-play-state: paused;
+}
+
+.notification.info,
+.notification.warning {
+  animation: attention 2s ease 1s 3;
+}
+
+.notification.error {
+  border: 1px solid #B23A48;
+  background: rgba(178, 58, 72, 0.4);
+  box-shadow: 2px 2px 10px 3px black, 0 0 12px 1px #B23A48 inset;
+}
+
+.notification.visible.error {
+  height: 5em;
+  width: calc(100% - 4rem);
+}
+
+.notification.visible.error:hover {
+  background: rgba(178, 58, 72, 0.6);
+}
+
+.notification.success {
+  border: 1px solid #20BF55;
+  background: rgba(32, 191, 85, 0.4);
+  box-shadow: 2px 2px 10px 3px black, 0 0 12px 1px #20BF55 inset;
+}
+
+.notification.visible.success {
+  height: 5em;
+  width: calc(100% - 4rem);
+}
+
+.notification.visible.success:hover {
+  background: rgba(32, 191, 85, 0.6);
 }
 
 @keyframes attention {
@@ -158,20 +192,28 @@ body {
   font-size: 3em;
 }
 
-.notification .symbol.warning {
+.notification.warning .symbol {
   color: #FFF275;
+}
+
+.notification.error .symbol {
+  color: #F71735;
+}
+
+.notification.success .symbol {
+  color: #20BF55;
 }
 
 .notification p {
   position: relative;
   width: 100%;
-  min-width: calc(100vw - 7em);
   height: auto;
   max-height: 4em;
   float: right;
   margin: 0.5em 0;
   font-size: 1.2em;
   padding-left: 4em;
+  padding-right: 2em;
   transition: 0.2s ease;
   transition-delay: 0s;
   line-height: 1.3;
@@ -179,7 +221,9 @@ body {
   overflow-y: auto;
 }
 
-.notification:hover p {
+.notification:hover p,
+.success.visible p,
+.error.visible p {
   opacity: 1;
   transition-delay: 1.25s;
 }
@@ -224,7 +268,9 @@ body {
   transition-delay: 0s;
 }
 
-.notification:hover .close {
+.notification:hover .close,
+.error.visible .close,
+.success.visible .close {
   visibility: visible;
   opacity: 0.9;
   transition: color 0.2s ease, opacity 0.2s ease 1.25s;
@@ -240,21 +286,20 @@ body {
 
 @media only screen and (min-width: 992px) {
 
-  .notification.hover:hover {
+  .notification.visible:hover {
     width: calc(50% - 2em);
   }
 
-  .notification p {
-    min-width: calc(50vw - 7em);
+  .notification.error,
+  .notification.error:hover,
+  .notification.success,
+  .notification.success {
+    width: calc(50% - 2em);
   }
 }
 
 @media only screen and (min-width: 1200px) {
-  .notification.hover:hover {
+  .notification.visible:hover {
     width: 900px;
-  }
-
-  .notification p {
-    min-width: calc(900px - 7em);
   }
 }
