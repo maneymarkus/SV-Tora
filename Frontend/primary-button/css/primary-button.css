@@ -62,7 +62,7 @@ body {
 a.primary-button {
   position: absolute;
   top: 5%;
-  right: 10%;
+  left: 10%;
   text-align: center;
   display: inline-block;
   width: 4em;
@@ -106,6 +106,10 @@ a.primary-button.messages:before {
   box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
 }
 
+a.primary-button.disabled:before {
+  box-shadow: 0 0 20px 3px #4A4A4A inset, 0 0 10px 3px black;
+}
+
 a.primary-button:hover:before {
   width: 220%;
   height: 220%;
@@ -125,6 +129,10 @@ a.primary-button.documents:hover:before {
 
 a.primary-button.messages:hover:before {
   border-color: #FFF275;
+}
+
+a.primary-button.disabled:hover:before {
+  border-color: #4A4A4A;
 }
 
 .primary-button i {
@@ -159,6 +167,10 @@ a.primary-button.messages:hover:before {
   color: #E3B505;
 }
 
+.primary-button.disabled i {
+  color: #303030;
+}
+
 .primary-button.cancel:hover i,
 .primary-button.close:hover i,
 .primary-button.delete:hover i {
@@ -172,6 +184,10 @@ a.primary-button.messages:hover:before {
 
 .primary-button.messages:hover i {
   color: #FFF275;
+}
+
+.primary-button.disabled:hover i {
+  color: #4A4A4A;
 }
 
 .primary-button p {
@@ -191,4 +207,8 @@ a.primary-button.messages:hover:before {
   top: 100%;
   opacity: 1;
   transform: translate(-50%, -50%) translateZ(15px);
+}
+
+.primary-button.disabled:hover p {
+  color: #9B9B9B;
 }

@@ -53,6 +53,7 @@ function init(window, document, undefined) {
       let small = undefined;
       let loginButton = loginContainer.querySelector(".login-button");
       let registerButton = registrationContainer.querySelector(".register-button");
+      let passwordForgottenButton = loginContainer.querySelector(".password-forgotten")
 
       if (registrationContainer.classList.contains("small")) {
         small = registrationContainer;
@@ -121,6 +122,10 @@ function init(window, document, undefined) {
           form.submit();
         }, 2500);
       }
+
+      passwordForgottenButton.addEventListener("click", function () {
+        // TODO: Create E-Mail Input Element with InputModule API -> Call Confirm Modal -> Send E-Mail to user
+      });
 
     }
 

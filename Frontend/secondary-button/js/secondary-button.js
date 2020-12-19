@@ -1,6 +1,6 @@
 function init(window, document, undefined) {
 
-  let ButtonModule = (function (window, document, undefined) {
+  let SecondaryButtonModule = (function (window, document, undefined) {
 
     let secondaryButtons = document.querySelectorAll("a.secondary-button");
 

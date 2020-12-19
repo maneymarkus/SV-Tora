@@ -1444,6 +1444,7 @@ function init(window, document, undefined) {
         return Select.createSelect(classNames, name, placeholder, options);
       },
       getAllSelectsApi : function () {
+        cleanInputArrays();
         return selects;
       },
       createDatePickerApi : function () {
@@ -1453,6 +1454,7 @@ function init(window, document, undefined) {
         return TimePicker.createTimePicker();
       },
       returnSelectObjectApi : function (selectInputContainer) {
+        cleanInputArrays();
         return getSelectObject(selectInputContainer);
       },
       createInputApi : function (inputType, containerClass, inputId, name, placeholder, checked, selectOptions, value) {
@@ -1465,15 +1467,19 @@ function init(window, document, undefined) {
         return checkInput(inputContainer);
       },
       getUserInputApi : function(form) {
+        cleanInputArrays();
         return getUserInput(form);
       },
       getInputApi : function (inputContainer) {
+        cleanInputArrays();
         return getInput(inputContainer);
       },
       getSelectedRadioButtonApi : function (radioInputContainers) {
+        cleanInputArrays();
         return getSelectedRadioButton(radioInputContainers);
       },
       getCheckedCheckboxesApi : function (checkboxContainers) {
+        cleanInputArrays();
         return getCheckedCheckboxes(checkboxContainers);
       }
 
