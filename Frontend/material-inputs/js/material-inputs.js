@@ -678,6 +678,7 @@ function init(window, document, undefined) {
 
       hasInput();
 
+      // when text input elements and textareas have input their containers should get another class "filled" to apply new styles
       if (this.inputContainer.classList.contains("text-input-container") || this.inputContainer.nodeName === "TEXTAREA") {
         this.inputContainer.addEventListener("focusout", function (e) {
           let target = e.target;
@@ -689,6 +690,7 @@ function init(window, document, undefined) {
         });
       }
 
+      // click on password icon enables the user to see written characters in plain text
       if (this.inputContainer.querySelector(".password-label")) {
         let passwordLabel = This.inputContainer.querySelector(".password-label");
         let passwordIcon = passwordLabel.querySelector("i");
@@ -706,14 +708,74 @@ function init(window, document, undefined) {
         });
       }
 
+      /**
+       * This block manages input validation
+       * this.inputValidation contains objects according to the classes set on the input container element
+       * Each set object has a regex field and a error field. The regex field contains the regular expression to check the user input against and the error field contains a string with the respective error message to be displayed if the user input does not match the regular expression.
+       * E.g. when the class "mail" is set on the text-input-container:
+       * this.inputValidation = {
+       *     mail : {
+       *       test : /Regular Expression/,
+       *       error : "Error Message",
+       *     },
+       * }
+        */
+
+      this.inputValidation = {};
+
+      if (this.inputContainer.classList.contains("text-input-container")) {
+        if (this.inputContainer.classList.contains("required")) {
+          This.inputValidation.required = {};
+          This.inputValidation.required.regex = /^.+$/;
+          This.inputValidation.required.error = "Dieses Feld muss ausgefüllt werden.";
+        }
+        // E-Mail text input field validation
+        if (this.inputContainer.classList.contains("mail")) {
+          This.inputValidation.mail = {};
+          This.inputValidation.mail.regex = /^(?:[\w\.\-]{2,})(?:\@)(?:[\w\.\-]{2,})(?:\.)(?:[\w]{2,})$/;
+          This.inputValidation.mail.error = "Die E-Mail Adresse muss dem Format zeichenfolge@provider.de entsprechen.";
+        }
+        // Add Event Listener to the text input field
+        This.inputContainer.addEventListener("input", function () {
+          This.validateInput();
+        });
+      }
+
+      /**
+       * This function evaluates user input in text input elements
+       */
+      this.validateInput = function () {
+        for (let property in This.inputValidation) {
+          if (This.inputValidation.hasOwnProperty(property)) {
+            if (This.inputValidation[property].regex.test(String(This.inputElement.value))) {
+              revokeInputError(This.inputContainer);
+              This.inputContainer.classList.remove("incorrect");
+            } else {
+              throwInputError(This.inputContainer, This.inputValidation[property].error);
+              This.inputContainer.classList.add("incorrect");
+            }
+          }
+        }
+      }
+
     }
 
+    /**
+     * This function adds and error to a given input element (object)
+     * @param input Object: The respective input element where the error should be thrown
+     * @param errorMessage String: The content of the particular error message
+     */
     Input.prototype.addError = function (input, errorMessage) {
       let errorElement = createErrorElement(errorMessage);
       input.inputContainer.appendChild(errorElement);
       input.hasError = true;
     };
 
+    /**
+     * This function creates the DOM element for the error message
+     * @param errorMessage String: The content of the particular error message
+     * @return created DOM error element
+     */
     function createErrorElement(errorMessage) {
       let errorSpan = Module.generateElementApi("SPAN", ["error"]);
       errorSpan.appendChild(Module.generateElementApi("I", ["material-icons"], "error_outline"));
@@ -721,6 +783,10 @@ function init(window, document, undefined) {
       return errorSpan;
     }
 
+    /**
+     * This function removes an error from an input element (object)
+     * @param input Object: the respective input object where the error should be removed
+     */
     Input.prototype.removeError = function (input) {
       if (input.hasError) {
         let error = input.inputContainer.querySelector("span.error");
@@ -729,6 +795,9 @@ function init(window, document, undefined) {
       }
     }
 
+    /**
+     * Initializes inout elements
+     */
     if (document.querySelector(".input-container")) {
       let inputContainers = document.querySelectorAll(".input-container");
       inputContainers.forEach((i) => {
@@ -736,14 +805,25 @@ function init(window, document, undefined) {
       });
     }
 
+    /**
+     * This function throws an input error on a given input container element
+     * @param inputContainer DOM element: The input container of the respective input element where the error message should be thrown at
+     * @param errorMessage String: The content of the particular error message
+     */
     function throwInputError(inputContainer, errorMessage) {
       inputs.forEach((i) => {
         if (i.inputContainer === inputContainer) {
-          i.addError(i, errorMessage);
+          if (!i.hasError) {
+            i.addError(i, errorMessage);
+          }
         }
       });
     }
 
+    /**
+     * This function removes an error from a given input container element
+     * @param inputContainer DOM element: The input container of the respective input element where the error message should be removed at
+     */
     function revokeInputError(inputContainer) {
       inputs.forEach((i) => {
         if (i.inputContainer === inputContainer) {
@@ -751,9 +831,6 @@ function init(window, document, undefined) {
         }
       });
     }
-
-    let input = document.querySelector(".text-input-container");
-    throwInputError(input, "Fehler");
 
     /*
       END TEXT INPUT
@@ -797,7 +874,7 @@ function init(window, document, undefined) {
      *  This function creates input elements with all the individual mark-up and some individualization options for usage in e.g. modals
      *
      * @param inputType enum which determines which input should be created
-     * @param containerClass array of strings with classes to be applied to the container element
+     * @param containerClass Array of strings with classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
      * @param inputId optional string that sets the id for the input (if none set then a random id is generated to make the labels work)
      * @param name string that sets the name attribute on the input element for identification in general
      * @param placeholder string that either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button
@@ -883,11 +960,23 @@ function init(window, document, undefined) {
       }
     }
 
+    /**
+     * This function creates a text input field
+     * @param classes Array of Strings: The classes that should be added to the input-container (These classes also control input validation. Currently available: mail, required)
+     * @param inputId String: The id that the text input should have
+     * @param name String: Value of the "name" attribute of the input element for various identification purposes
+     * @param placeholder String: The placeholder for the text input element
+     * @return DOM element so that the styling rules apply to this input element and guarantee coherent styling throughout the application
+     */
     function createTextInput(classes, inputId, name, placeholder) {
       let inputContainer = Module.generateElementApi("span", ["text-input-container", "input-container"].concat(classes));
       let icon = Module.generateElementApi("label", ["icon"]);
       icon.setAttribute("for", inputId);
-      icon.appendChild(Module.generateElementApi("i", ["material-icons"], "person"));
+      if (inputContainer.classList.contains("mail")) {
+        icon.appendChild(Module.generateElementApi("i", ["material-icons"], "email"));
+      } else {
+        icon.appendChild(Module.generateElementApi("i", ["material-icons"], "person"));
+      }
       inputContainer.appendChild(icon);
       let input = Module.generateElementApi("input", ["text-input"]);
       input.setAttribute("type", "text");

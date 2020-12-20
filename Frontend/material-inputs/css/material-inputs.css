@@ -84,7 +84,7 @@ body {
     width: 100%;
     border-radius: 5px;
     padding: 0.5em;
-    background: linear-gradient(90deg, rgba(34, 34, 34, 0.9) 65%, rgba(178, 58, 72, 0.95));
+    background: radial-gradient(farthest-corner at center, rgba(34, 34, 34, 0.9) 80%, rgba(178, 58, 72, 0.95));
     z-index: 100;
     text-align: left;
 }
@@ -253,6 +253,12 @@ input {
     background-color: #2699FB;
 }
 
+.text-input-container.incorrect .underline,
+.text-input-container.incorrect input:focus ~ .underline,
+.text-input-container.incorrect input.filled ~ .underline {
+    background-color: #B23A48;
+}
+
 .text-input-container label.icon,
 .date-input-container label.icon,
 .time-input-container label.icon {
@@ -268,6 +274,10 @@ input {
 .date-input-container label.icon i,
 .time-input-container label.icon i {
     font-size: 1.75em;
+}
+
+.text-input-container.incorrect label.icon i {
+    color: #B23A48;
 }
 
 .text-input-container label.text,
