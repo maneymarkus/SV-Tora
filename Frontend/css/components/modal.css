@@ -1,0 +1,113 @@
+main.blur {
+  filter: blur(5px);
+  transition: 0.2s ease 0s;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: 0.2s ease 0.7s;
+}
+
+.overlay.open {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: 0.2s ease;
+}
+
+.modal-window {
+  position: absolute;
+  min-width: 25em;
+  width: 50%;
+  max-width: 60em;
+  top: 40%;
+  left: 50%;
+  z-index: 100;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 0.5s ease 0.5s;
+  font-size: 1rem; /* ADJUST Size individually */
+  background-color: #222222;
+  box-shadow: 0 10px 15px 3px black;
+}
+
+.open .modal-window {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+a.primary-button.close-modal {
+  position: absolute;
+  right: -1em;
+  top: -1em;
+  width: 3em;
+  height: 3em;
+}
+
+.modal-window .mw-header{
+  height: auto;
+  overflow: hidden;
+  margin: 0.75em 0 1em 0;
+  background-color: #171717;
+  font-weight: bold;
+  transition: 0.5s ease 0s;
+}
+
+.open .modal-window .mw-header {
+  height: 0;
+  transition: 0.5s ease 1.2s;
+}
+
+.modal-window .mw-header h2 {
+  font-size: 2em;
+  padding: 0.75em 1.5em 0.75em 1.5em;
+  margin: 0;
+  text-shadow: 2px 2px 5px black;
+  color: white;
+}
+
+.modal-window .mw-content {
+  font-size: 1.5em;
+  padding: 0.5em 1em 1.5em;
+  line-height: 1.5;
+  overflow-y: auto;
+  max-height: 10em;
+}
+
+.mw-content p {
+  margin: 0;
+}
+
+.modal-window .mw-footer {
+  position: relative;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 2em 1em 1em;
+  border-top: 2px solid #171717;
+}
+
+.modal-window .secondary-button {
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  height: auto;
+  width: 12em;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

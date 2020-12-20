@@ -6,24 +6,41 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
 
-    <title>primary-Button</title>
+    <title>Primary-Button</title>
 
-    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="css/primary-button.css" type="text/css" />
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
 
     <!--[if lt IE 9]>
-    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/tilt.jquery.js"></script>
-    <script src="js/primary-button.js"></script>
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./primary-button-entrypoint.js"></script>
 
     <!--
 
         Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
 
     -->
+
+    <style>
+
+        a.primary-button {
+            position: absolute;
+            top: 5%;
+            left: 10%;
+        }
+
+    </style>
 
 </head>
 <body class="darkmode">

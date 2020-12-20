@@ -8,16 +8,24 @@
 
     <title>Nav</title>
 
-    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="css/nav.css" type="text/css" />
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/nav.css" type="text/css" />
 
     <!--[if lt IE 9]>
-    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/tilt.jquery.js"></script>
-    <script src="js/nav.js"></script>
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./nav-entrypoint.js"></script>
 
     <!--
 
@@ -56,11 +64,11 @@
       </li>
     </ul>
     <div class="image-container">
-      <img src="images/fighter-symbol-white.png" />
+      <img src="../images/fighter-symbol-white.png" />
     </div>
   </nav>
 
-  <a class="open-nav">
+  <a class="open-nav" onclick="NavModule.openNavApi();">
       Nav
   </a>
 

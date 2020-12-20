@@ -1,0 +1,87 @@
+.carousel-container {
+  width: 15rem;
+  margin: 0 auto;
+  height: 20rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.5s ease;
+  z-index: 10;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.carousel-container .page-wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+}
+
+.carousel-container .page {
+  position: absolute;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  top: 0;
+  left: 0;
+  box-shadow: 0 0 15px 3px black;
+  z-index: 2;
+  background: radial-gradient(circle at 0% 100%, rgba(48, 48, 48, 1) 60%, rgba(61, 118, 225, 0.75));
+  font-size: 1rem;
+  opacity: 1;
+  display: inline-block;
+  backface-visibility: hidden;
+}
+
+.carousel-container .page.inactive {
+  opacity: 0.5;
+  color: #828282;
+}
+
+.carousel-container .page.inactive a {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+}
+
+.page h3 {
+  margin-top: 40%;
+  font-size: 1.5em;
+  padding: 0.25em 0;
+  border-top: 3px solid #4A4A4A;
+  border-bottom: 3px solid #4A4A4A;
+  box-shadow: 0 20px 20px -18px black, 0 -20px 20px -18px black;
+  text-align: center;
+  letter-spacing: 0.05em;
+  font-weight: normal;
+}
+
+.secondary-button {
+  position: absolute;
+  bottom: 1em;
+  left: 50%;
+  font-size: 0.75em;
+  width: 90%;
+  transform: translateX(-50%);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

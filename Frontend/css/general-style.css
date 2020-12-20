@@ -1,0 +1,45 @@
+/*
+    This stylesheet only accommodates the most generic and general style, which is the same for all pages, like body or html style
+ */
+
+* {
+    box-sizing: border-box;
+    outline: none;
+}
+
+html {
+    height: 100%;
+    font-size: 1em;
+    color: white;
+    font-family: sans-serif;
+}
+
+body {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    background-color: #222222;
+    background-image: url("../images/background.svg");
+    background-size: 300px;
+    background-position: center;
+    background-repeat: repeat;
+    position: relative;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+main {
+    padding: 3rem;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: 0.2s ease 0.5s;
+ }
+
+main h1 {
+    font-size: 3rem;
+}

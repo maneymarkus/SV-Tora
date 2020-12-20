@@ -1,0 +1,150 @@
+a.primary-button {
+  text-align: center;
+  display: inline-block;
+  width: 4em;
+  height: 4em;
+  margin: 2em;
+  color: white;
+  transition: 0.2s ease;
+  background-color: transparent;
+  transform-style: preserve-3d;
+  font-size: 1rem;
+  z-index: 100;
+}
+
+a.primary-button:before {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid white;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: -1;
+  transition: 0.2s ease;
+  box-shadow: 0 0 20px 3px #2699FB inset, 0 0 10px 3px black;
+}
+
+a.primary-button.cancel:before,
+a.primary-button.close:before,
+a.primary-button.delete:before {
+  box-shadow: 0 0 20px 3px #F71735 inset, 0 0 10px 3px black;
+}
+
+a.primary-button.documents:before {
+  box-shadow: 0 0 20px 3px #5EFC8D inset, 0 0 10px 3px black;
+}
+
+a.primary-button.messages:before {
+  box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
+}
+
+a.primary-button.disabled:before {
+  box-shadow: 0 0 20px 3px #4A4A4A inset, 0 0 10px 3px black;
+}
+
+a.primary-button:hover:before {
+  width: 220%;
+  height: 220%;
+  opacity: 1;
+  border-color: #2699FB;
+}
+
+a.primary-button.cancel:hover:before,
+a.primary-button.close:hover:before,
+a.primary-button.delete:hover:before {
+  border-color: #F71735;
+}
+
+a.primary-button.documents:hover:before {
+  border-color: #5EFC8D;
+}
+
+a.primary-button.messages:hover:before {
+  border-color: #FFF275;
+}
+
+a.primary-button.disabled:hover:before {
+  border-color: #4A4A4A;
+}
+
+.primary-button i {
+  color: #3D76E1;
+  position: absolute;
+  font-size: 5em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.2s ease;
+  z-index: 2;
+  transform-style: preserve-3d;
+}
+
+.primary-button:hover i {
+  color: #2699FB;
+  top: 20%;
+  transform: translate(-50%, -50%) scale(1.1) translateZ(30px);
+}
+
+.primary-button.cancel i,
+.primary-button.close i,
+.primary-button.delete i {
+  color: #B23A48;
+}
+
+.primary-button.documents i {
+  color: #20BF55;
+}
+
+.primary-button.messages i {
+  color: #E3B505;
+}
+
+.primary-button.disabled i {
+  color: #303030;
+}
+
+.primary-button.cancel:hover i,
+.primary-button.close:hover i,
+.primary-button.delete:hover i {
+  font-weight: bold;
+  color: #F71735;
+}
+
+.primary-button.documents:hover i {
+  color: #5EFC8D;
+}
+
+.primary-button.messages:hover i {
+  color: #FFF275;
+}
+
+.primary-button.disabled:hover i {
+  color: #4A4A4A;
+}
+
+.primary-button p {
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-size: 1em;
+  transition: 0.2s ease;
+  z-index: 1;
+  opacity: 0;
+  transform-style: preserve-3d;
+}
+
+.primary-button:hover p {
+  top: 100%;
+  opacity: 1;
+  transform: translate(-50%, -50%) translateZ(15px);
+}
+
+.primary-button.disabled:hover p {
+  color: #9B9B9B;
+}

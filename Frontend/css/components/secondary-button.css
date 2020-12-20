@@ -1,0 +1,137 @@
+.secondary-button {
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: #171717;
+  transition: 0.5s ease, background-color 0.5s;
+  font-size: 1.2rem;
+  width: 15em;
+  height: auto;
+  border: 2px solid #3D76E1;
+  color: white;
+  padding: 0.5em 1.5em;
+}
+
+.secondary-button.delete {
+  border-color: #B23A48;
+  color: #B23A48;
+  transition: background-color 0.2s ease 0s, color 0.2s ease 0s, border 0.2s ease 0s;
+}
+
+.secondary-button.abort {
+  border-color: #B23A48;
+}
+
+.secondary-button.disabled {
+  color: #4A4A4A;
+  border-color: #4A4A4A;
+  cursor: not-allowed;
+}
+
+.secondary-button:hover,
+.secondary-button:focus {
+  border: 2px solid #2699FB;
+  color: #2699FB;
+}
+
+.secondary-button.delete:focus,
+.secondary-button.delete:hover {
+  border: 2px solid #171717;
+  color: #171717;
+  background-color: #F71735;
+  transition: background-color 0.2s ease 0.6s, color 0.2s ease 0.6s, border-color 0.2s ease 0.6s;
+}
+
+.secondary-button.abort:focus,
+.secondary-button.abort:hover {
+  border: 2px solid #F71735;
+  color: #F71735;
+}
+
+.secondary-button.disabled:focus,
+.secondary-button.disabled:hover {
+  color: #4A4A4A;
+  border-color: #4A4A4A;
+}
+
+.secondary-button.clicked {
+  transition: background-color 0.1s;
+  background-color: #4A4A4A;
+  box-shadow: 0 0 10px 3px black;
+}
+
+.secondary-button:before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: calc(100% + 6px);
+  height: calc(100% - 1em);
+  background: #171717;
+  top: 0.5em;
+  left: -3px;
+  transition: 0.4s ease;
+}
+
+.secondary-button:after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: calc(100% - 1em);
+  height: calc(100% + 4px);
+  background: #171717;
+  top: -2px;
+  left: 0.5em;
+  transition: 0.4s ease;
+}
+
+.secondary-button.delete:before,
+.secondary-button.delete:after {
+  transition-delay: 0.3s;
+}
+
+.secondary-button:hover:before,
+.secondary-button:focus:before {
+  top: 50%;
+  height: 0;
+}
+
+.secondary-button:hover:after,
+.secondary-button:focus:after {
+  left: 50%;
+  width: 0;
+}
+
+.secondary-button.delete:hover:before,
+.secondary-button.delete:focus:before,
+.secondary-button.delete:hover:after,
+.secondary-button.delete:focus:after {
+  transition-delay: 0s;
+}
+
+.secondary-button.disabled:hover:before,
+.secondary-button.disabled:focus:before {
+  height: calc(100% - 1em);
+  top: 0.5em;
+}
+
+.secondary-button.disabled:hover:after,
+.secondary-button.disabled:focus:after {
+  width: calc(100% - 1em);
+  left: 0.5em;
+}
+
+.secondary-button .text {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: block;
+  font-size: 1.5em;
+  overflow: hidden;
+  z-index: 10;
+}

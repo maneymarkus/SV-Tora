@@ -6,18 +6,29 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
 
-    <title>Nav</title>
+    <title>Header</title>
 
-    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="css/header.css" type="text/css" />
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/nav.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/header.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/user-profile.css" type="text/css" />
 
     <!--[if lt IE 9]>
-    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/tilt.jquery.js"></script>
-    <script src="js/header.js"></script>
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./header-entrypoint.js"></script>
 
     <!--
 
@@ -56,7 +67,7 @@
             </li>
         </ul>
         <div class="image-container">
-            <img src="images/fighter-symbol-white.png" />
+            <img src="../images/fighter-symbol-white.png" />
         </div>
     </nav>
 
@@ -67,7 +78,7 @@
         <div class="user-profile">
             <div class="user-wrapper">
                 <div class="pic-container">
-                    <img src="images/Karate_Trainer_Markus_Popov.jpg" />
+                    <img src="../images/Karate_Trainer_Markus_Popov.jpg" />
                 </div>
                 <p class="username">Marcus PoPopov</p>
                 <a class="secondary-button settings" href="#">
