@@ -19,7 +19,7 @@ let LoaderModule = (function (window, document, undefined) {
 
     let fighterDiv = GeneralModule.generateElementApi("div", ["fighter"]);
     let image = GeneralModule.generateElementApi("img");
-    image.setAttribute("src", "../images/fighter-symbol-white.png");
+    image.setAttribute("src", "../../images/fighter-symbol-white.png");
     image.setAttribute("alt", "fighter");
     fighterDiv.appendChild(image);
     container.appendChild(fighterDiv);

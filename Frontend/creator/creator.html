@@ -8,15 +8,23 @@
 
     <title>Creator</title>
 
-    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="css/creator.css" type="text/css" />
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/sites/creator.css" type="text/css" />
 
     <!--[if lt IE 9]>
-    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-    <script src="js/theater.min.js"></script>
-    <script src="js/creator.js"></script>
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./creator-entrypoint.js"></script>
 
     <!--
 
@@ -32,7 +40,7 @@
         <p class="p0 written">Wer hat das hier eigentlich alles geschrieben?</p>
         <p class="p1 written">Das war... ich.</p>
         <div class="pic-container">
-            <img src="images/placeholder.png" />
+            <img src="../images/placeholder.png" alt="Bild von Markus Städler" />
         </div>
         <div class="fade-wrapper">
             <p>Ich bin Markus Städler.</p>

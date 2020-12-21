@@ -8,18 +8,24 @@
 
     <title>Competition-Dashboard</title>
 
-    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="css/competition-dashboard.css" type="text/css" />
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/competition-dashboard.css" type="text/css" />
 
     <!--[if lt IE 9]>
-    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-    <!--
-    <script src="js/jquery.min.js"></script>
-    <script src="js/tilt.jquery.js"></script>
-    -->
-    <script src="js/competition-dashboard.js"></script>
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./competition-dashboard-entrypoint.js"></script>
 
     <!--
 
@@ -30,7 +36,15 @@
 </head>
 <body class="darkmode">
 
-    <main class="clearfix">
+    <main class="no-tournament">
+        <h1>Zur Zeit findet kein Wettkampf statt.</h1>
+        <a class="host-tournament">
+            <i class="material-icons">add</i>
+            <p>Wettkampf erstellen</p>
+        </a>
+    </main>
+
+    <main class="tournament clearfix">
         <h1>Wettkampf-Dashboard</h1>
 
         <div class="status-container">

@@ -1,0 +1,98 @@
+.shortcuts {
+  position: fixed;
+  top: 0;
+  left: -12em;
+  background-color: #171717;
+  width: 12em;
+  height: 100%;
+  transition: 0.5s ease;
+  overflow: visible;
+  box-shadow: 0 0 10px 5px #171717;
+  z-index: 100000;
+  font-size: 0.8rem;
+}
+
+.shortcuts:hover,
+.shortcuts:focus {
+  left: 0;
+}
+
+.shortcuts .container {
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5em 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  text-align: center;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.shortcuts .container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.shortcuts .container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.shortcuts:before {
+  direction: ltr;
+  content: '\E315';
+  font-family: "Material Icons";
+  font-size: 5em;
+  width: 0.9em;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 100%;
+  display: inline-block;
+  background-color: #171717;
+  border-radius: 0 5em 5em 0;
+  box-shadow: 0 0 10px 5px #171717;
+  z-index: -1;
+  cursor: pointer;
+  color: #3D76E1;
+  transition: 0.5s ease;
+  overflow: hidden;
+}
+
+.shortcuts:hover:before,
+.shortcuts:focus:before {
+  color: #2699FB;
+}
+
+.shortcuts a.primary-button {
+  position: relative;
+  top: 0;
+  left: 0;
+  font-size: 1em;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+  .shortcuts {
+    font-size: 1rem;
+  }
+
+  .shortcuts:before {
+    width: 0.8em;
+    left: calc(100% - 0.25em);
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

@@ -1,0 +1,264 @@
+main {
+  padding: 3rem 1rem;
+}
+
+main h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-top: -1rem;
+}
+
+h1 span {
+  color: #3D76E1;
+}
+
+.category-container {
+  position: relative;
+  width: 48%;
+  top: 0;
+  min-height: 300px;
+  height: calc(100% - 5rem - 4rem); /* 100% height - paddings and heading - space for buttons */
+  background-color: rgba(23, 23, 23, 0.75);
+  overflow-y: auto;
+  padding: 0 1.5rem 3rem;
+}
+
+.left-category {
+  float: left;
+}
+
+.right-category {
+  float: right;
+}
+
+.category-container .fighter-card {
+  position: relative;
+  min-width: 100px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin: 0 auto 0.75em;
+  transform: translateX(0);
+  background-color: #303030;
+  box-shadow: 0 5px 15px 5px black;
+  border-radius: 3px;
+  padding: 0;
+  text-align: left;
+  border: 2px solid #303030;
+  transition: 0.2s ease;
+  z-index: 1;
+  font-size: 0.8rem;
+  display: block;
+}
+
+.category-container .fighter-card:hover {
+  background-color: #4A4A4A;
+  border-color: #2699FB;
+}
+
+.category-container .fighter-card h2 {
+  margin: 0.5em 0;
+  border-bottom: none;
+  box-shadow: none;
+  font-weight: normal;
+  font-size: 1.25em;
+  padding-bottom: 0;
+  width: 100%;
+}
+
+.category-container .fighter-card p {
+  display: none;
+  font-size: 1em;
+  margin: 0.5em 0;
+}
+
+.category-container .fighter-card span {
+  float: none;
+  margin-left: 0;
+  font-weight: normal;
+}
+
+.category-name {
+  font-size: 2em;
+  display: inline-block;
+  width: calc(100% + 3rem);
+  top: 0;
+  position: sticky;
+  padding: 0.5em 1em;
+  color: #3D76E1;
+  font-weight: bold;
+  font-style: italic;
+  background-color: #171717;
+  border-bottom: 2px solid #3D76E1;
+  box-shadow: 0 10px 15px -5px black;
+  z-index: 10;
+  margin-bottom: 0.5em;
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+}
+
+.left-category-name {
+}
+
+.right-category-name {
+  text-align: right;
+}
+
+.commands {
+  clear: both;
+  padding: 0.75rem 0;
+}
+
+.fighter-card {
+  position: absolute;
+  min-width: 300px;
+  width: 40%;
+  max-width: 600px;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #171717;
+  box-shadow: 0 5px 15px 5px black, -2000px -2000px 0 5000px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: 0 1rem 2rem;
+  text-align: center;
+  border: 2px solid #303030;
+  z-index: 50;
+  cursor: pointer;
+  display: none;
+  transition: 0.5s ease;
+}
+
+.fighter-card.drag {
+  transition: none;
+}
+
+.fighter-card.current {
+  display: block;
+}
+
+.fighter-card h2 {
+  display: inline-block;
+  width: auto;
+  border-bottom: 2px solid #9B9B9B;
+  padding: 0 1rem 0.25rem 1rem;
+  box-shadow: 0 12px 10px -10px black;
+  text-shadow: 2px 2px 5px black;
+  margin-bottom: 2rem;
+}
+
+.fighter-card p {
+  text-align: left;
+  padding: 0 1.5rem;
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.fighter-card span {
+  float: right;
+  color: #3D76E1;
+  font-weight: bold;
+  margin-left: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.division-commands {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  width: 40%;
+  max-width: 400px;
+  transform: translateX(-50%);
+  justify-content: space-between;
+  z-index: 51;
+  display: none;
+}
+
+.division-commands.active {
+  display: flex;
+}
+
+.division-commands a {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 3px solid #171717;
+  background-color: #171717;
+  box-shadow: 0 2px 7px 2px black;
+  transition: 0.2s ease;
+  color: #3D76E1;
+}
+
+.division-commands a:hover {
+  border-color: #2699FB;
+  color: #2699FB;
+  background-color: #222222;
+  box-shadow: 0 0 3px 2px rgba(61, 118, 225, 1);
+  transform: scale(1.2);
+}
+
+.division-commands i {
+  padding: 0.75rem;
+  font-size: 3rem;
+}
+
+a.divide {
+  float: left;
+  margin-left: 10%;
+  font-size: 0.8rem;
+}
+
+a.cancel {
+  float: right;
+  margin-right: 10%;
+  font-size: 0.8rem;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+  main {
+    padding: 3rem;
+  }
+
+  .category-name {
+    font-size: 2.5rem;
+  }
+
+  .category-container {
+    height: calc(100% - 5rem - 6rem); /* 100% height - paddings and heading - space for buttons */
+  }
+
+  .category-container .fighter-card {
+    font-size: 1rem;
+  }
+
+  .division-commands {
+    justify-content: space-around;
+  }
+
+  a.primary-button {
+    font-size: 1rem;
+  }
+
+  a.divide {
+     margin-left: 2.5%;
+   }
+
+  a.cancel {
+    margin-right: 2.5%;
+  }
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

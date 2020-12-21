@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Material Inputs</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../../css/components/material-inputs.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="material-inputs-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+    <style>
+
+        .container {
+            width: 100%;
+            height: auto;
+            margin-bottom: 5rem;
+        }
+
+    </style>
+
+</head>
+<body class="darkmode">
+
+    <main>
+
+    <div class="container">
+        <label for="switch" class="switch-container input-container">
+            <input type="checkbox" id="switch" name="switch" checked="">
+            <span class="switch"></span>
+            <span class="text">Switch</span>
+        </label>
+    </div>
+
+    <div class="container">
+        <span class="text-input-container input-container required mail">
+            <label class="icon" for="input"><i class="material-icons">email</i></label>
+            <input name="text-topic" class="text-input" type="text" id="input"/>
+            <label class="text" for="input">Placeholder</label>
+            <span class="underline"></span>
+        </span>
+    </div>
+
+    <div class="container">
+        <label class="checkbox-input-container input-container">
+            Option
+            <input type="checkbox" value="Option" name="Topic" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <div class="container">
+        <div class="select-input-container input-container">
+            <label class="icon"><i class="material-icons">list</i></label>
+            <span data-name="topic" class="select-input chosen placeholder">Platzhalter</span>
+            <i class="material-icons">expand_more</i>
+            <div class="options">
+                <div class="option">1</div>
+                <div class="option">2</div>
+                <div class="option">3</div>
+                <div class="option">4</div>
+                <div class="option">5</div>
+                <div class="option">6</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <label class="radio-input-container input-container">
+            Option
+            <input type="radio" name="Topic" value="Option" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <div class="container">
+        <div class="date-input-container input-container">
+            <label class="icon" for="date"><i class="material-icons">today</i></label>
+            <input class="date-input" type="text" id="date" name="date" />
+            <label class="text" for="input">Placeholder</label>
+            <span class="underline"></span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="time-input-container input-container">
+            <label class="icon" for="time"><i class="material-icons">schedule</i></label>
+            <input class="time-input" type="text" id="time" name="time" />
+            <label class="text" for="input">Placeholder</label>
+            <span class="underline"></span>
+        </div>
+    </div>
+
+    <div class="container">
+        <label for="file-input" class="file-input-container input-container">
+            <input class="file-input" type="file" name="file-input" value="value" id="file-input" multiple />
+            <i class="material-icons">publish</i>
+            <span class="file-name">Datei auswählen...</span>
+        </label>
+    </div>
+
+    <div class="container">
+        <textarea name="topic" class="input-container" placeholder="Deine Nachricht..."></textarea>
+    </div>
+
+    </main>
+
+</body>
+</html>

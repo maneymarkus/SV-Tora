@@ -1,0 +1,167 @@
+main {
+  text-align: center;
+}
+
+main h1 {
+  top: 0;
+  display: inline-block;
+  margin: 2rem auto;
+  font-size: 5rem;
+  text-shadow:  0px 0px 0 rgba(255, 255, 255, 0.5),
+                0px 0px 0 rgba(255, 255, 255, 0.25),
+                0px 0px 0 rgba(255, 255, 255, 0.1),
+                3px 3px 8px black;
+  transform: translate(0);
+  transition: 0.2s ease;
+}
+
+main h1:hover {
+  text-shadow:  -10px 10px 0 rgba(255, 255, 255, 0.5),
+  -20px 20px 0 rgba(255, 255, 255, 0.25),
+  -30px 30px 0 rgba(255, 255, 255, 0.1);
+  transform: scale(1.25) translate(15px, -15px);
+}
+
+h1 span {
+  position: relative;
+  transition: 0.2s ease;
+  color: #3D76E1;
+  text-shadow: none;
+  z-index: 5;
+}
+
+main p {
+  font-size: 1.5rem;
+  transition: 0.5s ease;
+}
+
+.pic-container {
+  transition: opacity 0.5s ease 1s;
+  width: auto;
+  max-width: 15rem;
+  margin: 15rem auto 5rem;
+  position: relative;
+}
+
+.pic-container:before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: linear-gradient(0deg, #4A4A4A, #9B9B9B);
+  border-radius: 50%;
+}
+
+.pic-container:after {
+  content: '';
+  position: absolute;
+  top: -5%;
+  left: -7.5%;
+  width: 110%;
+  height: 110%;
+  background: linear-gradient(180deg, #4A4A4A, #9B9B9B);
+  border-radius: 50%;
+}
+
+.pic-container img {
+  width: 100%;
+  height: auto;
+  z-index: 3;
+  position: relative;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 3px black inset;
+}
+
+.fade-wrapper {
+  transition: opacity 0.5s ease 2s;
+  visibility: visible;
+  margin-bottom: 5rem;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+
+.fade-wrapper a {
+  text-decoration: none;
+  color: #3D76E1;
+  transition: 0.2s ease;
+  font-size: 2rem;
+  position: relative;
+}
+
+.fade-wrapper a:hover {
+  color: #2699FB;
+}
+
+.fade-wrapper a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0.2rem;
+  background: #2699FB;
+  left: 0;
+  top: 105%;
+  transition: 0.2s ease;
+}
+
+.fade-wrapper a:hover:after {
+  width: 100%;
+}
+
+.is-typing:after {
+  content: '|';
+  color: #2699FB;
+  -webkit-animation: blink 650ms infinite;
+  animation: blink 650ms infinite;
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.bg {
+  position: fixed;
+  font-size: 30rem;
+  font-weight: bold;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: black;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

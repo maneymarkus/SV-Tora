@@ -1,0 +1,387 @@
+main .actions {
+  position: relative;
+  width: 100%;
+}
+
+main .actions:before {
+  content: 'Aktionen';
+  position: absolute;
+  font-size: 7rem;
+  color: black;
+  font-style: italic;
+  font-weight: 900;
+  opacity: 0.3;
+  letter-spacing: 0.05em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) skewY(-3deg);
+}
+
+a.primary-button.print {
+  float: right;
+}
+
+div.filter-container {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+main .filter-container:before {
+  content: 'Filter';
+  position: absolute;
+  font-size: 7rem;
+  color: black;
+  font-style: italic;
+  font-weight: 900;
+  opacity: 0.3;
+  letter-spacing: 0.05em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) skewY(-3deg);
+}
+
+.filter-container p {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+div.chosen-filters {
+  margin: 0;
+  display: block;
+}
+
+.secondary-button {
+  font-size: 1rem;
+  width: auto;
+  float: right;
+  margin-top: 2em;
+  padding: 1em 2em;
+}
+
+.secondary-button i {
+  font-size: 1.5em;
+  margin-right: 0.25em;
+  vertical-align: -0.25em;
+}
+
+.secondary-button .text {
+  letter-spacing: 0;
+  display: block;
+  font-size: 1em;
+}
+
+.chosen-filters .filter {
+  position: relative;
+  background-color: #171717;
+  border-radius: 50px;
+  height: 2.5rem;
+  display: inline-block;
+  padding-left: 1rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.75rem;
+  transition: 0.2s ease;
+  z-index: 1;
+  box-shadow: 2px 2px 5px 2px black;
+}
+
+.chosen-filters .filter:hover {
+  background-color: #303030;
+  cursor: pointer;
+}
+
+.filter .filter-details {
+  position: relative;
+  top: -0.9rem;
+  margin-right: 0.5rem;
+}
+
+.filter a {
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  position: relative;
+  text-align: center;
+  top: 0;
+  display: inline-block;
+  transition: 0.2s ease;
+}
+
+.filter:hover a {
+  background-color: #171717;
+}
+
+.filter a:hover {
+  background-color: #B23A48;
+}
+
+.filter a i {
+  font-size: 1.5rem;
+  padding: 0.25rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.2s ease;
+}
+
+.filter:hover a i {
+  color: #B23A48;
+}
+
+.filter a:hover i {
+  color: #171717;
+}
+
+table, th, td {
+  border-collapse: collapse;
+}
+
+table {
+  position: relative;
+  width: 100%;
+  max-width: 1900px;
+  text-align: left;
+  font-size: 1rem;
+}
+
+thead {
+  text-align: left;
+}
+
+thead th {
+  display: inline-block;
+  width: 100%;
+  color: white;
+  background-color: #171717;
+  z-index: 10;
+}
+
+th:last-of-type {
+  display: none;
+}
+
+table .sort {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  padding: 0.75em 2em 0.5em 1em;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 1em;
+}
+
+table .sort:hover {
+  color: #2699FB;
+  transform: scale(1.05);
+}
+
+table .sort .icon {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2em;
+  width: 1em;
+  height: 1.5em;
+  color: #3D76E1;
+  transition: 0.2s ease;
+}
+
+table .sort:hover .icon {
+  color: #2699FB;
+}
+
+table .sort i {
+  font-size: 2em;
+  transition: 0.2s ease;
+  position: absolute;
+}
+
+table .sort.ascending i:first-child {
+  display: none;
+}
+
+table .sort.descending i:last-child {
+  display: none;
+}
+
+table .sort i:first-child {
+  top: -0.3em;
+}
+
+table .sort i:last-child {
+  bottom: -0.3em;
+}
+
+table .sort:hover i:first-child {
+  top: -0.5em;
+}
+
+table .sort:hover i:last-child {
+  bottom: -0.5em;
+}
+
+tr {
+  width: 100%;
+  transition: 0.2s ease;
+}
+
+table tbody tr:hover {
+  background-color: #303950;
+  transform: scale(1.025);
+}
+
+tr.even {
+  background-color: #4A4A4A;
+}
+
+tr.odd {
+  background-color: #303030;
+}
+
+tr.hidden {
+  display: none;
+}
+
+td {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding: 0.25em 0.5em 0.25em 45%;
+  border-right: 1px solid #171717;
+  word-wrap: break-word;
+}
+
+td:first-child {
+  margin-top: 1em;
+}
+
+td:last-child {
+  margin-bottom: 1em;
+}
+
+td:before {
+  content: attr(data-column);
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  right: 0;
+  color: #171717;
+  font-size: 1.1em;
+  font-weight: 900;
+  font-style: italic;
+  opacity: 0.9;
+  text-align: right;
+  display: inline-block;
+  max-width: 100%;
+  padding-right: 58%;
+  text-shadow: 1px 1px 1px black;
+  margin: 0;
+}
+
+td:last-child {
+  padding-left: 0;
+  height: 3em;
+  position: relative;
+}
+
+td:last-child a.primary-button {
+  position: absolute;
+  margin: 0;
+  font-size: 0.5em;
+}
+
+td:last-child a:first-child {
+  left: 20%;
+}
+
+td:last-child a:last-child {
+  right: 20%;
+}
+
+td:last-child:before {
+  right: auto;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding-right: 0;
+  font-size: 1.5em;
+}
+
+@media only screen and (min-width: 600px) {
+  table {
+    font-size: 1.3rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+  table {
+    font-size: 1rem;
+  }
+
+  thead th {
+    display: table-cell;
+    position: sticky;
+    top: 4em; /* for position sticky */
+    width: auto;
+    box-shadow: 0px 7px 10px 0 black;
+  }
+
+  th:last-of-type {
+    display: table-cell;
+    border: none;
+  }
+
+  table .sort {
+    padding: 0.75em 2em 0.5em 1em;
+    font-size: 1em;
+  }
+
+  table .sort:hover {
+    transform: none;
+  }
+
+  table .sort .icon {
+    right: 1em;
+  }
+
+  td {
+    padding: 0.25em 0.5em 0.25em 1em;
+    display: table-cell;
+    width: auto;
+    max-width: 10em;
+  }
+
+  td:before {
+    display: none;
+  }
+
+  td:last-child a.primary-button {
+    position: static;
+    margin: 1em;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  table {
+    font-size: 1.2rem;
+    margin: 0 auto;
+  }
+
+  main .actions {
+    width: calc(1200px - 6rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  main .filter-container {
+    width: calc(1200px - 6rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

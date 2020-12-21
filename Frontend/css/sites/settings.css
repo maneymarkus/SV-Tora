@@ -1,0 +1,36 @@
+main h1 {
+  margin-bottom: 1.5rem;
+}
+
+main h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+main a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #3D76E1;
+  transition: 0.2s ease;
+}
+
+main a:hover {
+  color: #2699FB;
+  text-decoration: underline;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

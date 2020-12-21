@@ -10,6 +10,7 @@ a.primary-button {
   transform-style: preserve-3d;
   font-size: 1rem;
   z-index: 100;
+  cursor: pointer;
 }
 
 a.primary-button:before {
@@ -34,12 +35,17 @@ a.primary-button.delete:before {
   box-shadow: 0 0 20px 3px #F71735 inset, 0 0 10px 3px black;
 }
 
-a.primary-button.documents:before {
+a.primary-button.documents:before,
+a.primary-button.accept:before {
   box-shadow: 0 0 20px 3px #5EFC8D inset, 0 0 10px 3px black;
 }
 
 a.primary-button.messages:before {
   box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
+}
+
+a.primary-button.settings:before {
+  box-shadow: 0 0 20px 3px #9C1EC2 inset, 0 0 10px 3px black;
 }
 
 a.primary-button.disabled:before {
@@ -59,12 +65,17 @@ a.primary-button.delete:hover:before {
   border-color: #F71735;
 }
 
-a.primary-button.documents:hover:before {
+a.primary-button.documents:hover:before,
+a.primary-button.accept:hover:before {
   border-color: #5EFC8D;
 }
 
 a.primary-button.messages:hover:before {
   border-color: #FFF275;
+}
+
+a.primary-button.settings:hover:before {
+  border-color: #9C1EC2;
 }
 
 a.primary-button.disabled:hover:before {
@@ -95,12 +106,17 @@ a.primary-button.disabled:hover:before {
   color: #B23A48;
 }
 
-.primary-button.documents i {
+.primary-button.documents i,
+.primary-button.accept i {
   color: #20BF55;
 }
 
 .primary-button.messages i {
   color: #E3B505;
+}
+
+.primary-button.settings i {
+  color: #7B1461;
 }
 
 .primary-button.disabled i {
@@ -114,13 +130,18 @@ a.primary-button.disabled:hover:before {
   color: #F71735;
 }
 
-.primary-button.documents:hover i {
+.primary-button.documents:hover i,
+.primary-button.accept:hover i {
   color: #5EFC8D;
 }
 
 .primary-button.messages:hover i {
   color: #FFF275;
 }
+
+.primary-button.settings:hover i {
+   color: #9C1EC2;
+ }
 
 .primary-button.disabled:hover i {
   color: #4A4A4A;

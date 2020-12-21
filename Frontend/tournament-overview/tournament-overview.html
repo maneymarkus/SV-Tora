@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Tournament-Overview</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/tournament-overview.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./tournament-overview-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+  <div class="flip-control">
+    <a class="primary-button flip">
+      <i class="material-icons">flip_to_back</i>
+      <p>Karten umdrehen</p>
+    </a>
+  </div>
+
+  <main class="clearfix">
+      <h1>
+          Wettkämpfe
+      </h1>
+      <div class="perspective-container">
+        <div class="tournament-card ">
+            <div class="front">
+              <div class="bg">
+                <p class="number">1</p>
+              </div>
+              <p class="bg-text">
+                Tora-Pokal
+              </p>
+              <h3 class="district">
+                Tora-Pokal
+              </h3>
+            </div>
+            <div class="back">
+                <h3 data-key="Wettkampfname">
+                    Tora-Pokal
+                </h3>
+                <p data-key="Alter">
+                    8-16
+                </p>
+                <p data-key="Graduierung">
+                    7. Kyu - 6. Dan
+                </p>
+                <p data-key="Teams">
+                    Ja
+                </p>
+                <p data-key="Kihon">
+                    Nein
+                </p>
+                <a class="secondary-button">
+                  <span class="text">
+                    Bearbeiten
+                  </span>
+                </a>
+            </div>
+          </div>
+        <div class="tournament-card">
+          <div class="front">
+            <div class="bg">
+              <p class="number">2</p>
+            </div>
+            <p class="bg-text">
+              Weihnachtsturnier
+            </p>
+            <h3 class="district">
+              Weihnachts&shy;turnier
+            </h3>
+          </div>
+          <div class="back">
+              <h3 data-key="Wettkampfname">
+                  Weihnachtsturnier
+              </h3>
+              <p data-key="Alter">
+                  8-16
+              </p>
+              <p data-key="Graduierung">
+                  7. Kyu - 6. Dan
+              </p>
+              <p data-key="Teams">
+                  Ja
+              </p>
+              <p data-key="Kihon">
+                  Nein
+              </p>
+              <a class="secondary-button">
+                  <span class="text">
+                    Bearbeiten
+                  </span>
+              </a>
+          </div>
+        </div>
+        <div class="tournament-card">
+          <div class="front">
+            <div class="bg">
+              <p class="number">3</p>
+            </div>
+            <p class="bg-text">
+              Nachwuchsturnier
+            </p>
+            <h3 class="district">
+              Nachwuchs&shy;turnier
+            </h3>
+          </div>
+          <div class="back">
+              <h3 data-key="Wettkampfname">
+                  Nachwuchsturnier
+              </h3>
+              <p data-key="Alter">
+                  6-12
+              </p>
+              <p data-key="Graduierung">
+                  9. Kyu - 8. Kyu
+              </p>
+              <p data-key="Teams">
+                  Nein
+              </p>
+              <p data-key="Kihon">
+                  Ja
+              </p>
+              <a class="secondary-button">
+                  <span class="text">
+                    Bearbeiten
+                  </span>
+              </a>
+          </div>
+        </div>
+      </div>
+    <div class="add-tournament">
+      <a class="primary-button add">
+        <i class="material-icons">add</i>
+        <p>Wettkampf hinzufügen</p>
+      </a>
+    </div>
+  </main>
+
+</body>
+</html>

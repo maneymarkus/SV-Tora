@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Header</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/nav.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/header.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/user-profile.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="header-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <nav class="nav">
+        <a class="primary-button close" href="#">
+            <i class="material-icons">close</i>
+            <p>Schließen</p>
+        </a>
+        <p class="bg-text">
+        </p>
+        <ul>
+            <li>
+                <a href="#">
+                    <span class="text">Personen</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="text">Teams</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="text">Vereine</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="text">Wettkampf</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+        </ul>
+        <div class="image-container">
+            <img src="../../images/fighter-symbol-white.png" />
+        </div>
+    </nav>
+
+    <header class="header">
+        <a href="#" class="menu"><i class="material-icons">menu</i></a>
+        <p>SV Tora e.V.</p>
+        <a href="#" class="profile"><i class="material-icons">person</i></a>
+        <div class="user-profile">
+            <div class="user-wrapper">
+                <div class="pic-container">
+                    <img src="../../images/Karate_Trainer_Markus_Popov.jpg" />
+                </div>
+                <p class="username">Marcus PoPopov</p>
+                <a class="secondary-button settings" href="#">
+              <span class="text">
+                Einstellungen
+              </span>
+                </a>
+                <a class="secondary-button logout" href="#">
+              <span class="text">
+                Abmelden
+              </span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+</body>
+</html>

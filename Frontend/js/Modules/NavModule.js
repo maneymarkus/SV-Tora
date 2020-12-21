@@ -24,11 +24,16 @@ let NavModule = (function (window, document, undefined) {
       return;
     }
     let text = target.innerText.trim();
-    navBgText.innerHTML = text;
+    if (text.toLowerCase().indexOf("schließen") === -1) {
+      navBgText.innerHTML = text;
+    } else {
+      navBgText.innerHTML = "";
+    }
   }
 
   function openNav() {
     nav.classList.add("open");
+    nav.addEventListener("mousemove", showBGText);
   }
 
   return {

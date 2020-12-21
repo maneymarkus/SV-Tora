@@ -10,7 +10,7 @@
   transform: scale(0.25);
   box-shadow: 0 3px 10px 2px black;
   z-index: 100;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   visibility: hidden;
 }
 
@@ -97,7 +97,7 @@
   .user-profile {
     width: 20%;
     min-width: 25em;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -107,7 +107,12 @@
 
 @media only screen and (min-width: 992px) {
   .user-profile {
-    font-size: 0.8rem;
+    font-size: 1rem;
+  }
+
+  .user-profile.open {
+    top: 8rem;
+    right: 2rem;
   }
 }
 

@@ -1,0 +1,24 @@
+.is-typing:after {
+    content: '|';
+    color: #2699FB;
+    -webkit-animation: blink 650ms infinite;
+    animation: blink 650ms infinite;
+}
+
+@-webkit-keyframes blink {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

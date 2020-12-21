@@ -97,11 +97,11 @@ header .profile {
     transform: translateY(50%);
   }
 
-  header p {
+  header > p {
     font-size: 2rem;
   }
 
-  header a {
+  header > a {
     width: 8rem;
     height: 8rem;
     top: -2.5rem;

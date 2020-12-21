@@ -1,0 +1,59 @@
+main h1 {
+  margin-bottom: 3rem;
+}
+
+main p {
+  font-size: 2rem;
+}
+
+p span {
+  color: #3D76E1;
+}
+
+.decision {
+  width: 100%;
+  margin-top: 10rem;
+  font-size: 1.25rem;
+  padding: 0 15%;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s ease;
+  transform: scale(1);
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.decision > p {
+  border-bottom: 2px solid #4A4A4A;
+  padding-bottom: 0.25em;
+  box-shadow: 0 15px 10px -10px black;
+}
+
+.decision a:first-child {
+  float: left;
+}
+
+.decision a:last-child {
+  float: right;
+}
+
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

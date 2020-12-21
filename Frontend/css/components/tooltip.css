@@ -1,0 +1,46 @@
+.tt-trigger {
+  color: #3D76E1;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.tt-trigger i {
+  font-size: 3rem;
+  transition: 0.2s ease;
+}
+
+.tt-trigger:hover i {
+  color: #2699FB;
+  transform: scale(1.2);
+}
+
+.tippy-box[data-theme~='svtora'] {
+  font-size: 1.3rem;
+  background-color: #171717;
+  padding: 0.2rem 0.4rem;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+  box-shadow: 0 2px 10px 3px black, 0 0 0 2px #2699FB inset;
+  word-wrap: break-word;
+}
+
+.tippy-box[data-theme~='svtora'] > .tippy-svg-arrow {
+  fill: #2699FB;
+  transform: scale(1.5);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

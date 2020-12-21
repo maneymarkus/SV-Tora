@@ -8,14 +8,25 @@
 
     <title>Profile-Settings</title>
 
-    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="css/profile-settings.css" type="text/css" />
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/profile-settings.css" type="text/css" />
 
     <!--[if lt IE 9]>
-    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-    <script src="js/profile-settings.js"></script>
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./profile-settings-entrypoint.js"></script>
+
     <!--
 
         Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
@@ -25,7 +36,7 @@
 </head>
 <body class="darkmode">
 
-    <main class="clearfix">
+    <main class="limited clearfix">
 
         <h1>Profil</h1>
 
@@ -44,7 +55,7 @@
         </div>
         <div class="col">
             <h3>Profilbild</h3>
-            <a class="pic-container" href="#"><img src="images/Karate_Trainer_Markus_Popov.jpg" /></a>
+            <a class="pic-container" href="#"><img src="../images/Karate_Trainer_Markus_Popov.jpg" /></a>
         </div>
     </main>
 

@@ -8,17 +8,25 @@
 
     <title>Administration</title>
 
-    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="css/material-inputs.css" type="text/css" />
-    <link rel="stylesheet" href="css/administration.css" type="text/css" />
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/administration.css" type="text/css" />
 
     <!--[if lt IE 9]>
-    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/tilt.jquery.js"></script>
-    <script src="js/administration.js"></script>
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./administration-entrypoint.js"></script>
 
     <!--
 
@@ -59,7 +67,7 @@
                 <tr>
                     <td>
                         <div class="pic-container">
-                            <img src="images/placeholder.png" />
+                            <img src="../images/placeholder.png" />
                         </div>
                         <span class="admin">Marcus Popopov</span>
                     </td>
@@ -86,7 +94,7 @@
                 <tr>
                     <td>
                         <div class="pic-container">
-                            <img src="images/placeholder.png" />
+                            <img src="../images/placeholder.png" />
                         </div>
                         <span class="admin">Der Markus</span>
                     </td>
@@ -113,7 +121,7 @@
                 <tr>
                     <td>
                         <div class="pic-container">
-                            <img src="images/placeholder.png" />
+                            <img src="../images/placeholder.png" />
                         </div>
                         <span class="admin">Flori auch noch</span>
                     </td>

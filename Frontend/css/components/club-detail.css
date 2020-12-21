@@ -1,0 +1,164 @@
+.big-card {
+  position: relative;
+  min-height: 100%;
+  padding: 3rem;
+  background-color: #2699FB;
+  border-radius: 25px;
+  box-shadow: 5px 5px 25px 10px black;
+  overflow: hidden;
+  margin: 0 auto 2rem;
+  max-width: 1000px;
+}
+
+.big-card:before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 110%;
+  top: -5%;
+  left: -25%;
+  border-radius: 50%;
+  background: #4A4A4A;
+  z-index: 0;
+}
+
+.big-card h1 {
+  position: relative;
+  margin: 0 0 3rem 0;
+  font-size: 3rem;
+  text-shadow: 2px 2px 10px black;
+  text-align: center;
+  border-bottom: 3px solid #9B9B9B;
+  box-shadow: 0 15px 15px -15px black;
+}
+
+.big-card .info-container {
+  height: auto;
+  padding: 0 1rem;
+  margin-bottom: 4rem;
+}
+
+.big-card .info {
+  z-index: 1;
+  position: relative;
+  font-size: 1.5rem;
+  vertical-align: middle;
+  padding-bottom: 3rem;
+}
+
+.info p {
+  text-align: center;
+  margin: 0 0 1rem 0;
+}
+
+.info .club-name {
+  color: #2699FB;
+  font-weight: bold;
+  text-shadow: 2px 2px 3px black;
+  font-size: 2rem;
+  border-bottom: 2px solid #9B9B9B;
+  padding-bottom: 1rem;
+}
+
+.info .club-mail {
+  font-style: italic;
+}
+
+.big-card .image-container {
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 15px 0 black;
+  padding: 0;
+  max-width: 300px;
+  width: 50%;
+  min-width: 150px;
+  margin: 0 auto;
+}
+
+.big-card .image-container img {
+  top: 0;
+  left: 0;
+  position: relative;
+  width: 100%;
+  height: auto;
+  transform: scale(1.1);
+  transition: 0.2s ease;
+}
+
+.big-card h2 {
+  position: relative;
+  font-size: 2rem;
+  text-shadow: 1px 1px 3px black;
+  border-bottom: 2px solid #303030;
+  padding-bottom: 0.25rem;
+  margin-top: 4rem;
+  clear: both;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+  html {
+    font-size: 1em;
+  }
+
+  .big-card h1 {
+    font-size: 3.5rem;
+  }
+
+  .big-card .info-container {
+    padding: 0 3rem;
+  }
+
+  .big-card .info {
+    float: left;
+    width: 50%;
+    padding-top: 4rem;
+    padding-bottom: 0;
+    font-size: 2rem;
+  }
+
+  .info p {
+    text-align: left;
+    margin: 0 0 2rem 0;
+    font-size: 1.5rem;
+  }
+
+  .info .club-name {
+    padding-bottom: 0.25rem;
+    font-size: 2rem;
+  }
+
+  .big-card .image-container {
+    float: right;
+    margin: 0;
+    width: 35%;
+  }
+
+  .vertical-card {
+    width: 47%;
+    display: inline-block;
+  }
+
+  .vertical-card:nth-child(even) {
+    margin-right: 5%;
+  }
+
+  .vertical-card:last-child {
+    margin-right: 0;
+    display: block;
+    width: 100%;
+  }
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

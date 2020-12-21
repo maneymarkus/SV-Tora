@@ -26,23 +26,10 @@ nav.nav.open {
   visibility: visible;
 }
 
-/* TODO: Revise what properties are necessary */
-
-a.primary-button {
+nav a.primary-button {
   position: absolute;
   top: 5%;
   right: 10%;
-  text-align: center;
-  display: inline-block;
-  width: 4em;
-  height: 4em;
-  margin: 2em;
-  color: white;
-  transition: 0.2s ease;
-  background-color: transparent;
-  transform-style: preserve-3d;
-  font-size: 1rem;
-  z-index: 100;
 }
 
 nav.nav .bg-text {
@@ -64,23 +51,21 @@ nav.nav .bg-text {
 nav.nav ul {
   list-style: none;
   width: 100%;
+  height: 100%;
   position: relative;
   margin: 0 auto;
   text-align: center;
-  padding: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  padding: 5rem 0;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 nav ul li {
   width: 100%;
-  height: 100%;
+  height: auto;
   position: relative;
-}
-
-nav.nav ul li + li {
-  margin-top: 5vh;
 }
 
 nav.nav ul a {
@@ -104,7 +89,7 @@ nav.nav ul a span.text {
 }
 
 nav.nav ul a:hover span.text {
-  transform: scale(1.1) skew(0, -15deg);
+  transform: scale(1.1) skew(0, -10deg);
   font-weight: bold;
   animation: glowing 0.5s ease-in infinite alternate;
 }
@@ -149,31 +134,6 @@ nav.nav .image-container img {
   height: auto;
 }
 
-
-/* TODO: remove */
-a.open-nav {
-  position: relative;
-  display: inline-block;
-  width: 10rem;
-  height: 5rem;
-  line-height: 5rem;
-  cursor: pointer;
-  font-size: 2rem;
-  background-color: #222222;
-  text-align: center;
-  border: 1px solid #4A4A4A;
-  transition: 0.5s ease;
-  border-radius: 3px;
-  box-shadow: 1px 1px 3px 2px grey;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-a.open-nav:hover {
-  background-color: #4A4A4A;
-}
-
 @media only screen and (min-width: 600px) {
 
 }
@@ -182,10 +142,6 @@ a.open-nav:hover {
   nav.nav .bg-text {
     font-size: 13rem;
     letter-spacing: 0.5rem;
-  }
-
-  nav.nav ul li + li {
-    margin-top: 7vh;
   }
 
   nav.nav ul a {
@@ -205,20 +161,15 @@ a.open-nav:hover {
 }
 
 @media only screen and (min-width: 992px) {
-  nav.nav ul {
-    width: 30%;
-  }
 
   nav.nav .bg-text {
     font-size: 15rem;
     letter-spacing: 0.5rem;
   }
 
-  nav.nav ul li + li {
-    margin-top: 4vh;
-  }
-
   nav.nav ul a {
+    display: inline-block;
+    width: auto;
     font-size: 4rem;
     padding: 1rem;
   }

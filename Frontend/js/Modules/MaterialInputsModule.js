@@ -6,7 +6,7 @@ if (typeof GeneralModule === "undefined") {
   console.log("Missing GeneralModule Dependency!");
 }
 
-let InputsModule = (function(window, document, undefined) {
+let MaterialInputsModule = (function(window, document, undefined) {
 
   let inputTypes = GeneralModule.generalVariables.inputTypes;
 

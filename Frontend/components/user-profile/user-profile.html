@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>User-Profile</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/user-profile.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="user-profile-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+    <style>
+
+        a.open-profile {
+            position: relative;
+            display: inline-block;
+            width: 10rem;
+            height: 5rem;
+            line-height: 5rem;
+            cursor: pointer;
+            font-size: 2rem;
+            background-color: #222222;
+            text-align: center;
+            border: 1px solid #4A4A4A;
+            transition: 0.5s ease;
+            border-radius: 3px;
+            box-shadow: 1px 1px 3px 2px grey;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        a.open-profile:hover {
+            background-color: #4A4A4A;
+        }
+
+    </style>
+
+</head>
+<body class="darkmode">
+
+  <a class="open-profile" onclick="document.querySelector('div.user-profile').classList.toggle('open');">
+      Profile
+  </a>
+
+  <div class="user-profile">
+      <div class="user-wrapper">
+          <div class="pic-container">
+              <img src="../../images/Karate_Trainer_Markus_Popov.jpg" />
+          </div>
+          <p class="username">Marcus PoPopov</p>
+          <a class="secondary-button settings" href="#">
+              <span class="text">
+                Einstellungen
+              </span>
+          </a>
+          <a class="secondary-button logout" href="#">
+              <span class="text">
+                Abmelden
+              </span>
+          </a>
+      </div>
+  </div>
+
+</body>
+</html>

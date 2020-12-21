@@ -43,6 +43,21 @@ a.primary-button.close-modal {
   top: -1em;
   width: 3em;
   height: 3em;
+  margin: 0;
+}
+
+.primary-button.close-modal i {
+  color: #171717;
+  background-color: #B23A48;
+  border-radius: 50%;
+  padding: 0.1em;
+  font-size: 3.5em;
+  box-shadow: 0 3px 5px 2px black;
+}
+
+.primary-button.close-modal:hover i {
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .modal-window .mw-header{

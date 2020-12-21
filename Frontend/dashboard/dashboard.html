@@ -8,15 +8,25 @@
 
     <title>Dashboard</title>
 
-    <link rel="stylesheet" href="css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="css/dashboard.css" type="text/css" />
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/vertical-card.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/dashboard.css" type="text/css" />
 
     <!--[if lt IE 9]>
-    <script src="/SV-Tora/js/html5shiv.js"></script>
+    <script src="../js/html5shiv.js"></script>
     <![endif]-->
 
-    <script src="js/theater.min.js"></script>
-    <script src="js/dashboard.js"></script>
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./dashboard-entrypoint.js"></script>
+
     <!--
 
         Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
@@ -39,38 +49,29 @@
             </div>
 
             <div class="col">
-                <a class="vertical-card" href="#">
-                    <p class="bg-text">
-                        Personen
-                    </p>
+                <a data-bg="Personen" class="vertical-card" href="#">
                     <h3 class="district">
                         Personen
                     </h3>
                     <span class="count">
-                        513
-                    </span>
+                    513
+                </span>
                 </a>
-                <a class="vertical-card" href="#">
-                    <p class="bg-text">
-                        Teams
-                    </p>
+                <a data-bg="Teams" class="vertical-card" href="#">
                     <h3 class="district">
                         Teams
                     </h3>
                     <span class="count">
-                        107
-                    </span>
+                    107
+                </span>
                 </a>
-                <a class="vertical-card" href="#">
-                    <p class="bg-text">
-                        Vereine
-                    </p>
+                <a data-bg="Vereine" class="vertical-card" href="#">
                     <h3 class="district">
                         Vereine
                     </h3>
                     <span class="count">
-                      29
-                    </span>
+                    29
+                </span>
                 </a>
             </div>
         </div>
