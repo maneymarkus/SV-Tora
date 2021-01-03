@@ -16,6 +16,8 @@ jobs:
       with:
         php-version: '7.3'
     - uses: actions/checkout@v2
+    - name: Switch to project directory
+      run: cd sv-tora
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
