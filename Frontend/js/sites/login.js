@@ -1,5 +1,5 @@
 /*
-    Dependencies: TheaterModule, MaterialInputsModule
+    Dependencies: TheaterModule, MaterialInputsModule, ModalModule, FormModule
  */
 
 if (typeof TheaterModule === "undefined") {
@@ -8,6 +8,14 @@ if (typeof TheaterModule === "undefined") {
 
 if (typeof MaterialInputsModule === "undefined") {
   console.log("Missing MaterialInputsModule Dependency!");
+}
+
+if (typeof ModalModule === "undefined") {
+  console.log("Missing ModalModule Dependency!");
+}
+
+if (typeof FormModule === "undefined") {
+  console.log("Missing FormModule Dependency!");
 }
 
 /*
@@ -90,7 +98,19 @@ if (typeof MaterialInputsModule === "undefined") {
       if (small === loginContainer) {
         return;
       }
-      submitForm(loginContainer.querySelector("form"));
+      let form = loginContainer.querySelector("form")
+      if (FormModule.checkFormApi(form)) {
+        submitForm(form);
+      }
+    });
+
+    loginContainer.addEventListener("input", function () {
+      let form = loginContainer.querySelector("form");
+      if (FormModule.checkFormApi(form)) {
+        loginContainer.querySelector(".secondary-button").classList.remove("disabled");
+      } else {
+        loginButton.classList.add("disabled");
+      }
     });
 
     registerButton.addEventListener("click", function (e) {
@@ -99,7 +119,19 @@ if (typeof MaterialInputsModule === "undefined") {
       if (small === registrationContainer) {
         return;
       }
-      submitForm(registrationContainer.querySelector("form"));
+      let form = registrationContainer.querySelector("form");
+      if (FormModule.checkFormApi(form)) {
+        submitForm(form);
+      }
+    });
+
+    registrationContainer.addEventListener("input", function () {
+      let form = registrationContainer.querySelector("form");
+      if (FormModule.checkFormApi(form)) {
+        registerButton.classList.remove("disabled");
+      } else {
+        registerButton.classList.add("disabled");
+      }
     });
 
     function submitForm(form) {
@@ -112,8 +144,22 @@ if (typeof MaterialInputsModule === "undefined") {
     }
 
     passwordForgottenButton.addEventListener("click", function () {
-      // TODO: Create E-Mail Input Element with InputModule API -> Call Confirm Modal -> Send E-Mail to user
+      let emailInput = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.TEXT, ["email"], undefined, "email", "E-Mail-Adresse", undefined, undefined, undefined);
+      ModalModule.confirmModalApi("E-Mail Adresse eingeben", emailInput, function () {
+        let input = MaterialInputsModule.getInputObjectApi(emailInput);
+        passwordForgotten(input.getValue());
+      });
     });
+
+    function passwordForgotten(eMail) {
+      // TODO: Finish
+      console.log(eMail);
+    }
+
+    let password1 = document.querySelector(".repeat-1");
+    let password2 = document.querySelector(".repeat-2");
+
+    FormModule.checkRepetitionApi(password1, password2);
 
   }
 

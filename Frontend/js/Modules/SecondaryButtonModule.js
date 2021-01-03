@@ -4,7 +4,7 @@
 
 let SecondaryButtonModule = (function (window, document, undefined) {
 
-  let secondaryButtons = document.querySelectorAll("a.secondary-button");
+  let secondaryButtons = document.querySelectorAll(".secondary-button");
 
   secondaryButtons.forEach(btn => {
     btn.addEventListener("click", function(e) {

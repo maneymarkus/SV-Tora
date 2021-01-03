@@ -15,6 +15,8 @@
 
     <!-- Specific style -->
     <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
     <link rel="stylesheet" href="../css/sites/login.css" type="text/css" />
 
@@ -48,13 +50,13 @@
         <div class="login-container">
             <h1>Login</h1>
             <form class="login clearfix" action="" method="post">
-                <span class="text-input-container input-container">
+                <span class="text-input-container input-container required">
                     <label class="icon" for="login-name"><i class="material-icons">person</i></label>
                     <input class="text-input" type="text" id="login-name" name="username" required />
                     <label class="text" for="login-name">Benutzername/E-Mail</label>
                     <span class="underline"></span>
                 </span>
-                <span class="text-input-container input-container">
+                <span class="text-input-container input-container required">
                     <label class="icon password-label" for="login-password"><i class="material-icons">lock</i></label>
                     <input class="text-input" type="password" id="login-password" name="password" required />
                     <label class="text" for="login-password">Passwort</label>
@@ -70,25 +72,25 @@
         <div class="registration-container small">
             <h1>Registrieren</h1>
             <form class="registration clearfix" action="" method="post">
-                <span class="text-input-container input-container">
+                <span class="text-input-container input-container required">
                     <label class="icon" for="register-username"><i class="material-icons">person</i></label>
                     <input class="text-input" type="text" id="register-username" name="username" />
                     <label class="text" for="register-username">Benutzername</label>
                     <span class="underline"></span>
                 </span>
-                <span class="text-input-container input-container">
+                <span class="text-input-container input-container email required">
                     <label class="icon" for="register-mail"><i class="material-icons">email</i></label>
                     <input class="text-input" type="text" id="register-mail" name="mail" />
                     <label class="text" for="register-mail">E-Mail</label>
                     <span class="underline"></span>
                 </span>
-                <span class="text-input-container input-container">
+                <span class="text-input-container input-container repeat-1 required">
                     <label class="icon password-label" for="register-password-1"><i class="material-icons">lock</i></label>
                     <input class="text-input" type="password" id="register-password-1" name="password" />
                     <label class="text" for="register-password-1">Passwort</label>
                     <span class="underline"></span>
                 </span>
-                <span class="text-input-container input-container">
+                <span class="text-input-container input-container repeat-2 required">
                     <label class="icon password-label" for="register-password-2"><i class="material-icons">lock</i></label>
                     <input class="text-input" type="password" id="register-password-2" name="password" />
                     <label class="text" for="register-password-2">Passwort wiederholen</label>

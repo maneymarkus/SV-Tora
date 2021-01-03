@@ -56,7 +56,7 @@
     </div>
 
     <div class="container">
-        <span class="text-input-container input-container required mail">
+        <span class="text-input-container input-container mail">
             <label class="icon" for="input"><i class="material-icons">email</i></label>
             <input name="text-topic" class="text-input" type="text" id="input"/>
             <label class="text" for="input">Placeholder</label>
@@ -65,12 +65,34 @@
     </div>
 
     <div class="container">
-        <label class="checkbox-input-container input-container">
-            Option
-            <input type="checkbox" value="Option" name="Topic" />
-            <span class="checkmark"></span>
-        </label>
+        <div class="checkbox-group input-container">
+            <label class="checkbox-input-container">
+                Option 1
+                <input type="checkbox" value="Option 1" name="Topic" />
+                <span class="checkmark"></span>
+            </label>
+            <label class="checkbox-input-container input-container">
+                Option 2
+                <input type="checkbox" value="Option 2" name="Topic" />
+                <span class="checkmark"></span>
+            </label>
+        </div>
     </div>
+
+        <div class="container">
+            <div class="radio-group input-container">
+                <label class="radio-input-container">
+                    Option 1
+                    <input type="radio" name="Topic" value="Option 1" />
+                    <span class="checkmark"></span>
+                </label>
+                <label class="radio-input-container input-container">
+                    Option 2
+                    <input type="radio" name="Topic" value="Option 2" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
 
     <div class="container">
         <div class="select-input-container input-container">
@@ -89,18 +111,10 @@
     </div>
 
     <div class="container">
-        <label class="radio-input-container input-container">
-            Option
-            <input type="radio" name="Topic" value="Option" />
-            <span class="checkmark"></span>
-        </label>
-    </div>
-
-    <div class="container">
         <div class="date-input-container input-container">
             <label class="icon" for="date"><i class="material-icons">today</i></label>
             <input class="date-input" type="text" id="date" name="date" />
-            <label class="text" for="input">Placeholder</label>
+            <label class="text" for="date">Placeholder</label>
             <span class="underline"></span>
         </div>
     </div>
@@ -109,7 +123,7 @@
         <div class="time-input-container input-container">
             <label class="icon" for="time"><i class="material-icons">schedule</i></label>
             <input class="time-input" type="text" id="time" name="time" />
-            <label class="text" for="input">Placeholder</label>
+            <label class="text" for="time">Placeholder</label>
             <span class="underline"></span>
         </div>
     </div>
@@ -123,7 +137,7 @@
     </div>
 
     <div class="container">
-        <textarea name="topic" class="input-container" placeholder="Deine Nachricht..."></textarea>
+        <textarea name="topic" class="textarea input-container" placeholder="Deine Nachricht..."></textarea>
     </div>
 
     </main>

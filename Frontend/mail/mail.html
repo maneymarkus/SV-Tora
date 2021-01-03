@@ -15,6 +15,7 @@
 
     <!-- Specific style -->
     <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
     <link rel="stylesheet" href="../css/sites/mail.css" type="text/css" />
@@ -40,27 +41,29 @@
 
     <form class="mail-content clearfix">
         <h3>Wem willst du schreiben?</h3>
-        <div class="container receiver clearfix">
+        <div class="receiver-container clearfix">
             <div class="receiver-selection">
-                <label class="radio-input-container">
-                    Allen Vereinen
-                    <input type="radio" name="receiver" value="all" />
-                    <span class="checkmark"></span>
-                </label>
-                <br />
-                <label class="radio-input-container">
-                    Angemeldete Vereine zum aktuellen Wettkampf
-                    <input type="radio" name="receiver" value="only-enrolled" />
-                    <span class="checkmark"></span>
-                </label>
-                <br />
-                <label class="radio-input-container">
-                    Ausgewählten Vereinen
-                    <input type="radio" name="receiver" value="choose" />
-                    <span class="checkmark"></span>
-                </label>
+                <div class="radio-group input-container required">
+                    <label class="radio-input-container">
+                        Allen Vereinen
+                        <input type="radio" name="receiver" value="all" />
+                        <span class="checkmark"></span>
+                    </label>
+                    <br />
+                    <label class="radio-input-container">
+                        Angemeldete Vereine zum aktuellen Wettkampf
+                        <input type="radio" name="receiver" value="only-enrolled" />
+                        <span class="checkmark"></span>
+                    </label>
+                    <br />
+                    <label class="radio-input-container">
+                        Ausgewählten Vereinen
+                        <input type="radio" name="receiver" value="choose" />
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
             </div>
-            <a class="secondary-button disabled choose-clubs">
+            <a class="secondary-button disabled choose-receivers">
               <span class="text">
                 Auswählen
               </span>
@@ -71,19 +74,19 @@
                 Freitexteingabe
               </span>
             </a>
-            <div class="chosen-clubs">
+            <div class="chosen-receivers">
                 <span class="to">An:</span>
             </div>
         </div>
         <h3>Worum geht's?</h3>
-        <span class="text-input-container">
+        <span class="text-input-container required">
             <label class="icon" for="subject"><i class="material-icons">person</i></label>
             <input class="text-input" type="text" id="subject" name="subject" />
             <label class="text" for="subject">Betreff</label>
             <span class="underline"></span>
         </span>
         <h3>Was willst du genau mitteilen?</h3>
-        <textarea placeholder="Deine Nachricht..."></textarea>
+        <textarea class="textarea input-container required" placeholder="Deine Nachricht..."></textarea>
         <h3>Senden?</h3>
         <a class="primary-button send" href="#">
             <i class="material-icons">mail</i>
@@ -96,25 +99,6 @@
     </form>
 
     <i class="envelope material-icons">drafts</i>
-
-    <!--
-
-    <div class="overlay"></div>
-
-    <div class="modal-window choose-clubs-modal">
-        <div class="modal-window-header">
-            <p class="topic">Vereine auswählen</p>
-            <a class="close"><i class="material-icons">close</i></a>
-        </div>
-        <form class="" action="#" method="post">
-            <div class="all-clubs">
-
-            </div>
-            <button type="submit" class="modal-button choose-button">Auswählen</button>
-        </form>
-    </div>
-
-    -->
 
 </body>
 </html>

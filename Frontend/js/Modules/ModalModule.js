@@ -74,9 +74,22 @@ let ModalModule = (function(window, document, undefined) {
     modalHeader.appendChild(GeneralModule.generateElementApi("h2", [], header));
     modal.appendChild(modalHeader);
     let modalContent = GeneralModule.generateElementApi("div", ["mw-content"]);
-    modalContent.appendChild(GeneralModule.generateElementApi("p", [], content));
+    if (isElement(content)) {
+      modalContent.appendChild(content);
+      // workaround to display single (or two) select(s) without scroll bars
+      if (content.classList.contains("select-input-container")) {
+        modalContent.style.overflowY = "unset";
+      }
+    } else {
+      modalContent.appendChild(GeneralModule.generateElementApi("p", [], content));
+    }
     modal.appendChild(modalContent);
     return modal;
+  }
+
+  // see https://stackoverflow.com/questions/384286/how-do-you-check-if-a-javascript-object-is-a-dom-object for further information
+  function isElement(o){
+    return (typeof HTMLElement === "object" ? o instanceof HTMLElement : o && typeof o === "object" && true && o.nodeType === 1 && typeof o.nodeName==="string");
   }
 
   function abortion(overlay, noCallback) {
@@ -87,8 +100,13 @@ let ModalModule = (function(window, document, undefined) {
   }
 
   function confirmation(overlay, yesCallback) {
-    let modalContent = overlay.querySelector("div.mw-content");
-    if (InputsModule.checkRequiredInputsApi(modalContent)) {
+    if (typeof FormModule !== "undefined") {
+      let modalContent = overlay.querySelector("div.mw-content");
+      if (FormModule.checkFormApi(modalContent)) {
+        closeModalWindow(overlay);
+        yesCallback();
+      }
+    } else {
       closeModalWindow(overlay);
       yesCallback();
     }
@@ -96,30 +114,41 @@ let ModalModule = (function(window, document, undefined) {
 
   function closeModalWindow(overlay) {
     let mwHeader = overlay.querySelector(".mw-header");
-    mwHeader.style.height = mwHeader.offsetHeight + "px";
-    window.setTimeout(function () {
-      mwHeader.style.height = "0";
-    }, 5);
+    mwHeader.style.removeProperty("height");
+    overlay.classList.remove("open");
+    if (main) {
+      main.classList.remove("blur");
+    }
+    window.removeEventListener("resize", resizeHeader);
+
     window.setTimeout(function() {
       overlay.remove();
     }, 1000);
-    overlay.classList.remove("open");
-    main.classList.remove("blur");
   }
 
   function showModalWindow(overlay) {
-    let mwHeader = overlay.querySelector(".mw-header");
+    if (main) {
+      main.classList.add("blur");
+    }
     body.appendChild(overlay);
-    let headerHeight = mwHeader.offsetHeight;
-    mwHeader.style.height = "0px";
+
+    // the document needs this little time offset to apply animations
     window.setTimeout(function () {
       overlay.classList.add("open");
-      mwHeader.style.height = headerHeight + "px";
-    }, 100);
+    }, 5);
+
+    //after opening the modal window wait 1s to resize the header
     window.setTimeout(function () {
-      mwHeader.style.height = "auto";
-    },2500);
-    main.classList.add("blur");
+      resizeHeader();
+    },1000);
+    window.addEventListener("resize", resizeHeader);
+  }
+
+  function resizeHeader() {
+    let mwHeader = document.querySelector(".overlay .mw-header");
+    let h2 = document.querySelector(".overlay .mw-header h2");
+    let headerHeight = h2.offsetHeight;
+    mwHeader.style.height = headerHeight + "px";
   }
 
   return {

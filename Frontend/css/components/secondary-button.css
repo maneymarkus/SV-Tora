@@ -40,10 +40,10 @@
 
 .secondary-button.delete:focus,
 .secondary-button.delete:hover {
-  border: 2px solid #171717;
+  border: 2px solid #F71735;
   color: #171717;
   background-color: #F71735;
-  transition: background-color 0.2s ease 0.6s, color 0.2s ease 0.6s, border-color 0.2s ease 0.6s;
+  transition: background-color 0.2s ease 0.6s, color 0.2s ease 0.6s;
 }
 
 .secondary-button.abort:focus,
@@ -62,6 +62,12 @@
   transition: background-color 0.1s;
   background-color: #4A4A4A;
   box-shadow: 0 0 10px 3px black;
+}
+
+.secondary-button.clicked:before,
+.secondary-button.clicked:after {
+  background-color: #4A4A4A;
+  transition: background-color 0.1s;
 }
 
 .secondary-button:before {

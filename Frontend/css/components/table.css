@@ -1,3 +1,7 @@
+main {
+  height: unset;
+}
+
 main .actions {
   position: relative;
   width: 100%;
@@ -51,7 +55,7 @@ div.chosen-filters {
   display: block;
 }
 
-.secondary-button {
+.filter-container .secondary-button {
   font-size: 1rem;
   width: auto;
   float: right;
@@ -59,13 +63,13 @@ div.chosen-filters {
   padding: 1em 2em;
 }
 
-.secondary-button i {
+.filter-container .secondary-button i {
   font-size: 1.5em;
   margin-right: 0.25em;
   vertical-align: -0.25em;
 }
 
-.secondary-button .text {
+.filter-container .secondary-button .text {
   letter-spacing: 0;
   display: block;
   font-size: 1em;
@@ -143,6 +147,7 @@ table {
   max-width: 1900px;
   text-align: left;
   font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
 thead {

@@ -1,3 +1,7 @@
+main {
+  transition: 0.2s ease 0.5s;
+}
+
 main.blur {
   filter: blur(5px);
   transition: 0.2s ease 0s;
@@ -11,6 +15,7 @@ main.blur {
   height: 100%;
   background-color: rgba(0, 0, 0, 0);
   transition: 0.2s ease 0.7s;
+  z-index: 10000;
 }
 
 .overlay.open {
@@ -46,7 +51,7 @@ a.primary-button.close-modal {
   margin: 0;
 }
 
-.primary-button.close-modal i {
+a.primary-button.close-modal i {
   color: #171717;
   background-color: #B23A48;
   border-radius: 50%;
@@ -61,17 +66,12 @@ a.primary-button.close-modal {
 }
 
 .modal-window .mw-header{
-  height: auto;
+  height: 0;
   overflow: hidden;
   margin: 0.75em 0 1em 0;
   background-color: #171717;
   font-weight: bold;
-  transition: 0.5s ease 0s;
-}
-
-.open .modal-window .mw-header {
-  height: 0;
-  transition: 0.5s ease 1.2s;
+  transition: 0.5s ease;
 }
 
 .modal-window .mw-header h2 {
@@ -85,13 +85,25 @@ a.primary-button.close-modal {
 .modal-window .mw-content {
   font-size: 1.5em;
   padding: 0.5em 1em 1.5em;
-  line-height: 1.5;
   overflow-y: auto;
-  max-height: 10em;
+  max-height: 13em;
 }
 
 .mw-content p {
   margin: 0;
+  line-height: 1.5;
+}
+
+.mw-content h2 {
+  font-size: 1em;
+}
+
+.mw-content .input-container {
+  margin-bottom: 1em;
+}
+
+.mw-content .select-input-container {
+  margin-bottom: 1em;
 }
 
 .modal-window .mw-footer {
@@ -99,7 +111,7 @@ a.primary-button.close-modal {
   bottom: 0;
   display: flex;
   justify-content: space-between;
-  padding: 2em 1em 1em;
+  padding: 1.5em 1em 1em;
   border-top: 2px solid #171717;
 }
 
@@ -109,6 +121,7 @@ a.primary-button.close-modal {
   text-transform: none;
   height: auto;
   width: 12em;
+  margin: 0;
 }
 
 @media only screen and (min-width: 600px) {

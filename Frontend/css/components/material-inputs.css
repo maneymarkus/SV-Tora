@@ -2,7 +2,7 @@
     ERROR MESSAGE (Applies to almost all input-containers
  */
 
-.error {
+span.error {
     position: absolute;
     left: 0;
     top: calc(100% + 1em);
@@ -15,14 +15,14 @@
     text-align: left;
 }
 
-.error i {
+span.error i {
     font-size: 2em;
     color: #F71735;
     vertical-align: middle;
     margin: 0 0.25em 0.1em 0;
 }
 
-.error .message {
+span.error .message {
     vertical-align: middle;
     font-size: 1.25em;
     line-height: 1.75;
@@ -196,6 +196,10 @@ input {
     transition: color 0.2s ease;
 }
 
+.text-input-container label.password-label.icon {
+    cursor: pointer;
+}
+
 .text-input-container label.icon i,
 .date-input-container label.icon i,
 .time-input-container label.icon i {
@@ -251,6 +255,10 @@ input {
     </label>
 
  */
+
+.checkbox-group {
+    position: relative;
+}
 
 .checkbox-input-container {
     display: inline-block;
@@ -327,6 +335,10 @@ input {
     </label>
 
  */
+
+.radio-group {
+    position: relative;
+}
 
 .radio-input-container {
     display: inline-block;
@@ -413,11 +425,11 @@ input {
     display: block;
     height: 2.5em;
     font-size: 1rem; /* adjust size */
-    margin-top: 1.5em;
     cursor: pointer;
     border: 1px solid #3D76E1;
     padding: 0.5em 1em;
     transition: 0.2s ease;
+    line-height: 1.15;
 }
 
 .select-input-container:not(.open):hover {
@@ -428,21 +440,13 @@ input {
     background-color: #3D76E1;
 }
 
-.select-input-container.disabled input {
+.select-input-container.disabled {
     cursor: not-allowed;
-    color: #b4b4b4;
+    border-color: #9B9B9B !important;
 }
 
-.select-input {
-    font-size: 1.5em; /* Adjust size */
-    width: 100%;
-    background-color: transparent;
-    border: none;
-    padding: 0.25em 0 0 1.5em;
-    -webkit-appearance: none;
-    outline: none;
-    color: white;
-    transition: 0.2s ease;
+.select-input-container.error {
+    border-color: #B23A48;
 }
 
 .select-input-container label.icon {
@@ -451,17 +455,24 @@ input {
     transform: translateY(-50%);
     left: 1em;
     color: white;
-    cursor: pointer;
 }
 
-.select-input-container:not(.open):hover i,
+.select-input-container:not(.open):hover > i,
 .select-input-container:not(.open):hover .select-input {
     color: #2699FB;
+}
+
+.select-input-container.disabled i,
+.select-input-container.disabled:hover i,
+.select-input-container.disabled:hover .select-input {
+    color: #9B9B9B;
+    cursor: not-allowed;
 }
 
 .select-input-container label.icon i {
     font-size: 1.75em;
     transition: 0.2s ease;
+    vertical-align: middle;
 }
 
 .select-input-container > i {
@@ -476,14 +487,21 @@ input {
     transform: translateY(-50%) rotate(180deg);
 }
 
-.select-input-container {
-    margin-top: 0;
-    font-size: 1rem; /* Adjust size */
-    cursor: pointer;
+.select-input-container .select-input {
+    display: inline-block;
+    font-size: 1.5em;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 0.25em 0 0 1.5em;
+    -webkit-appearance: none;
+    outline: none;
+    color: white;
+    transition: 0.2s ease;
 }
 
-.select-input-container .select-input {
-    display: block;
+.disabled .select-input {
+    color: #9B9B9B;
 }
 
 .select-input-container .options {
@@ -497,20 +515,21 @@ input {
     transition: 0.5s ease;
     opacity: 0;
     visibility: hidden;
-    z-index: 5;
 }
 
 .select-input-container .options.show {
     visibility: visible;
     opacity: 1;
+    z-index: 1000;
 }
 
 .select-input-container .option {
     font-size: 1.2em;
-    padding: 0.5em 0.5em 0.5em 4em;
+    padding: 0.5em 0.5em 0.5em 1em;
     border: 0;
     transition: 0.2s ease;
     background: #3D76E1;
+    word-wrap: break-word;
 }
 
 .select-input-container .option:hover {
@@ -1215,4 +1234,8 @@ textarea.filled {
 
 textarea::placeholder {
     color: #b4b4b4;
+}
+
+textarea.incorrect {
+    border-color: #F71735;
 }

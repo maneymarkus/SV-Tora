@@ -1,13 +1,25 @@
 /*
-  Dependencies: GeneralModule, ModalModule
+  Dependencies: GeneralModule, ModalModule, MaterialInputsModule, TranslationModule, FormModule
  */
 
 if (typeof GeneralModule === "undefined") {
-  console.log("Missing GeneralModule Dependency!");
+  console.warn("Missing GeneralModule Dependency!");
 }
 
 if (typeof ModalModule === "undefined") {
-  console.log("Missing ModalModule Dependency!");
+  console.warn("Missing ModalModule Dependency!");
+}
+
+if (typeof MaterialInputsModule === "undefined") {
+  console.warn("Missing MaterialInputsModule Dependency!");
+}
+
+if (typeof TranslationModule === "undefined") {
+  console.warn("Missing TranslationModule Dependency!");
+}
+
+if (typeof FormModule === "undefined") {
+  console.warn("Missing FormModule Dependency!");
 }
 
 // Module contains code concerning tables
@@ -52,8 +64,15 @@ let TableModule = (function(window, document, undefined) {
 
       // Change the clicked filter
       if (target.classList.contains("filter")) {
+        let filterKey = This.filterElement.querySelector(".filter-column").innerText;
+        let possibleFilterValues = This.filterTable.allFilters[filterKey];
+        let placeHolder = This.filterElement.querySelector(".filter-value").innerText;
+        let select = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-value"], undefined, "filter-value", placeHolder, undefined, possibleFilterValues, undefined);
 
-        //TODO: Create selects with possible values for this chosen filter and call ConfirmModalApi
+        ModalModule.confirmModalApi("Filter " + filterKey + " updaten", select, function () {
+          let newValue = MaterialInputsModule.getInputApi(select)
+          This.updateFilter(newValue);
+        });
 
         return;
       }
@@ -64,13 +83,14 @@ let TableModule = (function(window, document, undefined) {
       }
     });
 
-    this.handleUpdatedFilter = function (modalContent) {
-      let selectInputContainers = modalContent.querySelectorAll("div.select-input-container");
-      selectInputContainers.forEach((selectInputContainer) => {
-        // TODO: Let MaterialInputsModule return selectObject(s)
-      });
-      // TODO: update value of this filter
-      this.filterTable.updateAppliedFilters();
+    /**
+     * This function updates the chosen new filter value
+     * @param newValue String: the new value to filter for
+     */
+    this.updateFilter = function (newValue) {
+      This.value = newValue;
+      This.filterElement.querySelector(".filter-value").innerHTML = newValue;
+      This.filterTable.updateAppliedFilters();
     }
 
   }
@@ -85,6 +105,7 @@ let TableModule = (function(window, document, undefined) {
     let Row = function (tr, tableObject) {
       let This = this;
       this.tr = tr;
+      this.table = tableObject;
       if (rowCounter % 2) {
         This.tr.classList.add("even");
       } else {
@@ -101,14 +122,14 @@ let TableModule = (function(window, document, undefined) {
         This.tds.forEach((td) => {
           let value = td.innerHTML.trim();
           let key = td.getAttribute("data-column");
-          if (key !== "Aktionen") {
+          if (key.toLowerCase() !== "aktionen" && key.toLowerCase() !== "nr.") {
             this.values[key] = value;
-            if (key in tableObject.possibleFilters) {
-              if (!tableObject.possibleFilters[key].includes(value)) {
-                tableObject.possibleFilters[key].push(value);
+            if (key in tableObject.allFilters) {
+              if (!tableObject.allFilters[key].includes(value)) {
+                tableObject.allFilters[key].push(value);
               }
             } else {
-              tableObject.possibleFilters[key] = [value];
+              tableObject.allFilters[key] = [value];
             }
           }
         });
@@ -117,12 +138,14 @@ let TableModule = (function(window, document, undefined) {
 
       // Update table value after it has been changed in object and DOM
       this.updateValue = function (key, value) {
-        this.values[key] = value;
-        This.tds.forEach((td) => {
-          if (td.getAttribute("data-column") === key) {
-            td.innerHTML = value;
-          }
-        });
+        if (this.values.hasOwnProperty(key)) {
+          this.values[key] = value;
+          This.tds.forEach((td) => {
+            if (td.getAttribute("data-column") === key) {
+              td.innerHTML = value;
+            }
+          });
+        }
       }
 
       this.hide = function () {
@@ -139,6 +162,46 @@ let TableModule = (function(window, document, undefined) {
         }
       }
 
+      Row.createRow = function (values, dataColumns, count) {
+        if (Object.getOwnPropertyNames(values).length !== (dataColumns.length - 1)) {
+          return undefined;
+        }
+        let row = GeneralModule.generateElementApi("tr", []);
+
+        //first td
+        let nrTd = GeneralModule.generateElementApi("td", [], count);
+        nrTd.setAttribute("data-column", "Nr.");
+        row.appendChild(nrTd);
+
+        //all values
+        let counter = 1;
+        for (let i in values) {
+          if (values.hasOwnProperty(i)) {
+            let key = dataColumns[counter++];
+            if (values.hasOwnProperty(key)) {
+              let td = GeneralModule.generateElementApi("td", [], values[key]);
+              td.setAttribute("data-column", key);
+              row.appendChild(td);
+            }
+          }
+        }
+
+        //last td
+        let actionTd = GeneralModule.generateElementApi("td", []);
+        let editBtn = GeneralModule.generateElementApi("a", ["primary-button", "edit"]);
+        editBtn.appendChild(GeneralModule.generateElementApi("i", ["material-icons"], "create"));
+        editBtn.appendChild(GeneralModule.generateElementApi("p", [], "Bearbeiten"));
+        actionTd.appendChild(editBtn);
+        let deleteBtn = GeneralModule.generateElementApi("a", ["primary-button", "delete"]);
+        deleteBtn.appendChild(GeneralModule.generateElementApi("i", ["material-icons"], "delete"));
+        deleteBtn.appendChild(GeneralModule.generateElementApi("p", [], "Löschen"));
+        actionTd.appendChild(deleteBtn);
+        actionTd.setAttribute("data-column", "Aktionen");
+        row.appendChild(actionTd);
+
+        return row;
+      };
+
     }
 
     let This = this;
@@ -147,11 +210,24 @@ let TableModule = (function(window, document, undefined) {
     this.tableBody = table.querySelector("tbody");
     this.tableFooter = (table.querySelector("tfoot")) ? table.querySelector("tfoot") : undefined;
 
+    // collect the headings of every column
+    this.dataColumns = [];
+    let ths = this.tableHeader.querySelectorAll("th");
+    ths.forEach((th) => {
+      if (th.querySelector("span.column-header")) {
+        let dataColumn = th.querySelector("span.column-header").innerText;
+        this.dataColumns.push(dataColumn);
+      }
+    });
+
     // collection of tr elements of table body
     this.trs = this.tableBody.querySelectorAll("tr");
 
     // array for the row objects
     this.rows = [];
+
+    // Creates filter object -> the columns of the table represent the filter (keys) and the whole of the values represent the possible filter values
+    this.allFilters = {};
 
     // Creates filter object -> available filter (key) is property of this object and all available values for this key are collected in an array of this property
     this.possibleFilters = {};
@@ -180,6 +256,8 @@ let TableModule = (function(window, document, undefined) {
     this.trs.forEach((tr) => {
       this.rows.push(new Row(tr, This));
     });
+
+    this.possibleFilters = this.allFilters;
 
     // Eventhandler for clicks in table element
     this.tableElement.addEventListener("click", function (e) {
@@ -227,12 +305,11 @@ let TableModule = (function(window, document, undefined) {
 
       // Edit a table row
       if (target.classList.contains("edit")) {
-        //TODO: Create Input Elements according to row content
         while (target.nodeName !== "TR") {
           target = target.parentNode;
         }
         let row = This.getRowObject(target);
-        console.log(target);
+        This.editRow(row);
         return;
       }
 
@@ -242,39 +319,73 @@ let TableModule = (function(window, document, undefined) {
           target = target.parentNode;
         }
         let row = This.getRowObject(target);
-        //TODO: Modal Window
-        if (window.confirm("Delete " + row + "?")) {
+        ModalModule.deleteModalApi("Eintrag löschen", "Willst du diesen Eintrag wirklich löschen?", function () {
           This.deleteRow(target, row);
-          This.renumberRows();
-        }
+        });
         return;
       }
     });
 
-    // Listen for click on filter-add button
+    // This block handles adding new filters
     if (this.filterContainerElement) {
       this.filterContainerElement.querySelector(".add-filter").addEventListener("click", function () {
-        // TODO: Create two selects (first one is key (column) and second one is value with possible filters -> Call Confirm Modal and give two selects and this.handleChosenFilter as positive callback
-        This.activeFilterObjects.push(new Filter("Vorname", "Marcus", This, This.filterContainerElement));
-        This.updateAppliedFilters();
+        let keys = Object.keys(This.possibleFilters);
+        let keySelect = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-column", "required"], undefined, "filter-column", "Spalte", undefined, keys, undefined);
+        let valueSelect = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-value", "disabled", "required"], undefined, "filter-value", "Wert", undefined, undefined, undefined);
+        let container = GeneralModule.generateElementApi("div");
+        container.appendChild(keySelect);
+        container.appendChild(valueSelect);
+        keySelect.addEventListener("changeSelect", function () {
+          let filterKey = MaterialInputsModule.getInputApi(keySelect);
+          This.chooseFilterValue(filterKey, valueSelect);
+        });
+        ModalModule.confirmModalApi("Neuen Filter wählen", container, function () {
+          This.handleChosenFilter(keySelect, valueSelect);
+        });
       });
     }
 
     // Listen for click on add element to table button
     if (this.addElementBtn) {
       this.addElementBtn.addEventListener("click", function () {
-        // TODO: Generate Inputs based on table columns -> Call confirm modal api (Use data-column attribute on inputs?)
+        let keys = This.dataColumns;
+        let object = TranslationModule.translateRowToObjectApi(keys);
+        if (object.hasOwnProperty("Nr.")) {
+          delete object["Nr."];
+        }
+        let container = TranslationModule.translateObjectToInputsApi(object, true);
+        ModalModule.confirmModalApi("Neuen Kämpfer anlegen", container, function () {
+          let userInputObject = TranslationModule.translateInputsToObjectApi(container);
+          This.addElement(userInputObject);
+        });
+
       });
     }
 
+    this.addElement = function (userInputObject) {
+      let newTr = Row.createRow(userInputObject, This.dataColumns, This.rows.length + 1);
+      This.tableBody.appendChild(newTr);
+      this.trs = This.tableBody.querySelectorAll("tr");
+      This.rows.push(new Row(newTr, This));
+      This.updateVisibleRows();
+    }
+
+    /**
+     * This function enables the second select input element when choosing a new filter (choose the filter value for the filter key)
+     */
+    this.chooseFilterValue = function (filterKey, valueSelect) {
+      valueSelect.classList.remove("disabled");
+      let possibleFilterValues = This.possibleFilters[filterKey];
+      let valueSelectObject = MaterialInputsModule.getSelectObjectApi(valueSelect);
+      valueSelectObject.updateOptions(possibleFilterValues);
+    }
+
     // Callback function if confirm modal is confirmed with proper input
-    this.handleChosenFilter = function (modalContent) {
-      let selectInputContainers = modalContent.querySelectorAll("div.select-input-container");
-      selectInputContainers.forEach((selectInputContainer) => {
-        // TODO: Let MaterialInputsModule return selectObject(s)
-      });
-      // TODO: create new Filter Object
-      this.updateAppliedFilters();
+    this.handleChosenFilter = function (keySelect, valueSelect) {
+      let filterKey = MaterialInputsModule.getInputApi(keySelect);
+      let filterValue = MaterialInputsModule.getInputApi(valueSelect);
+      This.activeFilterObjects.push(new Filter(filterKey, filterValue, This, This.filterContainerElement));
+      This.updateAppliedFilters();
     }
 
     // Return row object corresponding to given tr element
@@ -293,6 +404,7 @@ let TableModule = (function(window, document, undefined) {
       This.rows.splice(This.rows.indexOf(rowObject), 1);
       tr.remove();
       This.recolorRows();
+      This.renumberRows();
     }
 
     // Renumber rows after e.g. deletion
@@ -301,6 +413,23 @@ let TableModule = (function(window, document, undefined) {
       This.rows.forEach((row) => {
         row.updateValue("Nr.", counter++);
       });
+    }
+
+    this.editRow = function (row) {
+      let object = TranslationModule.translateRowToObjectApi(Object.getOwnPropertyNames(row.values), row.values);
+      let container = TranslationModule.translateObjectToInputsApi(object);
+      ModalModule.confirmModalApi("Tabelleneintrag bearbeiten", container, function () {
+        This.updateRow(row, container);
+      });
+    }
+
+    this.updateRow = function (row, container) {
+      let userInputObject = TranslationModule.translateInputsToObjectApi(container);
+      for (let key in userInputObject) {
+        if (userInputObject.hasOwnProperty(key)) {
+          row.updateValue(key, userInputObject[key]);
+        }
+      }
     }
 
     // Sort the table

@@ -18,7 +18,7 @@
   margin-top: 0;
 }
 
-div.chosen-clubs {
+div.chosen-receivers {
   margin: 1rem 0;
   padding: 0.5rem 1rem 0 1rem;
   display: block;
@@ -29,7 +29,7 @@ div.chosen-clubs {
   overflow-y: auto;
 }
 
-.chosen-clubs .to {
+.chosen-receivers .to {
   font-size: 1.25rem;
   vertical-align: top;
   line-height: 2.5rem;
@@ -37,7 +37,7 @@ div.chosen-clubs {
   margin-bottom: 0.5rem;
 }
 
-.chosen-clubs .club {
+.chosen-receivers .receiver {
   background-color: #222222;
   border-radius: 50px;
   height: 2.5rem;
@@ -49,18 +49,18 @@ div.chosen-clubs {
   font-size: 1rem;
 }
 
-.club:hover {
+.receiver:hover {
   background-color: #303030;
   cursor: pointer;
 }
 
-.club .club-name {
+.receiver .receiver-name {
   position: relative;
   margin-right: 0.5rem;
   top: -0.9rem;
 }
 
-.club a {
+.receiver a {
   border-radius: 50%;
   height: 2.5rem;
   width: 2.5rem;
@@ -71,15 +71,15 @@ div.chosen-clubs {
   transition: 0.2s ease;
 }
 
-.club:hover a {
+.receiver:hover a {
   background-color: #222222;
 }
 
-.club a:hover {
+.receiver a:hover {
   background-color: #B23A48;
 }
 
-.club a i {
+.receiver a i {
   font-size: 1.5rem;
   padding: 0.25rem;
   position: absolute;
@@ -89,11 +89,11 @@ div.chosen-clubs {
   transition: 0.2s ease;
 }
 
-.club:hover a i {
+.receiver:hover a i {
   color: #B23A48;
 }
 
-.club a:hover i {
+.receiver a:hover i {
   color: #222222;
 }
 
