@@ -1,13 +1,9 @@
 /*
-  Dependencies: GeneralModule, ModalModule
+  Dependencies: GeneralModule
  */
 
 if (typeof GeneralModule === "undefined") {
   console.log("Missing GeneralModule Dependency!");
-}
-
-if (typeof ModalModule === "undefined") {
-  console.log("Missing ModalModule Dependency!");
 }
 
 let AccordionModule = (function(window, document, undefined) {
@@ -17,66 +13,36 @@ let AccordionModule = (function(window, document, undefined) {
   let Accordion = function(accordion) {
     let This = this;
     this.accordionElement = accordion;
-    this.accordionHeaders = this.accordionElement.querySelectorAll(".bar-header");
+    this.accordionBars = this.accordionElement.querySelectorAll(".accordion-bar");
+
+    // This boolean is true if the bar should stay open, e.g. when clicked on a tool
     this.stayOpen = false;
 
-    this.addAccordionBar = function (nextBarSibling, categoryName, graduation, ageRange, sex, content) {
+    this.addAccordionBar = function (nextBarSibling, heading, content) {
       let newBar = GeneralModule.generateElementApi("DIV", ["accordion-bar", "clearfix"]);
       let newHeader = GeneralModule.generateElementApi("DIV", ["bar-header", "clearfix"]);
       let barIcon = GeneralModule.generateElementApi("I", ["material-icons", "open-indicator"], "keyboard_arrow_down");
       newHeader.appendChild(barIcon);
-      let categoryHeader = GeneralModule.generateElementApi("H4", ["category"], "Kategorie: ");
-      let categoryNameSpan = GeneralModule.generateElementApi("SPAN", ["category-name"], categoryName);
-      categoryHeader.appendChild(categoryNameSpan);
-      newHeader.appendChild(categoryHeader);
-      let categoryProperties = GeneralModule.generateElementApi("H4", ["category-properties"]);
-      let graduationSpan = GeneralModule.generateElementApi("SPAN", ["category-graduation"], graduation);
-      categoryProperties.appendChild(graduationSpan);
-      categoryProperties.appendChild(document.createTextNode(" / "));
-      let ageSpan = GeneralModule.generateElementApi("SPAN", ["category-age"], ageRange);
-      categoryProperties.appendChild(ageSpan);
-      categoryProperties.appendChild(document.createTextNode(" / "));
-      let sexSpan = GeneralModule.generateElementApi("SPAN", ["category-sex"], sex);
-      categoryProperties.appendChild(sexSpan);
-      categoryProperties.appendChild(document.createTextNode(" / "));
-      newHeader.appendChild(categoryProperties);
+      if (typeof heading === "string") {
+        let barHeaderContent = GeneralModule.generateElementApi("h4", ["heading"], heading);
+      } else {
+        newHeader.appendChild(heading);
+      }
 
-      //Create <div class="tools">...</div>
-      let tools = GeneralModule.generateElementApi("DIV", ["tools"]);
-      let print = GeneralModule.generateElementApi("A", ["primary-button tool print"]);
-      print.appendChild(GeneralModule.generateElementApi("I", ["material-icons"], "print"));
-      print.appendChild(GeneralModule.generateElementApi("P", [], "Drucken"));
-      tools.appendChild(print);
-      let edit = GeneralModule.generateElementApi("A", ["primary-button tool edit"]);
-      edit.appendChild(GeneralModule.generateElementApi("I", ["material-icons"], "create"));
-      edit.appendChild(GeneralModule.generateElementApi("P", [], "Umbenennen"));
-      tools.appendChild(edit);
-      let split = GeneralModule.generateElementApi("A", ["primary-button tool split"]);
-      split.appendChild(GeneralModule.generateElementApi("I", ["material-icons"], "call_split"));
-      split.appendChild(GeneralModule.generateElementApi("P", [], "Splitten"));
-      tools.appendChild(split);
-      let merge = GeneralModule.generateElementApi("A", ["primary-button tool merge"]);
-      merge.appendChild(GeneralModule.generateElementApi("I", ["material-icons"], "merge_type"));
-      merge.appendChild(GeneralModule.generateElementApi("P", [], "Mergen"));
-      tools.appendChild(merge);
-
-      newHeader.appendChild(tools);
       newBar.appendChild(newHeader);
       let newContent = GeneralModule.generateElementApi("DIV", ["bar-content"]);
       newContent.appendChild(content);
       newBar.appendChild(newContent);
       This.accordionElement.insertBefore(newBar, nextBarSibling);
+      This.accordionBars = This.accordionElement.querySelectorAll(".accordion-bar");
+      return newBar;
     }
 
     this.accordionElement.addEventListener("click", function (e) {
       let target = e.target;
       e.preventDefault();
-      while (target.nodeName !== "BODY" && !target.classList.contains("tool") && !target.classList.contains("bar-header")) {
+      while (target.nodeName !== "BODY" && !target.classList.contains("bar-header")) {
         target = target.parentNode;
-      }
-      if (target.classList.contains("tool")) {
-        This.handleToolClick(target);
-        return;
       }
       if (target.classList.contains("bar-header")) {
         if (!target.parentElement.classList.contains("open") && !This.stayOpen) {
@@ -91,95 +57,14 @@ let AccordionModule = (function(window, document, undefined) {
       }
     });
 
-    this.deleteCategoryBar = function (accordionBar) {
-      accordionBar.remove();
-    }
-
-    this.handleToolClick = function(target) {
-      let barHeader = target;
-      while (!barHeader.classList.contains("bar-header")) {
-        barHeader = barHeader.parentElement;
+    this.deleteAccordionBar = function (accordionBar) {
+      if (accordionBar.classList.contains("accordion-bar")) {
+        accordionBar.remove();
+        This.accordionBars = This.accordionElement.querySelectorAll(".accordion-bar");
       }
-      let categoryName = barHeader.querySelector("span.category-name").innerHTML.trim();
-      let categoryGraduation = barHeader.querySelector("span.graduation").innerHTML.trim();
-      let categoryAge = barHeader.querySelector("span.category-age").innerHTML.trim();
-      let categorySex = barHeader.querySelector("span.category-sex").innerHTML.trim();
-
-      
-      if (target.classList.contains("print")) {
-        //Print category
-        alert("DRUCKEN!");
-        return;
-      }
-      if (target.classList.contains("edit")) {
-        This.renameCategory(barHeader, categoryName);
-        return;
-      }
-      if (target.classList.contains("split")) {
-        //Split existing category into two new ones
-
-        return;
-      }
-      if (target.classList.contains("merge")) {
-        //Merge two existing categories into one
-
-        return;
-      }
-    }
-
-    this.renameCategory = function (barHeader, categoryName) {
-      This.stayOpen = true;
-      let categoryNameSpan = barHeader.querySelector("span.category-name");
-      let graduationSpan = barHeader.querySelector("span.graduation");
-      categoryNameSpan.style.display = "none";
-      let cNameInput = GeneralModule.generateElementApi("INPUT", ["category-name"]);
-      cNameInput.value = categoryName;
-      barHeader.querySelector("h4").insertBefore(cNameInput, graduationSpan);
-      cNameInput.style.width = (cNameInput.value.length + 2) * 13 + "px";
-      cNameInput.focus();
-      cNameInput.addEventListener("focusout", function() {
-        This.endInput(cNameInput, categoryNameSpan);
-      });
-      cNameInput.addEventListener("keydown", function (e) {
-        let keyCode = e.which || e.keyCode;
-        if (keyCode === 13) {
-          This.endInput(cNameInput, categoryNameSpan);
-        } else {
-          cNameInput.style.width = (cNameInput.value.length + 2) * 13 + "px";
-        }
-      });
-    }
-
-    this.endInput = function (input, span) {
-      let value = input.value.trim();
-      if (value === "") {
-        input.focus();
-        return;
-      }
-      input.remove();
-      span.innerHTML = value;
-      span.style.display = "inline";
-      This.stayOpen = false;
     }
 
   };
-
-  if (document.getElementsByClassName("accordion")[0]) {
-    let accordionElements = document.querySelectorAll("div.accordion");
-
-    accordionElements.forEach(function (accordion) {
-      accordions.push(new Accordion(accordion));
-    });
-
-  }
-
-  function insertNewCategoryBar (accordion, nextBarSibling, categoryName, graduation, ageRange, sex, content) {
-    accordions.forEach(function (acc) {
-      if (acc.accordionElement === accordion) {
-        acc.addAccordionBar(nextBarSibling, categoryName, graduation, ageRange, sex, content);
-      }
-    });
-  }
 
   Accordion.prototype.show = function (accordionBar) {
     accordionBar.classList.add("open");
@@ -218,19 +103,45 @@ let AccordionModule = (function(window, document, undefined) {
     return openBar;
   }
 
+  if (document.getElementsByClassName("accordion")[0]) {
+    let accordionElements = document.querySelectorAll("div.accordion");
+
+    accordionElements.forEach(function (accordion) {
+      accordions.push(new Accordion(accordion));
+    });
+
+  }
+
   return {
+    getAccordionObjectApi : function (accordionElement) {
+      accordions.forEach((accordion) => {
+        if (accordion.accordionElement === accordionElement) {
+          return accordion;
+        }
+      });
+    },
+    getAccordionObjectsApi : function () {
+      return accordions;
+    },
     getOpenBarApi : function () {
       return getOpenBar();
     },
-    insertNewCategoryBarApi : function (accordion, nextBarSibling, categoryName, graduation, ageRange, sex, content) {
-      insertNewCategoryBar(accordion, nextBarSibling, categoryName, graduation, ageRange, sex, content);
+    insertNewCategoryBarApi : function (accordion, nextBarSibling, heading, content) {
+      accordions.forEach(function (acc) {
+        if (acc.accordionElement === accordion) {
+          acc.addAccordionBar(nextBarSibling, heading, content);
+        }
+      });
     },
     deleteCategoryBarApi : function (accordion, accordionBar) {
       accordions.forEach((acc) => {
         if (acc.accordionElement === accordion) {
-          acc.deleteCategoryBar(accordionBar);
+          acc.deleteAccordionBar(accordionBar);
         }
       });
+    },
+    getAccordionFunctionApi : function () {
+      return Accordion;
     }
   }
 

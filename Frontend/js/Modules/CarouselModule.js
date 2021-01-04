@@ -152,6 +152,27 @@ let CarouselModule = (function(window, document, undefined) {
       }
     }
 
+    this.getSlideByContent = function (elementSelector, searchQuery) {
+      let wantedSlide = undefined;
+      This.slides.forEach((slide) => {
+        let searchElementContent = slide.querySelector(elementSelector).innerText;
+        if (searchElementContent === searchQuery) {
+          wantedSlide = slide;
+        }
+      });
+      return wantedSlide;
+    }
+
+    this.disableSlide = function (slide) {
+      slide.classList.add("inactive");
+      slide.querySelector(".secondary-button").classList.add("disabled");
+    }
+
+    this.enableSlide = function (slide) {
+      slide.classList.remove("inactive");
+      slide.querySelector(".secondary-button").classList.remove("disabled");
+    }
+
   }
 
   if (document.getElementsByClassName("carousel-container")[0]) {
@@ -159,11 +180,34 @@ let CarouselModule = (function(window, document, undefined) {
     initializeCarousels(carouselContainers);
   }
 
-
   function initializeCarousels(carouselContainers) {
     carouselContainers.forEach((cc) => {
       carousels.push(new Carousel(cc));
     });
+  }
+
+  return {
+    getSlideByContentApi : function (carouselElement, elementSelector, searchQuery) {
+      carousels.forEach((carousel) => {
+        if (carousel.carouselElement === carouselElement) {
+          return carousel.getSlideByContent(elementSelector, searchQuery);
+        }
+      });
+    },
+    enableSlideApi : function (carouselElement, slide) {
+      carousels.forEach((carousel) => {
+        if (carousel.carouselElement === carouselElement) {
+          return carousel.enableSlide(slide);
+        }
+      });
+    },
+    disableSlideApi : function (carouselElement, slide) {
+      carousels.forEach((carousel) => {
+        if (carousel.carouselElement === carouselElement) {
+          return carousel.disableSlide(slide);
+        }
+      });
+    }
   }
 
 })(window, document);

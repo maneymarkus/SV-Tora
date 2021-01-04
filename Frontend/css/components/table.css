@@ -137,11 +137,11 @@ div.chosen-filters {
   color: #171717;
 }
 
-table, th, td {
+.table, th, td {
   border-collapse: collapse;
 }
 
-table {
+.table {
   position: relative;
   width: 100%;
   max-width: 1900px;
@@ -150,11 +150,11 @@ table {
   margin-bottom: 1rem;
 }
 
-thead {
+.table thead {
   text-align: left;
 }
 
-thead th {
+.table thead th {
   display: inline-block;
   width: 100%;
   color: white;
@@ -162,11 +162,11 @@ thead th {
   z-index: 10;
 }
 
-th:last-of-type {
+.table th:last-of-type {
   display: none;
 }
 
-table .sort {
+.table .sort {
   display: inline-block;
   width: 100%;
   position: relative;
@@ -176,12 +176,12 @@ table .sort {
   font-size: 1em;
 }
 
-table .sort:hover {
+.table .sort:hover {
   color: #2699FB;
   transform: scale(1.05);
 }
 
-table .sort .icon {
+.table .sort .icon {
   margin: 0;
   position: absolute;
   top: 50%;
@@ -193,63 +193,63 @@ table .sort .icon {
   transition: 0.2s ease;
 }
 
-table .sort:hover .icon {
+.table .sort:hover .icon {
   color: #2699FB;
 }
 
-table .sort i {
+.table .sort i {
   font-size: 2em;
   transition: 0.2s ease;
   position: absolute;
 }
 
-table .sort.ascending i:first-child {
+.table .sort.ascending i:first-child {
   display: none;
 }
 
-table .sort.descending i:last-child {
+.table .sort.descending i:last-child {
   display: none;
 }
 
-table .sort i:first-child {
+.table .sort i:first-child {
   top: -0.3em;
 }
 
-table .sort i:last-child {
+.table .sort i:last-child {
   bottom: -0.3em;
 }
 
-table .sort:hover i:first-child {
+.table .sort:hover i:first-child {
   top: -0.5em;
 }
 
-table .sort:hover i:last-child {
+.table .sort:hover i:last-child {
   bottom: -0.5em;
 }
 
-tr {
+.table tr {
   width: 100%;
   transition: 0.2s ease;
 }
 
-table tbody tr:hover {
+.table tbody tr:hover {
   background-color: #303950;
   transform: scale(1.025);
 }
 
-tr.even {
+.table tr.even {
   background-color: #4A4A4A;
 }
 
-tr.odd {
+.table tr.odd {
   background-color: #303030;
 }
 
-tr.hidden {
+.table tr.hidden {
   display: none;
 }
 
-td {
+.table td {
   display: inline-block;
   position: relative;
   width: 100%;
@@ -258,15 +258,15 @@ td {
   word-wrap: break-word;
 }
 
-td:first-child {
+.table td:first-child {
   margin-top: 1em;
 }
 
-td:last-child {
+.table td:last-child {
   margin-bottom: 1em;
 }
 
-td:before {
+.table td:before {
   content: attr(data-column);
   position: absolute;
   top: 45%;
@@ -285,27 +285,27 @@ td:before {
   margin: 0;
 }
 
-td:last-child {
+.table td:last-child {
   padding-left: 0;
   height: 3em;
   position: relative;
 }
 
-td:last-child a.primary-button {
+.table td:last-child a.primary-button {
   position: absolute;
   margin: 0;
   font-size: 0.5em;
 }
 
-td:last-child a:first-child {
+.table td:last-child a:first-child {
   left: 20%;
 }
 
-td:last-child a:last-child {
+.table td:last-child a:last-child {
   right: 20%;
 }
 
-td:last-child:before {
+.table td:last-child:before {
   right: auto;
   left: 0;
   width: 100%;
@@ -315,7 +315,7 @@ td:last-child:before {
 }
 
 @media only screen and (min-width: 600px) {
-  table {
+  .table {
     font-size: 1.3rem;
   }
 }
@@ -325,11 +325,11 @@ td:last-child:before {
 }
 
 @media only screen and (min-width: 992px) {
-  table {
+  .table {
     font-size: 1rem;
   }
 
-  thead th {
+  .table thead th {
     display: table-cell;
     position: sticky;
     top: 4em; /* for position sticky */
@@ -337,43 +337,43 @@ td:last-child:before {
     box-shadow: 0px 7px 10px 0 black;
   }
 
-  th:last-of-type {
+  .table th:last-of-type {
     display: table-cell;
     border: none;
   }
 
-  table .sort {
+  .table .sort {
     padding: 0.75em 2em 0.5em 1em;
     font-size: 1em;
   }
 
-  table .sort:hover {
+  .table .sort:hover {
     transform: none;
   }
 
-  table .sort .icon {
+  .table .sort .icon {
     right: 1em;
   }
 
-  td {
+  .table td {
     padding: 0.25em 0.5em 0.25em 1em;
     display: table-cell;
     width: auto;
     max-width: 10em;
   }
 
-  td:before {
+  .table td:before {
     display: none;
   }
 
-  td:last-child a.primary-button {
+  .table td:last-child a.primary-button {
     position: static;
     margin: 1em;
   }
 }
 
 @media only screen and (min-width: 1200px) {
-  table {
+  .table {
     font-size: 1.2rem;
     margin: 0 auto;
   }

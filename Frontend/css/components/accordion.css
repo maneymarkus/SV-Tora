@@ -105,7 +105,7 @@ main h3 {
   transform: translateY(-50%) rotate(180deg);
 }
 
-.accordion-bar .category {
+.accordion-bar .heading {
   display: inline-block;
   width: auto;
   padding-left: 3em;
@@ -121,215 +121,26 @@ main h3 {
   padding: 0.75em 0;
 }
 
-.bar-header input.category-name {
-  background-color: rgba(74, 74, 74, 0.75);
-  border: none;
-  color: white;
-  font-weight: bold;
-  display: inline;
-  min-width: 1em;
-  margin-right: 0.5em;
-  font-style: italic;
-  animation: color-blink 0.5s ease infinite alternate;
-}
-
-@keyframes color-blink {
-  from {
-    color: white;
-  }
-  to {
-    color: #2699FB;
-  }
-}
-
-.bar-header input.category-name:focus {
-  outline: none;
-}
-
-.bar-header .tools {
-  float: right;
-  position: relative;
-  margin-right: 2em;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.2s ease;
-}
-
-.open .bar-header .tools {
-  visibility: visible;
-  opacity: 1;
-}
-
-.bar-header a.primary-button {
-  text-align: center;
-  display: inline-block;
-  width: 3em;
-  height: 3em;
-  margin: 1em;
-  color: white;
-  transition: 0.2s ease;
-  background-color: transparent;
-  transform-style: preserve-3d;
-  font-size: 0.75em;
-  z-index: 100;
-}
-
-a.primary-button:before {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  border: 2px solid white;
-  width: 0;
-  height: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  z-index: -1;
-  transition: 0.2s ease;
-  box-shadow: 0 0 20px 3px #2699FB inset, 0 0 10px 3px black;
-}
-
-a.primary-button.cancel:before,
-a.primary-button.close:before,
-a.primary-button.delete:before {
-  box-shadow: 0 0 20px 3px #F71735 inset, 0 0 10px 3px black;
-}
-
-a.primary-button.documents:before {
-  box-shadow: 0 0 20px 3px #5EFC8D inset, 0 0 10px 3px black;
-}
-
-a.primary-button.messages:before {
-  box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
-}
-
-a.primary-button:hover:before {
-  width: 220%;
-  height: 220%;
-  opacity: 1;
-  border-color: #2699FB;
-}
-
-a.primary-button.cancel:hover:before,
-a.primary-button.close:hover:before,
-a.primary-button.delete:hover:before {
-  border-color: #F71735;
-}
-
-a.primary-button.documents:hover:before {
-  border-color: #5EFC8D;
-}
-
-a.primary-button.messages:hover:before {
-  border-color: #FFF275;
-}
-
-.primary-button i {
-  color: #3D76E1;
-  position: absolute;
-  font-size: 3.5em;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: 0.2s ease;
-  z-index: 2;
-  transform-style: preserve-3d;
-}
-
-.primary-button:hover i {
-  color: #2699FB;
-  top: 20%;
-  transform: translate(-50%, -50%) scale(1.1) translateZ(30px);
-}
-
-.primary-button.cancel i,
-.primary-button.close i,
-.primary-button.delete i {
-  color: #B23A48;
-}
-
-.primary-button.documents i {
-  color: #20BF55;
-}
-
-.primary-button.messages i {
-  color: #E3B505;
-}
-
-.primary-button.cancel:hover i,
-.primary-button.close:hover i,
-.primary-button.delete:hover i {
-  font-weight: bold;
-  color: #F71735;
-}
-
-.primary-button.documents:hover i {
-  color: #5EFC8D;
-}
-
-.primary-button.messages:hover i {
-  color: #FFF275;
-}
-
-.primary-button p {
-  top: 50%;
-  left: 50%;
-  margin: 0;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  font-size: 1em;
-  transition: 0.2s ease;
-  z-index: 1;
-  opacity: 0;
-  transform-style: preserve-3d;
-}
-
-.primary-button:hover p {
-  top: 100%;
-  opacity: 1;
-  transform: translate(-50%, -50%) translateZ(15px);
-}
-
 .bar-content {
   text-align: center;
   position: relative;
   width: 100%;
   display: none;
+  opacity: 0;
   height: 0;
-  transition: height 0.5s ease, border-color 0.2s ease;
+  transition: height 0.5s ease 0s, border-color 0.2s ease 0s, opacity 0.2s ease 0.5s;
   overflow: hidden;
   background-color: rgba(23, 23, 23, 0.5);
+  border: 1px solid rgba(23, 23, 23, 0.5);
 }
 
 .open .bar-content {
-  border: 1px solid #3D76E1;
+  border-color: #3D76E1;
+  opacity: 1;
 }
 
 .open .bar-header:hover ~ .bar-content {
   border: 1px solid #2699FB;
-}
-
-.bar-content table, .bar-content th {
-  border-collapse: collapse;
-}
-
-.bar-content table {
-  width: 100%;
-  text-align: left;
-  font-size: 1.2em;
-}
-
-.bar-content tr {
-  border-bottom: 1px solid #222222;
-}
-
-.bar-content table td {
-  padding: 0.4em 0 0.4em 0.4em;
-}
-
-.bar-content table td:nth-child(even) {
-  font-style: italic;
 }
 
 @media only screen and (min-width: 600px) {
