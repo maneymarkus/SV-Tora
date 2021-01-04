@@ -108,14 +108,15 @@ let FormModule = (function(window, document, undefined) {
     /**
      * This function checks a given form containing input elements (does not necessarily need to be a form element) if the inputs do not have any errors and that every required field is filled
      * @param form {HTMLElement}
+     * @param throwErrors {boolean} When true this function will immediately throw required errors (if found) while checking. Default is false
      * @return {boolean}
      */
-    function checkForm(form) {
+    function checkForm(form, throwErrors = false) {
         let check = true;
         let allRequiredInputs = form.querySelectorAll(".required");
         allRequiredInputs.forEach((rI) => {
             let inputObject = MaterialInputsModule.getInputObjectApi(rI);
-            if (check && !inputObject.hasUserInput()) {
+            if (check && !inputObject.hasUserInput() && throwErrors) {
                 inputObject.throwInputError(errorTypes.REQUIRED);
                 check = false;
             }
@@ -140,8 +141,8 @@ let FormModule = (function(window, document, undefined) {
         checkTimeApi : function (inputContainer1, inputContainer2) {
             checkTime(inputContainer1, inputContainer2);
         },
-        checkFormApi : function (form) {
-            return checkForm(form);
+        checkFormApi : function (form, throwErrors) {
+            return checkForm(form, throwErrors);
         }
     }
 

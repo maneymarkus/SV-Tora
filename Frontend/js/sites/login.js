@@ -94,7 +94,6 @@ if (typeof FormModule === "undefined") {
 
     loginButton.addEventListener("click", function (e) {
       e.preventDefault();
-      // TODO: check if inputs filled
       if (small === loginContainer) {
         return;
       }
@@ -115,7 +114,6 @@ if (typeof FormModule === "undefined") {
 
     registerButton.addEventListener("click", function (e) {
       e.preventDefault();
-      // TODO: check if inputs filled
       if (small === registrationContainer) {
         return;
       }
