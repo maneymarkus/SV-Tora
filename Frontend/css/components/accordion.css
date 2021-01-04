@@ -310,6 +310,10 @@ a.primary-button.messages:hover:before {
   border: 1px solid #2699FB;
 }
 
+.bar-content table, .bar-content th {
+  border-collapse: collapse;
+}
+
 .bar-content table {
   width: 100%;
   text-align: left;
@@ -321,16 +325,11 @@ a.primary-button.messages:hover:before {
 }
 
 .bar-content table td {
-  width: 45%;
-  padding: 0.4em 0 0.4em 3%;
+  padding: 0.4em 0 0.4em 0.4em;
 }
 
-.bar-content table td:first-child {
-  width: 10%;
-}
-
-.bar-content table, .bar-content th {
-  border-collapse: collapse;
+.bar-content table td:nth-child(even) {
+  font-style: italic;
 }
 
 @media only screen and (min-width: 600px) {

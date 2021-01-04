@@ -1,9 +1,13 @@
 /*
-  Dependencies: GeneralModule
+  Dependencies: GeneralModule, ModalModule
  */
 
 if (typeof GeneralModule === "undefined") {
   console.log("Missing GeneralModule Dependency!");
+}
+
+if (typeof ModalModule === "undefined") {
+  console.log("Missing ModalModule Dependency!");
 }
 
 let AccordionModule = (function(window, document, undefined) {
@@ -100,9 +104,11 @@ let AccordionModule = (function(window, document, undefined) {
       let categoryGraduation = barHeader.querySelector("span.graduation").innerHTML.trim();
       let categoryAge = barHeader.querySelector("span.category-age").innerHTML.trim();
       let categorySex = barHeader.querySelector("span.category-sex").innerHTML.trim();
+
+      
       if (target.classList.contains("print")) {
         //Print category
-        alert("print");
+        alert("DRUCKEN!");
         return;
       }
       if (target.classList.contains("edit")) {
