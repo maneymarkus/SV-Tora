@@ -1,11 +1,25 @@
-main h3 {
-  text-align: center;
-  font-size: 2.5rem;
-  border-bottom: 3px solid #4A4A4A;
-  margin: 5rem auto 3rem;
-  width: 20%;
-  box-shadow: 0 15px 10px -10px black;
-}
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Accordion
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div class="accordion">
+/     <div class="accordion-bar">
+/       <div class="bar-header">
+/         <i class="material-icons open-indicator">keyboard_arrow_down</i>
+/         <h4 class="heading">Überschrift</h4>
+/       </div>
+/       <div class="bar-content">
+/         Specific Content...
+/       </div>
+/     </div>
+/   </div>
+/
+/
+*/
 
 .accordion {
    margin: 0 auto;
@@ -25,12 +39,12 @@ main h3 {
 .bar-header {
   position: relative;
   transition: 0.2s ease;
-  background-color: #171717;
+  background-color: var(--theme-color-1);
   overflow: hidden;
 }
 
 .bar-header:hover {
-  background-color: #303030;
+  background-color: var(--theme-color-3);
 }
 
 .open .bar-header {
@@ -47,7 +61,7 @@ main h3 {
   width: 1em;
   height: 100%;
   top: 0;
-  background-color: #3D76E1;
+  background-color: var(--accent-color-1-dark);
   transition: 0.2s ease;
   z-index: 0;
 }
@@ -64,7 +78,7 @@ main h3 {
 
 .bar-header:hover:before,
 .bar-header:hover:after {
-  background-color: #2699FB;
+  background-color: var(--accent-color-1-light);
 }
 
 .bar-header:before {
@@ -88,7 +102,7 @@ main h3 {
 .bar-header .open-indicator {
   position: absolute;
   font-size: 3em;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   top: 50%;
   transform: translateY(-50%);
   left: 0.1em;
@@ -128,19 +142,27 @@ main h3 {
   display: none;
   opacity: 0;
   height: 0;
-  transition: height 0.5s ease 0s, border-color 0.2s ease 0s, opacity 0.2s ease 0.5s;
+  transition: height 0.5s ease 0s, border-color 0.2s ease 0s, border-width 0.2s ease 0.2s, opacity 0.2s ease 0.5s;
   overflow: hidden;
+  background-color: rgba(232, 232, 232, 0.5);
+  border: 0 solid rgba(232, 232, 232, 0.5);
+  cursor: auto;
+}
+
+.darkmode .bar-content {
   background-color: rgba(23, 23, 23, 0.5);
-  border: 1px solid rgba(23, 23, 23, 0.5);
+  border: 0 solid rgba(23, 23, 23, 0.5);
 }
 
 .open .bar-content {
-  border-color: #3D76E1;
+  transition: height 0.5s ease 0s, border-color 0.2s ease 0s, border-width 0.2s ease 0s, opacity 0.2s ease 0.5s;
+  border-width: 1px;
+  border-color: var(--accent-color-1-dark);
   opacity: 1;
 }
 
 .open .bar-header:hover ~ .bar-content {
-  border: 1px solid #2699FB;
+  border-color: var(--accent-color-1-light);
 }
 
 @media only screen and (min-width: 600px) {
@@ -160,8 +182,5 @@ main h3 {
 }
 
 @media only screen and (min-width: 1200px) {
-  main {
-    width: 1200px;
-    margin: 0 auto;
-  }
+
 }

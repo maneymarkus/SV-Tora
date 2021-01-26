@@ -1,11 +1,10 @@
 /*
-    Dependencies: None
- */
-
-/*
     Encapsulate (not anywhere else needed) code in anonymous function
  */
 (function (window, document, undefined) {
+
+  let dependencies = ["PrimaryButtonModule", "SecondaryButtonModule", "ModalModule", "FormModule", "TranslationModule", "MaterialInputsModule"];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   /*
     START Drag-and-Drop Map Shifting

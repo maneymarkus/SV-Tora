@@ -1,19 +1,30 @@
-/*
-  Dependencies: None
+/**
+ * This Module contains code responsible for managing the navigation element of the websites
  */
+var NavModule = (function (window, document, undefined) {
 
-let NavModule = (function (window, document, undefined) {
-  // TODO: Revise what is necessary
+  /**
+   * DEPENDENCIES
+   */
+  let dependencies = [];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   let nav = document.querySelector("nav.nav");
-  let closer = document.querySelector("nav.nav .close");
+  let closeBtn = document.querySelector("nav.nav .close");
   let navBgText = nav.querySelector(".bg-text");
 
-  closer.addEventListener("click", function() {
+  /**
+   * This function listens for clicks on the close button to close the navigation
+   */
+  closeBtn.addEventListener("click", function() {
     nav.classList.remove("open");
     nav.removeEventListener("mousemove", showBGText);
   });
 
+  /**
+   * This function handles the display of the ambient background text
+   * @param e {Event} The event object
+   */
   function showBGText(e) {
     let target = e.target;
     while (target.nodeName !== "A" && target.nodeName !== "BODY") {
@@ -31,12 +42,21 @@ let NavModule = (function (window, document, undefined) {
     }
   }
 
+  /**
+   * This function opens the navigation
+   */
   function openNav() {
     nav.classList.add("open");
     nav.addEventListener("mousemove", showBGText);
   }
 
+  /**
+   * API:
+   */
   return {
+    /**
+     * This api function enables other modules to open the navigation
+     */
     openNavApi : function () {
       openNav();
     }

@@ -33,7 +33,8 @@ main h1 {
   transition: 0.2s ease;
 }
 
-.document:hover i {
+.document:hover i,
+.document.chosen i {
   color: #5EFC8D;
   filter: drop-shadow(0 0 5px #5EFC8D);
   transform: scale(1.2);

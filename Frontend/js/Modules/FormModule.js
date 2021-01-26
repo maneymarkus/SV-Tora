@@ -1,20 +1,11 @@
-/*
-  Dependencies: GeneralModule, MaterialInputsModule
- */
-
-if (typeof GeneralModule === "undefined") {
-    console.warn("Missing GeneralModule Dependency!");
-}
-
-if (typeof MaterialInputsModule === "undefined") {
-    console.warn("Missing MaterialInputsModule Dependency!");
-}
-
 /**
  * This "Module" contains code responsible for checking forms and groups of inputs
  * @type {{}}
  */
-let FormModule = (function(window, document, undefined) {
+var FormModule = (function(window, document, undefined) {
+
+    let dependencies = ["MaterialInputsModule"];
+    GeneralModule.checkDependenciesApi(dependencies);
 
     let inputTypes = GeneralModule.generalVariables.inputTypes;
     let errorTypes = GeneralModule.generalVariables.errorTypes;
@@ -69,8 +60,12 @@ let FormModule = (function(window, document, undefined) {
 
         if (input1.inputType === input2.inputType && input1.inputType === (inputTypes.DATE || inputTypes.TIME)) {
 
+            input1.inputContainer.addEventListener("change", function () {
+                if (input2.hasUserInput()) {
+                    checkRelation(input1, input2);
+                }
+            });
             input2.inputContainer.addEventListener("change", function () {
-                console.log(input1.hasUserInput());
                 if (input1.hasUserInput()) {
                     checkRelation(input1, input2);
                 }
@@ -116,8 +111,10 @@ let FormModule = (function(window, document, undefined) {
         let allRequiredInputs = form.querySelectorAll(".required");
         allRequiredInputs.forEach((rI) => {
             let inputObject = MaterialInputsModule.getInputObjectApi(rI);
-            if (check && !inputObject.hasUserInput() && throwErrors) {
-                inputObject.throwInputError(errorTypes.REQUIRED);
+            if (check && !inputObject.hasUserInput()) {
+                if (throwErrors) {
+                    inputObject.throwInputError(errorTypes.REQUIRED);
+                }
                 check = false;
             }
         });
@@ -134,13 +131,32 @@ let FormModule = (function(window, document, undefined) {
         return check;
     }
 
+    /**
+     * API:
+     */
     return {
+        /**
+         * This api function connects two inputs and checks (while the user inputs) whether both of them have the same value
+         * @param inputContainer1 {HTMLElement}
+         * @param inputContainer2 {HTMLElement}
+         */
         checkRepetitionApi : function (inputContainer1, inputContainer2) {
             checkRepetition(inputContainer1, inputContainer2);
         },
+        /**
+         * This api function connects two time or date inputs and checks (while the user inputs) whether the first date/time is earlier than the second date/time
+         * @param inputContainer1 {HTMLElement}
+         * @param inputContainer2 {HTMLElement}
+         */
         checkTimeApi : function (inputContainer1, inputContainer2) {
             checkTime(inputContainer1, inputContainer2);
         },
+        /**
+         * This api function checks a form mainly if all the required elements are filled with user input
+         * @param form {HTMLElement} A container element which contains input elements (does not necessarily need to be a form element)
+         * @param throwErrors {Boolean} Determines if not only to check for errors but also throw them (if true)
+         * @return {boolean}
+         */
         checkFormApi : function (form, throwErrors) {
             return checkForm(form, throwErrors);
         }

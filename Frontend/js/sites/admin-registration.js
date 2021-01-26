@@ -1,27 +1,10 @@
 /*
-  Dependencies: GeneralModule, MaterialInputsModule, FormModule, TheaterModule
- */
-
-if (typeof GeneralModule === "undefined") {
-  console.log("Missing GeneralModule Dependency!");
-}
-
-if (typeof MaterialInputsModule === "undefined") {
-  console.log("Missing MaterialInputsModule Dependency!");
-}
-
-if (typeof FormModule === "undefined") {
-  console.log("Missing FormModule Dependency!");
-}
-
-if (typeof TheaterModule === "undefined") {
-  console.log("Missing TheaterModule Dependency!");
-}
-
-/*
     Encapsulate (not anywhere else needed) code in anonymous function
  */
 (function(window, document, undefined) {
+
+  let dependencies = ["MaterialInputsModule", "FormModule", "TheaterModule"];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   let main = document.querySelector("main");
   let theaterOptions = TheaterModule.theaterOptions;
@@ -33,7 +16,6 @@ if (typeof TheaterModule === "undefined") {
   let introductionPart1 = introduction.querySelector("span.part1").innerHTML;
   let introductionPart2 = introduction.querySelector("span.part2").innerHTML;
   let sentences = introductionPart2.split(". ");
-  console.log(sentences);
 
   introduction.innerHTML = "";
   registrationContainer.style.display = "none";
@@ -63,7 +45,9 @@ if (typeof TheaterModule === "undefined") {
     e.preventDefault();
     let form = registrationContainer.querySelector("form");
     if (FormModule.checkFormApi(form, true)) {
-      form.submit();
+      let body = document.querySelector("body");
+      LoaderModule.addSmallLoaderApi(registrationContainer);
+      //form.submit();
     }
   });
 

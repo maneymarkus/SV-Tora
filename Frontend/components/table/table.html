@@ -18,7 +18,11 @@
     <link rel="stylesheet" href="../../css/components/primary-button.css" type="text/css" />
     <link rel="stylesheet" href="../../css/components/secondary-button.css" type="text/css" />
     <link rel="stylesheet" href="../../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/tag.css" type="text/css" />
     <link rel="stylesheet" href="../../css/components/table.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/table-actions-container.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/table-filter-container.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/smartphone-optimized-table.css" type="text/css" />
 
     <!--[if lt IE 9]>
     <script src="../../js/html5shiv.js"></script>
@@ -41,27 +45,28 @@
 
     <main>
         <h1>Starter</h1>
-        <div class="actions clearfix">
-            <a id="add-starter" class="primary-button add-starter" href="#">
+        <div data-table="23hj23b421" class="table-actions clearfix">
+            <a class="primary-button add-entity add-starter">
                 <i class="material-icons">add</i>
                 <p>Starter hinzufügen</p>
             </a>
-            <a class="primary-button print" href="#">
+            <a class="primary-button print">
                 <i class="material-icons">print</i>
                 <p>Drucken</p>
             </a>
         </div>
-        <div id="filter-starter" class="filter-container clearfix">
+        <div data-table="23hj23b421" class="filter-container clearfix">
             <p>Filter:</p>
             <div class="chosen-filters">
             </div>
             <a class="secondary-button add-filter">
                 <span class="text">
-                    <i class="material-icons">filter_list</i>Filter hinzufügen
+                    <i class="material-icons">filter_list</i>
+                    Filter hinzufügen
                 </span>
             </a>
         </div>
-        <table data-filter="filter-starter" data-add="add-starter" class="table">
+        <table class="table space-after" id="23hj23b421">
             <thead>
                 <tr>
                     <th>
@@ -139,12 +144,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -158,12 +163,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">100. Dan</td>
                     <td data-column="Verein">Nicht bei euch</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -177,12 +182,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -196,12 +201,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">VS am Arsch</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -215,12 +220,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -234,12 +239,12 @@
                     <td data-column="Geschlecht">w</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -253,12 +258,12 @@
                     <td data-column="Geschlecht">w</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -272,12 +277,12 @@
                     <td data-column="Geschlecht">w</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -291,12 +296,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -310,12 +315,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -329,12 +334,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -348,12 +353,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -367,12 +372,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -386,12 +391,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -405,12 +410,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -424,12 +429,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -443,12 +448,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -462,12 +467,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -481,12 +486,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>
@@ -500,12 +505,12 @@
                     <td data-column="Geschlecht">m</td>
                     <td data-column="Graduierung">6. Dan</td>
                     <td data-column="Verein">SV Tora</td>
-                    <td data-column="Aktionen">
-                        <a class="primary-button edit" href="#">
+                    <td class="row-actions" data-column="Aktionen">
+                        <a class="primary-button edit">
                             <i class="material-icons">create</i>
                             <p>Bearbeiten</p>
                         </a>
-                        <a class="primary-button delete" href="#">
+                        <a class="primary-button delete warning">
                             <i class="material-icons">delete</i>
                             <p>Löschen</p>
                         </a>

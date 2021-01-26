@@ -14,7 +14,10 @@
     <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
 
     <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/accordion.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/carousel.css" type="text/css" />
     <link rel="stylesheet" href="../css/sites/category-fighting-system.css" type="text/css" />
@@ -38,11 +41,11 @@
 </head>
 <body class="darkmode">
 
-<main>
+<main class="limited">
     <h1 class="starter-team">Starter</h1>
     <h3>Kata</h3>
     <div class="accordion">
-        <div class="accordion-bar">
+        <div class="accordion-bar prepared">
             <div class="bar-header clearfix">
                 <i class="material-icons open-indicator">keyboard_arrow_down</i>
                 <h4 class="heading">
@@ -50,61 +53,27 @@
                     <span class="category-name">1a</span>
                     (<span class="graduation">7. Kyu</span> / <span class="category-age">9-10</span> / <span class="category-sex">m</span> / <span class="count-members">6</span>)
                 </h4>
+                <i class="material-icons prepared">done</i>
             </div>
-            <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">3</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">4</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">5</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">6</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+            <div class="bar-content clearfix">
+                <div class="side">
+                    <a class="fighting-system">Doppel-KO-System-mit-finalen-Tafeln</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="accordion-bar">
+        <div class="accordion-bar prepared">
             <div class="bar-header clearfix">
                 <i class="material-icons open-indicator">keyboard_arrow_down</i>
                 <h4 class="heading">
@@ -112,34 +81,24 @@
                     <span class="category-name">2</span>
                     (<span class="graduation">7. Kyu</span> / <span class="category-age">9-10</span> / <span class="category-sex">m</span> / <span class="count-members">3</span>)
                 </h4>
+                <i class="material-icons prepared">done</i>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">3</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Jeder-Gegen-Jeden</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="accordion-bar">
@@ -148,76 +107,25 @@
                 <h4 class="heading">
                     Kategorie:
                     <span class="category-name">3</span>
-                    (<span class="graduation">7. Kyu</span> / <span class="category-age">9-10</span> / <span class="category-sex">m</span> / <span class="count-members">8</span>)
+                    (<span class="graduation">7. Kyu</span> / <span class="category-age">9-10</span> / <span class="category-sex">m</span> / <span class="count-members">13</span>)
                 </h4>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">3</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">4</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">5</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">6</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">7</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">8</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Kampfsystem wählen...</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system disabled" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="accordion-bar">
@@ -230,40 +138,21 @@
                 </h4>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">3</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">4</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Kampfsystem wählen...</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system disabled" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="accordion-bar">
@@ -276,64 +165,21 @@
                 </h4>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">3</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">4</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">5</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">6</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">7</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Kampfsystem wählen...</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system disabled" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="accordion-bar">
@@ -346,24 +192,21 @@
                 </h4>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Kampfsystem wählen...</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system disabled" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -380,72 +223,21 @@
                 </h4>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">3</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">4</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">5</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">6</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">7</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">8</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Kampfsystem wählen...</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system disabled" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="accordion-bar">
@@ -458,72 +250,21 @@
                 </h4>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">3</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">4</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">5</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">6</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">7</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">8</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Kampfsystem wählen...</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system disabled" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="accordion-bar">
@@ -536,32 +277,21 @@
                 </h4>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">3</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Kampfsystem wählen...</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system disabled" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="accordion-bar">
@@ -574,24 +304,21 @@
                 </h4>
             </div>
             <div class="bar-content">
-                <table>
-                    <tr>
-                        <td class="number">1</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                    <tr>
-                        <td class="number">2</td>
-                        <td class="name">Marcus Popov</td>
-                        <td class="age">16</td>
-                        <td class="sex">m</td>
-                        <td class="graduation">1.Kyu</td>
-                        <td class="club">SV Tora</td>
-                    </tr>
-                </table>
+                <div class="side">
+                    <a class="fighting-system">Kampfsystem wählen...</a>
+                </div>
+                <div class="side">
+                    <div class="actions-container">
+                        <a class="primary-button print" href="#">
+                            <i class="material-icons">print</i>
+                            <p>Drucken</p>
+                        </a>
+                        <a class="primary-button edit-fighting-system disabled" href="#">
+                            <i class="material-icons">account_balance</i>
+                            <p>Kampfsystem anpassen</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -601,7 +328,7 @@
     <div class="page-wrapper">
         <div class="page">
             <h3>Tafelsystem</h3>
-            <a class="secondary-button disabled" href="#">
+            <a class="secondary-button">
                 <span class="text">
                     Wählen
                 </span>
@@ -609,7 +336,7 @@
         </div>
         <div class="page">
             <h3>Doppel-KO-System mit finalen Tafeln</h3>
-            <a class="secondary-button" href="#">
+            <a class="secondary-button">
                 <span class="text">
                     Wählen
                 </span>
@@ -617,7 +344,7 @@
         </div>
         <div class="page">
             <h3>Doppel-KO-System</h3>
-            <a class="secondary-button" href="#">
+            <a class="secondary-button">
                 <span class="text">
                     Wählen
                 </span>
@@ -625,7 +352,7 @@
         </div>
         <div class="page">
             <h3>KO-System</h3>
-            <a class="secondary-button" href="#">
+            <a class="secondary-button">
                 <span class="text">
                     Wählen
                 </span>
@@ -633,7 +360,7 @@
         </div>
         <div class="page">
             <h3>KO-System mit finalen Tafeln</h3>
-            <a class="secondary-button" href="#">
+            <a class="secondary-button">
                 <span class="text">
                     Wählen
                 </span>
@@ -641,7 +368,7 @@
         </div>
         <div class="page">
             <h3>Jeder-Gegen-Jeden</h3>
-            <a class="secondary-button" href="#">
+            <a class="secondary-button">
                 <span class="text">
                     Wählen
                 </span>
@@ -649,7 +376,7 @@
         </div>
         <div class="page">
             <h3>Brasilianisches KO-System</h3>
-            <a class="secondary-button" href="#">
+            <a class="secondary-button">
                 <span class="text">
                     Wählen
                 </span>

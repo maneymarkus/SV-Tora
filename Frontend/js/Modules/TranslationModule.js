@@ -1,20 +1,14 @@
-/*
-  Dependencies: GeneralModule, MaterialInputsModule
- */
-
-if (typeof GeneralModule === "undefined") {
-    console.warn("Missing GeneralModule Dependency!");
-}
-
-if (typeof MaterialInputsModule === "undefined") {
-    console.warn("Missing MaterialInputsModule Dependency!");
-}
-
 /**
- * This "Module" contains code responsible to create inputs from objects or translate inputs to objects
+ * This "Module" contains code responsible for creating inputs from objects or translating inputs to objects
  * @type {{}}
  */
-let TranslationModule = (function(window, document, undefined) {
+var TranslationModule = (function(window, document, undefined) {
+
+    /**
+     * DEPENDENCIES
+     */
+    let dependencies = ["MaterialInputsModule"];
+    GeneralModule.checkDependenciesApi(dependencies);
 
     let inputTypes = GeneralModule.generalVariables.inputTypes;
 
@@ -38,6 +32,7 @@ let TranslationModule = (function(window, document, undefined) {
         ["uhrzeit", inputTypes.TIME],
         ["startdatum", inputTypes.DATE],
         ["enddatum", inputTypes.DATE],
+        ["ort", inputTypes.TEXT],
     ]);
 
     /**
@@ -111,9 +106,9 @@ let TranslationModule = (function(window, document, undefined) {
         for (let key in object) {
             if (object.hasOwnProperty(key)) {
                 let value = object[key];
-                let element = translateKeyToInput({"key" : key, "value" : value}, required);
-                if (element) {
-                    container.appendChild(element);
+                let inputObject = translateKeyToInput({"key" : key, "value" : value}, required);
+                if (inputObject) {
+                    container.appendChild(inputObject.inputContainer);
                 }
             }
         }
@@ -160,6 +155,14 @@ let TranslationModule = (function(window, document, undefined) {
      * @param values {object} Optional - contains possible set values
      */
     function translateRowToObject(keys, values) {
+        //filter some unnecessary keys out
+        let omitKeys = ["Nr."];
+        omitKeys.forEach((omitKey) => {
+            if (keys.indexOf(omitKey) !== -1) {
+                keys.splice(keys.indexOf(omitKey), 1);
+            }
+        });
+
         // initialize object properties
         let object = {};
         keys.forEach((key) => {
@@ -193,7 +196,7 @@ let TranslationModule = (function(window, document, undefined) {
                     break;
                 case "verein":
                     // TODO: get all clubs
-                    let allClubs = ["SV Tora", "Nicht SV Tora"];
+                    let allClubs = GeneralModule.generalVariables.clubs;
                     object[key] = [];
                     allClubs.forEach((club) => {
                         object[key].push({
@@ -272,13 +275,33 @@ let TranslationModule = (function(window, document, undefined) {
         return object;
     }
 
+    /**
+     * API:
+     */
     return {
-        translateObjectToInputsApi : function (object, required) {
+        /**
+         * This api function translates a given object to the respective input elements and returns a container element (containing the input elements)
+         * @param object {object} The property name is the key and determines the value of the name attribute. Each property (key) has either just a string value or is an array of objects (in case of checkBoxes or radioButtons or Selects). These objects have two properties: "value" is a string containing the value and "selected" is a boolean determining whether this option should be preselected.
+         * @param required {boolean} States if all the inputs to be generated should be required
+         * @return {HTMLElement}
+         */
+        translateObjectToInputsApi : function (object, required = false) {
             return translateObjectToInputs(object, required);
         },
+        /**
+         * This api function translates input elements to an object for further standardized processing
+         * @param container {HTMLElement} Should contain input elements
+         * @return {{}}
+         */
         translateInputsToObjectApi : function (container) {
             return translateInputsToObject(container);
         },
+        /**
+         * This api function translates an application specific table row to an object for further standardized processing
+         * @param keys {string[]} Contains the different table column headers (data-columns)
+         * @param values {object} Optional - contains possible set values
+         * @return {{}}
+         */
         translateRowToObjectApi : function (keys, values) {
             return translateRowToObject(keys, values);
         }

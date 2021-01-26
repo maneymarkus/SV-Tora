@@ -1,11 +1,21 @@
-/*
-  Dependencies: None;
+/**
+ * This Module contains code responsible for managing carousels
  */
+var CarouselModule = (function(window, document, undefined) {
 
-let CarouselModule = (function(window, document, undefined) {
+  /**
+   * DEPENDENCIES
+   */
+  let dependencies = [];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   let carousels = [];
 
+  /**
+   * This "class" represents a displayed HTML carousel element and enables a detailed control over it
+   * @param carouselContainer {HTMLElement} The respective HTML element this object represents
+   * @constructor
+   */
   let Carousel = function(carouselContainer) {
     const This = this;
     this.carouselElement = carouselContainer;
@@ -13,11 +23,20 @@ let CarouselModule = (function(window, document, undefined) {
     this.slides = carouselContainer.querySelectorAll("div.page");
     this.slideCount = this.slides.length;
     this.angleDistance = 360 / this.slideCount;
+    this.active = true;
 
+    /**
+     * This object contains options concerning the display of the carousel
+     * @type {{distanceZ: number}}
+     */
     this.options = {
       distanceZ : 300,
     }
 
+    /**
+     * This object contains current properties of the carousel
+     * @type {{startAngle: number, xStart: number, rotationSpeed: number, lastAngle: number, currentAngle: number}}
+     */
     this.properties = {
       rotationSpeed : 1,
       xStart : 0,
@@ -26,37 +45,51 @@ let CarouselModule = (function(window, document, undefined) {
       lastAngle : 0,
     }
 
-    this.rotateSlide = function(rotation) {
+    /**
+     * This function handles the rotation of the carousel (by rotating each slide individually)
+     * @param rotation
+     */
+    this.rotateSlides = function(rotation) {
       let counter = 0;
       This.slides.forEach((slide) => {
         let rotate = This.angleDistance * counter + rotation;
         slide.style.transform = "rotateY(" + rotate + "deg) translateZ(" + This.options.distanceZ + "px) rotateY(" + rotate * -1 + "deg)";
         if (Math.abs(rotate % 360) < 110 || Math.abs(rotate % 360) > 250) {
-          slide.style.opacity = 1;
+          slide.style.visibility = "visible";
         } else {
-          slide.style.opacity = 0;
+          slide.style.visibility = "hidden";
         }
         counter++;
       });
     }
 
-    this.rotateCarousel = function(rotation) {
-      This.slideWrapper.style.transform = "translateZ(-" + This.options.distanceZ + "px) rotateY(" + rotation + "deg)";
-    }
-
+    /**
+     * This function initializes a carousel element
+     */
     this.init = function() {
       This.slideWrapper.style.transform = "translateZ(-" + This.options.distanceZ + "px)";
-      This.rotateSlide(0);
+      This.rotateSlides(0);
     }
     this.init();
 
+    /**
+     * These functions handle the starting event for the carousel to listen for (mousedown and touchstart)
+     */
     This.carouselElement.addEventListener("mousedown", (e) => {
-      This.downHandler(e);
+      if (This.active) {
+        This.downHandler(e);
+      }
     });
     This.carouselElement.addEventListener("touchstart", (e) => {
-      This.downHandler(e);
+      if (This.active) {
+        This.downHandler(e);
+      }
     });
 
+    /**
+     * This function handles the starting event for the carousel
+     * @param e {Event} The event object
+     */
     this.downHandler = function (e) {
       e.preventDefault();
       window.cancelAnimationFrame(fadeAnimation);
@@ -72,8 +105,15 @@ let CarouselModule = (function(window, document, undefined) {
       document.addEventListener("touchend", This.upHandler);
     }
 
+    /**
+     * This variable is necessary to determine the rotation speed after disengaging the carousel and contains the starting time
+     */
     let then;
 
+    /**
+     * This function rotates the carousel on a moving user interaction
+     * @param e {Event} The event object
+     */
     this.moveHandler = function (e) {
       if (then === undefined) {
         then = Date.now();
@@ -89,7 +129,7 @@ let CarouselModule = (function(window, document, undefined) {
       let angle = This.calculateAngle(xDist);
       let rotation = This.properties.startAngle + angle;
 
-      This.rotateSlide(rotation);
+      This.rotateSlides(rotation);
 
       This.properties.currentAngle = rotation;
       let now = Date.now();
@@ -98,8 +138,15 @@ let CarouselModule = (function(window, document, undefined) {
       then = now;
     }
 
+    /**
+     * This variable stores the requestAnimationFrame reference
+     */
     let fadeAnimation;
 
+    /**
+     * This variable handles the user disengagement of the carousel
+     * @param e {Event} The event object
+     */
     this.upHandler = function (e) {
       document.removeEventListener("mousemove", This.moveHandler);
       document.removeEventListener("touchmove", This.moveHandler);
@@ -111,6 +158,11 @@ let CarouselModule = (function(window, document, undefined) {
       });
     }
 
+    /**
+     * This function calculates the turn angle
+     * @param xDist {Number} The horizontal distance of the user interaction
+     * @return {number}
+     */
     this.calculateAngle = function (xDist) {
       let oppositeLeg = xDist;
       let adjacentLeg = This.options.distanceZ;
@@ -121,6 +173,11 @@ let CarouselModule = (function(window, document, undefined) {
       return alpha * factor;
     }
 
+    /**
+     * This function calculates the rotation speed (RPS = Rotations per Second)
+     * @param then {Date} Starting time
+     * @param now {Date} Current time
+     */
     this.calculateRPS = function(then, now) {
       let time = then - now;
       let distance = This.properties.currentAngle - This.properties.lastAngle;
@@ -128,9 +185,12 @@ let CarouselModule = (function(window, document, undefined) {
       This.properties.rotationSpeed = speed * 10;
     }
 
+    /**
+     * This function handles the carousel turning animation after the user interaction stopped
+     */
     this.turnCarousel = function () {
       let rotation = This.properties.startAngle + This.properties.rotationSpeed;
-      This.rotateSlide(rotation);
+      This.rotateSlides(rotation);
       This.properties.startAngle = rotation;
       let relativeRotation = This.properties.startAngle % 360;
       let position = Math.round(relativeRotation / This.angleDistance);
@@ -152,62 +212,227 @@ let CarouselModule = (function(window, document, undefined) {
       }
     }
 
+    /**
+     * This function returns a specific page of the carousel given a specific element selector and a search query (this is case insensitive!)
+     * @param elementSelector {string} The element of the page that should be checked for its content
+     * @param searchQuery {string} The string to check the content of the element of the page against
+     * @return {HTMLElement}
+     */
     this.getSlideByContent = function (elementSelector, searchQuery) {
       let wantedSlide = undefined;
       This.slides.forEach((slide) => {
         let searchElementContent = slide.querySelector(elementSelector).innerText;
-        if (searchElementContent === searchQuery) {
+        if (searchElementContent.toLowerCase() === searchQuery.toLowerCase()) {
           wantedSlide = slide;
         }
       });
       return wantedSlide;
     }
 
+    /**
+     * This function disables a given slide/page
+     * @param slide {HTMLElement} The slide/page that should be disabled
+     */
     this.disableSlide = function (slide) {
-      slide.classList.add("inactive");
-      slide.querySelector(".secondary-button").classList.add("disabled");
+      if (slide.classList.contains("page")) {
+        slide.classList.add("inactive");
+        slide.querySelector(".secondary-button").classList.add("disabled");
+      }
     }
 
+    /**
+     * This function enables a given slide/page
+     * @param slide {HTMLElement} The slide/page that should be enabled
+     */
     this.enableSlide = function (slide) {
-      slide.classList.remove("inactive");
-      slide.querySelector(".secondary-button").classList.remove("disabled");
+      if (slide.classList.contains("page")) {
+        slide.classList.remove("inactive");
+        slide.querySelector(".secondary-button").classList.remove("disabled");
+      }
+    }
+
+    /**
+     * This function enables all the slides in this carousel
+     */
+    this.enableAllSlides = function () {
+      This.slides.forEach((slide) => {
+        slide.classList.remove("inactive");
+        SecondaryButtonModule.enableSecondaryButtonApi(slide.querySelector(".secondary-button"));
+      });
+    }
+
+    /**
+     * This function activates this carousel (user interaction possible)
+     */
+    this.activateCarousel = function () {
+      this.active = true;
+      this.carouselElement.classList.add("active");
+    }
+
+    /**
+     * This function deactivates this carousel (user interaction not possible)
+     */
+    this.deactivateCarousel = function () {
+      this.active = false;
+      this.carouselElement.classList.remove("active");
+    }
+
+    /**
+     * This object saves the callbacks that get registered on carousel pages/slides
+     * @type {{string:function}}
+     */
+    this.callbacks = {};
+
+    /**
+     * This function registers a callback on this carousel (element)
+     * @param callback {function} The function reference that should be called after clicking on a carousel button
+     */
+    this.registerCallback = function (callback) {
+      This.carouselElement.addEventListener("click", handleClick);
+      This.callbacks[callback.toString()] = handleClick;
+
+      function handleClick(e) {
+        let target = e.target;
+        while (target.nodeName !== "BODY" && !target.classList.contains("secondary-button")) {
+          target = target.parentElement;
+        }
+        if (target.classList.contains("secondary-button")) {
+          e.stopImmediatePropagation();
+          callback(target);
+        }
+      }
+    }
+
+    /**
+     * This function removes registered callbacks from this carousel (element)
+     * @param callback
+     */
+    this.removeCallback = function (callback) {
+      let listener = this.callbacks[callback.toString()];
+
+      This.carouselElement.removeEventListener("click", listener);
+      delete this.callbacks[callback.toString()];
     }
 
   }
 
-  if (document.getElementsByClassName("carousel-container")[0]) {
-    let carouselContainers = document.querySelectorAll("div.carousel-container");
-    initializeCarousels(carouselContainers);
-  }
+  /**
+   * This block initializes the (static) carousel elements on an application page
+   */
+  let carouselContainers = document.querySelectorAll("div.carousel-container");
+  carouselContainers.forEach((cc) => {
+    carousels.push(new Carousel(cc));
+  });
 
-  function initializeCarousels(carouselContainers) {
-    carouselContainers.forEach((cc) => {
-      carousels.push(new Carousel(cc));
-    });
-  }
-
+  /**
+   * API:
+   */
   return {
+    /**
+     * This api function returns a page/slide filtered by specific content of an element contained in the carousel
+     * @param carouselElement {HTMLElement} The carousel which contains the slide
+     * @param elementSelector {string} The element of the page that should be checked for its content
+     * @param searchQuery {string} The string to check the content of the element of the page against
+     * @return {HTMLElement}
+     */
     getSlideByContentApi : function (carouselElement, elementSelector, searchQuery) {
-      carousels.forEach((carousel) => {
-        if (carousel.carouselElement === carouselElement) {
-          return carousel.getSlideByContent(elementSelector, searchQuery);
-        }
-      });
+      if (carouselElement.classList.contains("carousel")) {
+        let slide = undefined;
+        carousels.forEach((carousel) => {
+          if (carousel.carouselElement === carouselElement) {
+            slide = carousel.getSlideByContent(elementSelector, searchQuery);
+          }
+        });
+        return slide;
+      }
     },
-    enableSlideApi : function (carouselElement, slide) {
-      carousels.forEach((carousel) => {
-        if (carousel.carouselElement === carouselElement) {
-          return carousel.enableSlide(slide);
-        }
-      });
+    /**
+     * This api function enables all pages/slides in a given carousel
+     * @param carouselElement {HTMLElement} The carousel element in which all pages/slides should be enabled
+     */
+    enableAllSlidesApi : function (carouselElement) {
+      if (carouselElement.classList.contains("carousel-container")) {
+        carousels.forEach((carousel) => {
+          if (carousel.carouselElement === carouselElement) {
+            return carousel.enableAllSlides();
+          }
+        });
+      }
     },
-    disableSlideApi : function (carouselElement, slide) {
-      carousels.forEach((carousel) => {
-        if (carousel.carouselElement === carouselElement) {
-          return carousel.disableSlide(slide);
-        }
-      });
-    }
+    /**
+     * This api function enables a given slide/page
+     * @param slide {HTMLElement} The slide/page that should be enabled
+     */
+    enableSlideApi : function (slide) {
+      if (typeof slide !== "undefined" && slide.classList.contains("page")) {
+        slide.classList.remove("inactive");
+        SecondaryButtonModule.enableSecondaryButtonApi(slide.querySelector(".secondary-button"));
+      }
+    },
+    /**
+     * This api function disables a given slide/page
+     * @param slide {HTMLElement} The slide/page that should be disabled
+     */
+    disableSlideApi : function (slide) {
+      if (typeof slide !== "undefined" && slide.classList.contains("page")) {
+        slide.classList.add("inactive");
+        SecondaryButtonModule.disableSecondaryButtonApi(slide.querySelector(".secondary-button"));
+      }
+    },
+    /**
+     * This api function activates a given carousel
+     * @param carouselElement {HTMLElement} The carousel that should be activated
+     */
+    activateCarouselApi : function (carouselElement) {
+      if (carouselElement.classList.contains("carousel-container")) {
+        carousels.forEach((carousel) => {
+          if (carousel.carouselElement === carouselElement) {
+            carousel.activateCarousel();
+          }
+        });
+      }
+    },
+    /**
+     * This api function deactivates a given carousel
+     * @param carouselElement {HTMLElement} The carousel that should be deactivated
+     */
+    deactivateCarouselApi : function (carouselElement) {
+      if (carouselElement.classList.contains("carousel-container")) {
+        carousels.forEach((carousel) => {
+          if (carousel.carouselElement === carouselElement) {
+            carousel.deactivateCarousel();
+          }
+        });
+      }
+    },
+    /**
+     * This api function registers a callback on a given carousel
+     * @param carouselElement {HTMLElement} The carousel element that should have the given callback
+     * @param callback {function} The function reference that should be called when the user clicks a button in the carousel
+     */
+    registerCallbackApi : function (carouselElement, callback) {
+      if (carouselElement.classList.contains("carousel-container")) {
+        carousels.forEach((carousel) => {
+          if (carousel.carouselElement === carouselElement) {
+            carousel.registerCallback(callback);
+          }
+        });
+      }
+    },
+    /**
+     * This function removes a callback from the given carousel
+     * @param carouselElement {HTMLElement} The carousel element from which the callback should be removed
+     * @param callback {function} The function reference to be removed
+     */
+    removeCallBackApi : function (carouselElement, callback) {
+      if (carouselElement.classList.contains("carousel-container")) {
+        carousels.forEach((carousel) => {
+          if (carousel.carouselElement === carouselElement) {
+            carousel.removeCallback(callback);
+          }
+        });
+      }
+    },
   }
 
 })(window, document);

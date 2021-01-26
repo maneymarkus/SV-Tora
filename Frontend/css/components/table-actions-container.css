@@ -1,0 +1,70 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Table
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div data-table="table-id" class="actions clearfix">
+/     <a id="add-entity" class="primary-button add-entity">
+/       <i class="material-icons">add</i>
+/       <p>Add Entity</p>
+/     </a>
+/     <a class="primary-button print">
+/       <i class="material-icons">print</i>
+/       <p>Print</p>
+/     </a>
+/   </div>
+/
+/
+*/
+
+.table-actions {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.table-actions:before {
+  content: 'Aktionen';
+  position: absolute;
+  font-size: 4rem;
+  color: black;
+  font-style: italic;
+  font-weight: 900;
+  opacity: 0.3;
+  letter-spacing: 0.05em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) skewY(-3deg);
+  z-index: -1;
+}
+
+a.primary-button.print {
+  float: right;
+}
+
+@media only screen and (min-width: 600px) {
+  .table-actions:before {
+    font-size: 5rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .table-actions:before {
+    font-size: 6rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .table-actions:before {
+    font-size: 7rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

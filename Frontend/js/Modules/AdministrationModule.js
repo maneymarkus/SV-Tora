@@ -1,13 +1,8 @@
-/*
-  Dependencies: GeneralModule
- */
-
-if (typeof GeneralModule === "undefined") {
-  console.log("Missing GeneralModule Dependency!");
-}
-
 // Module contains code concerning admin table
-let TablesModule = (function(window, document, undefined) {
+var TablesModule = (function(window, document, undefined) {
+
+  let dependencies = [];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   let adminTable = undefined;
 

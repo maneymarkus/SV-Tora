@@ -1,3 +1,33 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Modal Windows
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup (e.g. Confirmation Modal):
+/   <div class="overlay">
+/     <div class="modal-window">
+/       <a class="primary-button", "close-modal", "close">
+/         <i class="material-icons">close</i>
+/         <p>Close</p>
+/       </a>
+/       <div class="mw-header">
+/         <h2>Heading</h2>
+/       </div>
+/       <div class="modal-content">
+/       <div class="modal-content">
+/         Content goes here...
+/       </div>
+/       <div class="mw-footer">
+/         <secondary-button class="abort" />
+/         <secondary-button class="confirm" />
+/       </div>
+/
+/
+*/
+
+
 main {
   transition: 0.2s ease 0.5s;
 }
@@ -7,7 +37,8 @@ main.blur {
   transition: 0.2s ease 0s;
 }
 
-.overlay {
+.overlay,
+.just-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -18,7 +49,12 @@ main.blur {
   z-index: 10000;
 }
 
-.overlay.open {
+.overlay {
+  z-index: 100000;
+}
+
+.overlay.open,
+.just-overlay.open {
   background-color: rgba(0, 0, 0, 0.5);
   transition: 0.2s ease;
 }
@@ -34,8 +70,12 @@ main.blur {
   transform: translate(-50%, -50%) scale(0);
   transition: 0.5s ease 0.5s;
   font-size: 1rem; /* ADJUST Size individually */
-  background-color: #222222;
-  box-shadow: 0 10px 15px 3px black;
+  background-color: var(--theme-color-4);
+  box-shadow: 0 10px 15px 3px var(--box-shadow);
+}
+
+.darkmode .modal-window {
+  background-color: var(--theme-color-2);
 }
 
 .open .modal-window {
@@ -53,11 +93,11 @@ a.primary-button.close-modal {
 
 a.primary-button.close-modal i {
   color: #171717;
-  background-color: #B23A48;
+  background-color: var(--accent-color-2-dark);
   border-radius: 50%;
   padding: 0.1em;
   font-size: 3.5em;
-  box-shadow: 0 3px 5px 2px black;
+  box-shadow: 0 3px 5px 2px var(--box-shadow);
 }
 
 .primary-button.close-modal:hover i {
@@ -69,17 +109,21 @@ a.primary-button.close-modal i {
   height: 0;
   overflow: hidden;
   margin: 0.75em 0 1em 0;
-  background-color: #171717;
+  background-color: var(--theme-color-5);
   font-weight: bold;
   transition: 0.5s ease;
+}
+
+.darkmode .modal-window .mw-header {
+  background-color: var(--theme-color-1);
 }
 
 .modal-window .mw-header h2 {
   font-size: 2em;
   padding: 0.75em 1.5em 0.75em 1.5em;
   margin: 0;
-  text-shadow: 2px 2px 5px black;
-  color: white;
+  text-shadow: 2px 2px 5px var(--text-shadow);
+  color: var(--text-color);
 }
 
 .modal-window .mw-content {
@@ -113,7 +157,7 @@ a.primary-button.close-modal i {
   display: flex;
   justify-content: space-between;
   padding: 1.5em 1em 1em;
-  border-top: 2px solid #171717;
+  border-top: 2px solid var(--theme-color-1);
 }
 
 .modal-window .secondary-button {

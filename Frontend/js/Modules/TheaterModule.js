@@ -1,29 +1,37 @@
-/*
-  Dependencies: theater.min.js
- */
-
 if (typeof theaterJS === "undefined") {
-    console.log("Missing Theater.js dependency!");
+    console.warn("Missing Theater.js dependency!");
 }
 
-let TheaterModule = (function (window, document, undefined) {
+/**
+ * This Module contains code responsible for managing a typing-like animation and its properties
+ */
+var TheaterModule = (function (window, document, undefined) {
 
-  const theaterOptions = {locale: "de", minSpeed: {erase: 10, type: 40}, maxSpeed: {erase: 100, type: 150}};
-  const theater = theaterJS(theaterOptions);
+    /**
+     * DEPENDENCIES
+     */
+    let dependencies = [];
+    GeneralModule.checkDependenciesApi(dependencies);
 
-  theater
-      .on("type:start, erase:start", function () {
-        // add a class to actor's dom element when he starts typing/erasing
-        let actor = theater.getCurrentActor();
-      })
-      .on("type:end, erase:end", function () {
-        // and then remove it when he's done
-        let actor = theater.getCurrentActor();
+    const theaterOptions = {locale: "de", minSpeed: {erase: 10, type: 40}, maxSpeed: {erase: 80, type: 100}};
+    const theater = theaterJS(theaterOptions);
+
+    theater
+        .on("type:start, erase:start", function () {
+            // add a class to actor's dom element when he starts typing/erasing
+            let actor = theater.getCurrentActor();
+        })
+        .on("type:end, erase:end", function () {
+            // and then remove it when he's done
+            let actor = theater.getCurrentActor();
       });
 
-  return {
-    theaterOptions,
-    theater,
-  }
+    /**
+     * API:
+     */
+    return {
+        theaterOptions,
+        theater,
+    }
 
 })(window, document);

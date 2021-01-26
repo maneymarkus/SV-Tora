@@ -1,23 +1,27 @@
-/*
-  Dependencies: GeneralModule
- */
-
-if (typeof GeneralModule === "undefined") {
-    console.log("Missing GeneralModule Dependency!");
-}
-
 /**
  * This "Module" contains code responsible for the dynamic behaviour of all the different input elements
  * @type {{}}
  */
-let MaterialInputsModule = (function(window, document, undefined) {
+var MaterialInputsModule = (function(window, document, undefined) {
+
+    /**
+     * DEPENDENCIES
+     */
+    let dependencies = [];
+    GeneralModule.checkDependenciesApi(dependencies);
 
     let inputTypes = GeneralModule.generalVariables.inputTypes;
     let errorTypes = GeneralModule.generalVariables.errorTypes;
 
     let inputs = [];
 
-    let Error = function (errorType) {
+    /**
+     * This "class" represents an error
+     * @param errorType {errorTypes} The type of the error
+     * @param errorMessage {string} The error message
+     * @constructor
+     */
+    let Error = function (errorType, errorMessage) {
         let This = this;
         this.errorType = errorType;
         this.errorMessage = "";
@@ -46,6 +50,9 @@ let MaterialInputsModule = (function(window, document, undefined) {
                 This.errorMessage = "Das erste Datum muss vor dem zweiten Datum liegen.";
                 classes.push("dateError");
                 break;
+            case errorTypes.CUSTOM:
+                This.errorMessage = errorMessage;
+                classes.push("customError");
         }
 
         let errorSpan = GeneralModule.generateElementApi("SPAN", ["error"].concat(classes));
@@ -56,7 +63,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
     }
 
     /**
-     * This class handles generic custom input behaviour and provides a universal interface to all types of (custom) input elements
+     * This class handles generic custom input behaviour and provides a universal interface for all types of (custom) input elements
      */
     class Input {
         constructor(inputContainer) {
@@ -81,6 +88,8 @@ let MaterialInputsModule = (function(window, document, undefined) {
                 this.inputType = inputTypes.FILE;
             } else if (classes.contains("textarea")) {
                 this.inputType = inputTypes.TEXTAREA;
+            } else if (classes.contains("range-input-container")) {
+                this.inputType = inputTypes.RANGE;
             } else {
                 this.inputType = undefined;
             }
@@ -96,7 +105,11 @@ let MaterialInputsModule = (function(window, document, undefined) {
 
         }
 
+        /**
+         * This function is executed when the input changes
+         */
         handleChangeInput() {
+            this.revokeInputError(errorTypes.CUSTOM);
             if(this.required) {
                 if (this.hasUserInput()) {
                     this.revokeInputError(errorTypes.REQUIRED);
@@ -106,28 +119,68 @@ let MaterialInputsModule = (function(window, document, undefined) {
             }
         }
 
+        /**
+         * This function "sets" a new value on an input element (should be overridden by the specific class)
+         * @param newInput {string} The new input to be set
+         */
         setValue(newInput) {
             console.log("Set new input on " + this + ": " + newInput);
         }
 
+        /**
+         * This function "gets" the value of an input element (should be overridden by the specific class)
+         */
         getValue() {
             console.log("Return input of " + this);
         }
 
+        /**
+         * This function returns if this input element has user input or not
+         * @return {boolean}
+         */
         hasUserInput() {
             return this.userInput;
         }
 
+        /**
+         * This function returns if this input element has an error or not
+         * @return {boolean}
+         */
         hasError() {
             return this.incorrect;
         }
 
+        /**
+         * This function returns if this input element is disabled
+         * @return {*}
+         */
         isDisabled() {
             this.disabled = this.inputContainer.classList.contains("disabled");
             return this.disabled;
         }
 
-        throwInputError(errorType) {
+        /**
+         * This function disables this input element (no user interaction anymore)
+         */
+        disable() {
+            this.disabled = true;
+            this.inputContainer.classList.add("disabled");
+        }
+
+        /**
+         * This function enables this input element (user interaction possible)
+         */
+        enable() {
+            this.disabled = false;
+            this.inputContainer.classList.remove("disabled");
+        }
+
+        /**
+         * This function throws a(n) (visible) error at this input element
+         * @param errorType
+         * @param errorMessage
+         */
+        throwInputError(errorType, errorMessage) {
             let addError = true;
             this.errors.forEach((error) => {
                 if (error.errorType === errorType) {
@@ -135,7 +188,12 @@ let MaterialInputsModule = (function(window, document, undefined) {
                 }
             });
             if (addError) {
-                let error = new Error(errorType);
+                let error = undefined;
+                if (errorMessage) {
+                    error = new Error(errorType, errorMessage);
+                } else {
+                    error = new Error(errorType);
+                }
                 this.errors.push(error);
                 if (!this.incorrect) {
                     this.inputContainer.appendChild(error.errorElement);
@@ -145,6 +203,10 @@ let MaterialInputsModule = (function(window, document, undefined) {
             }
         }
 
+        /**
+         * This function revokes a(n) (visible) error of this input element
+         * @param errorType {errorTypes} The errortype that should be revoked
+         */
         revokeInputError(errorType) {
             this.errors.forEach((error) => {
                 if (error.errorType === errorType) {
@@ -161,14 +223,34 @@ let MaterialInputsModule = (function(window, document, undefined) {
             }
         }
 
+        /**
+         * This function revokes all errors of this input element
+         */
+        revokeAllInputErrors() {
+            if (this.inputContainer.querySelector(".error")) {
+                this.inputContainer.querySelector(".error").remove();
+            }
+            this.errors = [];
+            this.errors = this.errors.filter(Boolean);
+            this.incorrect = false;
+            this.inputContainer.classList.remove("incorrect");
+        }
+
+        /**
+         * This function returns the input object of a given input container
+         * @param inputContainer {HTMLElement} The respective input container element of which the object should be returned
+         * @return {*}
+         */
         static getInputObject(inputContainer) {
-            let inputObject = undefined;
-            inputs.forEach((input) => {
-                if (input.inputContainer === inputContainer) {
-                    inputObject = input;
-                }
-            });
-            return inputObject;
+            if (inputContainer.classList.contains("input-container")) {
+                let inputObject = undefined;
+                inputs.forEach((input) => {
+                    if (input.inputContainer === inputContainer) {
+                        inputObject = input;
+                    }
+                });
+                return inputObject;
+            }
         }
 
         /**
@@ -179,19 +261,22 @@ let MaterialInputsModule = (function(window, document, undefined) {
          * @param classNames {string[]} Contains classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
          * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
          * @param name {string} Sets the name attribute on the input element for identification in general
-         * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button
-         * @param value {string} Sets the value attribute
+         * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch or range
+         * @param value {string} Sets either the value attribute of switches or the value of text inputs, textareas or range inputs
          * @param checked {boolean} Optional: Determines if switch to be checked
-         * @param options {string[] || object[]} This should be an array of strings to determine the different options for the select or this is an array of objects with the properties "text", "value", "checked" for the different options of checkboxes and radio buttons
-         * @returns {HTMLElement}
+         * @param options {string[] || object[]} This should be an array of strings to determine the different options for the select or this is an array of objects with the properties "text" (string), "value" (string), "checked" (boolean) and optional "disabled" (boolean) for the different options of checkboxes and radio buttons
+         * @returns {object}
          */
         static createInputFactory(inputType, classNames, inputId, name, placeholder, value, checked, options) {
             if (!inputId) {
                 inputId = Math.random().toString(16).substr(2, 10);
             }
+            if (typeof classNames === "undefined") {
+                classNames = [];
+            }
             switch (inputType) {
                 case inputTypes.TEXT:
-                    return TextInput.createInput(classNames, inputId, name, placeholder);
+                    return TextInput.createInput(classNames, inputId, name, placeholder, value);
                 case inputTypes.SWITCH:
                     return Switch.createInput(classNames, inputId, name, placeholder, value, checked);
                 case inputTypes.CHECKBOX:
@@ -207,7 +292,9 @@ let MaterialInputsModule = (function(window, document, undefined) {
                 case inputTypes.FILE:
                     return FileInput.createInput(classNames, inputId, name);
                 case inputTypes.TEXTAREA:
-                    return Textarea.createInput(classNames, inputId, name, placeholder);
+                    return Textarea.createInput(classNames, inputId, name, placeholder, value);
+                case inputTypes.RANGE:
+                    return RangeInput.createInput(classNames, inputId, name, placeholder, value)
                 default:
                     return undefined;
             }
@@ -225,7 +312,11 @@ let MaterialInputsModule = (function(window, document, undefined) {
             this.optionsElement = inputContainer.querySelector("div.options");
             this.placeholder = inputContainer.querySelector("span.placeholder").innerText;
 
+            // this property contains the text value of the selected option
             this.selected = this.inputElement.innerHTML.trim();
+
+            // this property saves whether the user can click on the options that expand when clicking on the container element (this is necessary due to fade in and out animations)
+            this.selectable = false;
             this.name = this.inputElement.getAttribute("data-name");
             this.options = [];
             this.optionsElement.querySelectorAll(".option").forEach((op) => {
@@ -240,6 +331,15 @@ let MaterialInputsModule = (function(window, document, undefined) {
 
         getValue() {
             return this.selected;
+        }
+
+        setValue(newValue) {
+            if (newValue && this.options.includes(newValue)) {
+                this.inputElement.innerHTML = newValue;
+                this.inputElement.classList.remove("placeholder");
+                this.selected = newValue;
+                this.userInput = true;
+            }
         }
 
         handleCLick(e) {
@@ -257,7 +357,9 @@ let MaterialInputsModule = (function(window, document, undefined) {
                     this.show();
                 }
             } else if (target && target.classList.contains("option")) {
-                this.selectOption(target.innerHTML);
+                if (this.selectable) {
+                    this.selectOption(target.innerHTML);
+                }
                 if (!this.userInput) {
                     this.userInput = true;
                 }
@@ -270,10 +372,14 @@ let MaterialInputsModule = (function(window, document, undefined) {
         show() {
             this.inputContainer.classList.add("open");
             this.optionsElement.classList.add("show");
+            window.setTimeout(function () {
+                this.selectable = true;
+            }.bind(this), 500);
             Select.closeAllSelectsExcept(this);
         }
 
         hide() {
+            this.selectable = false;
             this.inputContainer.classList.remove("open");
             this.optionsElement.classList.remove("show");
         }
@@ -284,14 +390,16 @@ let MaterialInputsModule = (function(window, document, undefined) {
             this.selected = selectedOption;
             this.userInput = true;
             this.inputElement.dispatchEvent(new Event("change", {bubbles: true}));
+            this.inputElement.dispatchEvent(new Event("input", {bubbles: true}));
         }
 
         updateOptions(newOptions) {
             this.options = newOptions;
             this.optionsElement.innerHTML = "";
+            let This = this;
             newOptions.forEach(function (item) {
                 let option = GeneralModule.generateElementApi("DIV", ["option"], item);
-                this.optionsElement.appendChild(option);
+                This.optionsElement.appendChild(option);
             });
         }
 
@@ -313,7 +421,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
          * @param name {string} Sets the name attribute on the input element for identification in general
          * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button
          * @param options {string[] || object} This should be an array of strings to determine the different options for the select or this is an array of objects with the properties "text", "value", "checked" for the different options of checkboxes and radio buttons
-         * @returns {HTMLElement}
+         * @returns {object}
          */
         static createInput(classNames, placeholder, name, options) {
             let selectContainer = GeneralModule.generateElementApi("div", ["select-input-container", "input-container"].concat(classNames));
@@ -343,7 +451,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
             let newSelect = new Select(selectContainer);
 
             inputs.push(newSelect);
-            return selectContainer;
+            return newSelect;
         }
 
     }
@@ -594,7 +702,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
          * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
          * @param name {string} Sets the name attribute on the input element for identification in general
          * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button
-         * @returns {HTMLElement}
+         * @returns {object}
          */
         static createInput(classNames, inputId, name, placeholder) {
             let inputContainer = GeneralModule.generateElementApi("span", ["date-input-container", "input-container"].concat(classNames));
@@ -614,8 +722,9 @@ let MaterialInputsModule = (function(window, document, undefined) {
             inputContainer.appendChild(pLabel);
             inputContainer.appendChild(GeneralModule.generateElementApi("span", ["underline"]));
 
-            inputs.push(new DateInput(inputContainer));
-            return inputContainer;
+            let newDateInput = new DateInput(inputContainer);
+            inputs.push(newDateInput);
+            return newDateInput;
         }
 
     }
@@ -748,7 +857,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
                 if (TimeInput.timePickerElement.querySelector(".minutes.active")) {
                     TimeInput.timePickerElement.querySelector(".minutes.active").classList.remove("active");
                     TimeInput.timePickerElement.querySelector(".hours").classList.add("active");
-                    this.setValue(this.hourElement.innerHTML.trim() + " : " + this.minuteElement.innerHTML.trim());
+                    this.setValue(this.hourElement.innerHTML.trim() + ":" + this.minuteElement.innerHTML.trim());
                     if (!this.hasUserInput) {
                         this.userInput = true;
                     }
@@ -900,7 +1009,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
          * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
          * @param name {string} Sets the name attribute on the input element for identification in general
          * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button[] || object} This should be an array of strings to determine the different options for the select or this is an array of objects with the properties "text", "value", "checked" for the different options of checkboxes and radio buttons
-         * @returns {HTMLElement}
+         * @returns {object}
          */
         static createInput(classNames, inputId, name, placeholder) {
             let inputContainer = GeneralModule.generateElementApi("span", ["time-input-container", "input-container"].concat(classNames));
@@ -920,8 +1029,9 @@ let MaterialInputsModule = (function(window, document, undefined) {
             inputContainer.appendChild(pLabel);
             inputContainer.appendChild(GeneralModule.generateElementApi("span", ["underline"]));
 
-            inputs.push(new TimeInput(inputContainer));
-            return inputContainer;
+            let newTimeInput = new TimeInput(inputContainer);
+            inputs.push(newTimeInput);
+            return newTimeInput;
         }
 
     }
@@ -932,7 +1042,6 @@ let MaterialInputsModule = (function(window, document, undefined) {
     class RadioButtons extends Input {
         constructor(inputGroup) {
             super(inputGroup);
-            this.inputContainers = inputGroup.querySelectorAll("label.radio-input-container");
             this.inputElements = inputGroup.querySelectorAll("input");
             this.name = this.inputElements[0].getAttribute("name");
 
@@ -974,8 +1083,8 @@ let MaterialInputsModule = (function(window, document, undefined) {
          *
          * @param classNames {string[]} Contains classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
          * @param name {string} Sets the name attribute on the input element for identification in general
-         * @param options {object[]} This is an array of objects with the properties "text", "value", "checked" for the different options of checkboxes and radio buttons
-         * @returns {HTMLElement}
+         * @param options {object[]} This is an array of objects with the properties "text" (string), "value" (string), "checked" (boolean) and optional "disabled" (boolean) for the different options of checkboxes and radio buttons
+         * @returns {object}
          */
         static createInput(classNames, name, options) {
             let group = GeneralModule.generateElementApi("div", ["radio-group", "input-container"].concat(classNames));
@@ -993,13 +1102,18 @@ let MaterialInputsModule = (function(window, document, undefined) {
                 if (option["checked"]) {
                     input.setAttribute("checked", "checked");
                 }
+                if (option.hasOwnProperty("disabled") && option["disabled"]) {
+                    label.classList.add("disabled");
+                    input.setAttribute("disabled", "disabled");
+                }
                 label.appendChild(input);
                 label.appendChild(GeneralModule.generateElementApi("span", ["checkmark"]));
                 group.appendChild(label);
             });
 
-            inputs.push(new RadioButtons(group));
-            return group;
+            let newRadioButtons = new RadioButtons(group);
+            inputs.push(newRadioButtons);
+            return newRadioButtons;
         }
 
     }
@@ -1010,7 +1124,6 @@ let MaterialInputsModule = (function(window, document, undefined) {
     class Checkboxes extends Input {
         constructor(inputGroup) {
             super(inputGroup);
-            this.inputContainers = inputGroup.querySelectorAll("label.checkbox-input-container");
             this.inputElements = inputGroup.querySelectorAll("input");
             this.name = this.inputElements[0].getAttribute("name");
 
@@ -1029,6 +1142,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
         }
 
         hasUserInput() {
+            this.getSelected();
             if (this.selected.length >= 1) {
                 return this.userInput = true;
             } else {
@@ -1053,8 +1167,8 @@ let MaterialInputsModule = (function(window, document, undefined) {
          *
          * @param classNames {string[]} Contains classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
          * @param name {string} Sets the name attribute on the input element for identification in general
-         * @param options {object[]} This is an array of objects with the properties "text", "value", "checked" for the different options of checkboxes and radio buttons
-         * @returns {HTMLElement}
+         * @param options {object[]} This is an array of objects with the properties "text" (string), "value" (string), "checked" (boolean) and optional "disabled" (boolean) for the different options of checkboxes and radio buttons
+         * @returns {object}
          */
         static createInput(classNames, name, options) {
             let group = GeneralModule.generateElementApi("div", ["checkbox-group", "input-container"].concat(classNames));
@@ -1072,13 +1186,18 @@ let MaterialInputsModule = (function(window, document, undefined) {
                 if (option["checked"]) {
                     input.setAttribute("checked", "checked");
                 }
+                if (option.hasOwnProperty("disabled") && option["disabled"]) {
+                    label.classList.add("disabled");
+                    input.setAttribute("disabled", "disabled");
+                }
                 label.appendChild(input);
                 label.appendChild(GeneralModule.generateElementApi("span", ["checkmark"]));
                 group.appendChild(label);
             });
 
-            inputs.push(new Checkboxes(group));
-            return group;
+            let newCheckboxes = new Checkboxes(group);
+            inputs.push(newCheckboxes);
+            return newCheckboxes;
         }
 
     }
@@ -1116,6 +1235,8 @@ let MaterialInputsModule = (function(window, document, undefined) {
         }
 
         updateInputValidation() {
+            this.revokeAllInputErrors();
+            this.inputValidation = {};
             if (this.inputContainer.classList.contains("text-input-container")) {
                 // E-Mail text input field validation
                 if (this.inputContainer.classList.contains("mail") || this.inputContainer.classList.contains("email") || this.inputContainer.classList.contains("e-mail")) {
@@ -1174,9 +1295,10 @@ let MaterialInputsModule = (function(window, document, undefined) {
          * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
          * @param name {string} Sets the name attribute on the input element for identification in general
          * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button
-         * @returns {HTMLElement}
+         * @param value {string} Optional: Sets the value of this input field
+         * @returns {object}
          */
-        static createInput(classNames, inputId, name, placeholder) {
+        static createInput(classNames, inputId, name, placeholder, value) {
             let inputContainer = GeneralModule.generateElementApi("span", ["text-input-container", "input-container"].concat(classNames));
             let icon = GeneralModule.generateElementApi("label", ["icon"]);
             icon.setAttribute("for", inputId);
@@ -1207,9 +1329,12 @@ let MaterialInputsModule = (function(window, document, undefined) {
             pLabel.setAttribute("for", inputId);
             inputContainer.appendChild(pLabel);
             inputContainer.appendChild(GeneralModule.generateElementApi("span", ["underline"]));
-            console.log();
-            inputs.push(new TextInput(inputContainer));
-            return inputContainer;
+            let newTextInput = new TextInput(inputContainer)
+            inputs.push(newTextInput);
+            if (value) {
+                newTextInput.setValue(value);
+            }
+            return newTextInput;
         }
 
     }
@@ -1222,22 +1347,23 @@ let MaterialInputsModule = (function(window, document, undefined) {
             super(inputContainer);
             this.inputElement = inputContainer.querySelector("input");
             this.name = this.inputElement.getAttribute("name");
+
+            // Switches cannot be required!
+            this.required = false;
         }
 
-        getInput() {
-            let value = this.inputElement.getAttribute("value");
-            if (!value) {
-                value = this.inputContainer.querySelector("span.text").innerText;
-            }
-            return value;
+        getValue() {
+            return this.inputElement.checked;
         }
 
         turnOn() {
             this.inputElement.checked = true;
+            this.handleChangeInput();
         }
 
         turnOff() {
             this.inputElement.checked = false;
+            this.handleChangeInput();
         }
 
         toggle() {
@@ -1257,7 +1383,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
          * @param name {string} Sets the name attribute on the input element for identification in general
          * @param value {string} Sets the value attribute
          * @param checked {boolean} Optional: Determines if switch to be checked
-         * @returns {HTMLElement}
+         * @returns {object}
          */
         static createInput(classNames, inputId, name, text, value, checked) {
             if (!value) {
@@ -1280,8 +1406,9 @@ let MaterialInputsModule = (function(window, document, undefined) {
             switchContainer.appendChild(GeneralModule.generateElementApi("span", ["switch"]));
             switchContainer.appendChild(GeneralModule.generateElementApi("span", ["text"], text));
 
-            inputs.push(new Switch(switchContainer));
-            return switchContainer;
+            let newSwitch = new Switch(switchContainer);
+            inputs.push(newSwitch);
+            return newSwitch;
         }
 
     }
@@ -1325,7 +1452,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
          * @param classNames {string[]} Contains classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
          * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
          * @param name {string} Sets the name attribute on the input element for identification in general
-         * @returns {HTMLElement}
+         * @returns {object}
          */
         static createInput(classNames, inputId, name) {
             let fileContainer = GeneralModule.generateElementApi("label", ["file-input-container", "input-container"].concat(classNames));
@@ -1341,8 +1468,9 @@ let MaterialInputsModule = (function(window, document, undefined) {
             fileContainer.appendChild(GeneralModule.generateElementApi("i", ["material-icons"], "publish"));
             fileContainer.appendChild(GeneralModule.generateElementApi("span", ["file-name"], "Datei auswählen..."));
 
-            inputs.push(new FileInput(fileContainer));
-            return fileContainer;
+            let newFileInput = new FileInput(fileContainer);
+            inputs.push(newFileInput);
+            return newFileInput;
         }
 
     }
@@ -1374,6 +1502,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
 
         setValue(newInput) {
             this.inputContainer.value = newInput;
+            this.handleChangeInput();
         }
 
         /**
@@ -1384,9 +1513,10 @@ let MaterialInputsModule = (function(window, document, undefined) {
          * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
          * @param name {string} Sets the name attribute on the input element for identification in general
          * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button
-         * @returns {HTMLElement}
+         * @param value {string} Optional: Sets the value if this textarea
+         * @returns {object}
          */
-        static createInput(classNames, inputId, name, placeholder) {
+        static createInput(classNames, inputId, name, placeholder, value) {
             let textArea = GeneralModule.generateElementApi("textarea", ["textarea", "input-container"].concat(classNames));
             if (inputId) {
                 textArea.id = inputId;
@@ -1398,14 +1528,96 @@ let MaterialInputsModule = (function(window, document, undefined) {
                 textArea.setAttribute("placeholder", placeholder);
             }
 
-            inputs.push(new Textarea(textArea));
-            return textArea;
+            let newTextarea = new Textarea(textArea)
+            inputs.push(newTextarea);
+            if (value) {
+                newTextarea.setValue(value);
+            }
+            return newTextarea;
+        }
+
+    }
+
+    class RangeInput extends Input {
+        constructor(inputContainer) {
+            super(inputContainer);
+            this.name = this.inputContainer.getAttribute("name");
+            this.input = this.inputContainer.querySelector("input");
+            this.initialValue = this.input.value;
+            this.rangeValueSpan = this.inputContainer.querySelector("span.range-value");
+
+            this.input.addEventListener("input", this.handleChangeInput.bind(this));
+            this.rangeValueSpan.innerHTML = this.getValue();
+
+        }
+
+        handleChangeInput() {
+            super.handleChangeInput();
+            this.rangeValueSpan.innerHTML = this.getValue();
+        }
+
+        hasUserInput() {
+            return this.userInput = this.input.value !== this.initialValue;
+        }
+
+        getValue() {
+            return this.input.value;
+        }
+
+        setValue(newValue) {
+            if (newValue && newValue >= this.getMin() && newValue <= this.getMax()) {
+                this.input.value = newValue + "";
+            }
+        }
+
+        setMin(min) {
+            this.input.min = min + "";
+        }
+
+        getMin() {
+            return parseInt((this.input.min) ? this.input.min : "0");
+        }
+
+        setMax(max) {
+            this.input.max = max + "";
+        }
+
+        getMax() {
+            return parseInt((this.input.max) ? this.input.max : "100");
+        }
+
+        setStep(step) {
+            if (step && step <= (this.getMax() - this.getMin())) {
+                this.input.step = step + "";
+            }
+        }
+
+
+        /**
+         * This function creates a new range input object and returns it
+         * @param classes {string} The class names that should be added to the input-container
+         * @param id {string} The id to connect the label to the input element
+         * @param name {string} The value of the name attribute
+         * @param text {string} Sets the content of the label which accompanies the input
+         * @param initialValue {number} Sets the initial value of the input element
+         * @return {RangeInput}
+         */
+        static createInput(classes, id, name, text, initialValue) {
+            let container = GeneralModule.generateElementApi("div", ["range-input-container"].concat(classes));
+            let label = GeneralModule.generateElementApi("label", ["range-label"], text + " ", {"for":id})
+            label.appendChild(GeneralModule.generateElementApi("span", ["range-value"], (initialValue) ? initialValue + "" : "0"));
+            container.appendChild(label);
+            container.appendChild(GeneralModule.generateElementApi("input", ["range-input"], undefined, {"id":id, "type":"range", "name":name, "value":initialValue}));
+
+            let newRangeInput = new RangeInput(container);
+            inputs.push(newRangeInput);
+            return newRangeInput;
         }
 
     }
 
     /**
-     * Initializes input elements
+     * This block initializes static input elements of a website
      */
     if (document.querySelector(".input-container")) {
         let textInputs = document.querySelectorAll(".text-input-container");
@@ -1417,6 +1629,7 @@ let MaterialInputsModule = (function(window, document, undefined) {
         let timeInputs = document.querySelectorAll(".time-input-container");
         let fileInputs = document.querySelectorAll(".file-input-container");
         let textareas = document.querySelectorAll(".textarea");
+        let rangeInputs = document.querySelectorAll(".range-input-container");
 
         textInputs.forEach((tI) => {
             inputs.push(new TextInput(tI));
@@ -1454,18 +1667,54 @@ let MaterialInputsModule = (function(window, document, undefined) {
             inputs.push(new Textarea(t));
         });
 
+        rangeInputs.forEach((r) => {
+            inputs.push((new RangeInput(r)));
+        });
+
     }
 
+    /**
+     * API:
+     */
     return {
+        /**
+         * This api function creates an input element and the responsible object and returns the object@param inputType {string} Enum which determines the input to be created
+         * @param inputType {string} The inputType that should be created
+         * @param classNames {string[]} Contains classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
+         * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
+         * @param name {string} Sets the name attribute on the input element for identification in general
+         * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch or range
+         * @param value {string} Sets either the value attribute of switches or the value of text inputs, textareas or range inputs
+         * @param checked {boolean} Optional: Determines if switch to be checked
+         * @param options {string[] || object[]} This should be an array of strings to determine the different options for the select or this is an array of objects with the properties "text" (string), "value" (string), "checked" (boolean) and optional "disabled" (boolean) for the different options of checkboxes and radio buttons
+         * @return {TextInput|Switch|Checkboxes|RadioButtons|Select|DateInput|TimeInput|FileInput|Textarea|RangeInput}
+         */
         createInputApi : function (inputType, classNames, inputId, name, placeholder, value, checked, options) {
             return Input.createInputFactory(inputType, classNames, inputId, name, placeholder, value, checked, options);
         },
+        /**
+         * This api function returns the responsible input object to a given input container element
+         * @param inputContainer {HTMLElement} The input container element of which the responsible object is required
+         * @return {object}
+         */
         getInputObjectApi : function (inputContainer) {
             return Input.getInputObject(inputContainer);
         },
+        /**
+         * This api function compares two given dates (in the format of: dd.mm.yyyy) and returns true if the first date is smaller (earlier) than the second date
+         * @param date1 {string}
+         * @param date2 {string}
+         * @return {boolean}
+         */
         compareDatesApi : function (date1, date2) {
             return DateInput.compareDates(date1, date2);
         },
+        /**
+         * This api function compares two given times (in the format of: hh:mm) and returns true if the first time is smaller (earlier) than the second time
+         * @param time1 {string}
+         * @param time2 {string}
+         * @return {boolean}
+         */
         compareTimesApi : function (time1, time2) {
             return TimeInput.compareTimes(time1, time2);
         },

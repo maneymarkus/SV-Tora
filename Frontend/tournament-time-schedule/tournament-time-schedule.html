@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Tournament Time Schedule</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/svg-arrow.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/tippy.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/tournament-time-schedule.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="tournament-time-schedule-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main class="limited">
+        <h1>Wettkampf Zeitplan</h1>
+        <p>Falls du Parameter bezüglich der Wettkämpfe (z.B. die Standardlänge eines einzelnen Kampfes) einstellen willst, dann findest du das in den <a class="link" href="#">Einstellungen</a>.</p>
+
+        <div class="scroll-container">
+            <div class="time-container">
+                <div class="time-scale">
+                    <div class="hour full">
+                        <span class="visual-aid"></span>
+                        <span class="whole">15:00</span>
+                        <span class="quarter">15:15</span>
+                        <span class="half">15:30</span>
+                        <span class="three-fourths">15:45</span>
+                    </div>
+                    <div class="hour full">
+                        <span class="visual-aid"></span>
+                        <span class="whole">16:00</span>
+                        <span class="quarter">16:15</span>
+                        <span class="half">16:30</span>
+                        <span class="three-fourths">16:45</span>
+                    </div>
+                    <div class="hour full">
+                        <span class="visual-aid"></span>
+                        <span class="whole">17:00</span>
+                        <span class="quarter">17:15</span>
+                        <span class="half">17:30</span>
+                        <span class="three-fourths">17:45</span>
+                    </div>
+                    <div class="hour short">
+                        <span class="visual-aid"></span>
+                        <span class="whole">18:00</span>
+                    </div>
+                </div>
+                <div class="fight-places">
+                    <div class="fight-place" data-name="pool 1">
+                        <h2>Pool 1</h2>
+                    </div>
+                    <div class="fight-place" data-name="pool 2">
+                        <h2>Pool 2</h2>
+                    </div>
+                    <div class="fight-place" data-name="pool 3">
+                        <h2>Pool 3</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="time-actions">
+            <a class="primary-button back">
+                <i class="material-icons">backspace</i>
+                <p>Zum Dashboard</p>
+            </a>
+            <a class="primary-button reset red">
+                <i class="material-icons">restore</i>
+                <p>Zurücksetzen</p>
+            </a>
+            <a class="primary-button duration">
+                <i class="material-icons">timelapse</i>
+                <p>Zeitdauer</p>
+            </a>
+            <a class="primary-button save" href="#">
+                <i class="material-icons">save</i>
+                <p>Speichern</p>
+            </a>
+        </div>
+
+    </main>
+
+    <div class="time-blocks-container">
+        <div class="break-section">
+            <div class="break time-block">
+                <h3>Pause</h3>
+                <p><span class="duration">?</span> Minuten</p>
+            </div>
+        </div>
+        <div class="category-section">
+            <div class="category-container">
+                <div class="category time-block" data-category="1" style="height: 2.66rem">
+                    <h3>Kategorie <span class="category-name">1</span></h3>
+                    <p><span class="duration">16</span> Minuten</p>
+                </div>
+                <div class="category time-block" data-category="2" style="height: 3.33rem">
+                    <h3>Kategorie <span class="category-name">2</span></h3>
+                    <p><span class="duration">20</span> Minuten</p>
+                </div>
+                <div class="category time-block" data-category="3" style="height: 7.5rem">
+                    <h3>Kategorie <span class="category-name">3</span></h3>
+                    <p><span class="duration">45</span> Minuten</p>
+                </div>
+                <div class="category time-block" data-category="4" style="height: 1.33rem">
+                    <h3>Kategorie <span class="category-name">4</span></h3>
+                    <p><span class="duration">8</span> Minuten</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

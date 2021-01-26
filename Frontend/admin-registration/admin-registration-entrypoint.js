@@ -6,6 +6,7 @@ function init(window, document, undefined) {
     LoadModule.loadModuleApi("../js/Modules/FormModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/TheaterModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/SecondaryButtonModule.js", true);
+    LoadModule.loadModuleApi("../js/Modules/LoaderModule.js", true);
     LoadModule.loadModuleApi("../js/sites/admin-registration.js", true);
 
 }

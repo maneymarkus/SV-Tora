@@ -1,0 +1,174 @@
+main {
+  height: auto;
+}
+
+.fighter-cards-container {
+  position: relative;
+}
+
+.fighter-card {
+  position: absolute;
+  background-color: #303030;
+  box-shadow: 0 5px 10px 3px black;
+  padding: 1rem;
+  margin-bottom: 4rem;
+  width: 100%;
+  top: 1rem;
+  left: 1rem;
+  transition: 1s ease;
+}
+
+.fighter-card.current {
+  position: relative;
+  z-index: 101;
+  top: 0;
+  left: 0;
+}
+
+.fighter-card.enrolled {
+  position: absolute;
+  left: 150%;
+  opacity: 0.2;
+  transform: rotate(30deg);
+}
+
+.fighter-card.not-enrolled {
+  position: absolute;
+  left: -150%;
+  opacity: 0.2;
+  transform: rotate(-30deg);
+}
+
+.fighter-card h2 {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 2rem;
+  text-shadow: 2px 2px 3px black;
+  padding-bottom: 0.25rem;
+  color: #3D76E1;
+  border-bottom: 3px solid #171717;
+  box-shadow: 0 10px 10px -10px black;
+}
+
+.fighter-card .info {
+
+}
+
+.info p {
+  margin: 0 0 0.5rem;
+  text-shadow: 1px 1px 2px black;
+  font-size: 1.25rem;
+  padding-left: 50%;
+  position: relative;
+}
+
+.info p:before {
+  content: attr(data-property);
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  right: 0;
+  color: #171717;
+  font-size: 1em;
+  font-weight: 900;
+  font-style: italic;
+  opacity: 0.9;
+  text-align: right;
+  display: inline-block;
+  max-width: 100%;
+  padding-right: 54%;
+  text-shadow: 1px 1px 1px black;
+  margin: 0;
+}
+
+.fighter-card .configuration {
+
+}
+
+.configuration h3 {
+  font-size: 1.5rem;
+  padding-left: 1rem;
+  padding-bottom: 0.25rem;
+  color: #9B9B9B;
+  border-bottom: 2px dashed #4A4A4A;
+}
+
+.configuration .exam-type-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px dotted #4A4A4A;
+}
+
+.configuration h4 {
+  font-size: 1.5rem;
+  padding-left: 2rem;
+}
+
+.configuration .radio-group label {
+  display: block;
+}
+
+.configuration p {
+  padding-left: 2rem;
+  font-size: 1.25rem;
+}
+
+.configuration .select-input-container {
+  margin-bottom: 1rem;
+}
+
+.fighter-card .actions {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.actions .primary-button {
+  font-size: 0.8rem;
+}
+
+.fighter-card .progress-indicator {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #303030;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  height: 3.5rem;
+  box-shadow: 0 9px 8px 0 black;
+  font-size: 1.5rem;
+  z-index: 1;
+}
+
+.progress-indicator:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -3.5rem;
+  border-top: 3.5rem solid #303030;
+  border-right: 3.5rem solid transparent;
+  border-left: 3.5rem solid transparent;
+  z-index: -1;
+}
+
+.progress-indicator span {
+  color: #3D76E1;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

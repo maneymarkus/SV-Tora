@@ -1,15 +1,10 @@
 /*
-    Dependencies: TheaterModule
- */
-
-if (typeof TheaterModule === "undefined") {
-    console.log("Missing TheaterModule Dependency!");
-}
-
-/*
     Encapsulate (not anywhere else needed) code in anonymous function
  */
 (function (window, document, undefined) {
+
+    let dependencies = ["TheaterModule"];
+    GeneralModule.checkDependenciesApi(dependencies);
 
     let main = document.getElementsByTagName("main")[0];
     let theater = TheaterModule.theater;

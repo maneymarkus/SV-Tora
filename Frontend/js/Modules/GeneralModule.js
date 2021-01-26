@@ -1,9 +1,23 @@
-/*
-  Dependencies: None
+/**
+ * This Module contains general code and globally available constants and variables
  */
+var GeneralModule = (function(window, document, undefined) {
 
-let GeneralModule = (function(window, document, undefined) {
+    /**
+     * DEPENDENCIES
+     * NONE!
+     */
 
+    /*
+    /---------------------------------------------------------------
+    /   Universal constants and variables
+    /---------------------------------------------------------------
+    */
+
+    /**
+     * This constant contains all available input types
+     * @type {{DATE: string, CHECKBOX: string, TEXTAREA: string, PASSWORD: string, RADIO: string, TEXT: string, SWITCH: string, TIME: string, FILE: string, SELECT: string, RANGE: string}}
+     */
     const inputTypes = {
         TEXT: "text",
         PASSWORD: "password",
@@ -14,9 +28,14 @@ let GeneralModule = (function(window, document, undefined) {
         DATE: "date",
         TIME: "time",
         TEXTAREA: "textarea",
-        FILE: "file"
+        FILE: "file",
+        RANGE: "range",
     };
 
+    /**
+     * This constant contains all available HTTP request methods
+     * @type {{DELETE: string, POST: string, GET: string, PUT: string}}
+     */
     const requests = {
         GET : "GET",
         POST : "POST",
@@ -24,6 +43,10 @@ let GeneralModule = (function(window, document, undefined) {
         PUT : "PUT"
     };
 
+    /**
+     * This constant contains all available notification types
+     * @type {{SUCCESS: string, ERROR: string, INFO: string, WARNING: string}}
+     */
     const notificationTypes = {
         INFO : "Info",
         SUCCESS : "Success",
@@ -31,34 +54,74 @@ let GeneralModule = (function(window, document, undefined) {
         ERROR : "Error",
     };
 
+    /**
+     * This constant contains all available modal window types
+     * @type {{DELETE: string, INFO: string, CONFIRM: string}}
+     */
     const modalTypes = {
         DELETE: "delete",
         INFO: "info",
         CONFIRM: "confirm"
     }
 
+    /**
+     * This constant contains all available error types
+     * @type {{DATE: string, REPEAT: string, REQUIRED: string, CUSTOM: string, TIME: string, EMAIL: string}}
+     */
     const errorTypes = {
         REQUIRED: "required",
         EMAIL: "email",
         REPEAT: "repeat",
         TIME: "time",
         DATE: "date",
+        CUSTOM: "custom",
+    }
+
+
+    /*
+    /---------------------------------------------------------------
+    /   Application specific constants and variables
+    /---------------------------------------------------------------
+    */
+
+    /**
+     * This constant contains all available progress steps in a tournament
+     * @type {{"Wettkampf abgeschlossen": number, "Anmeldung geschlossen": number, Wettkampftag: number, "Anmeldung freigeschalten": number, "Wettkampf erstellt": number}}
+     */
+    const progressSteps = {
+        "Wettkampf erstellt": 0,
+        "Anmeldung freigeschalten": 1,
+        "Anmeldung geschlossen": 2,
+        "Wettkampftag": 3,
+        "Wettkampf abgeschlossen": 4
     }
 
     /**
-     * This variable contains all the different graduations in karate in ascending order
+     * This constant contains all different statuses of a tournament (actually the plural of status is status (with a long spoken u), so the variable is called statuus on purpose)
+     * @type {string[]}
+     */
+    const tournamentStatuus = ["Wettkampf erstellt", "Anmeldung freigeschalten", "Anmeldung geschlossen", "Wettkampftag", "Wettkampf abgeschlossen"];
+
+    /**
+     * This constant contains all the different manually alterable statuses of a tournament (actually the plural of status is status (with a long spoken u), so the variable is called statuus on purpose)
+     * @type {string[]}
+     */
+    const tournamentSelectableStatuus = ["Anmeldung freigeschalten", "Anmeldung geschlossen", "Wettkampftag", "Wettkampf abgeschlossen"];
+
+    /**
+     * This constant contains all the different graduations in karate in ascending order
      * @type {string[]}
      */
     const graduations = ["9. Kyu", "8. Kyu", "7. Kyu", "6. Kyu", "5. Kyu", "4. Kyu", "3. Kyu", "2. Kyu", "1. Kyu", "1. Dan", "2. Dan", "3. Dan", "4. Dan", "5. Dan", "6. Dan"];
 
     /**
-     * This variable contains all the different examination types that can be executed at a tournament
+     * This constant contains all the different examination types that can be executed at a tournament
      * @type {string[]}
      */
     const examinationTypes = ["Kihon", "Kata", "Kumite", "Kihon Ippon Kumite", "Jiyu Ippon Kumite", "Shobu Ippon Kumite", "Team"];
 
     /**
-     * This variable stores all the different regular categories (tournament,examinationType,graduation,age(-range),special examination type,sex (in this order!) -> determine -> category) (applies to "Nachwuchsturnier" and "Tora-Pokal)
+     * This constant stores all the different regular categories (tournament,examinationType,graduation,age(-range),special examination type,sex (in this order!) -> determine -> category) (applies to "Nachwuchsturnier" and "Tora-Pokal)
      * @type {Object} (complicated)
      */
     const regularCategoryReference = {
@@ -245,7 +308,7 @@ let GeneralModule = (function(window, document, undefined) {
     }
 
     /**
-     * This variable stores all the different categories (tournament,examinationType,graduation,age(-range),(special examination type),sex (in this order!) -> determine -> category)
+     * This constant stores all the different categories (tournament,examinationType,graduation,age(-range),(special examination type),sex (in this order!) -> determine -> category)
      * @type {Object} (complicated)
      */
     const categoryReference = {
@@ -300,14 +363,14 @@ let GeneralModule = (function(window, document, undefined) {
     }
 
     /**
-     * This variable contains the different tournaments
+     * This constant contains the different tournaments
      * @type {string[]}
      * TODO: tournaments can be changed dynamically
      */
     const tournaments = ["Nachwuchsturnier", "Tora-Pokal", "Weihnachtsturnier"];
 
     /**
-     * This variable holds a map which maps keys (e.g. column (headers) to input types in conventional tables (!)
+     * This constant holds a map which maps a (custom application) key (e.g. column (headers) to input types in conventional tables
      * @type {Map<string, any>}
      */
     let keyToInput = new Map([
@@ -323,41 +386,93 @@ let GeneralModule = (function(window, document, undefined) {
         ["kihon", inputTypes.SWITCH],
     ]);
 
+    /**
+     * This constant contains all available genders
+     * @type {string[]}
+     */
     const sex = ["m", "w"];
 
     /*
      * TODO: Get all clubs (maybe shift this to another module)
      */
-    const clubs = ["SV Tora", "SV Tora 2", "SV Tora 3", "SV Tora 4", "SV Tora 5", "SV Tora 6", "SV Tora 7", "SV Tora 8", "SV Tora 9"];
+    const clubs = ["SV Tora", "SV Tora 2", "SV Tora 3", "SV Tora 4", "SV Tora 5", "SV Tora 6", "SV Tora 7", "SV Tora 8", "SV Tora 9", "Anderer Verein", "Noch was anderes"];
+
+    // TODO: Get all club mails
+    const clubMails = {
+        "SV Tora" : "sv-tora@verein.de",
+        "SV Tora 2" : "sv-tora2@verein.de",
+        "SV Tora 3" : "sv-tora3@verein.de",
+        "SV Tora 4" : "sv-tora4@verein.de",
+        "SV Tora 5" : "sv-tora5@verein.de",
+        "SV Tora 6" : "sv-tora6@verein.de",
+        "SV Tora 7" : "sv-tora7@verein.de",
+        "SV Tora 8" : "sv-tora8@verein.de",
+        "SV Tora 9" : "sv-tora9@verein.de",
+    }
 
     /*
      * TODO: Get enrolled clubs (maybe shift this to another module)
      */
-    const enrolledClubs = ["SV Tora", "SV Tora 3", "SV Tora 4", "SV Tora 7"];
+    const enrolledClubs = ["SV Tora", "SV Tora 3", "SV Tora 4", "SV Tora 7", "Anderer Verein"];
+
+    /*
+     * TODO: Get all excluded clubs from a tournament (if there's a tournament)
+     */
+    const excludedClubs = ["SV Tora 5", "Noch was anderes"];
+
+
+    /*
+    /---------------------------------------------------------------
+    /   Universally available functions
+    /---------------------------------------------------------------
+    */
 
     /**
      * This function generates DOM elements
-     * @param element {string} : Determines the element
-     * @param classNames {string[]} : ClassNames that should be added to the element
-     * @param value {string} : Content of the element
+     * @param element {string} Determines the element
+     * @param classNames {string[]} ClassNames that should be added to the element
+     * @param value {string} Content of the element
+     * @param attributes {object} An object containing of key-value-pairs (strings). The key determines which attribute should be set and the value determines the value of the attribute
      * @return {HTMLElement}
      */
-    function generateElement(element, classNames = undefined, value = undefined) {
+    function generateElement(element, classNames = undefined, value = undefined, attributes) {
         let el = document.createElement(element.toUpperCase());
         if (classNames && classNames.constructor === Array) {
-            classNames.forEach(function (item) {
-                if (item !== "") {
-                    el.classList.add(item);
+            classNames.forEach(function (className) {
+                if (className !== "") {
+                    el.classList.add(className);
                 }
             });
         }
         if (value) {
             el.innerHTML = value;
         }
+        if (attributes) {
+            for (let attribute in attributes) {
+                if (attributes.hasOwnProperty(attribute)) {
+                    el.setAttribute(attribute, attributes[attribute]);
+                }
+            }
+        }
         return el;
     }
 
-    // collect general variables that should be globally accessible (at least if this module is integrated) in a variable
+    /**
+     * This function checks for required dependencies and if they are available
+     * @param dependencies {string[]} The required dependencies
+     */
+    function checkDependencies(dependencies) {
+        dependencies.forEach((dependency) => {
+            if (typeof window[dependency] === "undefined") {
+                console.warn("Missing " + dependency + " dependency");
+            }
+        });
+    }
+
+    /**
+     * This variable contains all the variables and constants that should be globally available
+     * @type {{inputTypes: {DATE: string, CHECKBOX: string, TEXTAREA: string, PASSWORD: string, RADIO: string, TEXT: string, SWITCH: string, TIME: string, FILE: string, SELECT: string, RANGE: string}, tournaments: string[], examinationTypes: string[], sex: string[], enrolledClubs: [string, string, string, string, string], graduations: string[], requests: {DELETE: string, POST: string, GET: string, PUT: string}, modalTypes: {DELETE: string, INFO: string, CONFIRM: string}, excludedClubs: [string, string], categoryReference: Object, clubMails: {"SV Tora 9": string, "SV Tora": string, "SV Tora 5": string, "SV Tora 6": string, "SV Tora 7": string, "SV Tora 8": string, "SV Tora 2": string, "SV Tora 3": string, "SV Tora 4": string}, clubs: string[], tournamentStatuus: string[], notificationTypes: {SUCCESS: string, ERROR: string, INFO: string, WARNING: string}, errorTypes: {DATE: string, REPEAT: string, REQUIRED: string, CUSTOM: string, TIME: string, EMAIL: string}, progressSteps: {"Wettkampf abgeschlossen": number, "Anmeldung geschlossen": number, Wettkampftag: number, "Anmeldung freigeschalten": number, "Wettkampf erstellt": number}, tournamentSelectableStatuus: string[], keyToInput: Map<string, *>}}
+     */
     let generalVariables = {
         inputTypes,
         requests,
@@ -371,14 +486,39 @@ let GeneralModule = (function(window, document, undefined) {
         keyToInput,
         sex,
         clubs,
-        enrolledClubs
+        enrolledClubs,
+        progressSteps,
+        clubMails,
+        excludedClubs,
+        tournamentStatuus,
+        tournamentSelectableStatuus,
     };
 
+    /**
+     * API:
+     */
     return {
-        generateElementApi : function (element, classNames, value) {
-            return generateElement(element, classNames, value);
+        /**
+         * This api function creates and returns an HTML element
+         * @param element {string} Determines the element
+         * @param classNames {string[]} ClassNames that should be added to the element
+         * @param value {string} Content of the element
+         * @param attributes {object} An object containing of key-value-pairs (strings). The key determines which attribute should be set and the value determines the value of the attribute
+         * @return {HTMLElement}
+         */
+        generateElementApi : function (element, classNames, value, attributes) {
+            return generateElement(element, classNames, value, attributes);
         },
-        //expose general variables
+        /**
+         * This api function checks for given dependencies (which should be concerned required)
+         * @param dependencies {string[]} The required dependencies
+         */
+        checkDependenciesApi : function (dependencies) {
+            checkDependencies(dependencies);
+        },
+        /**
+         * This exposes considered globally available variables and constants and can be imported by other modules
+         */
         generalVariables,
     }
 

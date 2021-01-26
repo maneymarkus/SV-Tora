@@ -1,0 +1,258 @@
+main {
+    height: auto;
+    padding-bottom: 10rem;
+}
+
+main p {
+    font-size: 1.5rem;
+}
+
+.scroll-container {
+    height: auto;
+    padding: 1rem 4rem 3rem 3rem;
+    position: relative;
+    margin-left: -3rem;
+    width: calc(100% + 6rem);
+    overflow-x: auto;
+}
+
+.time-container {
+    width: calc(8rem + 16rem + 2rem); /* standard width of time container (8rem for the time scale on the left, 2rem for a little space on the right of the container and 16rem needs every fight place container */
+    height: calc(5rem + 10rem); /* standard height of time container (5rem for the headings on top and any vertical margins and paddings and 10rem for each hour */
+    position: relative;
+    padding-left: 7rem;
+    display: flex;
+}
+
+.time-container .time-scale {
+    position: absolute;
+    top: 4em;
+    left: 0;
+    border-left: 5px solid #3D76E1;
+    height: calc(100% - 4rem); /* This is the height of the names (h2 elements) of the fighting places which are not part of the timing schedule */
+    width: 8em;
+    z-index: 10;
+}
+
+.time-scale .hour {
+    position: relative;
+    height: 10rem;
+}
+
+.time-scale .hour.short {
+    height: 3rem;
+}
+
+.time-scale span {
+    position: absolute;
+    transform: translateY(-50%) translateY(2.5px);
+}
+
+.time-scale span:before {
+    content: '';
+    position: absolute;
+    background-color: #3D76E1;
+    height: 5px;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.time-scale span.whole {
+    font-size: 1.5em;
+    padding-left: 1.25em;
+    top: 0;
+}
+
+.time-scale span.whole:before {
+    width: 1em;
+}
+
+.time-scale span.quarter,
+.time-scale span.half,
+.time-scale span.three-fourths {
+    font-size: 1.25em;
+    padding-left: 0.75em;
+}
+
+.time-scale span.quarter:before,
+.time-scale span.half:before,
+.time-scale span.three-fourths:before {
+    width: 0.5em;
+}
+
+.time-scale span.quarter {
+    top: 25%;
+}
+
+.time-scale span.half {
+    top: 50%;
+}
+
+.time-scale span.three-fourths {
+    top: 75%;
+}
+
+.time-scale .hour .visual-aid {
+    position: absolute;
+    left: 7rem;
+    top: -2px;
+    height: 2px;
+    background-color: #222222;
+    width: 16rem; /* Standard length for one available fight place */
+}
+
+.time-container .fight-place {
+    background-color: #171717;
+    display: inline-block;
+    height: 100%;
+    width: 15rem;
+    padding: 0.5rem;
+    position: relative;
+    box-shadow: 0 2px 5px 0 black;
+    margin: 0 0.5rem;
+    vertical-align: top;
+}
+
+.fight-place h2 {
+    margin: 0 0 0.5rem;
+    padding: 0.5rem 0 1rem 0.5rem;
+    background-color: #222222;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 2px black;
+    height: 3rem;
+}
+
+.fight-place .time-block {
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: none;
+}
+
+.time-actions {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.time-actions .primary-button {
+    flex-shrink: 0;
+    flex-grow: 0;
+    font-size: 0.75rem;
+}
+
+.time-blocks-container {
+    position: fixed;
+    width: 100%;
+    height: 10rem;
+    left: 0;
+    bottom: 0;
+    background-color: #171717;
+    box-shadow: 0 0 10px 3px black;
+    z-index: 100;
+}
+
+.time-block {
+    cursor: pointer;
+    box-shadow: 0 0 5px 2px black;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #222222;
+    background-color: #303030;
+}
+
+.time-block.dragging {
+    position: absolute;
+    max-width: 15rem;
+    z-index: 1000;
+}
+
+.time-blocks-container .break-section {
+    width: 13rem;
+    padding: 0.5rem 1rem;
+    border-right: 5px solid #303030;
+    height: 100%;
+    display: inline-block;
+    box-shadow: 15px 0 10px -10px black;
+    z-index: 100;
+}
+
+.break {
+    width: 100%;
+    height: 100%;
+}
+
+.break.dragging {
+    height: 10rem;
+}
+
+.break h3 {
+    margin: 0 0 0.5rem;
+    text-shadow: 1px 1px 3px black;
+}
+
+.break p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+}
+
+.time-blocks-container .category-section {
+    display: inline-block;
+    width: calc(100% - 13.5rem);
+    height: 100%;
+    top: 0;
+    vertical-align: top;
+}
+
+.category-section .category-container {
+    width: auto;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding: 0.5rem 1rem;
+}
+
+.category {
+    width: 15rem;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.category h3 {
+    margin: 0 0 0.5rem;
+    text-shadow: 1px 1px 3px black;
+}
+
+.category p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+}
+
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+    .time-actions .primary-button {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .scroll-container {
+        padding: 1rem 0 3rem;
+        margin-left: 0;
+        width: 100%;
+    }
+}

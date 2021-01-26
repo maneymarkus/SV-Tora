@@ -1,107 +1,31 @@
-/*
-  Dependencies: GeneralModule, ModalModule, MaterialInputsModule, TranslationModule, FormModule
+/**
+ * This Module contains code responsible for managing application specific tables
  */
+var TableModule = (function(window, document, undefined) {
 
-if (typeof GeneralModule === "undefined") {
-  console.warn("Missing GeneralModule Dependency!");
-}
-
-if (typeof ModalModule === "undefined") {
-  console.warn("Missing ModalModule Dependency!");
-}
-
-if (typeof MaterialInputsModule === "undefined") {
-  console.warn("Missing MaterialInputsModule Dependency!");
-}
-
-if (typeof TranslationModule === "undefined") {
-  console.warn("Missing TranslationModule Dependency!");
-}
-
-if (typeof FormModule === "undefined") {
-  console.warn("Missing FormModule Dependency!");
-}
-
-// Module contains code concerning tables
-let TableModule = (function(window, document, undefined) {
-
-  // Filter Object to filter a corresponding table
-  let Filter = function (key, value, table, filterContainer) {
-    let This = this;
-
-    // determines to filter for which column in table
-    this.key = key;
-
-    // filter for this specific value in specific column;
-    this.value = value;
-    this.filterTable = table;
-    this.filterElement = undefined;
-    this.filterContainer = filterContainer;
-
-    this.createFilterElement = function () {
-      let filter = GeneralModule.generateElementApi("SPAN", ["filter"]);
-      let filterDetails = GeneralModule.generateElementApi("SPAN", ["filter-details"]);
-      let filterColumn = GeneralModule.generateElementApi("SPAN", ["filter-column"], This.key);
-      filterDetails.appendChild(filterColumn);
-      filterDetails.appendChild(document.createTextNode(": "));
-      let filterValue = GeneralModule.generateElementApi("SPAN", ["filter-value"], This.value);
-      filterDetails.appendChild(filterValue);
-      filter.appendChild(filterDetails);
-      let deleteBtn = GeneralModule.generateElementApi("A", ["delete"]);
-      let deleteIcon = GeneralModule.generateElementApi("I", ["material-icons"], "close");
-      deleteBtn.appendChild(deleteIcon);
-      filter.appendChild(deleteBtn);
-      this.filterContainer.querySelector("div.chosen-filters").appendChild(filter);
-      this.filterElement = filter;
-    }
-    this.createFilterElement();
-
-    this.filterElement.addEventListener("click", function (e) {
-      let target = e.target;
-      while (target && !target.classList.contains("filter") && !target.classList.contains("delete")) {
-        target = target.parentNode;
-      }
-
-      // Change the clicked filter
-      if (target.classList.contains("filter")) {
-        let filterKey = This.filterElement.querySelector(".filter-column").innerText;
-        let possibleFilterValues = This.filterTable.allFilters[filterKey];
-        let placeHolder = This.filterElement.querySelector(".filter-value").innerText;
-        let select = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-value"], undefined, "filter-value", placeHolder, undefined, possibleFilterValues, undefined);
-
-        ModalModule.confirmModalApi("Filter " + filterKey + " updaten", select, function () {
-          let newValue = MaterialInputsModule.getInputApi(select)
-          This.updateFilter(newValue);
-        });
-
-        return;
-      }
-
-      // Delete the clicked filter
-      if (target.classList.contains("delete")) {
-        This.filterTable.removeFilter(This, This.filterElement);
-      }
-    });
-
-    /**
-     * This function updates the chosen new filter value
-     * @param newValue String: the new value to filter for
-     */
-    this.updateFilter = function (newValue) {
-      This.value = newValue;
-      This.filterElement.querySelector(".filter-value").innerHTML = newValue;
-      This.filterTable.updateAppliedFilters();
-    }
-
-  }
+  /**
+   * DEPENDENCIES
+   */
+  let dependencies = ["PrimaryButtonModule", "SecondaryButtonModule", "MaterialInputsModule", "ModalModule", "FormModule", "TranslationModule", "TagModule"];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   let tables = [];
 
-  // Table Object
+  /**
+   * This "class" represents a table object
+   * @param table {HTMLElement} The respective html element this object represents
+   * @constructor
+   */
   let Table = function(table) {
 
     let rowCounter = 0;
 
+    /**
+     * This inner "class" represents a table row as an object for accurate control
+     * @param tr {HTMLElement} The respective row of the table
+     * @param tableObject {object} The table object responsible for this row and row object
+     * @constructor
+     */
     let Row = function (tr, tableObject) {
       let This = this;
       this.tr = tr;
@@ -115,14 +39,20 @@ let TableModule = (function(window, document, undefined) {
       this.tds = this.tr.querySelectorAll("td");
       this.visible = true;
 
+      /**
+       * This object contains the values of the row in the pattern: "column-name": "row-value"
+       * @type {{}}
+       */
       this.values = {};
 
-      // Read td elements of row (tr element) into property of this object and simultaneously create filter object
+      /**
+       * This function reads all the values (td elements) into the values property
+       */
       this.initializeValues = function() {
         This.tds.forEach((td) => {
           let value = td.innerHTML.trim();
           let key = td.getAttribute("data-column");
-          if (key.toLowerCase() !== "aktionen" && key.toLowerCase() !== "nr.") {
+          if (key && key.toLowerCase() !== "aktionen" && key.toLowerCase() !== "nr.") {
             this.values[key] = value;
             if (key in tableObject.allFilters) {
               if (!tableObject.allFilters[key].includes(value)) {
@@ -136,7 +66,11 @@ let TableModule = (function(window, document, undefined) {
       }
       this.initializeValues();
 
-      // Update table value after it has been changed in object and DOM
+      /**
+       * This function updates a value of this object and also the html equivalent
+       * @param key {string} The key (column(-name)) that should be updated
+       * @param value {string} The new value
+       */
       this.updateValue = function (key, value) {
         if (this.values.hasOwnProperty(key)) {
           this.values[key] = value;
@@ -148,6 +82,9 @@ let TableModule = (function(window, document, undefined) {
         }
       }
 
+      /**
+       * This function hides the respective tr element from displaying (when it does not fit the current filter e.g.)
+       */
       this.hide = function () {
         if (This.visible) {
           This.visible = false;
@@ -155,6 +92,9 @@ let TableModule = (function(window, document, undefined) {
         }
       }
 
+      /**
+       * This function shows an earlier hidden tr element (when it fits the current filter again)
+       */
       this.show = function () {
         if (!This.visible) {
           This.visible = true;
@@ -162,8 +102,15 @@ let TableModule = (function(window, document, undefined) {
         }
       }
 
+      /**
+       * This function creates a new row element and returns it
+       * @param values {object} The values of the td elements of the new row
+       * @param dataColumns {string[]} The name of the data-column attribute in the correct order
+       * @param count {Number} The number of the row (for continuous numbering)
+       * @return {HTMLElement|undefined}
+       */
       Row.createRow = function (values, dataColumns, count) {
-        if (Object.getOwnPropertyNames(values).length !== (dataColumns.length - 1)) {
+        if (Object.getOwnPropertyNames(values).length !== (dataColumns.length  - 1)) {
           return undefined;
         }
         let row = GeneralModule.generateElementApi("tr", []);
@@ -235,33 +182,21 @@ let TableModule = (function(window, document, undefined) {
     // Same like possible filters but only includes applied filters
     this.appliedFilters = {};
 
-    // Responsible filter element for this table
-    this.filterContainerElement = undefined;
-    if (this.tableElement.getAttribute("data-filter")) {
-      let filterContainerElementSelector = this.tableElement.getAttribute("data-filter");
-      this.filterContainerElement = document.querySelector("#" + filterContainerElementSelector);
-    }
+    this.possibleFilters = this.allFilters;
 
     // All the currently applied filters collected in an array
     this.activeFilterObjects = [];
 
-    //Responsible add button for this table
-    this.addElementBtn = undefined;
-    if (this.tableElement.getAttribute("data-add")) {
-      let addElementBtnSelector = this.tableElement.getAttribute("data-add");
-      this.addElementBtn = document.querySelector("#" + addElementBtnSelector);
-    }
 
     // Iterate over all available rows in table body and read them into objects
     this.trs.forEach((tr) => {
       this.rows.push(new Row(tr, This));
     });
 
-    this.possibleFilters = this.allFilters;
-
-    // Eventhandler for clicks in table element
+    /**
+     * This function listens for clicks on the table element to initiate any actions (editing rows, deleting rows, etc.)
+     */
     this.tableElement.addEventListener("click", function (e) {
-      e.preventDefault();
       let target = e.target;
       while (target.nodeName !== "BODY" && !target.classList.contains("sort")  && !target.classList.contains("edit") && !target.classList.contains("delete")) {
         target = target.parentNode;
@@ -326,69 +261,23 @@ let TableModule = (function(window, document, undefined) {
       }
     });
 
-    // This block handles adding new filters
-    if (this.filterContainerElement) {
-      this.filterContainerElement.querySelector(".add-filter").addEventListener("click", function () {
-        let keys = Object.keys(This.possibleFilters);
-        let keySelect = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-column", "required"], undefined, "filter-column", "Spalte", undefined, keys, undefined);
-        let valueSelect = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-value", "disabled", "required"], undefined, "filter-value", "Wert", undefined, undefined, undefined);
-        let container = GeneralModule.generateElementApi("div");
-        container.appendChild(keySelect);
-        container.appendChild(valueSelect);
-        keySelect.addEventListener("changeSelect", function () {
-          let filterKey = MaterialInputsModule.getInputApi(keySelect);
-          This.chooseFilterValue(filterKey, valueSelect);
-        });
-        ModalModule.confirmModalApi("Neuen Filter wählen", container, function () {
-          This.handleChosenFilter(keySelect, valueSelect);
-        });
-      });
-    }
-
-    // Listen for click on add element to table button
-    if (this.addElementBtn) {
-      this.addElementBtn.addEventListener("click", function () {
-        let keys = This.dataColumns;
-        let object = TranslationModule.translateRowToObjectApi(keys);
-        if (object.hasOwnProperty("Nr.")) {
-          delete object["Nr."];
-        }
-        let container = TranslationModule.translateObjectToInputsApi(object, true);
-        ModalModule.confirmModalApi("Neuen Kämpfer anlegen", container, function () {
-          let userInputObject = TranslationModule.translateInputsToObjectApi(container);
-          This.addElement(userInputObject);
-        });
-
-      });
-    }
-
+    /**
+     * This function adds a new element as a row element to the table
+     * @param userInputObject {object} The object containing the translated user input from the input elements regarding the creation of a new element
+     */
     this.addElement = function (userInputObject) {
-      let newTr = Row.createRow(userInputObject, This.dataColumns, This.rows.length + 1);
+      let newTr = Row.createRow(userInputObject, this.dataColumns, this.rows.length + 1);
       This.tableBody.appendChild(newTr);
-      this.trs = This.tableBody.querySelectorAll("tr");
-      This.rows.push(new Row(newTr, This));
-      This.updateVisibleRows();
-    }
+      this.trs = this.tableBody.querySelectorAll("tr");
+      this.rows.push(new Row(newTr, this));
+      this.updateVisibleRows();
+    }.bind(this);
 
     /**
-     * This function enables the second select input element when choosing a new filter (choose the filter value for the filter key)
+     * This function returns the responsible row object for a given tr element
+     * @param tr {HTMLElement} The respective tr element
+     * @return {*}
      */
-    this.chooseFilterValue = function (filterKey, valueSelect) {
-      valueSelect.classList.remove("disabled");
-      let possibleFilterValues = This.possibleFilters[filterKey];
-      let valueSelectObject = MaterialInputsModule.getSelectObjectApi(valueSelect);
-      valueSelectObject.updateOptions(possibleFilterValues);
-    }
-
-    // Callback function if confirm modal is confirmed with proper input
-    this.handleChosenFilter = function (keySelect, valueSelect) {
-      let filterKey = MaterialInputsModule.getInputApi(keySelect);
-      let filterValue = MaterialInputsModule.getInputApi(valueSelect);
-      This.activeFilterObjects.push(new Filter(filterKey, filterValue, This, This.filterContainerElement));
-      This.updateAppliedFilters();
-    }
-
-    // Return row object corresponding to given tr element
     this.getRowObject = function (tr) {
       let r = undefined;
       This.rows.forEach((row) => {
@@ -399,7 +288,11 @@ let TableModule = (function(window, document, undefined) {
       return r;
     }
 
-    // Delete a table row
+    /**
+     * This function deletes a row from the table
+     * @param tr {HTMLElement} The respective tr element
+     * @param rowObject {object} The responsible row object
+     */
     this.deleteRow = function (tr, rowObject) {
       This.rows.splice(This.rows.indexOf(rowObject), 1);
       tr.remove();
@@ -407,14 +300,20 @@ let TableModule = (function(window, document, undefined) {
       This.renumberRows();
     }
 
-    // Renumber rows after e.g. deletion
+    /**
+     * This function renumbers the rows of this table (after deleting a table row)
+     */
     this.renumberRows = function () {
       let counter = 1;
       This.rows.forEach((row) => {
-        row.updateValue("Nr.", counter++);
+        row.updateValue("Nr.", counter++ + "");
       });
     }
 
+    /**
+     * This function initializes the editing of a given (/chosen) table row
+     * @param row {object} The desired updated table row object
+     */
     this.editRow = function (row) {
       let object = TranslationModule.translateRowToObjectApi(Object.getOwnPropertyNames(row.values), row.values);
       let container = TranslationModule.translateObjectToInputsApi(object);
@@ -423,6 +322,11 @@ let TableModule = (function(window, document, undefined) {
       });
     }
 
+    /**
+     * This function updates a row with given user input
+     * @param row {object} The row object that should be updated
+     * @param container {HTMLElement} The container element that contains the new user chosen values
+     */
     this.updateRow = function (row, container) {
       let userInputObject = TranslationModule.translateInputsToObjectApi(container);
       for (let key in userInputObject) {
@@ -432,7 +336,11 @@ let TableModule = (function(window, document, undefined) {
       }
     }
 
-    // Sort the table
+    /**
+     * This function sorts the table according to a given column
+     * @param column {Number} The index of the column to sorted accordingly to
+     * @param ascending {boolean} Indicates if the table should be sorted in ascending (if true) or descending order
+     */
     this.sortTable = function (column, ascending) {
       let rows, switching, i, x, y, shouldSwitch;
       switching = true;
@@ -469,22 +377,9 @@ let TableModule = (function(window, document, undefined) {
       }
     }
 
-    // update applied filters on table
-    this.updateAppliedFilters = function() {
-      This.appliedFilters = {};
-      This.activeFilterObjects.forEach((filter) => {
-        if (filter.key in This.appliedFilters) {
-          if (!This.appliedFilters[filter.key].includes(filter.value)) {
-            This.appliedFilters[filter.key].push(filter.value);
-          }
-        } else {
-          This.appliedFilters[filter.key] = [filter.value];
-        }
-      });
-      This.updateVisibleRows();
-    }
-
-    // update the visible Rows in the table after changing filters
+    /**
+     * This function updates the visible rows of this table (after adding a new filter e.g.)
+     */
     this.updateVisibleRows = function () {
       This.rows.forEach((row) => {
         row.show();
@@ -500,6 +395,9 @@ let TableModule = (function(window, document, undefined) {
       this.updatePossibleFilters();
     }
 
+    /**
+     * This function updates the possible filters that a user can choose from then on
+     */
     this.updatePossibleFilters = function () {
       This.possibleFilters = {};
       This.rows.forEach((row) => {
@@ -521,15 +419,9 @@ let TableModule = (function(window, document, undefined) {
       });
     }
 
-    this.removeFilter = function (filter, filterElement) {
-      filterElement.remove();
-      if (This.activeFilterObjects.includes(filter)) {
-        This.activeFilterObjects.splice(This.activeFilterObjects.indexOf(filter), 1);
-      }
-      filter = undefined;
-      This.updateAppliedFilters();
-    }
-
+    /**
+     * This function manages the coloring of the rows
+     */
     this.recolorRows = function () {
       let rows = This.tableBody.querySelectorAll("tr");
       rowCounter = 0;
@@ -548,17 +440,34 @@ let TableModule = (function(window, document, undefined) {
 
   }
 
-  // if there are tables then intialize them
-  if (document.getElementsByTagName("table")[0] !== undefined) {
-    initializeTables();
-  }
+  /**
+   * This block initializes static html table elements
+   */
+  let tableElements = document.querySelectorAll("table.table");
+  tableElements.forEach((t) => {
+    tables.push(new Table(t));
+  });
 
-  // read all tables on page into objects
-  function initializeTables() {
-    let tableElements = document.querySelectorAll("table");
-    tableElements.forEach((t) => {
-      tables.push(new Table(t));
-    });
+  /**
+   * API:
+   */
+  return {
+    /**
+     * This function returns the responsible table object for a given html table element
+     * @param tableElement {HTMLElement} The table element for which the object is wanted
+     * @return {*}
+     */
+    getTableObjectApi : function (tableElement) {
+      if (tableElement.classList.contains("table")) {
+        let tableObject = undefined;
+        tables.forEach((table) => {
+          if (table.tableElement === tableElement) {
+            tableObject = table;
+          }
+        });
+        return tableObject;
+      }
+    }
   }
 
 })(window, document);

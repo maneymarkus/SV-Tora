@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Fight Place Administration</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button-floating-container.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/fight-place-administration.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="fight-place-administration-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+<main class="limited">
+    <h1>Pools</h1>
+
+    <div class="fight-places-container">
+
+        <div class="fight-place">
+            <h2 class="fight-place-name">Pool 1</h2>
+            <a class="primary-button rename">
+                <i class="material-icons">edit</i>
+                <p>Namen ändern</p>
+            </a>
+            <a class="primary-button delete">
+                <i class="material-icons">delete</i>
+                <p>Pool löschen</p>
+            </a>
+            <p class="fights"><span class="count-fights">4</span> Kämpfe</p>
+        </div>
+
+        <div class="fight-place">
+            <h2 class="fight-place-name">Pool 2</h2>
+            <a class="primary-button rename">
+                <i class="material-icons">edit</i>
+                <p>Namen ändern</p>
+            </a>
+            <a class="primary-button delete">
+                <i class="material-icons">delete</i>
+                <p>Pool löschen</p>
+            </a>
+            <p class="fights"><span class="count-fights">0</span> Kämpfe</p>
+        </div>
+
+        <div class="fight-place">
+            <h2 class="fight-place-name">Pool 3</h2>
+            <a class="primary-button rename">
+                <i class="material-icons">edit</i>
+                <p>Namen ändern</p>
+            </a>
+            <a class="primary-button delete">
+                <i class="material-icons">delete</i>
+                <p>Pool löschen</p>
+            </a>
+            <p class="fights"><span class="count-fights">0</span> Kämpfe</p>
+        </div>
+
+    </div>
+
+    <div class="primary-button-floating-container add-container">
+        <a class="primary-button add">
+            <i class="material-icons">add</i>
+            <p>Pool hinzufügen</p>
+        </a>
+    </div>
+
+</main>
+
+</body>
+</html>

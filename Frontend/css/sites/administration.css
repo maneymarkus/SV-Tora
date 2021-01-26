@@ -1,7 +1,3 @@
-main h1 {
-  margin: 0;
-}
-
 main .actions {
   position: relative;
   width: 100%;
@@ -22,29 +18,11 @@ main .actions:before {
   transform: translate(-50%, -50%) skewY(-3deg);
 }
 
-table, th, td {
-  border-collapse: collapse;
-}
-
-table {
+table.admin-table {
   position: relative;
   width: 100%;
-  max-width: 1900px;
   text-align: left;
   font-size: 1rem;
-  overflow-x: scroll;
-}
-
-/* This is just a "spacer" after the table */
-.admin-table:after {
-  content: '';
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  height: 100%;
-  width: 2.5em;
 }
 
 thead {
@@ -60,12 +38,6 @@ thead th {
   width: auto;
   box-shadow: 0 7px 10px 0 black;
   padding: 0.5em;
-}
-
-th.hidden {
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
 }
 
 tbody tr {
@@ -102,9 +74,6 @@ td:last-child {
   border: none;
   text-align: center;
   min-width: 200px;
-}
-
-td:last-child a.primary-button:last-child {
 }
 
 td.privilege i {

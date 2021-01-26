@@ -1,15 +1,39 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: (Vertical) Card
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <a class="card" href="#">
+/     <div class="bg">
+/       <p class="number">1</p>
+/     </div>
+/     <p class="bg-text">
+/       Background-Text
+/     </p>
+/     <h3 class="district">
+/       Text
+/     </h3>
+/   </a>
+/
+/
+*/
+
+
 .card {
   display: inline-block;
   border-radius: 15px;
   width: 13rem;
   min-height: 20rem;
   height: 50vw;
-  background-color: #303030;
+  background-color: var(--theme-color-3);
   transition: 0.5s ease;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  box-shadow: 3px 3px 15px black;
+  box-shadow: 3px 3px 15px var(--box-shadow);
   margin: 0 2.5% 2rem 2.5%;
   text-decoration: none;
 }
@@ -22,22 +46,22 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #3D76E1;
+  background-color: var(--accent-color-1-dark);
   transform: skewY(15deg);
   transition: 0.5s ease;
   z-index: 1;
 }
 
 .card:hover {
-  background-color: #4A4A4A;
+  background-color: var(--theme-color-4);
   transform: scale(1.05);
-  box-shadow: 3px 3px 25px black;
+  box-shadow: 3px 3px 25px var(--box-shadow);
 }
 
 .card:hover:before {
   top: 75%;
   transform: skewY(-20deg);
-  background-color: #2699FB;
+  background-color: var(--accent-color-1-light);
 }
 
 .card .bg {
@@ -86,7 +110,7 @@
   position: relative;
   text-align: center;
   margin: 0;
-  color: #222222;
+  color: var(--theme-color-2);
   font-size: 2rem;
   top: 75%;
   width: 100%;
@@ -95,9 +119,13 @@
 }
 
 .card:hover .district {
-  color: #C6C6C6;
+  color: #3E3E3E;
   top: 45%;
   font-size: 3rem;
+}
+
+.darkmode .card:hover .district {
+  color: #C6C6C6;
 }
 
 @media only screen and (min-width: 600px) {

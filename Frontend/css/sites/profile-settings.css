@@ -26,17 +26,6 @@ main h3 {
   margin-bottom: 0.5rem;
 }
 
-main a {
-  font-size: 1.5rem;
-  text-decoration: none;
-  color: #3D76E1;
-  transition: 0.2s ease;
-}
-
-main a:hover {
-  color: #2699FB;
-}
-
 .col h3 {
   margin-top: 0;
 }
@@ -52,13 +41,13 @@ main a:hover {
   min-width: 3em;
   height: auto;
   border-radius: 50%;
-  box-shadow: 2px 2px 10px 5px black;
+  box-shadow: 2px 2px 10px 5px var(--box-shadow);
   overflow: hidden;
   transition: 0.2s ease;
 }
 
 .col .pic-container:hover {
-  box-shadow: 2px 2px 20px 10px black;
+  box-shadow: 2px 2px 20px 10px var(--box-shadow);
   transform: scale(1.1);
 }
 

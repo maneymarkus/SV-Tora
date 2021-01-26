@@ -1,52 +1,19 @@
-main h1 {
-  top: 40%;
-  margin: 0 0 3rem 5%;
+h1 {
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  margin: 0;
   font-size: 3.5rem;
   text-shadow: 2px 2px 10px black;
   transition: 0.5s ease;
   transition-delay: 1s;
-  position: relative;
+  position: fixed;
 }
 
-main.welcome-done h1 {
-  top: 0;
-  margin-left: 0;
-}
-
-main .blue {
-  position: relative;
-  display: inline-block;
-  color: #2699FB;
-  transition: 0.2s ease;
-}
-
-main.welcome-done .blue:hover {
-  transform: scale(1.2);
-}
-
-.is-typing:after {
-  content: '|';
-  color: #2699FB;
-  -webkit-animation: blink 650ms infinite;
-  animation: blink 650ms infinite;
-}
-
-@-webkit-keyframes blink {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes blink {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+h1.welcome-done {
+  top: 2rem;
+  transform: translateX(0);
+  left: 2rem;
 }
 
 .dashboard .fade-wrapper {
@@ -65,6 +32,7 @@ main.welcome-done .blue:hover {
   opacity: 1;
   transform: scale(1);
   top: 0;
+  margin-top: 7rem;
 }
 
 .dashboard .col {
@@ -170,6 +138,11 @@ main.welcome-done .blue:hover {
 }
 
 @media only screen and (min-width: 992px) {
+  main.welcome-done h1 {
+    top: 3rem;
+    left: 3rem;
+  }
+
   .dashboard .col {
     width: 50%;
   }

@@ -1,15 +1,10 @@
 /*
-  Dependencies: GeneralModule
- */
-
-if (typeof GeneralModule === "undefined") {
-  console.log("Missing GeneralModule Dependency!");
-}
-
-/*
     Encapsulate (not anywhere else needed) code in anonymous function
  */
 (function (window, document, undefined) {
+
+  let dependencies = [];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   if (document.querySelector("h1 span.old-category-name")) {
 

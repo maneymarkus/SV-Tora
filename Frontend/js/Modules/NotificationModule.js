@@ -1,18 +1,26 @@
-/*
-  Dependencies: GeneralModule
+/**
+ * This Module contains code responsible for managing application specific primary buttons
  */
+var NotificationModule = (function(window, document, undefined) {
 
-if (typeof GeneralModule === "undefined") {
-  console.log("Missing GeneralModule Dependency!");
-}
-
-let NotificationModule = (function(window, document, undefined) {
+  /**
+   * DEPENDENCIES
+   */
+  let dependencies = [];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   let body = document.querySelector("body");
   let message = false;
 
   let notificationTypes = GeneralModule.generalVariables.notificationTypes;
 
+  /**
+   * This function creates a notification
+   * @param type {string} This indicates the type of the notification to be created
+   * @param content {string} The actual content to be displayed inside the notification
+   * @param interactive {boolean} This parameter indicates that the user can interact with the notification (e.g. follow a link inside the notification) (this mainly shows in a different display of the notification)
+   * @return {HTMLElement}
+   */
   function notificationFactory(type, content, interactive = false) {
     let notification = GeneralModule.generateElementApi("div", ["notification", "clearfix"]);
     switch (type) {
@@ -47,6 +55,14 @@ let NotificationModule = (function(window, document, undefined) {
     return notification;
   }
 
+  /**
+   * This function creates either a new message or a new notification (depending on the site the user is currently on)
+   * @param type {string} This indicates the type of the notification to be created
+   * @param content {string} The actual content to be displayed inside the notification
+   * @param interactive {boolean} This parameter indicates that the user can interact with the notification (e.g. follow a link inside the notification) (this mainly shows in a different display of the notification)
+   * @param timestamp {string} Each message has a timestamp (when it has been created)
+   * @param sender {string} Each message has a sender (where it has originated from)
+   */
   function createNotification(type, content, interactive, timestamp, sender) {
     let newNotification = notificationFactory(type, content, interactive);
     if (!message) {
@@ -56,6 +72,10 @@ let NotificationModule = (function(window, document, undefined) {
     }
   }
 
+  /**
+   * This function appends a notification to the body and manages the displaying animation (any "old" notification will be removed)
+   * @param notification {HTMLElement} The notification to be appended
+   */
   function appendNotification(notification) {
     if (document.querySelector("div.notification")) {
       let oldNotification = document.querySelector("div.notification");
@@ -77,6 +97,10 @@ let NotificationModule = (function(window, document, undefined) {
     }
   }
 
+  /**
+   * This function handles the detachment of a given notification
+   * @param notification {HTMLElement} The notification to be detached
+   */
   function removeNotification(notification) {
     notification.classList.remove("visible");
     window.setTimeout(function () {
@@ -84,8 +108,8 @@ let NotificationModule = (function(window, document, undefined) {
     }, 2000);
   }
 
-  /*
-    Local Behaviour bound to messages page (new notifications get appended as messages)
+  /**
+   * This block contains code responsible for managing behavior special to only the messages page (in regard of new notification (new notifications there get appended as messages))
    */
   if (document.querySelector("div.message-container")) {
 
@@ -96,9 +120,9 @@ let NotificationModule = (function(window, document, undefined) {
 
     /**
      * This function appends a notification to the message container (only necessary when new notification appears when user is currently on messages site)
-     * @param notification DOM element of the notification
-     * @param timestamp String when the notification has been created (Format: dd.mm.yyyy hh:mm (because no further frontend processing needed))
-     * @param sender String where the notification has been created (source)
+     * @param notification {HTMLElement} The notification to be appended (as a new message)
+     * @param timestamp {string} Contains the information when the notification has been created (Format: dd.mm.yyyy hh:mm (because no further frontend processing needed))
+     * @param sender {string} Contains the information where the notification has been created (source)
      */
     function appendMessage(notification, timestamp, sender) {
       let message = GeneralModule.generateElementApi("div", ["message", "new", "unread"]);
@@ -125,6 +149,10 @@ let NotificationModule = (function(window, document, undefined) {
       }
     }
 
+    /**
+     * This function handles the correct and user comfortable display of new messages (new messages have a specific style -> once the user read the message this style is removed)
+     * @param message {HTMLElement} The new message element which gets its "unread" styles removed once scrolled into visibility
+     */
     function handleScroll(message) {
       let messageOffset = message.offsetTop + message.offsetHeight;
       if ((messageContainer.clientHeight + messageContainer.scrollTop) >= messageOffset) {
@@ -137,14 +165,21 @@ let NotificationModule = (function(window, document, undefined) {
 
   }
 
+  /**
+   * API:
+   */
   return {
+    /**
+     * This function handles the creation of new notifications (or new messages if the user is on the messages page currently)
+     * @param type {string} This indicates the type of the notification to be created
+     * @param content {string} The actual content to be displayed inside the notification
+     * @param interactive {boolean} This parameter indicates that the user can interact with the notification (e.g. follow a link inside the notification) (this mainly shows in a different display of the notification)
+     * @param timestamp {string} Each message has a timestamp (when it has been created)
+     * @param sender {string} Each message has a sender (where it has originated from)
+     */
     createNotificationApi : function (type, content, interactive, timestamp, sender) {
       createNotification(type, content, interactive, timestamp, sender);
     }
   }
 
 })(window, document);
-
-window.setTimeout(function () {
-  NotificationModule.createNotificationApi(GeneralModule.generalVariables.notificationTypes.WARNING, "Irgendwas hat geklappt", true);
-},1000);

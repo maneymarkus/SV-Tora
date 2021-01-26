@@ -38,63 +38,7 @@ div.chosen-receivers {
 }
 
 .chosen-receivers .receiver {
-  background-color: #222222;
-  border-radius: 50px;
-  height: 2.5rem;
-  display: inline-block;
-  padding-left: 1rem;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  transition: 0.2s ease;
   font-size: 1rem;
-}
-
-.receiver:hover {
-  background-color: #303030;
-  cursor: pointer;
-}
-
-.receiver .receiver-name {
-  position: relative;
-  margin-right: 0.5rem;
-  top: -0.9rem;
-}
-
-.receiver a {
-  border-radius: 50%;
-  height: 2.5rem;
-  width: 2.5rem;
-  position: relative;
-  text-align: center;
-  top: 0;
-  display: inline-block;
-  transition: 0.2s ease;
-}
-
-.receiver:hover a {
-  background-color: #222222;
-}
-
-.receiver a:hover {
-  background-color: #B23A48;
-}
-
-.receiver a i {
-  font-size: 1.5rem;
-  padding: 0.25rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: 0.2s ease;
-}
-
-.receiver:hover a i {
-  color: #B23A48;
-}
-
-.receiver a:hover i {
-  color: #222222;
 }
 
 form.mail-content .radio-input-container {
