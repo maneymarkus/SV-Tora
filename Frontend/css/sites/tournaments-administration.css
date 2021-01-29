@@ -49,6 +49,7 @@ main h1 {
   width: 100%;
   height: 100%;
   margin: 0;
+  position: absolute;
 }
 
 .tournament-card .front:hover {
@@ -72,10 +73,6 @@ main h1 {
   transition: 0.5s ease;
   cursor: pointer;
   opacity: 0.999;
-}
-
-.tournament-card.flipped .back {
-  z-index: 11;
 }
 
 .tournament-card .back:hover {
@@ -106,15 +103,6 @@ main h1 {
   z-index: -1;
 }
 
-.add-tournament-control {
-  position: absolute;
-  top: 50%;
-  left: calc(100% - 16rem);
-  transform: translateY(-50%);
-  font-size: 1rem;
-  margin-left: 2rem;
-}
-
 .tournament-card .secondary-button {
   position: relative;
   font-size: 1em;
@@ -127,15 +115,23 @@ main h1 {
 }
 
 /*
-  FLIP-Control
+  Controls
  */
 
 .flip-control {
   top: auto;
   bottom: 2em;
-  left: 50%;
+  left: calc(50% - 10rem);
   transform: translateX(-50%);
   font-size: 1rem;
+}
+
+.add-tournament-control {
+  font-size: 1rem;
+  left: calc(50% + 10rem);
+  transform: translateX(-50%);
+  top: auto;
+  bottom: 2em;
 }
 
 @media only screen and (min-width: 600px) {

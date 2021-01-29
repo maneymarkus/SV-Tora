@@ -47,6 +47,8 @@ main.blur {
   background-color: rgba(0, 0, 0, 0);
   transition: 0.2s ease 0.7s;
   z-index: 10000;
+  overflow-y: auto;
+  padding-bottom: 5rem;
 }
 
 .overlay {
@@ -64,10 +66,10 @@ main.blur {
   min-width: 25em;
   width: 50%;
   max-width: 60em;
-  top: 40%;
+  top: 10rem;
   left: 50%;
   z-index: 100;
-  transform: translate(-50%, -50%) scale(0);
+  transform: translateX(-50%) scale(0);
   transition: 0.5s ease 0.5s;
   font-size: 1rem; /* ADJUST Size individually */
   background-color: var(--theme-color-4);
@@ -78,8 +80,18 @@ main.blur {
   background-color: var(--theme-color-2);
 }
 
+.modal-window:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  visibility: hidden;
+}
+
 .open .modal-window {
-  transform: translate(-50%, -50%) scale(1);
+  transform: translateX(-50%) scale(1);
 }
 
 a.primary-button.close-modal {
@@ -161,7 +173,7 @@ a.primary-button.close-modal i {
 }
 
 .modal-window .secondary-button {
-  font-size: 1rem;
+  font-size: 0.8em;
   letter-spacing: 0;
   text-transform: none;
   height: auto;
@@ -174,11 +186,15 @@ a.primary-button.close-modal i {
 }
 
 @media only screen and (min-width: 768px) {
-
+  .modal-window .secondary-button {
+    font-size: 0.9em;
+  }
 }
 
 @media only screen and (min-width: 992px) {
-
+  .modal-window .secondary-button {
+    font-size: 1em;
+  }
 }
 
 @media only screen and (min-width: 1200px) {

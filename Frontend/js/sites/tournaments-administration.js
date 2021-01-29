@@ -12,25 +12,15 @@
 
   function setContainerWidth() {
     flipCards = document.querySelectorAll(".tournament-card");
-    let containerMinWidth = 24 + 22 * flipCards.length;
+    let containerMinWidth = 8 + 22 * flipCards.length;
     flipCardContainer.style.minWidth = containerMinWidth + "rem";
   }
   setContainerWidth();
 
   flipCardContainer.addEventListener("click", function (e) {
     let target = e.target;
-    while (target.nodeName !== "BODY" && !target.classList.contains("secondary-button") && !target.classList.contains("tournament-card") && !target.classList.contains("add-tournament")) {
+    while (target.nodeName !== "BODY" && !target.classList.contains("secondary-button") && !target.classList.contains("tournament-card")) {
       target = target.parentElement;
-    }
-
-    // add completely new tournament
-    if (target.classList.contains("add-tournament")) {
-      let container = createTournamentModalContent();
-      ModalModule.confirmModalApi("Neuen Wettkampf erstellen", container, function () {
-        createTournamentCard(container);
-      }, undefined, function () {
-        return FormModule.checkFormApi(container, true);
-      });
     }
 
     // either delete or edit clicked tournament card
@@ -80,6 +70,15 @@
         fc.classList.remove("flipped");
       });
     }
+  });
+
+  addTournamentButton.addEventListener("click", function () {
+    let container = createTournamentModalContent();
+    ModalModule.confirmModalApi("Neuen Wettkampf erstellen", container, function () {
+      createTournamentCard(container);
+    }, undefined, function () {
+      return FormModule.checkFormApi(container, true);
+    });
   });
 
   function createTournamentCard(content) {

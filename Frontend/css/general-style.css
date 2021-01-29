@@ -280,7 +280,7 @@ table, .table, th, td {
 
 @media only screen and (min-width: 1200px) {
     main.limited {
-        max-width: 1200px;
+        max-width: 1500px;
         box-shadow: 2px 0 7px 3px var(--box-shadow);
         background-color: rgba(0, 0, 0, 0.05);
         backdrop-filter: blur(3px);
