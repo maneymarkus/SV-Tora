@@ -25,7 +25,7 @@ main h1:hover {
 h1 span {
   position: relative;
   transition: 0.2s ease;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   text-shadow: none;
   z-index: 5;
 }
@@ -88,14 +88,14 @@ main p {
 
 .fade-wrapper a {
   text-decoration: none;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   transition: 0.2s ease;
   font-size: 2rem;
   position: relative;
 }
 
 .fade-wrapper a:hover {
-  color: #2699FB;
+  color: var(--accent-color-1-light);
 }
 
 .fade-wrapper a:after {
@@ -103,7 +103,7 @@ main p {
   position: absolute;
   width: 0;
   height: 0.2rem;
-  background: #2699FB;
+  background: var(--accent-color-1-light);
   left: 0;
   top: 105%;
   transition: 0.2s ease;
@@ -115,7 +115,7 @@ main p {
 
 .is-typing:after {
   content: '|';
-  color: #2699FB;
+  color: var(--accent-color-1-light);
   -webkit-animation: blink 650ms infinite;
   animation: blink 650ms infinite;
 }

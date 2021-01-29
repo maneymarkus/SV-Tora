@@ -108,26 +108,33 @@ var FormModule = (function(window, document, undefined) {
      */
     function checkForm(form, throwErrors = false) {
         let check = true;
-        let allRequiredInputs = form.querySelectorAll(".required");
-        allRequiredInputs.forEach((rI) => {
-            let inputObject = MaterialInputsModule.getInputObjectApi(rI);
-            if (check && !inputObject.hasUserInput()) {
-                if (throwErrors) {
-                    inputObject.throwInputError(errorTypes.REQUIRED);
-                }
-                check = false;
-            }
-        });
-        if (!check) {
-            return check;
-        }
         let allInputs = form.querySelectorAll(".input-container");
-        allInputs.forEach((i) => {
-            let inputObject = MaterialInputsModule.getInputObjectApi(i);
-            if (inputObject.incorrect) {
-                check = false;
+        allInputs.forEach((inputContainer) => {
+            if (check) {
+                check = checkInput(inputContainer, throwErrors);
             }
         });
+        return check;
+    }
+
+    /**
+     * This function checks a single input element if it has user input when it is marked as "required" or if it has any other errors and returns true if everything is fine
+     * @param inputContainer {HTMLElement} The custom container element of the actual input to be checked
+     * @param throwErrors {boolean} If this is true then this function will immediately throw "required" errors while checking
+     * @return {boolean}
+     */
+    function checkInput(inputContainer, throwErrors) {
+        let check = true;
+        let inputObject = MaterialInputsModule.getInputObjectApi(inputContainer);
+        if (inputObject.required && !inputObject.hasUserInput()) {
+            if (throwErrors) {
+                inputObject.throwInputError(errorTypes.REQUIRED);
+            }
+            check = false;
+        }
+        if (check && inputObject.incorrect) {
+            check = false;
+        }
         return check;
     }
 
@@ -159,6 +166,19 @@ var FormModule = (function(window, document, undefined) {
          */
         checkFormApi : function (form, throwErrors) {
             return checkForm(form, throwErrors);
+        },
+        /**
+         * This api function enables other Modules to check a single input element if it has user input when it is marked as "required" or if it has any other errors and returns true if everything is fine
+         * @param inputContainer {HTMLElement} The custom container element of the actual input to be checked
+         * @param throwErrors {boolean} If this is true then this function will immediately throw "required" errors while checking
+         * @return {boolean}
+         */
+        checkInputApi : function (inputContainer, throwErrors) {
+            if (inputContainer.classList.contains("input-container")) {
+                return checkInput(inputContainer, throwErrors);
+            } else {
+                return false;
+            }
         }
     }
 

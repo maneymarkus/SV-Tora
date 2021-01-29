@@ -14,7 +14,7 @@
 
     theater.addActor("greeting", {accuracy: 1}, ".greeting");
 
-    let welcomeMessage1 = "Hallo <span class='special-span'>" + user + "</span>!";
+    let welcomeMessage1 = "Hallo <span class='highlighted-span'>" + user + "</span>!";
 
     greeting.classList.add("is-typing");
 

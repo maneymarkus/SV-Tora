@@ -1,7 +1,7 @@
 // Module contains code concerning admin table
-var TablesModule = (function(window, document, undefined) {
+var AdministrationModule = (function(window, document, undefined) {
 
-  let dependencies = [];
+  let dependencies = ["MaterialInputsModule", "ModalModule", "FormModule"];
   GeneralModule.checkDependenciesApi(dependencies);
 
   let adminTable = undefined;
@@ -237,19 +237,15 @@ var TablesModule = (function(window, document, undefined) {
       }
     });
 
-    // Listen for click on filter-add button
-    if (this.filterContainerElement) {
-      this.filterContainerElement.querySelector(".add-filter").addEventListener("click", function () {
-        // TODO: Create two selects (first one is key (column) and second one is value with possible filters -> Call Confirm Modal and give two selects and this.handleChosenFilter as positive callback
-        This.activeFilterObjects.push(new Filter("Vorname", "Marcus", This, This.filterContainerElement));
-        This.updateAppliedFilters();
-      });
-    }
-
-    // Listen for click on add element to table button
-    if (this.addElementBtn) {
-      this.addElementBtn.addEventListener("click", function () {
-        // TODO: Generate E-Mail Input -> call confirm modal -> invite entered e-mail
+    /**
+     * This function initializes the addition of a new entity/element to the table which is a new admin. New admins can be registered by inviting them via an e-mail address. Then they can register themselves on a custom landing page for them.
+     */
+    this.addingEntity = function () {
+      let mailInput = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.TEXT, ["mail", "required"], undefined, "new-admin-mail", "E-Mail-Adresse", undefined, undefined, undefined);
+      ModalModule.confirmModalApi("Neuen Administrator hinzufügen (einladen)", mailInput.inputContainer, function () {
+        ModalModule.infoModalApi("Neuer Administrator!" ,"Der (möglicherweise) neue Administrator wird nun per E-Mail benachrichtigt, dass er sich ab sofort in diesem Tool registrieren kann.", undefined);
+      }, undefined, function () {
+        return FormModule.checkInputApi(mailInput.inputContainer, true);
       });
     }
 
@@ -273,14 +269,22 @@ var TablesModule = (function(window, document, undefined) {
   }
 
   // if there is an admin table then initialize it
-  if (document.getElementsByClassName("admin-table")[0] !== undefined) {
-    initializeAdminTable();
-  }
-
-  // read admin table on page into object
-  function initializeAdminTable() {
+  if (document.querySelector("table.admin-table")) {
     let adminTableElement = document.querySelector("table.admin-table");
     adminTable = new AdminTable(adminTableElement);
+  }
+
+  /**
+   * API:
+   */
+  return {
+    getAdminTableObjectApi : function (adminTableElement) {
+      if (adminTableElement.classList.contains("admin-table")) {
+        if (adminTableElement === adminTable.tableElement) {
+          return adminTable;
+        }
+      }
+    }
   }
 
 })(window, document);

@@ -25,9 +25,12 @@
 .card {
   display: inline-block;
   border-radius: 15px;
-  width: 13rem;
+  min-width: 13rem;
+  width: 20%;
+  max-width: 25rem;
   min-height: 20rem;
   height: 50vw;
+  max-height: 40rem;
   background-color: var(--theme-color-3);
   transition: 0.5s ease;
   cursor: pointer;
@@ -64,6 +67,21 @@
   background-color: var(--accent-color-1-light);
 }
 
+.card:after {
+  content: attr(data-bg);
+  position: absolute;
+  top: 30%;
+  left: -15%;
+  margin: 0;
+  font-size: 5rem;
+  color: black;
+  opacity: 0.2;
+  text-align: center;
+  font-weight: 900;
+  z-index: 0;
+  white-space: nowrap;
+}
+
 .card .bg {
   position: absolute;
   top: -5%;
@@ -91,19 +109,6 @@
   top: -15%;
   right: -15%;
   opacity: 0.2;
-}
-
-.card .bg-text {
-  position: absolute;
-  top: 30%;
-  left: -15%;
-  margin: 0;
-  font-size: 5rem;
-  color: black;
-  opacity: 0.2;
-  text-align: center;
-  font-weight: 900;
-  z-index: 0;
 }
 
 .card .district {
@@ -158,18 +163,12 @@
 
 @media only screen and (min-width: 992px) {
   .card {
-    width: 22rem;
     margin-bottom: 3rem;
   }
 }
 
 @media only screen and (min-width: 1200px) {
   .card {
-    width: 20%;
-    max-width: 25rem;
-    min-height: 35rem;
-    height: 40rem;
-    max-height: 90vh;
     margin: 0 1.5rem 2rem;
   }
 

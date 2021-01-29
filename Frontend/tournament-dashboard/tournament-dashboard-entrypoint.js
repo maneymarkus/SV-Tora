@@ -10,6 +10,7 @@ function init(window, document, undefined) {
     LoadModule.loadModuleApi("../js/Modules/FormModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/ModalModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/TagModule.js", true);
+    LoadModule.loadModuleApi("../js/Modules/TiltModule.js", true);
     LoadModule.loadModuleApi("../js/sites/tournament-dashboard.js", true);
 
 }

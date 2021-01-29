@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   background-color: #171717;
   z-index: 1000;
   text-decoration: none;
@@ -10,8 +10,8 @@
   height: 5rem;
   width: 5rem;
   transition: 0.2s ease;
-  border-right: 3px solid #3D76E1;
-  border-bottom: 3px solid #3D76E1;
+  border-right: 3px solid var(--accent-color-1-dark);
+  border-bottom: 3px solid var(--accent-color-1-dark);
   box-shadow: 0 0 10px 0 black;
   text-shadow: 2px 2px 3px black;
 }
@@ -19,7 +19,7 @@
 .go-back:hover {
   background-color: #303030;
   box-shadow: 0 0 15px 5px black;
-  color: #2699FB;
+  color: var(--accent-color-1-light);
   border-color: #303030;
   transform: translate(0.25rem, 0.25rem) scale(1.1);
 }
@@ -33,9 +33,9 @@
   height: 100%;
   border-radius: 0 0 5em 0;
   transition: 0.2s ease;
-  border-right: 2px solid #2699FB;
-  border-bottom: 2px solid #2699FB;
-  box-shadow: -10px -10px 10px -10px #2699FB inset;
+  border-right: 2px solid var(--accent-color-1-light);
+  border-bottom: 2px solid var(--accent-color-1-light);
+  box-shadow: -10px -10px 10px -10px var(--accent-color-1-light) inset;
   z-index: -1;
 }
 
@@ -518,7 +518,7 @@ table, th, td {
 }
 
 .dog-eat-dog .fight:hover .position {
-  background-color: #2699FB;
+  background-color: var(--accent-color-1-light);
 }
 
 .dog-eat-dog .position:after {

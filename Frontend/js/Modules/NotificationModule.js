@@ -93,7 +93,7 @@ var NotificationModule = (function(window, document, undefined) {
     if (notification.classList.contains("success") || notification.classList.contains("error")) {
       window.setTimeout(function () {
         removeNotification(notification);
-      }, 5000);
+      }, 10000);
     }
   }
 

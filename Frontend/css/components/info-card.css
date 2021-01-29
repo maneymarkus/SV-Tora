@@ -48,16 +48,13 @@
 
 .info-card:hover {
   background: var(--accent-color-1-light);
+  z-index: 100;
 }
 
 .info-card:hover:before {
   top: -25%;
   transform: translateX(-50%) scale(0.75);
   background: var(--theme-color-4);
-}
-
-.info-card:hover {
-  z-index: 100;
 }
 
 .info-card .image-container {

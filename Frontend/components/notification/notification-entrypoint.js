@@ -5,7 +5,7 @@ function init(window, document, undefined) {
 
     function done() {
         window.setTimeout(function () {
-            NotificationModule.createNotificationApi(GeneralModule.generalVariables.notificationTypes.WARNING, "Irgendwas hat geklappt", true, "21.01.2021 17:00", "System");
+            NotificationModule.createNotificationApi(GeneralModule.generalVariables.notificationTypes.SUCCESS, "Irgendwas hat geklappt", true, "21.01.2021 17:00", "System");
         },1000);
     }
 

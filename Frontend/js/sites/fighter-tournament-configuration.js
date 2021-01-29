@@ -94,10 +94,10 @@
 
     function handleCategoryConfiguration(enable, selectObject, configuration, enrollButton) {
         if (enable) {
-            selectObject.inputContainer.classList.add("required");
+            selectObject.setRequired(true)
             selectObject.enable();
         } else {
-            selectObject.inputContainer.classList.remove("required");
+            selectObject.setRequired(false);
             selectObject.disable();
         }
         handleEnrollButton(configuration, enrollButton);

@@ -66,16 +66,18 @@ var AccordionModule = (function(window, document, undefined) {
 
       // the bar header is clicked
       if (target.classList.contains("bar-header")) {
-
-        // if the clicked bar is NOT open and NO other bars should stay open and any possible frontend sliding animations are done
-        if (!target.parentElement.classList.contains("open") && !This.stayOpen && !This.sliding) {
-          This.hideAllExcept(This, target.parentElement);
-          This.show(target.parentElement);
-        } else {
-          if (!This.stayOpen && !This.sliding) {
-            This.hide(target.parentElement);
+        // This timeout enables other modules to individually set the stayOpen property e.g. and to have it a real effect
+        window.setTimeout( function () {
+          // if the clicked bar is NOT open and NO other bars should stay open and any possible frontend sliding animations are done
+          if (!target.parentElement.classList.contains("open") && !This.stayOpen && !This.sliding) {
+            This.hideAllExcept(This, target.parentElement);
+            This.show(target.parentElement);
+          } else {
+            if (!This.stayOpen && !This.sliding) {
+              This.hide(target.parentElement);
+            }
           }
-        }
+        },20);
         return;
       }
     });
@@ -130,7 +132,7 @@ var AccordionModule = (function(window, document, undefined) {
     window.setTimeout(function () {
       content.style.display = "none";
       This.sliding = false;
-    },500);
+    }, 500);
   };
 
   /**

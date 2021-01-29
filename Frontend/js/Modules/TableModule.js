@@ -88,7 +88,7 @@ var TableModule = (function(window, document, undefined) {
       this.hide = function () {
         if (This.visible) {
           This.visible = false;
-          This.tr.classList.add("hidden");
+          This.tr.classList.add("no-display");
         }
       }
 
@@ -98,7 +98,7 @@ var TableModule = (function(window, document, undefined) {
       this.show = function () {
         if (!This.visible) {
           This.visible = true;
-          This.tr.classList.remove("hidden");
+          This.tr.classList.remove("no-display");
         }
       }
 
@@ -187,6 +187,8 @@ var TableModule = (function(window, document, undefined) {
     // All the currently applied filters collected in an array
     this.activeFilterObjects = [];
 
+    // Contains all the selected row objects
+    this.selectedRows = [];
 
     // Iterate over all available rows in table body and read them into objects
     this.trs.forEach((tr) => {
@@ -198,8 +200,8 @@ var TableModule = (function(window, document, undefined) {
      */
     this.tableElement.addEventListener("click", function (e) {
       let target = e.target;
-      while (target.nodeName !== "BODY" && !target.classList.contains("sort")  && !target.classList.contains("edit") && !target.classList.contains("delete")) {
-        target = target.parentNode;
+      while (target.nodeName !== "BODY" && !target.classList.contains("sort")  && !target.classList.contains("edit") && !target.classList.contains("delete") && !target.classList.contains("select-row")) {
+        target = target.parentElement;
       }
       if (target.nodeName === "BODY") {
         return;
@@ -238,34 +240,79 @@ var TableModule = (function(window, document, undefined) {
         return;
       }
 
+      // Determine which row has been clicked on
+      let clickedRow = target;
+      while (clickedRow.nodeName !== "TR") {
+        clickedRow = clickedRow.parentElement;
+      }
+
       // Edit a table row
       if (target.classList.contains("edit")) {
-        while (target.nodeName !== "TR") {
-          target = target.parentNode;
-        }
-        let row = This.getRowObject(target);
-        This.editRow(row);
+        let rowObject = This.getRowObject(clickedRow);
+        This.editRow(rowObject);
         return;
       }
 
       // Delete a table row
       if (target.classList.contains("delete")) {
-        while (target.nodeName !== "TR") {
-          target = target.parentNode;
-        }
-        let row = This.getRowObject(target);
+        let rowObject = This.getRowObject(clickedRow);
         ModalModule.deleteModalApi("Eintrag löschen", "Willst du diesen Eintrag wirklich löschen?", function () {
-          This.deleteRow(target, row);
+          This.deleteRow(clickedRow, rowObject);
         });
         return;
       }
+
+      // Select a table row
+      if (target.classList.contains("select-row")) {
+        // Somehow this is necessary as without this this handler will react to two click events
+        e.preventDefault();
+        let rowObject = This.getRowObject(clickedRow);
+        This.handleSelection(rowObject);
+        return;
+      }
+
     });
+
+    this.handleSelection = function (rowObject) {
+      let checkBox = rowObject.tr.querySelector(".checkbox-input-container.select-row input");
+      if (checkBox.checked) {
+        checkBox.checked = false;
+        rowObject.tr.classList.remove("selected");
+        if (This.selectedRows.includes(rowObject)) {
+          This.selectedRows.splice(This.selectedRows.indexOf(rowObject), 1);
+        }
+      } else {
+        checkBox.checked = true;
+        rowObject.tr.classList.add("selected");
+        if (!This.selectedRows.includes(rowObject)) {
+          This.selectedRows.push(rowObject);
+        }
+      }
+      checkBox.dispatchEvent(new Event("change", {bubbles: true, cancelable: true}));
+    }
+
+    /**
+     * This function initializes the addition of a new entity/element to the table. This sets up a modal window that asks the user for the required input and calls the addElement method afterwards
+     */
+    this.addingEntity = function () {
+      // clone the array not just store the reference!
+      let keys = This.dataColumns.slice();
+
+      let object = TranslationModule.translateRowToObjectApi(keys, undefined);
+      let container = TranslationModule.translateObjectToInputsApi(object, true);
+      ModalModule.confirmModalApi("Neuen Kämpfer anlegen", container, function () {
+        let userInputObject = TranslationModule.translateInputsToObjectApi(container);
+        This.addEntity(userInputObject);
+      }, undefined, function () {
+        return FormModule.checkFormApi(container, true);
+      });
+    }
 
     /**
      * This function adds a new element as a row element to the table
      * @param userInputObject {object} The object containing the translated user input from the input elements regarding the creation of a new element
      */
-    this.addElement = function (userInputObject) {
+    this.addEntity = function (userInputObject) {
       let newTr = Row.createRow(userInputObject, this.dataColumns, this.rows.length + 1);
       This.tableBody.appendChild(newTr);
       this.trs = this.tableBody.querySelectorAll("tr");

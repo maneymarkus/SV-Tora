@@ -30,7 +30,7 @@ body {
     --box-shadow: #616161;
 
     --accent-color-1-light: #2699FB;
-    --accent-color-1-dark: #3D76E1;
+    --accent-color-1-dark: #3d76e1;
     --accent-color-2-light: #F71735;
     --accent-color-2-dark: #B23A48;
     --accent-color-3-light: #5EFC8D;
@@ -52,8 +52,8 @@ body.darkmode {
     --theme-color-1: #171717;
     --theme-color-2: #222222;
     --theme-color-3: #303030;
-    --theme-color-4: #4A4A4A;
-    --theme-color-5: #9B9B9B;
+    --theme-color-4: #4a4a4a;
+    --theme-color-5: #9b9b9b;
 
     --placeholder-color: #B4B4B4;
     --text-color: white;
@@ -100,7 +100,7 @@ body:before {
     background-position: center;
     background-repeat: repeat;
     z-index: -1;
-    opacity: 0.3;
+    opacity: 0.4;
 }
 
 body.darkmode:before {
@@ -186,6 +186,7 @@ table, .table, th, td {
     overflow-x: auto;
     padding: 2rem 3rem 3rem;
     margin-left: -2rem;
+    height: auto;
 }
 
 /* This is a class to insert some space after elements that exceed the width of the window */
@@ -201,15 +202,53 @@ table, .table, th, td {
 }
 
 .not-visible {
-    visibility: hidden;
+    visibility: hidden !important;
 }
 
 .no-display {
-    display: none;
+    display: none !important;
 }
 
-.special-span {
-    color: var(--accent-color-1-light);
+.faded-out {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    transform: scale(0.5) !important;
+    transition: none !important;
+    transition-delay: 0s !important;
+}
+
+.highlighted-span {
+    color: var(--accent-color-1-dark) !important;
+}
+
+.container-medium {
+    width: 100%;
+    float: left;
+    height: auto;
+    padding: 0 1rem;
+}
+
+.quick-input {
+    background-color: rgba(74, 74, 74, 0.6);
+    border: none;
+    border-bottom: 2px solid var(--accent-color-1-dark);
+    display: inline-block;
+    vertical-align: middle;
+    color: var(--text-color);
+    font-style: italic;
+    padding: 0.25rem 0.5rem;
+    min-width: 1rem;
+    animation: color-blink 0.5s ease infinite alternate;
+    outline: none;
+}
+
+@keyframes color-blink {
+    from {
+        color: white;
+    }
+    to {
+        color: var(--accent-color-1-light);
+    }
 }
 
 @media only screen and (min-width: 600px) {
@@ -233,12 +272,16 @@ table, .table, th, td {
     .space-after:after {
         width: 3rem;
     }
+
+    .container-medium {
+        width: 50%;
+    }
 }
 
 @media only screen and (min-width: 1200px) {
     main.limited {
         max-width: 1200px;
-        box-shadow: 2px 0 7px 3px black;
+        box-shadow: 2px 0 7px 3px var(--box-shadow);
         background-color: rgba(0, 0, 0, 0.05);
         backdrop-filter: blur(3px);
     }

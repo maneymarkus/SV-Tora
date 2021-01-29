@@ -1,27 +1,6 @@
 /*
-  Dependencies: GeneralModule, AccordionModule, ModalModule, MaterialInputsModule, TranslationModule
+    Encapsulate (not anywhere else needed) code in anonymous function
  */
-
-if (typeof GeneralModule === "undefined") {
-  console.log("Missing GeneralModule Dependency!");
-}
-
-if (typeof AccordionModule === "undefined") {
-  console.log("Missing AccordionModule Dependency!");
-}
-
-if (typeof ModalModule === "undefined") {
-  console.log("Missing ModalModule Dependency!");
-}
-
-if (typeof MaterialInputsModule === "undefined") {
-  console.log("Missing MaterialInputsModule Dependency!");
-}
-
-if (typeof TranslationModule === "undefined") {
-  console.log("Missing TranslationModule Dependency!");
-}
-
 (function(window, document, undefined) {
 
   let dependencies = ["MaterialInputsModule", "AccordionModule", "ModalModule", "TranslationModule"];
@@ -36,7 +15,7 @@ if (typeof TranslationModule === "undefined") {
     this.inheritance = AccordionModule.getAccordionObjectApi(accordion);
 
     this.accordionElement = accordion;
-    this.accordionBars = this.accordionElement.querySelectorAll(".accordion-bar");
+    this.accordionBars = this.inheritance.accordionBars;
 
     this.categoryNames = [];
     this.accordionBars.forEach((bar) => {
@@ -87,6 +66,7 @@ if (typeof TranslationModule === "undefined") {
         target = target.parentNode;
       }
       if (target.classList.contains("tool")) {
+        This.inheritance.stayOpen = true;
         This.handleToolClick(target);
         return;
       }
@@ -117,7 +97,7 @@ if (typeof TranslationModule === "undefined") {
 
       // split category
       if (target.classList.contains("split")) {
-
+        // TODO: Go to splitting page
         return;
       }
 
@@ -147,16 +127,16 @@ if (typeof TranslationModule === "undefined") {
           otherCategories.push(object);
         }
       });
-      let container = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.RADIO, undefined, undefined, "mergeTarget", undefined, undefined, undefined, otherCategories);
+      let radioInput = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.RADIO, undefined, undefined, "mergeTarget", undefined, undefined, undefined, otherCategories);
       let categoryToBeMerged = categoryName + " (" + categoryGraduation + "/" + categoryAge + "/" + categorySex + "/" + categoryMemberCount + ")";
-      ModalModule.confirmModalApi("Kategorie " + categoryToBeMerged + " vereinen mit:", container, function () {
+      ModalModule.confirmModalApi("Kategorie " + categoryToBeMerged + " vereinen mit:", radioInput.inputContainer, function () {
         //TODO: call this after backend responded successfully
-        This.mergeCategories(container, mergeInitiatorBarHeader);
+        This.mergeCategories(radioInput.inputContainer, mergeInitiatorBarHeader);
       });
     }
 
-    this.mergeCategories = function (container, mergeInitiatorBarHeader) {
-      let translatedInput = TranslationModule.translateInputsToObjectApi(container);
+    this.mergeCategories = function (inputContainer, mergeInitiatorBarHeader) {
+      let translatedInput = TranslationModule.translateInputsToObjectApi(inputContainer);
       let mergeTargetCategoryName = translatedInput["mergeTarget"];
       if (mergeInitiatorBarHeader.nextElementSibling) {
         let rows = mergeInitiatorBarHeader.nextElementSibling.querySelectorAll("tr");
@@ -165,7 +145,7 @@ if (typeof TranslationModule === "undefined") {
         rows.forEach((row) => {
           mergeTargetTable.appendChild(row);
         });
-        This.deleteAccordionBar(mergeInitiatorBarHeader.parentElement);
+        This.inheritance.deleteAccordionBar(mergeInitiatorBarHeader.parentElement);
         This.renumberContent(mergeTargetTable);
       }
     }
@@ -179,49 +159,38 @@ if (typeof TranslationModule === "undefined") {
     }
 
     this.renameCategory = function (barHeader, categoryName) {
-      This.stayOpen = true;
       let categoryNameSpan = barHeader.querySelector("span.category-name");
       let graduationSpan = barHeader.querySelector("span.graduation");
-      categoryNameSpan.style.display = "none";
-      let cNameInput = GeneralModule.generateElementApi("INPUT", ["category-name"]);
-      cNameInput.value = categoryName;
-      barHeader.querySelector("h4").insertBefore(cNameInput, graduationSpan);
-      cNameInput.style.width = (cNameInput.value.length + 2) * 13 + "px";
-      cNameInput.focus();
-      cNameInput.addEventListener("focusout", function() {
-        This.endInput(cNameInput, categoryNameSpan);
-      });
-      cNameInput.addEventListener("keydown", function (e) {
-        let keyCode = e.which || e.keyCode;
-        if (keyCode === 13) {
-          This.endInput(cNameInput, categoryNameSpan);
+      categoryNameSpan.classList.add("no-display");
+      let width = categoryNameSpan.offsetWidth;
+
+      // this variable keeps track if the error that a category name has to be unique has already been shown
+      let errorShown = false;
+
+      function endInput(value) {
+        categoryNameSpan.innerHTML = value;
+        categoryNameSpan.classList.remove("no-display");
+        This.inheritance.stayOpen = false;
+        errorShown = false;
+      }
+
+      function quickInputValidation(value) {
+        let categoryNames = This.categoryNames.slice();
+        categoryNames.splice(categoryNames.indexOf(categoryName), 1);
+        if (categoryNames.includes(value)) {
+          if (!errorShown) {
+            ModalModule.infoModalApi("Änderung Kategorie Name", "Kategorien müssen einen einzigartigen Namen haben.", function () {
+              return false;
+            });
+          }
+          errorShown = true;
         } else {
-          cNameInput.style.width = (cNameInput.value.length + 2) * 13 + "px";
+          return true;
         }
-      });
-    }
-
-    // this variable keeps track if the error that a category name has to be unique has already been shown
-    let errorShown = false;
-
-    this.endInput = function (input, span) {
-      let value = input.value.trim();
-      if (value === "") {
-        input.focus();
-        return;
       }
-      if (This.categoryNames.includes(value)) {
-        if (!errorShown) {
-          ModalModule.infoModalApi("Änderung Kategorie Name", "Kategorien müssen einen einzigartigen Namen haben.");
-        }
-        errorShown = true;
-        input.focus();
-        return;
-      }
-      input.remove();
-      span.innerHTML = value;
-      span.style.display = "inline";
-      This.stayOpen = false;
+
+      MaterialInputsModule.createQuickInputApi(width, categoryName, endInput, graduationSpan, quickInputValidation);
+
     }
 
     this.getAccordionBarByCategoryName = function (categoryName) {
@@ -238,7 +207,6 @@ if (typeof TranslationModule === "undefined") {
   };
 
   let accordionElements = document.querySelectorAll("div.accordion");
-
   accordionElements.forEach(function (accordion) {
     categoryAccordions.push(new CategoryAccordion(accordion));
   });

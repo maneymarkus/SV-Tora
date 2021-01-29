@@ -6,7 +6,7 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
 
-    <title>Tournament-Administration</title>
+    <title>Tournaments Administration</title>
 
     <!-- General styles and fonts and stuff like that -->
     <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
 
     <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/card.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/primary-button-floating-container.css" type="text/css" />
     <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
-    <link rel="stylesheet" href="../css/sites/tournament-administration.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/tournaments-administration.css" type="text/css" />
 
     <!--[if lt IE 9]>
     <script src="../js/html5shiv.js"></script>
@@ -29,7 +30,7 @@
     <script src="../js/Modules/LoadModule.js"></script>
 
     <!-- This script loads JS modules necessary for this page -->
-    <script src="tournament-administration-entrypoint.js"></script>
+    <script src="tournaments-administration-entrypoint.js"></script>
 
     <!--
 
@@ -47,7 +48,7 @@
         </a>
     </div>
 
-    <main class="clearfix">
+    <main class="limited clearfix">
         <h1>
             Wettkämpfe
         </h1>
@@ -55,13 +56,10 @@
             <div class="perspective-container">
 
                 <div class="tournament-card">
-                    <div class="front">
+                    <div data-bg="Tora-Pokal" class="card front">
                         <div class="bg">
                             <p class="number">1</p>
                         </div>
-                        <p class="bg-text">
-                            Tora-Pokal
-                        </p>
                         <h3 class="district">
                             Tora-Pokal
                         </h3>
@@ -96,13 +94,10 @@
                 </div>
 
                 <div class="tournament-card">
-                  <div class="front">
+                  <div data-bg="Weihnachtsturnier" class="card front">
                     <div class="bg">
                       <p class="number">2</p>
                     </div>
-                    <p class="bg-text">
-                      Weihnachtsturnier
-                    </p>
                     <h3 class="district">
                       Weihnachts&shy;turnier
                     </h3>
@@ -136,13 +131,10 @@
                   </div>
                 </div>
                 <div class="tournament-card">
-                  <div class="front">
+                  <div data-bg="Nachwuchsturnier" class="card front">
                     <div class="bg">
                       <p class="number">3</p>
                     </div>
-                    <p class="bg-text">
-                      Nachwuchsturnier
-                    </p>
                     <h3 class="district">
                       Nachwuchs&shy;turnier
                     </h3>

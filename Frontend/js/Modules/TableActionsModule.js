@@ -6,7 +6,7 @@ var TableActionsModule = (function(window, document, undefined) {
   /**
    * DEPENDENCIES
    */
-  let dependencies = ["PrimaryButtonModule", "TableModule"];
+  let dependencies = ["PrimaryButtonModule"];
   GeneralModule.checkDependenciesApi(dependencies);
 
   let tableActionsContainers = [];
@@ -19,9 +19,19 @@ var TableActionsModule = (function(window, document, undefined) {
   let TableActionsContainer = function(tableActionsContainer) {
 
     let This = this;
-    this.tableIdentificator = tableActionsContainer.getAttribute("data-table");
-    this.connectedTableElement = document.getElementById(this.tableIdentificator);
-    this.connectedTableObject = TableModule.getTableObjectApi(this.connectedTableElement);
+
+    this.tableIdentificator = undefined;
+    this.connectedTableElement = undefined;
+    this.connectedTableObject = undefined;
+    if (tableActionsContainer.getAttribute("data-table")) {
+      this.tableIdentificator = tableActionsContainer.getAttribute("data-table");
+      this.connectedTableElement = document.getElementById(this.tableIdentificator);
+      this.connectedTableObject = TableModule.getTableObjectApi(this.connectedTableElement);
+    } else if (tableActionsContainer.getAttribute("data-admin-table")) {
+      this.tableIdentificator = tableActionsContainer.getAttribute("data-admin-table");
+      this.connectedTableElement = document.getElementById(this.tableIdentificator);
+      this.connectedTableObject = AdministrationModule.getAdminTableObjectApi(this.connectedTableElement);
+    }
 
     this.tableActionsContainerElement = tableActionsContainer;
     this.addEntityButton = tableActionsContainer.querySelector(".primary-button.add-entity");
@@ -31,17 +41,7 @@ var TableActionsModule = (function(window, document, undefined) {
      * This functions listens for clicks on the add entity button and triggers the modal window that requires the necessary input from the user and then adds the newly configured element to the table
      */
     this.addEntityButton.addEventListener("click", function () {
-      // clone the array not just store the reference!
-      let keys = This.connectedTableObject.dataColumns.slice();
-
-      let object = TranslationModule.translateRowToObjectApi(keys, undefined);
-      let container = TranslationModule.translateObjectToInputsApi(object, true);
-      ModalModule.confirmModalApi("Neuen Kämpfer anlegen", container, function () {
-        let userInputObject = TranslationModule.translateInputsToObjectApi(container);
-        This.connectedTableObject.addElement(userInputObject);
-      }, undefined, function () {
-        return FormModule.checkFormApi(container, true);
-      });
+      This.connectedTableObject.addingEntity();
     });
 
     if (this.printButton) {

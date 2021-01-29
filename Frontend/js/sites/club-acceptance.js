@@ -14,7 +14,7 @@
     let subTextInnerHTML = subText.innerHTML;
     subText.innerHTML = "";
     let decisionDiv = document.getElementsByClassName("decision")[0];
-    decisionDiv.classList.add("hidden");
+    decisionDiv.classList.add("faded-out");
 
     theater.addActor("heading", {accuracy: 1}, ".heading").addActor("subtext", {accuracy: 1}, ".subtext");
 
@@ -24,7 +24,7 @@
         .addScene("subtext:" + subTextInnerHTML)
         .addScene(1000)
         .addScene(function () {
-            decisionDiv.classList.remove("hidden");
+            decisionDiv.classList.remove("faded-out");
         });
 
 })(window, document);

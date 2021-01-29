@@ -135,6 +135,19 @@ var MaterialInputsModule = (function(window, document, undefined) {
         }
 
         /**
+         * This function sets the required status of this input object
+         * @param required {boolean} Determines if this input should be required or not
+         */
+        setRequired(required) {
+            this.required = required;
+            if (required) {
+                this.inputContainer.classList.add("required");
+            } else {
+                this.inputContainer.classList.remove("required");
+            }
+        }
+
+        /**
          * This function returns if this input element has user input or not
          * @return {boolean}
          */
@@ -1673,6 +1686,61 @@ var MaterialInputsModule = (function(window, document, undefined) {
 
     }
 
+    let removedQuickInput = true;
+    let globalQuickInput = undefined;
+
+    /**
+     * This function creates a single input element that can be used inline to quickly change data on the fly
+     * @param width {Number} The width of the inline-block) element this input will quickly and briefly replace
+     * @param value {string} The value that this input should have
+     * @param callback {function} The function is called when this input element is exited and the value of this input element is given as a parameter
+     * @param insertBefore {HTMLElement} The element before which the quick input should be inserted
+     * @param inputValidation {function} This optional function checks the content of the quick input
+     * @return {HTMLElement}
+     */
+    function createQuickInput(width, value, callback, insertBefore, inputValidation) {
+        removedQuickInput = false;
+        let quickInput = GeneralModule.generateElementApi("INPUT", ["quick-input"]);
+        quickInput.value = value;
+        quickInput.style.width = width + 50 + "px";
+        quickInput.addEventListener("focusout", function() {
+            terminateQuickInput(callback, inputValidation);
+        });
+        insertBefore.parentElement.insertBefore(quickInput, insertBefore);
+        quickInput.focus();
+        quickInput.addEventListener("keydown", function (e) {
+            let keyCode = e.which || e.keyCode;
+            if (keyCode === 13) {
+                terminateQuickInput(callback, inputValidation);
+            }
+        });
+        globalQuickInput = quickInput;
+        return quickInput;
+    }
+
+    /**
+     * This function terminates a "quick" input element (e.g. when the user unfocuses the input) and returns the value of it to the callback function
+     * @param callback {function} The function that is called and given the value of this quick input after terminating it
+     * @param inputValidation {function} This optional function checks the content of the quick input
+     */
+    function terminateQuickInput(callback, inputValidation) {
+        if (!removedQuickInput) {
+            let value = globalQuickInput.value.trim();
+            if (value === "") {
+                globalQuickInput.focus();
+                return;
+            }
+            if (inputValidation && !inputValidation(value)) {
+                globalQuickInput.focus();
+                return;
+            }
+            removedQuickInput = true;
+            globalQuickInput.remove();
+            globalQuickInput = undefined;
+            callback(value);
+        }
+    }
+
     /**
      * API:
      */
@@ -1718,6 +1786,18 @@ var MaterialInputsModule = (function(window, document, undefined) {
         compareTimesApi : function (time1, time2) {
             return TimeInput.compareTimes(time1, time2);
         },
+        /**
+         * This api function enables other Modules to quickly create a single input element that can be used inline to briefly change data on the fly
+         * @param width {Number} The width of the inline-block) element this input will quickly and briefly replace
+         * @param value {string} The value that this input should have
+         * @param callback {function} The function is called when this input element is exited and the value of this input element is given as a parameter
+         * @param insertBefore {HTMLElement} The element before which the quick input should be inserted
+         * @param inputValidation {function} This optional function checks the content of the quick input
+         * @return {HTMLElement}
+         */
+        createQuickInputApi : function (width, value, callback, insertBefore, inputValidation) {
+            return createQuickInput(width, value, callback, insertBefore, inputValidation);
+        }
     }
 
 })(window, document);

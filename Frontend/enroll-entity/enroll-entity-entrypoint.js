@@ -11,6 +11,8 @@ function init(window, document, undefined) {
     LoadModule.loadModuleApi("../js/Modules/FormModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/TagModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/TableModule.js", true);
+    LoadModule.loadModuleApi("../js/Modules/TableActionsModule.js", true);
+    LoadModule.loadModuleApi("../js/Modules/TableFilterModule.js", true);
     LoadModule.loadModuleApi("../js/sites/enroll-entity.js", true);
 
 }

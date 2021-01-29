@@ -147,10 +147,6 @@
   background-color: var(--theme-color-3);
 }
 
-.table tr.hidden {
-  display: none;
-}
-
 .table td {
   padding: 0.5em 0.5em 0.5em 1em;
   display: table-cell;

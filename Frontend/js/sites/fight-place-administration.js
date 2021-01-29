@@ -13,13 +13,12 @@
 
         let counter = document.querySelectorAll("div.fight-place").length + 1;
         let name = "Pool " + counter;
-        let inputContainer = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.TEXT, undefined, undefined, "fight-place-name", "Bezeichnung", name, undefined, undefined);
-        ModalModule.confirmModalApi("Pool hinzufügen", inputContainer, function () {
-            let inputObject = MaterialInputsModule.getInputObjectApi(inputContainer);
-            let value = inputObject.getValue();
+        let input = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.TEXT, undefined, undefined, "fight-place-name", "Bezeichnung", name, undefined, undefined);
+        ModalModule.confirmModalApi("Pool hinzufügen", input.inputContainer, function () {
+            let value = input.getValue();
             let fightPlace = createFightPlace(value)
             fightPlacesContainer.appendChild(fightPlace);
-        });
+        }, undefined, undefined);
 
     });
 
@@ -36,7 +35,7 @@
         return fightPlace;
     }
 
-    let removedInput = false;
+    let renameH2 = undefined;
 
     fightPlacesContainer.addEventListener("click", function (e) {
         let target = e.target;
@@ -53,23 +52,12 @@
         // rename fight place
         if (target.classList.contains("rename")) {
             let h2 = fightPlace.querySelector("h2.fight-place-name");
-            removedInput = false;
-            let width = h2.offsetWidth;
-            h2.style.display = "none";
-            let nameInput = GeneralModule.generateElementApi("input", ["fight-place-name"]);
-            nameInput.value = h2.innerText;
-            fightPlace.appendChild(nameInput);
-            nameInput.style.width = width + "px";
-            nameInput.focus();
-            nameInput.addEventListener("focusout", function() {
-                endInput(nameInput, fightPlace);
-            });
-            nameInput.addEventListener("keydown", function (e) {
-                let keyCode = e.which || e.keyCode;
-                if (keyCode === 13) {
-                    endInput(nameInput, fightPlace);
-                }
-            });
+            renameH2 = h2;
+            let width = h2.offsetWidth - 40;
+            h2.classList.add("no-display");
+            let value = h2.innerText;
+            let nextSibling = fightPlace.querySelector(".primary-button.rename");
+            MaterialInputsModule.createQuickInputApi(width, value, endInput, nextSibling);
             return;
         }
 
@@ -92,19 +80,10 @@
         }
     });
 
-    function endInput(input, fightPlace) {
-        if (!removedInput) {
-            let valueTarget = fightPlace.querySelector("h2.fight-place-name");
-            removedInput = true;
-            let value = input.value.trim();
-            if (value === "") {
-                input.focus();
-                return;
-            }
-            input.remove();
-            valueTarget.innerHTML = value;
-            valueTarget.style.removeProperty("display");
-        }
+    function endInput(value) {
+            renameH2.innerHTML = value;
+            renameH2.classList.remove("no-display");
+            renameH2 = undefined;
     }
 
 })(window, document);

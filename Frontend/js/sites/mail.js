@@ -31,7 +31,7 @@
 
     sendButton.addEventListener("click", function (e) {
       e.preventDefault();
-      if (FormModule.checkFormApi(mailForm)) {
+      if (FormModule.checkFormApi(mailForm, true)) {
         document.getElementsByTagName("body")[0].classList.add("sent");
         window.setTimeout(function () {
           envelope.innerHTML = "mail";

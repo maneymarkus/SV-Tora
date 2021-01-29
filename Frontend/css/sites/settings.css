@@ -12,7 +12,7 @@ main a {
 }
 
 label span.fight-time {
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   font-weight: bold;
 }
 

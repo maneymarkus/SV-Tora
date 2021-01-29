@@ -5,7 +5,7 @@ if (typeof $ === "undefined") {
 /**
  * This Module contains code responsible for tilting elements
  */
-var TooltipModule = (function(window, document, undefined) {
+var TiltModule = (function(window, document, undefined) {
 
   /**
    * DEPENDENCIES

@@ -2,16 +2,20 @@
 .registration-container {
   background: radial-gradient(circle at 100% 100%, var(--theme-color-3) 65%, var(--accent-color-1-dark));
   position: relative;
-  min-width: 20rem;
+  min-width: 22rem;
   width: 50%;
   max-width: 50rem;
   border-radius: 10px;
   box-shadow: 0 5px 15px 2px var(--box-shadow);
-  padding: 1rem 3rem 3rem;
+  padding: 1rem 1.5rem 3rem;
   overflow: hidden;
   border: 10px solid rgba(0, 0, 0, 0.3);
   z-index: 5;
   transition: 0.5s ease;
+}
+
+.registration-container {
+  background: radial-gradient(circle at 0% 100%, var(--theme-color-3) 65%, var(--accent-color-1-dark));
 }
 
 .login-container:before {
@@ -83,7 +87,10 @@
 }
 
 @media only screen and (min-width: 992px) {
-
+  .login-container,
+  .registration-container {
+    padding: 1rem 3rem 3rem;
+  }
 }
 
 @media only screen and (min-width: 1200px) {

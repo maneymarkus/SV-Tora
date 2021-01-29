@@ -3,7 +3,7 @@
  */
 (function (window, document, undefined) {
 
-  let dependencies = ["PrimaryButtonModule", "SecondaryButtonModule", "MaterialInputsModule", "ModalModule", "FormModule", "TranslationModule", "TagModule"];
+  let dependencies = ["PrimaryButtonModule", "SecondaryButtonModule", "MaterialInputsModule", "ModalModule", "FormModule", "TranslationModule", "TagModule", "TiltModule"];
   GeneralModule.checkDependenciesApi(dependencies);
 
   let body = document.querySelector("body");
@@ -154,7 +154,7 @@
     }
 
     /**
-     * This block handles the switch to competition mode
+     * This block handles the switching to competition mode
      */
 
     let fightModeButton = document.querySelector("a.fight-mode");
@@ -165,6 +165,7 @@
       if (checkPreparation()) {
         if (checkDate()) {
           // everything is fine so just do nothing and follow the link :)
+          // TODO: Switch to competition mode
         } else {
           e.preventDefault();
           let targetUrl = fightModeButton.getAttribute("href");
@@ -238,7 +239,9 @@
      * This function ends a successfully completed tournament and clears this page, making it available for new tournaments to be hosted
      */
     function completeTournament() {
-      ModalModule.infoModalApi("Wettkampf erfolgreich abgeschlossen", "Ich hoffe, ihr habt den Wettkampf ebenfalls erfolgreich abgeschlossen. Ich bin nun jedenfalls damit durch und will nichts mehr damit zu tun haben.");
+      ModalModule.infoModalApi("Wettkampf erfolgreich abgeschlossen", "Ich hoffe, ihr habt den Wettkampf ebenfalls erfolgreich abgeschlossen. Ich bin nun jedenfalls damit durch und will nichts mehr damit zu tun haben.", function () {
+        // TODO: Archive tournament
+      });
     }
 
     /**
@@ -572,8 +575,6 @@
 
 
   if (document.querySelector("main.no-tournament")) {
-
-    const tournamentTilt = $('.host-tournament').tilt({maxTilt: 15, scale: 1.1});
 
     let createTournamentBtn = document.querySelector(".host-tournament");
 

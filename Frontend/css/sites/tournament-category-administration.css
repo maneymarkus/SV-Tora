@@ -1,26 +1,12 @@
-.bar-header input.category-name {
-  background-color: rgba(74, 74, 74, 0.75);
-  border: none;
-  color: white;
-  font-weight: bold;
-  display: inline;
-  min-width: 1em;
+h3 {
+  text-align: center;
+  font-size: 2rem;
+  text-shadow: 1px 1px 3px var(--text-shadow);
+}
+
+.bar-header input.quick-input {
   margin-right: 0.5em;
-  font-style: italic;
-  animation: color-blink 0.5s ease infinite alternate;
-}
-
-@keyframes color-blink {
-  from {
-    color: white;
-  }
-  to {
-    color: #2699FB;
-  }
-}
-
-.bar-header input.category-name:focus {
-  outline: none;
+  padding: 0 0.5rem;
 }
 
 .bar-header .tools {
@@ -45,7 +31,7 @@
 }
 
 .primary-button i {
-  font-size: 3.5em;
+  font-size: 3em;
 }
 
 .bar-content table, .bar-content th {
@@ -59,7 +45,7 @@
 }
 
 .bar-content tr {
-  border-bottom: 1px solid #222222;
+  border-bottom: 1px solid var(--theme-color-4);
 }
 
 .bar-content table td {
@@ -75,7 +61,9 @@
 }
 
 @media only screen and (min-width: 768px) {
-
+  h3 {
+    font-size: 2.5rem;
+  }
 }
 
 @media only screen and (min-width: 992px) {

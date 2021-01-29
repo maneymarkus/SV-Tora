@@ -9,20 +9,20 @@ main {
 
 .fight-place {
   position: relative;
-  background-color: #171717;
+  background-color: var(--theme-color-1);
   display: inline-block;
   width: 18em;
   height: 18em;
   font-size: 0.75rem;
-  box-shadow: 0 2px 6px 2em black;
-  outline: 2em solid #171717;
-  border: 2em solid #4A4A4A;
+  box-shadow: 0 2px 6px 2em var(--box-shadow);
+  outline: 2em solid var(--theme-color-1);
+  border: 2em solid var(--theme-color-4);
   margin: 3em;
   transition: 0.2s ease;
 }
 
 .fight-place:hover {
-  outline-color: #2699FB;
+  outline-color: var(--accent-color-1-light);
 }
 
 .fight-place:before,
@@ -33,7 +33,7 @@ main {
   width: 2em;
   height: 4em;
   transform: translateY(-50%);
-  background-color: #4A4A4A;
+  background-color: var(--theme-color-4);
 }
 
 .fight-place:before {
@@ -53,17 +53,14 @@ main {
   transform: translateX(-50%);
   margin: 0;
   font-size: 2em;
-  text-shadow: 2px 2px 4px black;
-  color: #3D76E1;
+  text-shadow: 2px 2px 4px var(--text-shadow);
+  color: var(--accent-color-1-dark);
   font-style: italic;
 }
 
-.fight-place input {
-  background-color: #222222;
-  border: none;
+.fight-place input.quick-input {
   padding: 0.25em;
   top: calc(5% - 0.25em);
-  box-shadow: 0 3px 5px 2px black, 0 0 5px 5px white;
 }
 
 .fight-place .primary-button {
@@ -74,11 +71,11 @@ main {
 }
 
 .fight-place .rename {
-  left: 2em;
+  left: 2.5em;
 }
 
 .fight-place .delete {
-  right: 2em;
+  right: 2.5em;
 }
 
 .fight-place p.fights {
@@ -93,7 +90,7 @@ main {
 }
 
 .fight-place p.fights span {
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   font-weight: bold;
   font-size: 1.5em;
   vertical-align: middle;

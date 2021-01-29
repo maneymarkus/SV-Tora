@@ -1,11 +1,11 @@
 /*******************************************************************
-  THE FOLLOWING STYLES APPLY IF THERE IS NO COMPETITION CURRENTLY
+  THE FOLLOWING STYLES APPLY IF THERE IS NO TOURNAMENT CURRENTLY
  *******************************************************************/
 
 main.no-tournament {
   text-align: center;
   padding-top: 3rem;
-  color: #BFBFBF;
+  color: var(--theme-color-5);
   font-style: italic;
   transform-style: preserve-3d;
 }
@@ -16,7 +16,7 @@ main.no-tournament {
 
 .no-tournament .host-tournament {
   border-radius: 10px;
-  border: 3px dashed #BFBFBF;
+  border: 3px dashed var(--theme-color-5);
   padding: 5rem 5rem 2rem 5rem;
   width: 50%;
   position: relative;
@@ -26,31 +26,30 @@ main.no-tournament {
   transform-style: preserve-3d;
   cursor: pointer;
   background: rgba(74, 74, 74, 0.5);
-  box-shadow: 3px 3px 10px 3px black;
+  box-shadow: 3px 3px 10px 3px var(--box-shadow);
 }
 
 .no-tournament .host-tournament:hover {
-  border: 3px dashed white;
+  border: 3px dashed var(--text-color);
   transform: translateZ(10px);
-  box-shadow: 3px 3px 30px 10px black;
+  box-shadow: 3px 3px 30px 10px var(--box-shadow);
 }
 
 .no-tournament i {
   font-size: 3rem;
   border-radius: 50%;
-  border: 3px solid #BFBFBF;
+  border: 3px solid var(--theme-color-5);
   padding: 2rem;
-  color: #BFBFBF;
   transition: 0.2s ease;
   transform-style: preserve-3d;
-  box-shadow: 0 0 15px 0 black;
+  box-shadow: 0 0 15px 0 var(--box-shadow);
 }
 
 .host-tournament:hover i {
-  border-color: white;
-  color: white;
+  border-color: var(--text-color);
+  color: var(--text-color);
   transform: translateZ(20px);
-  box-shadow: 0 0 25px 3px black;
+  box-shadow: 0 0 25px 3px var(--box-shadow);
 }
 
 .host-tournament i:hover {
@@ -59,17 +58,16 @@ main.no-tournament {
 
 .no-tournament .host-tournament p {
   margin-top: 3rem;
-  color: #BFBFBF;
   font-size: 1.5rem;
   transition: 0.2s ease;
   transform-style: preserve-3d;
-  text-shadow: 0 0 3px black;
+  text-shadow: 0 0 3px var(--text-shadow);
 }
 
 .no-tournament .host-tournament:hover p {
-  color: white;
+  color: var(--text-color);
   transform: translateZ(60px);
-  text-shadow: 0 0 20px black;
+  text-shadow: 0 0 20px var(--text-shadow);
 }
 
 /*********************************************************************
@@ -88,16 +86,20 @@ main h1 {
   position: relative;
   width: 100%;
   border-radius: 10px;
-  box-shadow: 3px 3px 15px 5px black;
-  background-color: rgba(23, 23, 23, 0.75);
-  color: white;
+  box-shadow: 3px 3px 15px 5px var(--box-shadow);
+  background-color: rgba(232, 232, 232, 0.75);
+  color: var(--text-color);
   transition: 0.5s ease;
   margin-bottom: 2rem;
   padding: 0.5em 2em;
 }
 
+.darkmode .status-container {
+  background-color: rgba(23, 23, 23, 0.75);
+}
+
 .status-container:hover {
-  background-color: #303030;
+  background-color: var(--theme-color-3);
   transform: scale(1.05);
 }
 
@@ -107,12 +109,12 @@ main h1 {
 }
 
 .status-container h3 span {
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   transition: 0.5s ease;
 }
 
 .status-container:hover h3 span {
-  color: #2699FB;
+  color: var(--accent-color-1-light);
 }
 
 .status-container .step-container {
@@ -148,15 +150,15 @@ main h1 {
 }
 
 .step.done {
-  color: #4A4A4A;
+  color: var(--theme-color-4);
 }
 
 .step.current {
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
 }
 
 .status-container:hover .step.current {
-  color: #2699FB;
+  color: var(--accent-color-1-light);
 }
 
 .step:last-child:after {
@@ -172,12 +174,12 @@ main h1 {
   width: 100%;
   height: 0.1em;
   transition: 0.5s ease;
-  background-color: #303030;
+  background-color: var(--theme-color-3);
 }
 
 .status-container:hover .progress-bar {
   height: 0.2em;
-  background-color: #4A4A4A;
+  background-color: var(--theme-color-4);
 }
 
 .progress {
@@ -186,12 +188,12 @@ main h1 {
   left: 0;
   width: 0;
   height: 100%;
-  background-color: #3D76E1;
+  background-color: var(--accent-color-1-dark);
   transition: 0.5s ease;
 }
 
 .status-container:hover .progress {
-  background-color: #2699FB;
+  background-color: var(--accent-color-1-light);
 }
 
 .handle {
@@ -203,19 +205,19 @@ main h1 {
   height: 1em;
   width: 1em;
   border-radius: 50%;
-  background-color: #3D76E1;
+  background-color: var(--accent-color-1-dark);
   transition: 0.5s ease;
 }
 
 .status-container:hover .handle {
   transform: translateY(-50%) scale(1);
-  background-color: #2699FB;
+  background-color: var(--accent-color-1-light);
 }
 
 .tournament-container {
   border-radius: 10px;
-  border: 5px solid #171717;
-  box-shadow: 3px 3px 15px 5px black inset, 3px 3px 15px 5px black;
+  border: 5px solid var(--theme-color-1);
+  box-shadow: 3px 3px 15px 5px var(--box-shadow) inset, 3px 3px 15px 5px var(--box-shadow);
   width: 100%;
   text-align: center;
   padding-bottom: 1em;
@@ -224,21 +226,25 @@ main h1 {
 }
 
 .tournament-container:hover {
-  background-color: rgba(23, 23, 23, 0.3);
-  box-shadow: 3px 3px 40px 10px black inset, 3px 3px 20px 8px black;
+  background-color: rgba(232, 232, 232, 0.6);
+  box-shadow: 3px 3px 40px 10px var(--box-shadow) inset, 3px 3px 20px 8px var(--box-shadow);
   transform: scale(1.05);
 }
 
+.darkmode .tournament-container:hover {
+  background-color: rgba(23, 23, 23, 0.3);
+}
+
 .tournament-container h3 {
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   font-size: 2.5em;
   margin: 0.75em 0 0.5em 0;
   transition: 0.5s ease;
-  text-shadow: 2px 2px 5px black;
+  text-shadow: 2px 2px 5px var(--text-shadow);
 }
 
 .tournament-container:hover h3 {
-  color: #2699FB;
+  color: var(--accent-color-1-light);
 }
 
 .tournament-container p {
@@ -253,14 +259,14 @@ main h1 {
 
 .tournament-container span {
   font-size: 1.25em;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   margin: 0 1rem;
   transition: 0.5s ease;
-  text-shadow: 2px 2px 5px black;
+  text-shadow: 2px 2px 5px var(--text-shadow);
 }
 
 .tournament-container:hover span {
-  color: #2699FB;
+  color: var(--accent-color-1-light);
 }
 
 .container {
@@ -273,14 +279,14 @@ main h1 {
   width: 100%;
   border-radius: 10px;
   background-color: rgba(74, 74, 74, 0.75);
-  box-shadow: 3px 3px 10px 3px black;
+  box-shadow: 3px 3px 10px 3px var(--box-shadow);
   padding: 1em 2em;
   transition: 0.5s ease;
   position: relative;
 }
 
 .info:hover {
-  background-color: #4A4A4A;
+  background-color: var(--theme-color-4);
 }
 
 .info h3 {
@@ -290,16 +296,16 @@ main h1 {
   font-size: 2em;
   font-style: italic;
   text-align: center;
-  border-bottom: 2px solid #171717;
-  box-shadow: 0 15px 15px -15px black;
+  border-bottom: 2px solid var(--theme-color-1);
+  box-shadow: 0 15px 15px -15px var(--box-shadow);
 }
 
 .info p {
   position: relative;
   font-size: 1.25em;
-  text-shadow: 1px 1px 5px black;
-  border-bottom: 2px solid #171717;
-  box-shadow: 0 10px 15px -10px black;
+  text-shadow: 1px 1px 5px var(--text-shadow);
+  border-bottom: 2px solid var(--theme-color-1);
+  box-shadow: 0 10px 15px -10px var(--box-shadow);
 }
 
 .info p:before {
@@ -310,7 +316,7 @@ main h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #9B9B9B;
+  background-color: var(--theme-color-5);
 }
 
 .info p span {
@@ -327,14 +333,18 @@ main h1 {
   position: relative;
   width: 100%;
   border-radius: 10px;
-  background-color: rgba(23, 23, 23, 0.75);
+  background-color: rgba(232, 232, 232, 0.75);
   transition: 0.5s ease;
-  box-shadow: 3px 3px 15px 5px black;
+  box-shadow: 3px 3px 15px 5px var(--box-shadow);
   margin-top: 1em;
 }
 
+.darkmode .actions {
+  background-color: rgba(23, 23, 23, 0.75);
+}
+
 .actions:hover {
-  background-color: #303030;
+  background-color: var(--theme-color-3);
 }
 
 .actions:before {
@@ -375,27 +385,30 @@ main h1 {
  **************************************************************************/
 
 .topic-container {
-  background-color: #171717;
   display: block;
   position: relative;
   width: 100%;
   border-radius: 10px;
-  box-shadow: 0 3px 10px 3px black;
-  background-color: rgba(23, 23, 23, 0.75);
+  box-shadow: 0 3px 10px 3px var(--box-shadow);
+  background-color: rgba(232, 232, 232, 0.75);
   transition: 0.5s ease;
   padding: 0.5em 2em 1em;
   cursor: pointer;
 }
 
+.darkmode .topic-container {
+  background-color: rgba(23, 23, 23, 0.75);
+}
+
 .topic-container:hover {
-  background-color: #303030;
+  background-color: var(--theme-color-3);
   transform: scale(1.05);
 }
 
 .topic-container h3 {
   font-size: 1.5em;
   margin-top: 0.5em;
-  text-shadow: 2px 2px 4px black;
+  text-shadow: 2px 2px 4px var(--text-shadow);
 }
 
 .topic-container p {
@@ -413,7 +426,7 @@ main h1 {
 
 .topic-container p span {
   position: absolute;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   font-weight: bold;
   font-size: 1.5em;
   font-style: normal;
@@ -429,49 +442,49 @@ main h1 {
  **************************************************************************/
 
 a.fighting-systems {
-  border: 3px solid #B23A48;
-  box-shadow: 0 3px 10px 3px black, 0 0 5px 2px #B23A48 inset;
+  border: 3px solid var(--accent-color-2-dark);
+  box-shadow: 0 3px 10px 3px var(--box-shadow), 0 0 5px 2px var(--accent-color-2-dark) inset;
 }
 
 a.fighting-systems:hover {
-  border-color: #F71735;
-  box-shadow: 0 3px 10px 3px black, 0 0 10px 5px #F71735 inset;
+  border-color: var(--accent-color-2-light);
+  box-shadow: 0 3px 10px 3px var(--box-shadow), 0 0 10px 5px var(--accent-color-2-light) inset;
 }
 
 a.fighting-systems.prepared {
-  border: 3px solid #20BF55;
-  box-shadow: 0 3px 10px 3px black, 0 0 5px 2px #20BF55 inset;
+  border: 3px solid var(--accent-color-3-dark);
+  box-shadow: 0 3px 10px 3px var(--box-shadow), 0 0 5px 2px var(--accent-color-3-dark) inset;
 }
 
 a.fighting-systems.prepared:hover {
-  border-color: #5EFC8D;
-  box-shadow: 0 3px 10px 3px black, 0 0 10px 5px #5EFC8D inset;
+  border-color: var(--accent-color-3-light);
+  box-shadow: 0 3px 10px 3px var(--box-shadow), 0 0 10px 5px var(--accent-color-3-light) inset;
 }
 
 a.fighting-systems .count-prepared {
-  color: #20BF55;
+  color: var(--accent-color-3-dark);
   transition: 0.5s ease;
 }
 
 a.fighting-systems:hover .count-prepared {
-  color: #5EFC8D;
+  color: var(--accent-color-3-light);
 }
 
 a.fighting-systems .count-not-prepared {
-  color: #B23A48;
+  color: var(--accent-color-2-dark);
   transition: 0.5s ease;
 }
 
 a.fighting-systems:hover .count-not-prepared {
-  color: #F71735;
+  color: var(--accent-color-2-light);
 }
 
 a.fighting-systems.prepared .count-not-prepared {
-  color: #20BF55;
+  color: var(--accent-color-3-dark);
 }
 
 a.fighting-systems.prepared:hover .count-not-prepared {
-  color: #5EFC8D;
+  color: var(--accent-color-3-light);
 }
 
 /**************************************************************************
@@ -485,18 +498,22 @@ a.fighting-systems.prepared:hover .count-not-prepared {
   position: relative;
   width: 100%;
   border-radius: 10px;
-  box-shadow: 3px 3px 15px 5px black, 0 0 15px #3D76E1 inset;
-  background-color: rgba(23, 23, 23, 0.75);
-  color: white;
+  box-shadow: 3px 3px 15px 5px var(--box-shadow), 0 0 15px var(--accent-color-1-dark) inset;
+  background-color: rgba(232, 232, 232, 0.75);
+  color: var(--text-color);
   margin-bottom: 2rem;
   margin-top: 7rem;
-  border: 5px solid #3D76E1;
+  border: 5px solid var(--accent-color-1-dark);
   transition: 0.5s ease;
   font-size: 1rem;
 }
 
+.darkmode .persons-container {
+  background-color: rgba(23, 23, 23, 0.75);
+}
+
 .persons-container:hover {
-  border-color: #2699FB;
+  border-color: var(--accent-color-1-light);
 }
 
 .persons-container h3 {
@@ -507,13 +524,13 @@ a.fighting-systems.prepared:hover .count-not-prepared {
   left: 50%;
   transform: translateX(-50%);
   font-size: 2em;
-  color: white;
-  text-shadow: 2px 2px 8px black;
+  color: var(--text-color);
+  text-shadow: 2px 2px 8px var(--text-shadow);
   transition: 0.5s ease;
 }
 
 .persons-container:hover h3 {
-  color: #2699FB;
+  color: var(--accent-color-1-light);
   font-size: 2.5em;
 }
 
@@ -532,27 +549,27 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .group:hover {
-  background-color: #303030;
+  background-color: var(--theme-color-3);
 }
 
 .group:nth-child(1) {
-  border-right: 1px solid #303030;
-  border-bottom: 1px solid #303030;
+  border-right: 1px solid var(--theme-color-3);
+  border-bottom: 1px solid var(--theme-color-3);
 }
 
 .group:nth-child(2)  {
-  border-left: 1px solid #303030;
-  border-bottom: 1px solid #303030;
+  border-left: 1px solid var(--theme-color-3);
+  border-bottom: 1px solid var(--theme-color-3);
 }
 
 .group:nth-child(3) {
-  border-right: 1px solid #303030;
-  border-top: 1px solid #303030;
+  border-right: 1px solid var(--theme-color-3);
+  border-top: 1px solid var(--theme-color-3);
 }
 
 .group:nth-child(4) {
-  border-left: 1px solid #303030;
-  border-top: 1px solid #303030;
+  border-left: 1px solid var(--theme-color-3);
+  border-top: 1px solid var(--theme-color-3);
 }
 
 .group .circle {
@@ -560,10 +577,10 @@ a.fighting-systems.prepared:hover .count-not-prepared {
   width: 14em;
   height: 14em;
   border-radius: 50%;
-  border: 2px solid #3D76E1;
-  box-shadow: 0 0 20px 5px #3D76E1 inset, 0 0 5px 0 #2699FB;
+  border: 2px solid var(--accent-color-1-dark);
+  box-shadow: 0 0 20px 5px var(--accent-color-1-dark) inset, 0 0 5px 0 var(--accent-color-1-light);
   transition: 0.5s ease;
-  background-color: #171717;
+  background-color: var(--theme-color-1);
 }
 
 .group:nth-child(1) .circle {
@@ -587,15 +604,15 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .group:hover .circle {
-  background-color: #2699FB;
-  border: 2px solid #2699FB;
-  box-shadow: 0 0 0 0 #3D76E1 inset, 0 0 45px 5px #2699FB;
+  background-color: var(--accent-color-1-light);
+  border: 2px solid var(--accent-color-1-light);
+  box-shadow: 0 0 0 0 var(--accent-color-1-dark) inset, 0 0 45px 5px var(--accent-color-1-light);
 }
 
 .persons-container .number {
   position: absolute;
   font-size: 2.5em;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   display: inline-block;
   width: 3em;
   text-align: center;
@@ -623,7 +640,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .group:hover .number {
-  color: #171717;
+  color: var(--theme-color-1);
   font-weight: bold;
 }
 
@@ -631,7 +648,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
   position: absolute;
   text-decoration: none;
   font-size: 1.75em;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   transition: 0.5s ease;
   margin: 0;
   top: 50%;
@@ -641,7 +658,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .group:hover .text {
-  color: #2699FB;
+  color: var(--accent-color-1-light);
   transform: translate(-50%, -50%) scale(1.2);
 }
 
@@ -676,18 +693,22 @@ a.fighting-systems.prepared:hover .count-not-prepared {
   width: 100%;
   height: 15.5em;
   border-radius: 10px;
-  box-shadow: 3px 3px 15px 5px black, 0 0 15px #3D76E1 inset;
-  background-color: rgba(23, 23, 23, 0.75);
-  color: white;
-  border: 5px solid #3D76E1;
+  box-shadow: 3px 3px 15px 5px var(--box-shadow), 0 0 15px var(--accent-color-1-dark) inset;
+  background-color: rgba(232, 232, 232, 0.75);
+  color: var(--text-color);
+  border: 5px solid var(--accent-color-1-dark);
   transition: 0.5s ease;
   font-size: 1rem;
   margin-top: 7rem;
 }
 
+.darkmode .teams-container {
+  background-color: rgba(23, 23, 23, 0.75);
+}
+
 .teams-container:hover {
-  border-color: #2699FB;
-  background-color: #303030;
+  border-color: var(--accent-color-1-light);
+  background-color: var(--theme-color-3);
 }
 
 .teams-container h3 {
@@ -698,13 +719,13 @@ a.fighting-systems.prepared:hover .count-not-prepared {
   left: 50%;
   transform: translateX(-50%);
   font-size: 2em;
-  color: white;
-  text-shadow: 2px 2px 8px black;
+  color: var(--text-color);
+  text-shadow: 2px 2px 8px var(--text-shadow);
   transition: 0.5s ease;
 }
 
 .teams-container:hover h3 {
-  color: #2699FB;
+  color: var(--accent-color-1-light);
   font-size: 2.5em;
 }
 
@@ -723,22 +744,22 @@ a.fighting-systems.prepared:hover .count-not-prepared {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 2px solid #3D76E1;
-  box-shadow: 0 0 20px 5px #3D76E1 inset, 0 0 5px 0 #2699FB;
+  border: 2px solid var(--accent-color-1-dark);
+  box-shadow: 0 0 20px 5px var(--accent-color-1-dark) inset, 0 0 5px 0 var(--accent-color-1-light);
   transition: 0.5s ease;
-  background-color: #171717;
+  background-color: var(--theme-color-1);
 }
 
 .teams-container:hover .circle {
-  background-color: #2699FB;
-  border: 2px solid #2699FB;
-  box-shadow: 0 0 0 0 #3D76E1 inset, 0 0 45px 5px #2699FB;
+  background-color: var(--accent-color-1-light);
+  border: 2px solid var(--accent-color-1-light);
+  box-shadow: 0 0 0 0 var(--accent-color-1-dark) inset, 0 0 45px 5px var(--accent-color-1-light);
 }
 
 .teams-container .number {
   position: absolute;
   font-size: 2.5em;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   display: inline-block;
   width: 3em;
   text-align: center;
@@ -750,7 +771,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 
 .teams-container:hover .number {
   font-weight: bold;
-  color: #171717;
+  color: var(--theme-color-1);
 }
 
 .mode-control {
@@ -767,11 +788,11 @@ a.fighting-systems.prepared:hover .count-not-prepared {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  background-color: #171717;
+  background-color: var(--theme-color-1);
   padding: 1rem 3rem;
   border-radius: 10px;
-  box-shadow: 0 3px 10px 5px black, 0 0 6px 2px black inset;
-  border: 3px solid #303030;
+  box-shadow: 0 3px 10px 5px var(--box-shadow), 0 0 6px 2px var(--box-shadow) inset;
+  border: 3px solid var(--theme-color-3);
   z-index: 10001;
   overflow-x: auto;
   visibility: hidden;
@@ -810,29 +831,29 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .exclude-container:first-of-type h4 {
-  color: #B23A48;
+  color: var(--accent-color-2-dark);
 }
 
 .exclude-clubs-modal .excluded-clubs {
-  background-color: #222222;
+  background-color: var(--theme-color-2);
   padding: 1rem;
   border-radius: 3px;
-  box-shadow: 0 0 8px 2px black inset;
+  box-shadow: 0 0 8px 2px var(--box-shadow) inset;
   max-height: 10rem;
   overflow-x: auto;
 }
 
 .excluded-clubs .no-exclusion {
   font-style: italic;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   font-size: 1.25rem;
 }
 
 .exclude-clubs-modal .club-selection {
-  background-color: #222222;
+  background-color: var(--theme-color-2);
   padding: 1rem;
   border-radius: 3px;
-  box-shadow: 0 0 8px 2px black inset;
+  box-shadow: 0 0 8px 2px var(--box-shadow) inset;
   margin: 1.5rem 0;
   max-height: 15rem;
   overflow-x: auto;

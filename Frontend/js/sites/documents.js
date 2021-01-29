@@ -3,7 +3,7 @@
  */
 (function (window, document, undefined) {
 
-  let dependencies = ["ModalModule"];
+  let dependencies = ["MaterialInputsModule", "ModalModule"];
   GeneralModule.checkDependenciesApi(dependencies);
 
   let documentContainer = document.querySelector("div.document-reservoir");
@@ -59,22 +59,9 @@
     if (target.classList.contains("rename")) {
       removedInput = false;
       let width = documentNameSpan.offsetWidth;
-      documentNameSpan.style.display = "none";
-      let dNameInput = GeneralModule.generateElementApi("INPUT", ["document-name"]);
-      dNameInput.value = documentNameSpan.innerText;
-      documentInteraction.querySelector("div.document-meta").insertBefore(dNameInput, documentTypeSpan);
-      dNameInput.style.width = width + 50 + "px";
-      dNameInput.focus();
-      dNameInput.addEventListener("focusout", function() {
-        endInput(dNameInput);
-      });
-      dNameInput.addEventListener("keydown", function (e) {
-        let keyCode = e.which || e.keyCode;
-        if (keyCode === 13) {
-          endInput(dNameInput);
-        }
-      });
-      return;
+      documentNameSpan.classList.add("no-display");
+      let value = documentNameSpan.innerText;
+      MaterialInputsModule.createQuickInputApi(width, value, endInput, documentTypeSpan, undefined);
     }
 
     //delete chosen document
@@ -89,19 +76,10 @@
     }
   });
 
-  function endInput(input) {
-    if (!removedInput) {
-      removedInput = true;
-      let value = input.value.trim();
-      if (value === "") {
-        input.focus();
-        return;
-      }
-      input.remove();
-      documentNameSpan.innerHTML = value;
-      documentNameSpan.style.display = "inline-block";
-      chosenDocument.querySelector("p").innerHTML = value + documentTypeSpan.innerHTML.trim();
-    }
+  function endInput(value) {
+    documentNameSpan.innerHTML = value;
+    documentNameSpan.classList.remove("no-display");
+    chosenDocument.querySelector("p").innerHTML = value + documentTypeSpan.innerHTML.trim();
   }
 
 })(window, document);

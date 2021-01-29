@@ -7,7 +7,6 @@
   GeneralModule.checkDependenciesApi(dependencies);
 
   let main = document.querySelector("main");
-  let theaterOptions = TheaterModule.theaterOptions;
   let theater = TheaterModule.theater;
   let introduction = document.querySelector("h1.introduction");
   let registrationContainer = document.querySelector(".registration-container");
@@ -41,28 +40,10 @@
         }, 100);
       });
 
-  registerButton.addEventListener("click", function (e) {
-    e.preventDefault();
+
+  LoginRegistrationModule.setRegistrationSubmitFormFunctionApi(function () {
     let form = registrationContainer.querySelector("form");
-    if (FormModule.checkFormApi(form, true)) {
-      let body = document.querySelector("body");
-      LoaderModule.addSmallLoaderApi(registrationContainer);
-      //form.submit();
-    }
+    LoaderModule.addSmallLoaderApi(form);
   });
-
-  registrationContainer.addEventListener("input", function () {
-    let form = registrationContainer.querySelector("form");
-    if (FormModule.checkFormApi(form, false)) {
-      registerButton.classList.remove("disabled");
-    } else {
-      registerButton.classList.add("disabled");
-    }
-  });
-
-  let password1 = document.querySelector(".repeat-1");
-  let password2 = document.querySelector(".repeat-2");
-
-  FormModule.checkRepetitionApi(password1, password2);
 
 })(window, document);

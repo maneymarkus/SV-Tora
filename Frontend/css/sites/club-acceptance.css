@@ -1,13 +1,5 @@
-main h1 {
-  margin-bottom: 3rem;
-}
-
 main p {
   font-size: 2rem;
-}
-
-p span {
-  color: #3D76E1;
 }
 
 .decision {
@@ -21,16 +13,10 @@ p span {
   transform: scale(1);
 }
 
-.hidden {
-  visibility: hidden;
-  opacity: 0;
-  transform: scale(0.5);
-}
-
 .decision > p {
-  border-bottom: 2px solid #4A4A4A;
+  border-bottom: 2px solid var(--theme-color-4);
   padding-bottom: 0.25em;
-  box-shadow: 0 15px 10px -10px black;
+  box-shadow: 0 15px 10px -10px var(--box-shadow);
 }
 
 .decision a:first-child {

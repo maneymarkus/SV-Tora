@@ -11,7 +11,7 @@
   font-size: 2rem;
   margin-left: -1.5rem;
   margin-bottom: 1rem;
-  text-shadow: 2px 2px 6px black;
+  text-shadow: 2px 2px 6px var(--text-shadow);
 }
 
 .mail-content h3:first-child {
@@ -22,7 +22,7 @@ div.chosen-receivers {
   margin: 1rem 0;
   padding: 0.5rem 1rem 0 1rem;
   display: block;
-  border-bottom: 2px solid #3D76E1;
+  border-bottom: 2px solid var(--accent-color-1-dark);
   background-color: rgba(0, 0, 0, 0.25);
   vertical-align: bottom;
   max-height: 13.5rem;

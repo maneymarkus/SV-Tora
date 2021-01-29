@@ -48,33 +48,30 @@ var TranslationModule = (function(window, document, undefined) {
         if (required) {
             requiredClass = "required";
         }
-        let inputContainer = undefined;
+        let inputObject = undefined;
         if (keyToInput.has(key.toLowerCase())) {
             let inputType = keyToInput.get(key.toLowerCase());
             switch (inputType) {
                 case inputTypes.TEXT:
-                    inputContainer = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, key, undefined, undefined, undefined);
+                    inputObject = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, key, undefined, undefined, undefined);
                     if (value) {
-                        let inputObject = MaterialInputsModule.getInputObjectApi(inputContainer);
                         inputObject.setValue(value);
                     }
                     break;
                 case inputTypes.RADIO:
                 case inputTypes.CHECKBOX:
-                    inputContainer = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, undefined, undefined, undefined, value);
+                    inputObject = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, undefined, undefined, undefined, value);
                     break;
                 case inputTypes.DATE:
-                    inputContainer = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, key, undefined, undefined, undefined)
+                    inputObject = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, key, undefined, undefined, undefined)
                     if (value) {
-                        let dateInput = MaterialInputsModule.getInputObjectApi(inputContainer);
-                        dateInput.setValue(value);
+                        inputObject.setValue(value);
                     }
                     break;
                 case inputTypes.TIME:
-                    inputContainer = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, key, undefined, undefined, undefined)
+                    inputObject = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, key, undefined, undefined, undefined)
                     if (value) {
-                        let timeInput = MaterialInputsModule.getInputObjectApi(inputContainer);
-                        timeInput.setValue(value);
+                        inputObject.setValue(value);
                     }
                     break;
                 case inputTypes.SELECT:
@@ -86,13 +83,13 @@ var TranslationModule = (function(window, document, undefined) {
                             selected = item["value"];
                         }
                     });
-                    inputContainer = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, selected, undefined, undefined, options);
+                    inputObject = MaterialInputsModule.createInputApi(inputType, [requiredClass], undefined, key, selected, undefined, undefined, options);
                     break;
             }
         } else {
             console.log("This key: " + key + " is not known!");
         }
-        return inputContainer;
+        return inputObject;
     }
 
     /**
