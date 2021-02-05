@@ -3,8 +3,33 @@
  */
 (function(window, document, undefined) {
 
-    let dependencies = ["MaterialInputsModule", "AccordionModule", "CarouselModule", "ModalModule"];
+    let dependencies = ["MaterialInputsModule", "AccordionModule", "CarouselModule", "ModalModule", "CategoryModule", "PersonModule"];
     GeneralModule.checkDependenciesApi(dependencies);
+
+    let personTypes = GeneralModule.generalVariables.personTypes;
+    let fightingSystemTypes = GeneralModule.generalVariables.fightingSystemTypes;
+
+    let fighter1 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname1", "Nachname1", "SV Tora", "19.03.1997", "m", "1. Kyu");
+    let fighter2 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname2", "Nachname2", "SV Tora 1", "19.03.1997", "f", "2. Kyu");
+    let fighter3 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname3", "Nachname3", "SV Tora 2", "19.03.1999", "m", "4. Kyu");
+    let fighter4 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname4", "Nachname4", "SV Tora 3", "15.07.1999", "m", "1. Dan");
+    let fighter5 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname5", "Nachname5", "SV Tora 4", "15.07.1999", "f", "1. Dan");
+
+    let dogEatDog = FightingSystemModule.createFightingSystemApi(fightingSystemTypes.DOGEATDOG, [fighter1, fighter2]);
+
+    let binaryTree = FightingSystemModule.createBinaryFightTree_debug(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]);
+    binaryTree.buildTree();
+    console.log(binaryTree.findALlLeafNodes());
+
+
+    let tableSystem = FightingSystemModule.createFightingSystemApi(fightingSystemTypes.TABLES, [fighter1, fighter2, fighter3, fighter4, fighter5]);
+
+    function initializeCategoryObjects() {
+        // Todo: Call backend and retrieve all categories as objects
+    }
+
+
+
 
     let fightingAccordions = [];
 
@@ -33,6 +58,7 @@
                 target = target.parentElement;
             }
             CarouselModule.deactivateCarouselApi(carouselElement);
+
             if (target.classList.contains("bar-header")) {
                 CarouselModule.enableAllSlidesApi(carouselElement);
                 let categoryName = target.querySelector("span.category-name").innerHTML.trim();
@@ -50,6 +76,7 @@
                 }
                 return;
             }
+
             if (target.classList.contains("bar-content")) {
                 This.handleContentClick(originalTarget);
             }
@@ -59,14 +86,15 @@
             while (target.nodeName !== "BODY" && !target.classList.contains("fighting-system") && !target.classList.contains("print") && !target.classList.contains("edit-fighting-system")) {
                 target = target.parentElement;
             }
+
             if (target.classList.contains("fighting-system")) {
-                console.log("hi");
                 if (This.inheritance.openBar.classList.contains("prepared")) {
                     ModalModule.confirmModalApi("Kampfsystem wählen...", "Willst du wirklich ein anderes Kampfsystem wählen? Eventuelle Änderungen, die du schon gemacht hast, werden damit überschrieben und das kann nicht rückgängig gemacht werden.", This.chooseFightingSystem);
                 } else {
                     This.chooseFightingSystem();
                 }
             }
+
             if (target.classList.contains("print")) {
                 let printOptions = []
                 printOptions.push({"text" : "Teilnehmerliste", "value" : "member-list", "checked" : false});
@@ -76,12 +104,18 @@
                     printOptions.push({"text": "Kampfsystem", "value": "fight-system", "checked": false, "disabled" : true});
                 }
                 let printChoice = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.CHECKBOX, [], undefined, "print-choice", undefined, undefined, undefined, printOptions);
-                ModalModule.confirmModalApi("Drucken", printChoice, function () {
+                ModalModule.confirmModalApi("Drucken", printChoice.inputContainer, function () {
                     ModalModule.infoModalApi("Drucken", "Der Drucker ist gemein und mit so jemandem möchte ich nicht zusammen arbeiten. Sorry :/");
                 });
             }
+
             if (target.classList.contains("edit-fighting-system")) {
-                ModalModule.infoModalApi("Kampfsystem anpassen.", "Wir passen jetzt das Kampfsystem an. Gleich. Einen Moment noch. Dauert noch kurz. Ich muss noch kurz was machen. Etwas Geduld noch. Geht gleich los. Kleinen Augenblick bitte noch. Warte. Jetzt gleich. Einen Moment noch. Ich geb dir Bescheid.");
+                let bar = target;
+                while (bar.nodeName !== "BODY" && !bar.classList.contains("accordion-bar")) {
+                    bar = bar.parentElement;
+                }
+                let categoryName = bar.querySelector(".bar-header span.category-name").innerHTML.trim();
+                changeFightingSystemParameter(categoryName);
             }
         }
 
@@ -116,6 +150,10 @@
         }
 
     };
+
+    function changeFightingSystemParameter(categoryName) {
+        tableSystem.change();
+    }
 
     function disableFightingSystem(system) {
         let slide = CarouselModule.getSlideByContentApi(carouselElement, "h3", system);

@@ -1,53 +1,3 @@
-.go-back {
-  position: fixed;
-  top: 0;
-  left: 0;
-  color: var(--accent-color-1-dark);
-  background-color: #171717;
-  z-index: 1000;
-  text-decoration: none;
-  border-radius: 0 0 100% 0;
-  height: 5rem;
-  width: 5rem;
-  transition: 0.2s ease;
-  border-right: 3px solid var(--accent-color-1-dark);
-  border-bottom: 3px solid var(--accent-color-1-dark);
-  box-shadow: 0 0 10px 0 black;
-  text-shadow: 2px 2px 3px black;
-}
-
-.go-back:hover {
-  background-color: #303030;
-  box-shadow: 0 0 15px 5px black;
-  color: var(--accent-color-1-light);
-  border-color: #303030;
-  transform: translate(0.25rem, 0.25rem) scale(1.1);
-}
-
-.go-back:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 0 0 5em 0;
-  transition: 0.2s ease;
-  border-right: 2px solid var(--accent-color-1-light);
-  border-bottom: 2px solid var(--accent-color-1-light);
-  box-shadow: -10px -10px 10px -10px var(--accent-color-1-light) inset;
-  z-index: -1;
-}
-
-.go-back:hover:before {
-  transform: translate(1rem, 1rem) scale(1.5);
-}
-
-.go-back i {
-  font-size: 3rem;
-  padding: 0.5rem;
-}
-
 .meta-info {
   position: fixed;
   display: flex;
@@ -60,18 +10,7 @@
   transform: translateX(-50%);
   font-size: 0.75rem;
   z-index: 100;
-}
-
-.meta-info.top {
   padding: 1.25em 0 2em 0;
-}
-
-.meta-info.bottom {
-  padding: 2em 0 1.25em 0;
-}
-
-.meta-info.bottom {
-  bottom: 0;
 }
 
 .meta-info:before {
@@ -81,18 +20,10 @@
   height: 80%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: black;
-  box-shadow: 0 0 25px 15px black;
-}
-
-.meta-info.top:before {
+  background-color: var(--box-shadow);
+  box-shadow: 0 0 25px 15px var(--box-shadow);
   top: -25%;
   border-radius: 0 0 5em 5em;
-}
-
-.meta-info.bottom:before {
-  bottom: -25%;
-  border-radius: 5em 5em 0 0;
 }
 
 .chunk {
@@ -109,14 +40,18 @@
 .chunk.main .value {
   font-size: 2em;
   top: -0.2em;
-  color: white;
+  color: var(--text-color);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
+}
+
+.darkmode .chunk.main .value {
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.75);
 }
 
 .chunk .value {
   font-size: 1.5em;
-  text-shadow: 2px 2px 5px black;
-  color: #A8A8A8;
+  text-shadow: 2px 2px 5px var(--text-shadow);
+  color: var(--text-color);
 }
 
 .chunk span {
@@ -137,38 +72,15 @@
   left: 0;
   top: 60%;
   margin: 0;
-  border: 1px solid white;
-}
-
-.top .separator {
-  border: 1px dashed white;
+  border: 1px solid var(--text-color);
 }
 
 .chunk .key {
   bottom: 0;
   font-size: 0.9em;
-  color: #9B9B9B;
+  color: var(--theme-color-5);
 }
 
-main.fight-map {
-  min-width: 150rem;
-  height: auto;
-  padding: 20rem;
-  overflow: scroll;
-  font-size: 1rem; /* ADJUST SIZE */
-}
-
-/*****************************************************************
-            MAP-CONTROLS
- ****************************************************************/
-
-.map-controls {
-  top: auto;
-  left: auto;
-  bottom: 6em;
-  right: 2em;
-  font-size: 0.6rem;
-}
 
 /*****************************************************************
            FIGHT-TREES for KO-System, Doppel-KO-System
@@ -188,7 +100,7 @@ main.fight-map {
 
 .tree .column:nth-child(1) .fight {
   height: 4em;
-  margin-bottom: 3em;
+  margin-bottom: 4em;
 }
 
 .tree .column:nth-child(2) {
@@ -196,35 +108,69 @@ main.fight-map {
 }
 
 .tree .column:nth-child(2) .fight {
-  height: 7.2em;
-  margin-bottom: 7.1em;
+  height: 8em;
+  margin-bottom: 8em;
 }
 
 .tree .column:nth-child(3) {
-  padding-top: 5.5em;
+  padding-top: 6em;
 }
 
 .tree .column:nth-child(3) .fight {
-  height: 14.6em;
-  margin-bottom: 14.3em;
+  height: 16em;
+  margin-bottom: 16em;
 }
 
 .tree .column:nth-child(4) {
-  padding-top: 12.8em;
+  padding-top: 14em;
 }
 
 .tree .column:nth-child(4) .fight {
-  height: 29.2em;
+  height: 32em;
+  margin-bottom: 32em;
 }
 
 .tree .column:nth-child(5) {
-  padding-top: 27.3em;
+  padding-top: 30em;
+}
+
+.tree .column:nth-child(5) .fight {
+  height: 64em;
+  margin-bottom: 64em;
+}
+
+.tree .column:nth-child(6) {
+  padding-top: 62em;
+}
+
+.tree .column:nth-child(6) .fight {
+  height: 128em;
+  margin-bottom: 128em;
+}
+
+.tree .column:nth-child(7) {
+  padding-top: 126em;
+}
+
+.tree .column:nth-child(7) .fight {
+  height: 256em;
+  margin-bottom: 256em;
+}
+
+.tree .column:nth-child(8) {
+  padding-top: 254em;
+}
+
+.tree .column:nth-child(8) .fight {
+  height: 512em;
+  margin-bottom: 512em;
 }
 
 .tree .fight {
   position: relative;
+  top: 0;
   left: 0;
-  display: inline-block;
+  display: block;
   width: 100%;
   height: 10em;
   border-right: 0.1em solid white;
@@ -501,7 +447,7 @@ table, th, td {
   margin-right: 1.5em;
 }
 
-.dog-eat-dog .position {
+.dog-eat-dog .number {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -517,11 +463,11 @@ table, th, td {
   transition: 0.2s ease;
 }
 
-.dog-eat-dog .fight:hover .position {
+.dog-eat-dog .fight:hover .number {
   background-color: var(--accent-color-1-light);
 }
 
-.dog-eat-dog .position:after {
+.dog-eat-dog .number:after {
   content: ':';
   position: absolute;
   top: 1.5em;
@@ -604,10 +550,6 @@ table, th, td {
     width: 90%;
     font-size: 1rem;
   }
-
-  .map-controls {
-    font-size: 0.8rem;
-  }
 }
 
 @media only screen and (min-width: 992px) {
@@ -620,9 +562,5 @@ table, th, td {
 @media only screen and (min-width: 1200px) {
   .meta-info {
     width: 900px;
-  }
-
-  .map-controls {
-    font-size: 0.9rem;
   }
 }

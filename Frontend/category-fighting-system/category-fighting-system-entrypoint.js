@@ -9,6 +9,9 @@ function init(window, document, undefined) {
     LoadModule.loadModuleApi("../js/Modules/MaterialInputsModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/AccordionModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/CarouselModule.js", true);
+    LoadModule.loadModuleApi("../js/Modules/FightingSystemModule.js", true);
+    LoadModule.loadModuleApi("../js/Modules/CategoryModule.js", true);
+    LoadModule.loadModuleApi("../js/Modules/PersonModule.js", true);
     LoadModule.loadModuleApi("../js/sites/category-fighting-system.js", true);
 
 }

@@ -66,10 +66,10 @@ main.blur {
   min-width: 25em;
   width: 50%;
   max-width: 60em;
-  top: 10rem;
+  top: 40%;
   left: 50%;
   z-index: 100;
-  transform: translateX(-50%) scale(0);
+  transform: translateY(-50%) translateX(-50%) scale(0);
   transition: 0.5s ease 0.5s;
   font-size: 1rem; /* ADJUST Size individually */
   background-color: var(--theme-color-4);
@@ -91,7 +91,7 @@ main.blur {
 }
 
 .open .modal-window {
-  transform: translateX(-50%) scale(1);
+  transform: translateY(-50%) translateX(-50%) scale(1);
 }
 
 a.primary-button.close-modal {
@@ -142,7 +142,7 @@ a.primary-button.close-modal i {
   font-size: 1.5em;
   padding: 0.5em 1em 1.5em;
   overflow-y: auto;
-  max-height: 13em;
+  max-height: 18em;
   word-wrap: break-word;
 }
 

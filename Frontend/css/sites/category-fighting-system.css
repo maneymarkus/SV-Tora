@@ -3,13 +3,6 @@ main {
   padding-bottom: 5rem;
 }
 
-main h3 {
-  text-align: center;
-  font-size: 2rem;
-  border-bottom: 3px solid var(--theme-color-4);
-  box-shadow: 0 15px 10px -10px var(--box-shadow);
-}
-
 .accordion {
   margin-bottom: 4rem;
 }

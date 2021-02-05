@@ -4,6 +4,9 @@
  */
 var FormModule = (function(window, document, undefined) {
 
+    /**
+     * DEPENDENCIES
+     */
     let dependencies = ["MaterialInputsModule"];
     GeneralModule.checkDependenciesApi(dependencies);
 

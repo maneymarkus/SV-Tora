@@ -275,7 +275,7 @@ var MaterialInputsModule = (function(window, document, undefined) {
          * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
          * @param name {string} Sets the name attribute on the input element for identification in general
          * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch or range
-         * @param value {string} Sets either the value attribute of switches or the value of text inputs, textareas or range inputs
+         * @param value {string || number} Sets either the value attribute of switches or the value of text inputs, textareas or range inputs
          * @param checked {boolean} Optional: Determines if switch to be checked
          * @param options {string[] || object[]} This should be an array of strings to determine the different options for the select or this is an array of objects with the properties "text" (string), "value" (string), "checked" (boolean) and optional "disabled" (boolean) for the different options of checkboxes and radio buttons
          * @returns {object}
@@ -1608,7 +1608,7 @@ var MaterialInputsModule = (function(window, document, undefined) {
 
         /**
          * This function creates a new range input object and returns it
-         * @param classes {string} The class names that should be added to the input-container
+         * @param classes {string[]} The class names that should be added to the input-container
          * @param id {string} The id to connect the label to the input element
          * @param name {string} The value of the name attribute
          * @param text {string} Sets the content of the label which accompanies the input

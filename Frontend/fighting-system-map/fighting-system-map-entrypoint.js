@@ -9,7 +9,8 @@ function init(window, document, undefined) {
     LoadModule.loadModuleApi("../js/Modules/ModalModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/TranslationModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/FormModule.js", true);
-    LoadModule.loadModuleApi("../js/sites/fight-map.js", true);
+    LoadModule.loadModuleApi("../js/Modules/MapModule.js", true);
+    LoadModule.loadModuleApi("../js/sites/fighting-system-map.js", true);
 
 }
 

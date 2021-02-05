@@ -336,7 +336,7 @@ var CarouselModule = (function(window, document, undefined) {
      * @return {HTMLElement}
      */
     getSlideByContentApi : function (carouselElement, elementSelector, searchQuery) {
-      if (carouselElement.classList.contains("carousel")) {
+      if (carouselElement.classList.contains("carousel-container")) {
         let slide = undefined;
         carousels.forEach((carousel) => {
           if (carousel.carouselElement === carouselElement) {

@@ -369,6 +369,23 @@ var GeneralModule = (function(window, document, undefined) {
      */
     const tournaments = ["Nachwuchsturnier", "Tora-Pokal", "Weihnachtsturnier"];
 
+    const personTypes = {
+        FIGHTER: "Starter",
+        COACH: "Coach",
+        REFEREE: "Kampfrichter",
+        HELPER: "Helfer",
+    }
+
+    const fightingSystemTypes = {
+        DOGEATDOG: "Jeder-Gegen-Jeden",
+        TABLES: "Tafelsystem",
+        DOUBLEKOWITHTABLES: "Doppel-KO-System mit finalen Tafeln",
+        DOUBLEKO: "Doppel-KO-System",
+        KO: "KO-System",
+        KOWITHTABLES: "KO-System mit finalen Tafeln",
+        BRAZILIANKO: "Brasilianisches KO-System",
+    }
+
     /**
      * This constant holds a map which maps a (custom application) key (e.g. column (headers) to input types in conventional tables
      * @type {Map<string, any>}
@@ -492,6 +509,8 @@ var GeneralModule = (function(window, document, undefined) {
         excludedClubs,
         tournamentStatuus,
         tournamentSelectableStatuus,
+        personTypes,
+        fightingSystemTypes,
     };
 
     /**
