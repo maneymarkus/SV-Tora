@@ -10,7 +10,7 @@ var PrimaryButtonModule = (function (window, document, undefined) {
   /**
    * DEPENDENCIES
    */
-  let dependencies = ["$"];
+  let dependencies = ["TiltModule"];
   GeneralModule.checkDependenciesApi(dependencies);
 
   let primaryButtons = [];
@@ -25,11 +25,8 @@ var PrimaryButtonModule = (function (window, document, undefined) {
     this.primaryButtonElement = button;
     this.enabled = !this.primaryButtonElement.classList.contains("disabled");
 
-    // universal tilt options
-    this.tiltOptions = {maxTilt: 15, scale: 1.15};
-
     // enable the tilt effect on the primary button element
-    $(this.primaryButtonElement).tilt(this.tiltOptions);
+    TiltModule.registerTiltElementApi(this.primaryButtonElement);
 
     /**
      * This function disables a primary button (is not clickable anymore)
@@ -74,6 +71,7 @@ var PrimaryButtonModule = (function (window, document, undefined) {
     }
     button.appendChild(GeneralModule.generateElementApi("i", ["material-icons"], iconName));
     button.appendChild(GeneralModule.generateElementApi("p", [], text));
+    TiltModule.registerTiltElementApi(button);
     return button;
   }
 

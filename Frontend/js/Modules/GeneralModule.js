@@ -61,7 +61,8 @@ var GeneralModule = (function(window, document, undefined) {
     const modalTypes = {
         DELETE: "delete",
         INFO: "info",
-        CONFIRM: "confirm"
+        CONFIRM: "confirm",
+        CUSTOM: "custom",
     }
 
     /**
@@ -107,6 +108,12 @@ var GeneralModule = (function(window, document, undefined) {
      * @type {string[]}
      */
     const tournamentSelectableStatuus = ["Anmeldung freigeschalten", "Anmeldung geschlossen", "Wettkampftag", "Wettkampf abgeschlossen"];
+
+    /**
+     * This constant contains all the different statuses of a category in a tournament context. A category can be "in preparation" (the category is being prepared for the tournament), "ready" (to be executed), "active" (currently executed) and "done" (the category has been successfully finished)
+     * @type {string[]}
+     */
+    const categoryStatuus = ["In Vorbereitung", "Bereit", "Aktiv", "Durchgeführt"];
 
     /**
      * This constant contains all the different graduations in karate in ascending order
@@ -437,6 +444,12 @@ var GeneralModule = (function(window, document, undefined) {
      */
     const excludedClubs = ["SV Tora 5", "Noch was anderes"];
 
+    /**
+     * This constant contains the amount of rem a single minute represents in timing schedules throughout the application
+     * @type {number}
+     */
+    const ONE_MINUTE_LENGTH = 0.16667;
+
 
     /*
     /---------------------------------------------------------------
@@ -486,6 +499,33 @@ var GeneralModule = (function(window, document, undefined) {
         });
     }
 
+    let uniqueRandomIdentifiers = [];
+    /**
+     * This function creates a unique random identifier, saves it to an array and returns it
+     * @param length {number}
+     */
+    function createUniqueRandomIdentifier(length= 8) {
+        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        function generateRandomString(length) {
+            let randomString = "";
+            for (let i = 0; i < length; i++) {
+                randomString += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return randomString;
+        }
+
+        let uniqueRandomIdentifier = generateRandomString(length);
+
+        if (uniqueRandomIdentifiers.includes(uniqueRandomIdentifier)) {
+            while (uniqueRandomIdentifiers.includes(uniqueRandomIdentifier)) {
+                uniqueRandomIdentifier = generateRandomString(length);
+            }
+        }
+        uniqueRandomIdentifiers.push(uniqueRandomIdentifier);
+        return uniqueRandomIdentifier;
+    }
+
     /**
      * This variable contains all the variables and constants that should be globally available
      * @type {{inputTypes: {DATE: string, CHECKBOX: string, TEXTAREA: string, PASSWORD: string, RADIO: string, TEXT: string, SWITCH: string, TIME: string, FILE: string, SELECT: string, RANGE: string}, tournaments: string[], examinationTypes: string[], sex: string[], enrolledClubs: [string, string, string, string, string], graduations: string[], requests: {DELETE: string, POST: string, GET: string, PUT: string}, modalTypes: {DELETE: string, INFO: string, CONFIRM: string}, excludedClubs: [string, string], categoryReference: Object, clubMails: {"SV Tora 9": string, "SV Tora": string, "SV Tora 5": string, "SV Tora 6": string, "SV Tora 7": string, "SV Tora 8": string, "SV Tora 2": string, "SV Tora 3": string, "SV Tora 4": string}, clubs: string[], tournamentStatuus: string[], notificationTypes: {SUCCESS: string, ERROR: string, INFO: string, WARNING: string}, errorTypes: {DATE: string, REPEAT: string, REQUIRED: string, CUSTOM: string, TIME: string, EMAIL: string}, progressSteps: {"Wettkampf abgeschlossen": number, "Anmeldung geschlossen": number, Wettkampftag: number, "Anmeldung freigeschalten": number, "Wettkampf erstellt": number}, tournamentSelectableStatuus: string[], keyToInput: Map<string, *>}}
@@ -509,8 +549,10 @@ var GeneralModule = (function(window, document, undefined) {
         excludedClubs,
         tournamentStatuus,
         tournamentSelectableStatuus,
+        categoryStatuus,
         personTypes,
         fightingSystemTypes,
+        ONE_MINUTE_LENGTH
     };
 
     /**
@@ -534,6 +576,13 @@ var GeneralModule = (function(window, document, undefined) {
          */
         checkDependenciesApi : function (dependencies) {
             checkDependencies(dependencies);
+        },
+        /**
+         * This api function enables other Modules to create unique random identifiers
+         * @param length {number}
+         */
+        createUniqueRandomIdentifierApi : function (length) {
+            return createUniqueRandomIdentifier(length);
         },
         /**
          * This exposes considered globally available variables and constants and can be imported by other modules

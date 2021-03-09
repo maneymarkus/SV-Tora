@@ -141,6 +141,7 @@ a.link {
     text-decoration: none;
     transition: 0.2s ease;
     position: relative;
+    cursor: pointer;
 }
 
 a.link:after {
@@ -171,26 +172,9 @@ table, .table, th, td {
 
 /*
 /-------------------------------------------------------------------
-/   General Classes
+/   Common classes
 /-------------------------------------------------------------------
 */
-
-.clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-
-.no-scrollbar {
-    /* Hide scrollbar for IE, Edge and Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
 
 /* This container element should contain elements that might exceed the width of the window */
 .oversize-container {
@@ -213,24 +197,12 @@ table, .table, th, td {
     width: 2rem;
 }
 
-.not-visible {
-    visibility: hidden !important;
-}
-
-.no-display {
-    display: none !important;
-}
-
 .faded-out {
     visibility: hidden !important;
     opacity: 0 !important;
     transform: scale(0.5) !important;
     transition: none !important;
     transition-delay: 0s !important;
-}
-
-.highlighted-span {
-    color: var(--accent-color-1-dark) !important;
 }
 
 .container-medium {
@@ -317,6 +289,46 @@ a.go-back i {
     transform: translate(-50%, -50%);
     font-size: 3em;
     padding: 0.5rem;
+}
+
+
+/*
+/-------------------------------------------------------------------
+/   Utilities
+/-------------------------------------------------------------------
+*/
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.highlighted-span {
+    color: var(--accent-color-1-dark) !important;
+}
+
+.not-visible {
+    visibility: hidden !important;
+}
+
+.no-display {
+    display: none !important;
+}
+
+.space-below {
+    margin-bottom: 1em !important;
 }
 
 

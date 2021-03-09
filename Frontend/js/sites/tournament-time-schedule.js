@@ -9,10 +9,10 @@
   const BREAK_MAX = 90;
 
   // length in rem for coherent depiction in frontend
-  const ONE_MINUTE_LENGTH = 0.167;
+  const ONE_MINUTE_LENGTH = GeneralModule.generalVariables.ONE_MINUTE_LENGTH;
 
   // length in rem for coherent depiction in frontend
-  const ONE_HOUR_LENGTH = 10;
+  const ONE_HOUR_LENGTH = ONE_MINUTE_LENGTH * 60;
 
   let body = document.querySelector("body");
   let timeContainer = document.querySelector("div.time-container");
@@ -40,7 +40,7 @@
 
     categoryTimeBlocks.forEach((categoryTimeBlock) => {
       let duration = categoryTimeBlock.querySelector("p").innerText;
-      let individualIdentifier = "tippy-" + Math.random().toString(16).substr(2, 10);
+      let individualIdentifier = "tippy-" + GeneralModule.createUniqueRandomIdentifierApi();
       categoryTimeBlock.classList.add(individualIdentifier);
       TooltipModule.createTooltipApi("div." + individualIdentifier, duration);
     });
@@ -106,14 +106,14 @@
       });
     }
 
-    //change the length of the time scale (for more "space" (time)
+    //change the length of the time scale (for more "space" (time))
     if (target.classList.contains("duration")) {
       let initialValue = timeScale.querySelectorAll("div.hour.full").length;
       let calculatedMinValue = calculateMinDurationValue();
       let minValue = (calculatedMinValue !== 0) ? calculatedMinValue : 1;
       let rangeInput = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.RANGE, [], undefined, "total-duration", "Länge des Wettkampfes (in Stunden)", (initialValue) ? initialValue : 1, undefined, undefined);
       rangeInput.setMin(minValue);
-      rangeInput.setMax(10);
+      rangeInput.setMax(20);
 
       ModalModule.confirmModalApi("Pausenzeit einstellen", rangeInput.inputContainer, function () {
         let chosenDuration = rangeInput.getValue();
@@ -190,6 +190,10 @@
       handleMouseDownOnTimeBlock(e, target);
     }
   });
+
+  /**
+   * The following block block contains code responsible for the drag and drop action to create the timing schedule
+   */
 
   let dragProperties = {
     xMouseGlobalPos : 0,

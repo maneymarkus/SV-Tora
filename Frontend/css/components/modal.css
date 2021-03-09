@@ -181,6 +181,33 @@ a.primary-button.close-modal i {
   margin: 0;
 }
 
+.custom-modal-window {
+  position: absolute;
+  width: 90%;
+  max-width: 1200px;
+  min-height: 90%;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background-color: var(--theme-color-1);
+  padding: 2rem 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px 5px var(--box-shadow), 0 0 6px 2px var(--box-shadow) inset;
+  border: 3px solid var(--theme-color-3);
+  z-index: 10001;
+  transition: 0.5s ease;
+  text-align: center;
+}
+
+.open .custom-modal-window {
+  transform: translateX(-50%) scale(1);
+}
+
+.custom-modal-window a.primary-button.close-modal {
+  top: -0.5em;
+  right: -0.5em;
+}
+
 @media only screen and (min-width: 600px) {
 
 }
@@ -194,6 +221,10 @@ a.primary-button.close-modal i {
 @media only screen and (min-width: 992px) {
   .modal-window .secondary-button {
     font-size: 1em;
+  }
+
+  .custom-modal-window {
+    padding: 3rem 3rem 2rem;
   }
 }
 

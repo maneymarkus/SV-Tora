@@ -6,10 +6,56 @@ var FightingSystemModule = (function(window, document, undefined) {
   /**
    * DEPENDENCIES
    */
-  let dependencies = ["ModalModule", "MaterialInputsModule"];
+  let dependencies = ["ModalModule", "MaterialInputsModule", "FormModule"];
   GeneralModule.checkDependenciesApi(dependencies);
 
   let fightingSystemTypes = GeneralModule.generalVariables.fightingSystemTypes;
+
+
+  /**
+   * This function creates and shows and handles a custom modal window to change the ko-system and dog-eat-dog starting configuration
+   * @param heading {string} The informative heading of the modal
+   * @param content {HTMLElement} The resemblance of the starting configuration of the fighting system
+   * @param abortCallback {function} The function that should be called back when aborting the modal window
+   * @param confirmCallback {function} The function that should be called back when confirming the changes done
+   */
+  function customChangeFightingSystemModal (heading, content, abortCallback, confirmCallback) {
+    let container = GeneralModule.generateElementApi("div", ["container"]);
+
+    let h2 = GeneralModule.generateElementApi("h2", undefined, heading);
+    h2.style.margin = "0.5em 0 2em 0";
+    container.appendChild(h2);
+
+    container.appendChild(content);
+
+    let abortButton = PrimaryButtonModule.createPrimaryButtonApi(["close"], undefined, "close", "Abbrechen");
+    abortButton.addEventListener("click", function () {
+      if (abortCallback) {
+        abortCallback();
+      }
+      let overlay = container;
+      while (overlay.nodeName !== "BODY" && !overlay.classList.contains("overlay")) {
+        overlay = overlay.parentElement;
+      }
+      ModalModule.closeModelWindowApi(overlay);
+    });
+    let confirmButton = PrimaryButtonModule.createPrimaryButtonApi(["apply-changes"], undefined, "done", "Änderungen anwenden");
+    confirmButton.addEventListener("click", function () {
+      if (confirmCallback) {
+        confirmCallback();
+      }
+      let overlay = container;
+      while (overlay.nodeName !== "BODY" && !overlay.classList.contains("overlay")) {
+        overlay = overlay.parentElement;
+      }
+      ModalModule.closeModelWindowApi(overlay);
+    });
+
+    container.appendChild(abortButton);
+    container.appendChild(confirmButton);
+
+    ModalModule.customModalApi(container, abortCallback);
+  }
 
   /**
    * This class represents a generic fighting system and offers individual methods for handling it
@@ -237,18 +283,132 @@ var FightingSystemModule = (function(window, document, undefined) {
         }
       }
 
+      let fightNumber = 1;
+
       // mix the calculated fights up to enable some breaks for the fighters
       let iterations = fights.length;
       for (let i = 0; i < iterations; i++) {
+        let fight;
         if (i % 2 === 0) {
-          this.fights.push(fights.shift());
+          fight = fights.shift();
         } else {
-          this.fights.push(fights.pop());
+           fight = fights.pop();
         }
+        fight.number = fightNumber++;
+        this.fights.push(fight);
       }
+
+    }
+
+    getFightWithNumber(number) {
+      let wantedFight = undefined;
+      if (typeof number === "number") {
+        this.fights.forEach((fight) => {
+          if (fight.number === number) {
+            wantedFight = fight;
+          }
+        });
+      }
+      return wantedFight;
     }
 
     change() {
+      let newOrder = this.fights.slice();
+      let This = this;
+      let dogEatDogContainer = GeneralModule.generateElementApi("div", ["dog-eat-dog"]);
+      dogEatDogContainer.appendChild(this.fightsToElement());
+
+      dogEatDogContainer.addEventListener("mousedown", handlePick);
+
+      function handlePick(e) {
+        let target = e.target;
+        while (target.nodeName !== "BODY" && !target.classList.contains("fight")) {
+          target = target.parentElement;
+        }
+        if (target.classList.contains("fight")) {
+          let pickedFightNumber = parseInt(target.querySelector("span.number").textContent.trim());
+          let fight = This.getFightWithNumber(pickedFightNumber);
+          let allOtherFightNumbers = [];
+          newOrder.forEach((fight) => {
+            if (fight.number !== pickedFightNumber) {
+              allOtherFightNumbers.push(fight.number);
+            }
+          });
+
+          let radioOptions = [];
+          allOtherFightNumbers.forEach((fightNumber) => {
+            let option = {};
+            option["text"] = "Kampf Nr. " + fightNumber;
+            option["value"] = fightNumber;
+            option["checked"] = false;
+            radioOptions.push(option);
+          });
+
+          let radioInput = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.RADIO, ["required"], undefined, "change-fight", undefined, undefined, undefined, radioOptions);
+          radioInput.inputContainer.querySelectorAll("label.radio-input-container").forEach((radioLabel) => {
+            radioLabel.style.display = "block";
+          });
+
+          ModalModule.confirmModalApi("Kampf tauschen mit Kampf Nummer...", radioInput.inputContainer, function () {
+            let chosenFightNumber = parseInt(radioInput.getValue());
+            let fightToChange = This.getFightWithNumber(chosenFightNumber);
+            let fightToChangeElement = target.parentElement.firstChild;
+            while (fightToChangeElement && parseInt(fightToChangeElement.querySelector("span.number").innerText.trim()) !== chosenFightNumber) {
+              fightToChangeElement = fightToChangeElement.nextElementSibling;
+            }
+
+            let fightIndex = newOrder.indexOf(fight);
+            let fightToChangeIndex = newOrder.indexOf(fightToChange);
+
+            // renumber fights in object properties
+            let aux1 = fight.number;
+            fight.number = fightToChange.number;
+            fightToChange.number = aux1;
+
+            // swap fights in array
+            let aux2 = newOrder[fightIndex];
+            newOrder[fightIndex] = fightToChange;
+            newOrder[fightToChangeIndex] = aux2;
+
+            // swap fights in element container
+            let parent = target.parentElement;
+            let nextTargetElement = target.nextElementSibling;
+            if (nextTargetElement !== fightToChangeElement) {
+              console.log("hi");
+              parent.insertBefore(target, fightToChangeElement);
+              if (nextTargetElement) {
+                parent.insertBefore(fightToChangeElement, nextTargetElement);
+              } else {
+                parent.appendChild(fightToChangeElement);
+              }
+            } else {
+              parent.insertBefore(fightToChangeElement, target);
+            }
+
+            // renumber elements
+            target.querySelector("span.number").innerHTML = fight.number;
+            fightToChangeElement.querySelector("span.number").innerHTML = fightToChange.number;
+
+          }, undefined
+          , function () {
+            return FormModule.checkInputApi(radioInput.inputContainer, true);
+          });
+
+        }
+      }
+
+      function abortion() {
+        // revoke renumbering
+        for (let i = 0; i < This.fights.length - 1; i++) {
+          This.fights[i].number = i + 1;
+        }
+      }
+
+      function applyChanges() {
+        this.fights = newOrder;
+      }
+
+      customChangeFightingSystemModal("Kampfreihenfolge Jeder-Gegen-Jeden anpassen", dogEatDogContainer, abortion, applyChanges);
 
     }
 
@@ -285,18 +445,26 @@ var FightingSystemModule = (function(window, document, undefined) {
 
       winLoseTable.appendChild(tbody);
 
+      container.appendChild(winLoseTable);
+
+      container.appendChild(this.fightsToElement());
+
+      return container;
+
+    }
+
+    fightsToElement() {
       let fightOrderElement = GeneralModule.generateElementApi("div", ["fight-order"]);
 
       this.fights.forEach((fight) => {
         let fightElement = GeneralModule.generateElementApi("div", ["fight"]);
         fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter1"], fight.fighter1.firstName + " " + fight.fighter1.lastName));
-        fightElement.appendChild(GeneralModule.generateElementApi("span", ["number"], fight.fighter1));
+        fightElement.appendChild(GeneralModule.generateElementApi("span", ["number"], fight.number));
         fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter2"], fight.fighter2.firstName + " " + fight.fighter2.lastName));
         fightOrderElement.appendChild(fightElement);
       });
 
-      return container;
-
+      return fightOrderElement;
     }
 
   }
@@ -307,6 +475,7 @@ var FightingSystemModule = (function(window, document, undefined) {
       this.lastFight = undefined;
       this.fighters = fighters;
       this.startNumber = startNumber;
+      this.fights = [];
 
       // This property determines if this tree is a consolation tree (for the fighters who lost in the first place)
       this.isConsolation = isConsolation;
@@ -337,10 +506,12 @@ var FightingSystemModule = (function(window, document, undefined) {
       let newNodes = [];
       this.lastFight = new Fight(undefined, undefined, numberFights--);
       newNodes.push(this.lastFight);
+      this.fights.push(this.lastFight);
 
       for (numberFights; numberFights > lowerLimit; numberFights--) {
         let currentNode = newNodes.shift();
         let newFight = new Fight(undefined, undefined, numberFights);
+        this.fights.unshift(newFight);
         newNodes.push(newFight);
         if (typeof currentNode.left === "undefined") {
           currentNode.left = newFight;
@@ -368,30 +539,78 @@ var FightingSystemModule = (function(window, document, undefined) {
       });
     }
 
-    findALlLeafNodes() {
-      let leafNodes = [];
+    findAllLeafNodes() {
+      let leafNodes = {
+        "level1LeafNodes": [],
+        "level2LeafNodes": [],
+      };
 
-      let nodesToCheck = [];
+      let numberLeafNodes = Math.ceil(this.numberFighters / 2);
 
-      if (this.lastFight) {
-        nodesToCheck.push(this.lastFight);
+      for (let i = 0; i < this.numberPreFights; i++) {
+        leafNodes["level1LeafNodes"].push(this.fights[i]);
       }
 
-      while(nodesToCheck.length !== 0) {
-        let currentNode = nodesToCheck.shift();
-        if (typeof currentNode.left === "undefined" || typeof currentNode.right === "undefined") {
-          leafNodes.push(currentNode);
-        }
-        if (typeof currentNode.left !== "undefined") {
-          nodesToCheck.push(currentNode.left);
-        }
-        if (typeof currentNode.right !== "undefined") {
-          nodesToCheck.push(currentNode.right);
-        }
+      for (let j = this.numberPreFights; j < numberLeafNodes; j++) {
+        leafNodes["level2LeafNodes"].push(this.fights[j]);
       }
 
       return leafNodes;
 
+    }
+
+    leavesToElement() {
+
+      let leafNodes = this.findAllLeafNodes();
+
+      let tree = GeneralModule.generateElementApi("div", ["tree", "clearfix"]);
+
+      // Just add this column, if there are so-called pre-fights
+      if (leafNodes["level1LeafNodes"].length > 0) {
+        let column1 = GeneralModule.generateElementApi("div", ["column"]);
+        leafNodes["level1LeafNodes"].forEach((leafNode) => {
+          let fightElement = GeneralModule.generateElementApi("div", ["fight"]);
+          fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter1"], leafNode.fighter1.firstName + " " + leafNode.fighter1.lastName));
+          fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter2"], leafNode.fighter2.firstName + " " + leafNode.fighter2.lastName));
+          fightElement.appendChild(GeneralModule.generateElementApi("span", ["fight-number"], leafNode.number));
+
+          column1.appendChild(fightElement);
+        });
+
+        tree.appendChild(column1);
+      }
+
+      let column2 = GeneralModule.generateElementApi("div", ["column"]);
+      leafNodes["level2LeafNodes"].forEach((leafNode) => {
+        let fightElement = GeneralModule.generateElementApi("div", ["fight"]);
+        fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter1"], leafNode.fighter1.firstName + " " + leafNode.fighter1.lastName));
+        if (typeof leafNode.fighter2 !== "undefined") {
+          fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter2"], leafNode.fighter2.firstName + " " + leafNode.fighter2.lastName));
+        } else {
+          fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter2"]));
+        }
+        fightElement.appendChild(GeneralModule.generateElementApi("span", ["fight-number"], leafNode.number));
+
+        column2.appendChild(fightElement);
+      });
+
+      // check if to fill second column up with "empty" fight elements (just for nicer look)
+      if (leafNodes["level1LeafNodes"].length > 1) {
+        let numberEmptyFightElements = Math.floor(this.numberPreFights / 2);
+        let numbering = leafNodes["level2LeafNodes"][leafNodes["level2LeafNodes"].length - 1].number + 1;
+        for (let i = 0; i < numberEmptyFightElements; i++) {
+          let fightElement = GeneralModule.generateElementApi("div", ["fight"]);
+          fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter1"]));
+          fightElement.appendChild(GeneralModule.generateElementApi("span", ["fighter", "fighter2"]));
+          fightElement.appendChild(GeneralModule.generateElementApi("span", ["fight-number"], numbering++));
+
+          column2.appendChild(fightElement);
+        }
+      }
+
+      tree.appendChild(column2);
+
+      return tree;
     }
 
     toElement() {
@@ -408,6 +627,7 @@ var FightingSystemModule = (function(window, document, undefined) {
       super(fighters);
       this.fightingSystemType = fightingSystemTypes.KO;
       this.binaryFightTree = new BinaryFightTree(this.fighters, false);
+      this.binaryFightTree.buildTree();
       this.binaryFightTree.lastFight.number++;
 
       this.winner = this.binaryFightTree.lastFight.winner;
@@ -416,6 +636,119 @@ var FightingSystemModule = (function(window, document, undefined) {
       this.fightForThird = new Fight(undefined, undefined, this.binaryFightTree.lastFight.number - 1);
       this.third = this.fightForThird.winner;
     }
+
+    change() {
+      let This = this;
+      let koSystemContainer = GeneralModule.generateElementApi("div", ["ko-system-tree-container"]);
+      koSystemContainer.appendChild(this.binaryFightTree.leavesToElement());
+
+      if (this.binaryFightTree.numberPreFights > 0) {
+        let marginTop1Unit = 8;
+        let numberMarginUnits = this.fighters.length - (this.binaryFightTree.numberPreFights * 2);
+
+        koSystemContainer.querySelector("div.column div.fight").style.marginTop = marginTop1Unit * numberMarginUnits + "em";
+      }
+
+      let changes = [];
+
+      koSystemContainer.addEventListener("click", handlePick);
+
+      function handlePick(e) {
+        let target = e.target;
+        while (target.nodeName !== "BDOY" && !target.classList.contains("fighter")) {
+          target = target.parentElement;
+        }
+        if (target.classList.contains("fighter")) {
+          let chosenFighterName = target.innerText;
+          let changeFighterOptions = [];
+          let leafNodes = This.binaryFightTree.findAllLeafNodes();
+          let allLeafNodes = [];
+          allLeafNodes = allLeafNodes.concat(leafNodes["level1LeafNodes"]);
+          allLeafNodes = allLeafNodes.concat(leafNodes["level2LeafNodes"]);
+          allLeafNodes.forEach((fight) => {
+            if (fight.fighter1 && fight.fighter1.fullName !== chosenFighterName) {
+              changeFighterOptions.push({
+                "text": fight.fighter1.fullName + " aus Kampf Nr. " + fight.number,
+                "value": fight.fighter1.id,
+                "checked": false,
+              });
+            }
+            if (fight.fighter2 && fight.fighter2.fullName !== chosenFighterName) {
+              changeFighterOptions.push({
+                "text": fight.fighter2.fullName + " aus Kampf Nr. " + fight.number,
+                "value": fight.fighter2.id,
+                "checked": false,
+              });
+            }
+          });
+          let radioInput = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.RADIO, undefined, undefined, "change-ko-fighter", undefined, undefined, undefined, changeFighterOptions);
+          radioInput.inputContainer.querySelectorAll("label.radio-input-container").forEach((radioLabel) => {
+            radioLabel.style.display = "block";
+          });
+          ModalModule.confirmModalApi("\"" + chosenFighterName + "\" tauschen mit Kämpfer...", radioInput.inputContainer, function () {
+
+            // change the displaying of the names in the HTML
+            let changeFighterId = radioInput.getValue();
+            let changeFighter = PersonModule.getPersonByIdApi(changeFighterId);
+            let fighterElements = koSystemContainer.querySelectorAll("span.fighter");
+            fighterElements.forEach((fighterElement) => {
+              if (fighterElement.innerText.trim() === changeFighter.fullName) {
+                fighterElement.innerHTML = chosenFighterName;
+              }
+            });
+            target.innerHTML = changeFighter.fullName;
+
+            // change the representing objects
+            let targetNumber = parseInt(target.parentElement.querySelector("span.fight-number").innerText);
+            let targetFight;
+            let changeFight;
+            allLeafNodes.forEach((fight) => {
+              if (fight.number === targetNumber) {
+                targetFight = fight;
+              }
+              if (fight.fighter1 && fight.fighter1.id === changeFighterId) {
+                changeFight = fight;
+                changeFighter = "fighter1";
+              }
+              if (fight.fighter2 && fight.fighter2.id === changeFighterId) {
+                changeFight = fight;
+                changeFighter = "fighter2";
+              }
+            });
+            let targetFighter;
+            if (targetFight) {
+              if (targetFight.fighter1.fullName === chosenFighterName) {
+                targetFighter = "fighter1";
+              } else {
+                targetFighter = "fighter2";
+              }
+            }
+            changes.push(
+                [{"fight": targetFight, "fighter": targetFighter}, {"fight": changeFight, "fighter": changeFighter}]
+            );
+
+          }, undefined, function () {
+            return FormModule.checkInputApi(radioInput.inputContainer, true);
+          });
+        }
+      }
+
+      function abortion() {
+        console.log("Abort");
+      }
+
+      function applyChanges() {
+        changes.forEach((change) => {
+          let aux = change[0]["fight"][change[0]["fighter"]];
+          change[0]["fight"][change[0]["fighter"]] = change[1]["fight"][change[1]["fighter"]];
+          change[1]["fight"][change[1]["fighter"]] = aux;
+        });
+      }
+
+      customChangeFightingSystemModal("Startkonfiguration des KO-Systems anpassen", koSystemContainer, abortion, applyChanges);
+
+    }
+
   }
 
   class DoubleKO extends FightingSystem {
@@ -472,6 +805,14 @@ var FightingSystemModule = (function(window, document, undefined) {
     constructor(fighters) {
       super(fighters);
       this.fightingSystemType = fightingSystemTypes.BRAZILIANKO;
+
+      this.binaryFightTree = new BinaryFightTree(this.fighters, false);
+      this.binaryFightTree.buildTree();
+
+      this.losersAgainstWinner = [];
+
+
+
     }
   }
 

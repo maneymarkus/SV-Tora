@@ -143,12 +143,19 @@ main {
   transform: translateX(-50%) translateY(50%);
 }
 
+.custom-modal-window .tree {
+  font-size: 0.7rem;
+  min-width: 32em;
+}
+
 @media only screen and (min-width: 600px) {
 
 }
 
 @media only screen and (min-width: 768px) {
-
+  .custom-modal-window .tree {
+    font-size: 0.9rem;
+  }
 }
 
 @media only screen and (min-width: 992px) {
@@ -165,6 +172,10 @@ main {
 
   .bar-content .fighting-system {
     margin-top: 0;
+  }
+
+  .custom-modal-window .tree {
+    font-size: 1rem;
   }
 }
 

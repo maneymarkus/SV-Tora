@@ -1,0 +1,229 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Time Schedule
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div class="time-schedule-container">
+/     <hr class="current-time" />
+/     <div class="time-scale">
+/       <div class="hour full">
+/         <span class="visual-aid"></span>
+/         <span class="whole">15:00</span>
+/         <span class="quarter">15:15</span>
+/         <span class="half">15:30</span>
+/         <span class="three-fourths">15:45</span>
+/       </div>
+/     </div>
+/     <div class="locations">
+/       <div class="fight-place" data-name="location 1">
+/         <h2>Location 1</h2>
+/         <div class="category done time-block" data-category="4" style="height: 12rem">
+/           <h3>Kategorie <span class="category-name">4</span></h3>
+/           <p><span class="duration">72</span> Minuten</p>
+/         </div>
+/       </div>
+/     </div>
+/
+*/
+
+/* TODO: calculate width and height*/
+.time-schedule-container {
+  width: calc(8em + 16em * 1 + 2em); /* standard width of time container (8rem for the time scale on the left, 2rem for a little space on the right of the container and 16rem needs every fight place container */
+  height: calc(5em + 10em * 3);
+  position: relative;
+  padding-left: 7em;
+  display: flex;
+}
+
+.time-schedule-container .current-time-indicator {
+  position: absolute;
+  width: calc(100% - 9em);
+  z-index: 11;
+  left: 7em;
+  margin-top: 4em; /* The standard top offset (hr is displayed exactly at the starting time of the tournament */
+  border-color: #2699FB;
+}
+
+.time-schedule-container .time-scale {
+  position: absolute;
+  top: 4em;
+  left: 0;
+  border-left: 5px solid var(--accent-color-1-dark);
+  height: calc(100% - 4em); /* This is the height of the names (h2 elements) of the fighting places which are not part of the timing schedule */
+  width: 8em;
+  z-index: 10;
+}
+
+.time-scale .hour {
+  position: relative;
+  height: 10em;
+}
+
+.time-scale .hour.short {
+  height: 3em;
+}
+
+.time-scale span {
+  position: absolute;
+  transform: translateY(-50%) translateY(2.5px);
+}
+
+.time-scale span:before {
+  content: '';
+  position: absolute;
+  background-color: var(--accent-color-1-dark);
+  height: 5px;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.time-scale span.whole,
+.time-scale span.start {
+  font-size: 1.5em;
+  padding-left: 1.25em;
+  top: 0;
+}
+
+.time-scale span.whole:before,
+.time-scale span.start:before {
+  width: 1em;
+}
+
+.time-scale span.quarter,
+.time-scale span.half,
+.time-scale span.three-fourths {
+  font-size: 1.25em;
+  padding-left: 0.75em;
+}
+
+.time-scale span.quarter:before,
+.time-scale span.half:before,
+.time-scale span.three-fourths:before {
+  width: 0.5em;
+}
+
+.time-scale span.quarter {
+  top: 25%;
+}
+
+.time-scale span.half {
+  top: 50%;
+}
+
+.time-scale span.three-fourths {
+  top: 75%;
+}
+
+.time-schedule-container .fight-place {
+  background-color: var(--theme-color-1);
+  background-image: linear-gradient(180deg, var(--theme-color-3) 2px, var(--theme-color-1) 2px);
+  background-size: 100% 10em;
+  background-repeat: repeat-y;
+  background-position: 0 4em;
+  display: inline-block;
+  height: 100%;
+  width: 15rem;
+  padding: 0.5rem;
+  position: relative;
+  box-shadow: 0 2px 5px 0 var(--box-shadow);
+  margin: 0 0.5rem;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.fight-place h2 {
+  margin: 0 0 0.5rem;
+  padding: 0.5rem 0 1rem 0.5rem;
+  background-color: var(--theme-color-2);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 2px var(--box-shadow);
+  height: 3rem;
+}
+
+.fight-place .time-block {
+  margin: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: none;
+}
+
+.time-actions {
+  padding: 2rem 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.time-actions .primary-button {
+  flex-shrink: 0;
+  flex-grow: 0;
+  font-size: 0.75rem;
+}
+
+.time-blocks-container {
+  position: fixed;
+  width: 100%;
+  height: 10rem;
+  left: 0;
+  bottom: 0;
+  background-color: var(--theme-color-1);
+  box-shadow: 0 0 10px 3px var(--box-shadow);
+  z-index: 100;
+}
+
+.time-block {
+  cursor: pointer;
+  box-shadow: 0 0 5px 2px black;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--theme-color-2);
+  background-color: var(--theme-color-3);
+  transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+.time-block.done {
+  background-color: var(--theme-color-2);
+  color: var(--theme-color-5);
+  border-color: var(--box-shadow);
+}
+
+.time-block:hover {
+  border-color: var(--accent-color-1-light);
+  background-color: var(--theme-color-4);
+}
+
+.time-block.done:hover {
+  border-color: var(--accent-color-1-dark);
+  background-color: var(--theme-color-3);
+}
+
+.time-block h3 {
+  margin: 0 0 0.5rem;
+  text-shadow: 1px 1px 3px var(--text-shadow);
+}
+
+.time-block p {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

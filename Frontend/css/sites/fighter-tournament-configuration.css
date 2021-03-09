@@ -51,33 +51,6 @@ main {
   box-shadow: 0 10px 10px -10px var(--box-shadow);
 }
 
-.info p {
-  margin: 0 0 0.5rem;
-  text-shadow: 1px 1px 2px var(--text-shadow);
-  font-size: 1.25rem;
-  padding-left: 50%;
-  position: relative;
-}
-
-.info p:before {
-  content: attr(data-property);
-  position: absolute;
-  top: 45%;
-  transform: translateY(-50%);
-  right: 0;
-  color: var(--theme-color-1);
-  font-size: 1em;
-  font-weight: 900;
-  font-style: italic;
-  opacity: 0.9;
-  text-align: right;
-  display: inline-block;
-  max-width: 100%;
-  padding-right: 54%;
-  text-shadow: 1px 1px 1px var(--text-shadow);
-  margin: 0;
-}
-
 .configuration h3 {
   font-size: 1.5rem;
   padding-left: 1rem;

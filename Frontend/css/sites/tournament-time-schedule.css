@@ -102,6 +102,7 @@ main p {
     box-shadow: 0 2px 5px 0 var(--box-shadow);
     margin: 0 0.5rem;
     vertical-align: top;
+    overflow: hidden;
 }
 
 .fight-place h2 {
@@ -152,6 +153,12 @@ main p {
     overflow: hidden;
     border: 1px solid var(--theme-color-2);
     background-color: var(--theme-color-3);
+    transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+.time-block:hover {
+    border-color: var(--accent-color-1-light);
+    background-color: var(--theme-color-4);
 }
 
 .time-block.dragging {

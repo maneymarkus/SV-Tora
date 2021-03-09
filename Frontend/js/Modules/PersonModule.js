@@ -21,12 +21,14 @@ var PersonModule = (function(window, document, undefined) {
    * This class represents a generic person and offers individual methods for handling them
    */
   class Person {
-    constructor(personType, firstName, lastName, club, id) {
+    constructor(personType, id, firstName, lastName, club) {
       this.type = personType;
+      this.id = id;
       this.lastName =  lastName;
       this.firstName = firstName;
+      this.fullName = this.firstName + " " + this.lastName;
       this.club = club;
-      this.id = id;
+      persons.push(this);
     }
 
     toJsonString() {}
@@ -43,6 +45,7 @@ var PersonModule = (function(window, document, undefined) {
       this.age = 0;
       this.sex = sex;
       this.graduation = graduation;
+      fighters.push(this);
 
       this.calculateAge();
 
@@ -68,6 +71,7 @@ var PersonModule = (function(window, document, undefined) {
   class Coach extends Person {
     constructor(personType, firstName, lastName, club) {
       super(personType, firstName, lastName, club);
+      coaches.push(this);
     }
 
   }
@@ -78,6 +82,7 @@ var PersonModule = (function(window, document, undefined) {
   class Referee extends Person {
     constructor(personType, firstName, lastName, club) {
       super(personType, firstName, lastName, club);
+      referees.push(this);
     }
 
   }
@@ -88,20 +93,21 @@ var PersonModule = (function(window, document, undefined) {
   class Helper extends Person {
     constructor(personType, firstName, lastName, club) {
       super(personType, firstName, lastName, club);
+      helpers.push(this);
     }
 
   }
 
-  function createPersonFactory(personType, firstName, lastName, club, birthdate, sex, graduation) {
+  function createPersonFactory(personType, id, firstName, lastName, club, birthdate, sex, graduation) {
     switch (personType) {
       case personTypes.FIGHTER:
-        return new Fighter(personType, firstName, lastName, club, birthdate, sex, graduation);
+        return new Fighter(personType, id, firstName, lastName, club, birthdate, sex, graduation);
       case personTypes.COACH:
-        return new Coach(personType, firstName, lastName, club);
+        return new Coach(personType, id, firstName, lastName, club);
       case personTypes.REFEREE:
-        return new Referee(personType, firstName, lastName, club);
+        return new Referee(personType, id, firstName, lastName, club);
       case personType.HELPER:
-        return new Helper(personType, firstName, lastName, club);
+        return new Helper(personType, id, firstName, lastName, club);
       default:
         return undefined;
     }
@@ -111,9 +117,19 @@ var PersonModule = (function(window, document, undefined) {
    * API:
    */
   return {
-    createPersonApi : function (personType, firstName, lastName, club, birthdate, sex, graduation) {
-      return createPersonFactory(personType, firstName, lastName, club, birthdate, sex, graduation);
+    createPersonApi : function (personType, id, firstName, lastName, club, birthdate, sex, graduation) {
+      return createPersonFactory(personType, id, firstName, lastName, club, birthdate, sex, graduation);
     },
+    getPersonByIdApi : function (id) {
+      let wantedPerson = undefined;
+      persons.forEach((person) => {
+        if (person.id === id) {
+          wantedPerson = person;
+        }
+      });
+      // If person not in browser yet call backend
+      return wantedPerson;
+    }
   }
 
 })(window, document);

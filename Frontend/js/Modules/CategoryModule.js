@@ -10,6 +10,7 @@ var CategoryModule = (function(window, document, undefined) {
   GeneralModule.checkDependenciesApi(dependencies);
 
   let fightingSystemTypes = GeneralModule.generalVariables.fightingSystemTypes;
+  let categoryStatuus = GeneralModule.generalVariables.categoryStatuus;
 
   let categories = [];
 
@@ -26,6 +27,11 @@ var CategoryModule = (function(window, document, undefined) {
     this.numberMembers = 0;
     this.fightingSystem = undefined;
     this.prepared = false;
+    this.editable = true;
+    this.examinationType = undefined;
+    this.categoryStatus = categoryStatuus[0];
+    this.referees = [];
+    this.helper = [];
 
     /**
      * This function adds a new member to the members list of this category
@@ -75,7 +81,11 @@ var CategoryModule = (function(window, document, undefined) {
     }
 
     this.changeFightingSystemConfiguration = function () {
-      this.fightingSystem.change();
+      if (this.editable) {
+        this.fightingSystem.change();
+      } else {
+        ModalModule.infoModalApi("Änderungen nicht mehr möglich", "Die Kategorie ist nicht mehr editierbar, da diese Kategorie schon am Wettkampf teilnimmt oder teilgenommen hat.");
+      }
     }
 
     /**

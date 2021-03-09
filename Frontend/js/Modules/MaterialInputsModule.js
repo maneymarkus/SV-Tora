@@ -372,11 +372,8 @@ var MaterialInputsModule = (function(window, document, undefined) {
             } else if (target && target.classList.contains("option")) {
                 if (this.selectable) {
                     this.selectOption(target.innerHTML);
+                    this.hide();
                 }
-                if (!this.userInput) {
-                    this.userInput = true;
-                }
-                this.hide();
             } else {
                 this.hide();
             }
@@ -1112,7 +1109,7 @@ var MaterialInputsModule = (function(window, document, undefined) {
                 input.setAttribute("type", "radio");
                 input.setAttribute("value", option["value"]);
                 input.setAttribute("name", name);
-                if (option["checked"]) {
+                if (option.hasOwnProperty("disabled") && option["checked"]) {
                     input.setAttribute("checked", "checked");
                 }
                 if (option.hasOwnProperty("disabled") && option["disabled"]) {
@@ -1196,7 +1193,7 @@ var MaterialInputsModule = (function(window, document, undefined) {
                 input.setAttribute("type", "checkbox");
                 input.setAttribute("value", option["value"]);
                 input.setAttribute("name", name);
-                if (option["checked"]) {
+                if (option.hasOwnProperty("disabled") && option["checked"]) {
                     input.setAttribute("checked", "checked");
                 }
                 if (option.hasOwnProperty("disabled") && option["disabled"]) {

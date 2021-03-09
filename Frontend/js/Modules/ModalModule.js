@@ -50,10 +50,11 @@ var ModalModule = (function(window, document, undefined) {
    */
   function createModalFactory(modalType, header, content, yesCallback, noCallback, confirmationCheck) {
     let overlay = GeneralModule.generateElementApi("div", ["overlay"]);
-    let baseModal = createBaseModal(overlay, header, content, noCallback);
+    let baseModal;
     switch (modalType) {
 
       case modalTypes.DELETE:
+        baseModal = createBaseModal(overlay, header, content, noCallback);
         let deleteModalFooter = GeneralModule.generateElementApi("div", ["mw-footer"]);
         let abortDeletionBtn = SecondaryButtonModule.createSecondaryButtonApi(["abort"], undefined, "Abbrechen");
         deleteModalFooter.appendChild(abortDeletionBtn);
@@ -70,6 +71,7 @@ var ModalModule = (function(window, document, undefined) {
         break;
 
       case modalTypes.CONFIRM:
+        baseModal = createBaseModal(overlay, header, content, noCallback);
         let confirmModalFooter = GeneralModule.generateElementApi("div", ["mw-footer"]);
         let abortConfirmationBtn = SecondaryButtonModule.createSecondaryButtonApi(["abort", "accent-1"], undefined, "Abbrechen");
         confirmModalFooter.appendChild(abortConfirmationBtn);
@@ -86,6 +88,7 @@ var ModalModule = (function(window, document, undefined) {
         break;
 
       case modalTypes.INFO:
+        baseModal = createBaseModal(overlay, header, content, noCallback);
         overlay.appendChild(baseModal);
         let infoModalFooter = GeneralModule.generateElementApi("div", ["mw-footer"]);
         let infoModalBtn = SecondaryButtonModule.createSecondaryButtonApi(["confirm"], undefined, "OK");
@@ -103,6 +106,25 @@ var ModalModule = (function(window, document, undefined) {
         });
         baseModal.appendChild(infoModalFooter);
         break;
+
+      case modalTypes.CUSTOM:
+        baseModal = GeneralModule.generateElementApi("div", ["modal-window", "custom-modal-window"]);
+        overlay.appendChild(baseModal);
+        let closeBtn = GeneralModule.generateElementApi("a", ["primary-button", "close-modal", "close", "red"]);
+        closeBtn.appendChild(GeneralModule.generateElementApi("i", ["material-icons"], "close"));
+        closeBtn.appendChild(GeneralModule.generateElementApi("p", [], "Schließen"));
+        baseModal.appendChild(closeBtn);
+        closeBtn.addEventListener("click", function () {
+          abortion(overlay, noCallback);
+        });
+
+
+        if (content) {
+          baseModal.appendChild(content);
+        }
+
+        break;
+
     }
     showModalWindow(overlay);
   }
@@ -181,8 +203,10 @@ var ModalModule = (function(window, document, undefined) {
    * @param overlay {HTMLElement} The respective overlay (parent) element of the modal which should be closed
    */
   function closeModalWindow(overlay) {
-    let mwHeader = overlay.querySelector(".mw-header");
-    mwHeader.style.removeProperty("height");
+    if (overlay.querySelector(".mw-header")) {
+      let mwHeader = overlay.querySelector(".mw-header");
+      mwHeader.style.removeProperty("height");
+    }
     overlay.querySelector("div.modal-window").dispatchEvent(closeModalEvent);
     overlay.classList.remove("open");
     if (main) {
@@ -222,10 +246,12 @@ var ModalModule = (function(window, document, undefined) {
   function resizeHeaders() {
     let overlays = document.querySelectorAll(".overlay");
     overlays.forEach((overlay) => {
-      let mwHeader = overlay.querySelector(".mw-header");
-      let h2 = overlay.querySelector(".mw-header h2");
-      let headerHeight = h2.offsetHeight;
-      mwHeader.style.height = headerHeight + "px";
+      if (overlay.querySelector(".mw-header")) {
+        let mwHeader = overlay.querySelector(".mw-header");
+        let h2 = overlay.querySelector(".mw-header h2");
+        let headerHeight = h2.offsetHeight;
+        mwHeader.style.height = headerHeight + "px";
+      }
     });
   }
 
@@ -277,7 +303,7 @@ var ModalModule = (function(window, document, undefined) {
      * @param confirmationCheck {function} An optional function reference called when the modal window is tried to be closed "successfully" and checks if the modal window is allowed to close "successfully" (e.g. check if all inputs are filled)
      */
     confirmModalApi : function (header, content, confirmCallback, abortCallback, confirmationCheck) {
-      return createModalFactory(modalTypes.CONFIRM, header, content, confirmCallback, abortCallback, confirmationCheck);
+      createModalFactory(modalTypes.CONFIRM, header, content, confirmCallback, abortCallback, confirmationCheck);
     },
     /**
      * This api function creates and shows an info modal window
@@ -287,6 +313,14 @@ var ModalModule = (function(window, document, undefined) {
      */
     infoModalApi : function (header, content, callback) {
       createModalFactory(modalTypes.INFO, header, content, callback, undefined, undefined);
+    },
+    /**
+     * This api function enables other Modules to create a custom modal window (this is basically just a big modal without any content yet except for a close button)
+     * @param content {HTMLElement} The content that should be appended on this modal
+     * @param abortCallback {function} An optional function reference called when the modal window is "unsuccessfully" closed (in this case the user clicked on the modal window close button)
+     */
+    customModalApi : function (content, abortCallback) {
+      createModalFactory(modalTypes.CUSTOM, undefined, content, undefined, abortCallback, undefined);
     },
     /**
      * This api function appends a generic overlay to the body element
@@ -299,7 +333,14 @@ var ModalModule = (function(window, document, undefined) {
      */
     removeOverlayApi : function () {
       removeOverlay();
-    }
+    },
+    /**
+     * This api function enables other modules to manually close a modal window
+     * @param overlay {HTMLElement} The containing overlay element of the modal window the should be closed
+     */
+    closeModelWindowApi : function (overlay) {
+      closeModalWindow(overlay);
+    },
   }
 
 })(window, document);

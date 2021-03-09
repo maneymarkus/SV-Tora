@@ -5,6 +5,7 @@ function init(window, document, undefined) {
     LoadModule.loadModuleApi("../js/popper.min.js", true);
     LoadModule.loadModuleApi("../js/tippy.umd.js", true);
     LoadModule.loadModuleApi("../js/Modules/GeneralModule.js", true);
+    LoadModule.loadModuleApi("../js/Modules/TiltModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/PrimaryButtonModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/SecondaryButtonModule.js", true);
     LoadModule.loadModuleApi("../js/Modules/MaterialInputsModule.js", true);

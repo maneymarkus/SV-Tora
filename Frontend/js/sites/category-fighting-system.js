@@ -9,17 +9,20 @@
     let personTypes = GeneralModule.generalVariables.personTypes;
     let fightingSystemTypes = GeneralModule.generalVariables.fightingSystemTypes;
 
-    let fighter1 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname1", "Nachname1", "SV Tora", "19.03.1997", "m", "1. Kyu");
-    let fighter2 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname2", "Nachname2", "SV Tora 1", "19.03.1997", "f", "2. Kyu");
-    let fighter3 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname3", "Nachname3", "SV Tora 2", "19.03.1999", "m", "4. Kyu");
-    let fighter4 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname4", "Nachname4", "SV Tora 3", "15.07.1999", "m", "1. Dan");
-    let fighter5 = PersonModule.createPersonApi(personTypes.FIGHTER, "Vorname5", "Nachname5", "SV Tora 4", "15.07.1999", "f", "1. Dan");
+    let fighter1 = PersonModule.createPersonApi(personTypes.FIGHTER, "sdfg8sdf87g", "Vorname1", "Nachname1", "SV Tora", "19.03.1997", "m", "1. Kyu");
+    let fighter2 = PersonModule.createPersonApi(personTypes.FIGHTER, "fkt54ktertn4", "Vorname2", "Nachname2", "SV Tora 1", "19.03.1997", "f", "2. Kyu");
+    let fighter3 = PersonModule.createPersonApi(personTypes.FIGHTER, "nhk345hiukj", "Vorname3", "Nachname3", "SV Tora 2", "19.03.1999", "m", "4. Kyu");
+    let fighter4 = PersonModule.createPersonApi(personTypes.FIGHTER, "reuith45tkh", "Vorname4", "Nachname4", "SV Tora 3", "15.07.1999", "m", "1. Dan");
+    let fighter5 = PersonModule.createPersonApi(personTypes.FIGHTER, "bgbrk34hb4te", "Vorname5", "Nachname5", "SV Tora 4", "15.07.1999", "f", "1. Dan");
+    let fighter6 = PersonModule.createPersonApi(personTypes.FIGHTER, "kenrkj3oh3h4", "Vorname6", "Nachname6", "SV Tora 4", "15.07.1999", "f", "1. Dan");
+    let fighter7 = PersonModule.createPersonApi(personTypes.FIGHTER, "as3ertdj3lkh", "Vorname7", "Nachname7", "SV Tora 4", "15.07.1999", "f", "1. Dan");
+    let fighter8 = PersonModule.createPersonApi(personTypes.FIGHTER, "ln456h345h6", "Vorname8", "Nachname8", "SV Tora 4", "15.07.1999", "f", "1. Dan");
+    let fighter9 = PersonModule.createPersonApi(personTypes.FIGHTER, "asdf86ad7ff", "Vorname9", "Nachname9", "SV Tora 4", "15.07.1999", "f", "1. Dan");
+    let fighter10 = PersonModule.createPersonApi(personTypes.FIGHTER, "al4t4l3htjk4", "Vorname10", "Nachname10", "SV Tora 4", "15.07.1999", "f", "1. Dan");
 
-    let dogEatDog = FightingSystemModule.createFightingSystemApi(fightingSystemTypes.DOGEATDOG, [fighter1, fighter2]);
+    let dogEatDog = FightingSystemModule.createFightingSystemApi(fightingSystemTypes.DOGEATDOG, [fighter1, fighter2, fighter3, fighter4]);
 
-    let binaryTree = FightingSystemModule.createBinaryFightTree_debug(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]);
-    binaryTree.buildTree();
-    console.log(binaryTree.findALlLeafNodes());
+    let koSystem = FightingSystemModule.createFightingSystemApi(fightingSystemTypes.KO, [fighter1, fighter2, fighter3, fighter4, fighter5, fighter6, fighter7, fighter8, fighter9]);
 
 
     let tableSystem = FightingSystemModule.createFightingSystemApi(fightingSystemTypes.TABLES, [fighter1, fighter2, fighter3, fighter4, fighter5]);
@@ -152,7 +155,7 @@
     };
 
     function changeFightingSystemParameter(categoryName) {
-        tableSystem.change();
+        koSystem.change();
     }
 
     function disableFightingSystem(system) {
