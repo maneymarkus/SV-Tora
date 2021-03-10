@@ -6,14 +6,17 @@
   /**
    * Dependencies
    */
-  let dependencies = ["PrimaryButtonModule", "SecondaryButtonModule", "MaterialInputsModule", "ModalModule", "TooltipModule"];
+  let dependencies = ["PrimaryButtonModule", "SecondaryButtonModule", "MaterialInputsModule", "ModalModule", "TooltipModule", "TimeScheduleModule"];
   GeneralModule.checkDependenciesApi(dependencies);
 
   let main = document.querySelector("main");
   let pageControl = document.querySelector("div.page-control");
   let pageSwitcher = pageControl.querySelectorAll("a.page-switcher");
   let pages = document.querySelectorAll("div.page-container");
-  let currentTimeLine = document.querySelector("hr.current-time");
+  let mainTimeScheduleContainer = document.querySelector("div.main.time-schedule-container");
+
+  // enable time indicator on the main time schedule
+  TimeScheduleModule.enableTimeIndicatorApi(mainTimeScheduleContainer);
 
   pageControl.addEventListener("click", function (e) {
     let target = e.target;
@@ -34,32 +37,6 @@
       target.classList.add("active");
     }
   });
-
-  /**
-   * This block contains code responsible for updating the current time line
-   */
-
-  const ONE_MINUTE_LENGTH = GeneralModule.generalVariables.ONE_MINUTE_LENGTH;
-
-  let currentDate = new Date();
-  //let currentTimeInMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
-  let currentTimeInMinutes = 960;
-  // TODO: get start time from backend
-  let startInMinutes = 900;
-  // TODO: get expected end time from backend
-  let expectedEndInMinutes = undefined;
-
-  let currentTimeInMinutesRelative = currentTimeInMinutes - startInMinutes;
-  adjustCurrentTimeLine(currentTimeInMinutesRelative * ONE_MINUTE_LENGTH);
-
-  window.setInterval(function () {
-    currentTimeInMinutesRelative++;
-    adjustCurrentTimeLine(currentTimeInMinutesRelative * ONE_MINUTE_LENGTH);
-  }, 60000);
-
-  function adjustCurrentTimeLine(topOffset) {
-    currentTimeLine.style.top = topOffset + "em";
-  }
 
 
   /**

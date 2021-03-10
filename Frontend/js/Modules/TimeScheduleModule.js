@@ -53,6 +53,8 @@ var TimeScheduleModule = (function (window, document, undefined) {
 
       // calculate start time in minutes
       let currentDate = new Date();
+
+      // TODO: reactivate
       //let currentTimeInMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
       let currentTimeInMinutes = 960;
       let startTimeInMinutes = 0;
@@ -279,7 +281,46 @@ var TimeScheduleModule = (function (window, document, undefined) {
    * API:
    */
   return {
-
+    /**
+     * This api function enables other modules to change the total duration of a time schedule
+     * @param timeScheduleElement {HTMLElement} The time schedule element that should be changed in duration
+     */
+    changeDurationApi : function (timeScheduleElement) {
+      if (timeScheduleElement.classList.contains("time-schedule-container")) {
+        timeSchedules.forEach((tS) => {
+          if (tS.timeScheduleElement === timeScheduleElement) {
+            tS.changeDuration();
+          }
+        });
+      }
+    },
+    /**
+     * This api function enables other modules to enable the time indicator of a time schedule
+     * @param timeScheduleElement {HTMLElement} The time schedule element that should have a time indicator
+     */
+    enableTimeIndicatorApi : function (timeScheduleElement) {
+      if (timeScheduleElement.classList.contains("time-schedule-container")) {
+        timeSchedules.forEach((tS) => {
+          if (tS.timeScheduleElement === timeScheduleElement) {
+            tS.enableTimeIndicator();
+          }
+        });
+      }
+    },
+    /**
+     * This api function enables other modules to enable the time indicator of a time schedule
+     * @param timeScheduleElement {HTMLElement} The time schedule element that should have a time indicator
+     * @param remove {boolean} This parameter determines if the corresponding html time indicator element should be removed
+     */
+    disableTimeIndicatorApi : function (timeScheduleElement, remove) {
+      if (timeScheduleElement.classList.contains("time-schedule-container")) {
+        timeSchedules.forEach((tS) => {
+          if (tS.timeScheduleElement === timeScheduleElement) {
+            tS.disableTimeIndicator(remove);
+          }
+        });
+      }
+    },
   }
 
 })(window, document);

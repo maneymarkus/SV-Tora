@@ -11,30 +11,17 @@
   // length in rem for coherent depiction in frontend
   const ONE_MINUTE_LENGTH = GeneralModule.generalVariables.ONE_MINUTE_LENGTH;
 
-  // length in rem for coherent depiction in frontend
-  const ONE_HOUR_LENGTH = ONE_MINUTE_LENGTH * 60;
-
   let body = document.querySelector("body");
-  let timeContainer = document.querySelector("div.time-container");
-  let fightPlacesContainer = document.querySelector("div.fight-places");
+  let timeScheduleContainer = document.querySelector("div.time-schedule-container");
+  let locationsContainer = timeScheduleContainer.querySelector("div.locations");
   let buttonContainer = document.querySelector("div.time-actions");
   let resetButton = buttonContainer.querySelector("a.primary-button.reset");
   let saveButton = buttonContainer.querySelector("a.primary-button.save");
   let backButton = buttonContainer.querySelector("a.primary-button.back");
   let timeBlocksContainer = document.querySelector("div.time-blocks-container");
   let categoryContainer = timeBlocksContainer.querySelector(".category-container");
-  let fightPlaces = fightPlacesContainer.querySelectorAll("div.fight-place");
-  let timeScale = document.querySelector("div.time-scale");
 
   function initialization() {
-    let countFightPlaces = fightPlaces.length;
-    let countHours = timeScale.querySelectorAll("div.hour.full").length;
-
-    setWidthOfVisualAids(countFightPlaces);
-
-    setWidthOfTimeContainer(countFightPlaces);
-
-    setHeightOfTimeContainer(countHours);
 
     let categoryTimeBlocks = document.querySelectorAll(".time-block.category");
 
@@ -47,25 +34,6 @@
 
   }
   initialization();
-
-  function setWidthOfTimeContainer(countFightPlaces) {
-    // the width is calculated in this way: 8rem are needed for the time scale on the left, 2rem are needed as a little space on the right end of the time container and each of the fight place containers needs 16rem of space
-    timeContainer.style.width = 8 + 2 + (16 * countFightPlaces) + "rem";
-  }
-
-  function setHeightOfTimeContainer(countHours) {
-    // the height is calculated in this way: 5rem are needed for the headings of the fight places and any paddings and margins in the container and 10rem are needed for each hour
-    timeContainer.style.height = 5 + (10 * countHours) + "rem";
-
-  }
-
-  function setWidthOfVisualAids(countFightPlaces) {
-    let hourlyVisualAids = timeScale.querySelectorAll("span.visual-aid");
-    let visualAidsWidth = 16 * countFightPlaces;
-    hourlyVisualAids.forEach((visualAid) => {
-      visualAid.style.width = visualAidsWidth + "rem";
-    });
-  }
 
   buttonContainer.addEventListener("click", function (e) {
     let target = e.target;
@@ -84,10 +52,10 @@
 
     // completely reset any changes
     if (target.classList.contains("reset")) {
-      let timeBlocks = fightPlacesContainer.querySelectorAll(".time-block");
+      let timeBlocks = locationsContainer.querySelectorAll(".time-block");
       if (timeBlocks.length > 0) {
         ModalModule.deleteModalApi("Änderungen zurücksetzen", "Diese Aktion setzt alle Änderungen komplett zurück. Alle zugeordneten Kämpfe werden wieder aufgehoben. Das kann nicht rückgängig gemacht werden.", function () {
-          let timeBlocks = fightPlacesContainer.querySelectorAll(".time-block");
+          let timeBlocks = locationsContainer.querySelectorAll(".time-block");
           timeBlocks.forEach((timeBlock) => {
             if (timeBlock.classList.contains("break")) {
               timeBlock.remove();
@@ -108,68 +76,10 @@
 
     //change the length of the time scale (for more "space" (time))
     if (target.classList.contains("duration")) {
-      let initialValue = timeScale.querySelectorAll("div.hour.full").length;
-      let calculatedMinValue = calculateMinDurationValue();
-      let minValue = (calculatedMinValue !== 0) ? calculatedMinValue : 1;
-      let rangeInput = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.RANGE, [], undefined, "total-duration", "Länge des Wettkampfes (in Stunden)", (initialValue) ? initialValue : 1, undefined, undefined);
-      rangeInput.setMin(minValue);
-      rangeInput.setMax(20);
-
-      ModalModule.confirmModalApi("Pausenzeit einstellen", rangeInput.inputContainer, function () {
-        let chosenDuration = rangeInput.getValue();
-        let hourText = timeScale.querySelector("div.hour span.whole").innerText;
-        let startHour = parseInt(hourText.substring(0, hourText.indexOf(":")));
-        timeScale.innerHTML = "";
-        let hour = startHour;
-        for (let i = 1; i <= chosenDuration; i++) {
-          timeScale.appendChild(createFullHourElement(hour++));
-        }
-        timeScale.appendChild(createShortHourElement(hour));
-        let countHours = timeScale.querySelectorAll("div.hour.full").length;
-        setHeightOfTimeContainer(countHours);
-        setWidthOfVisualAids(fightPlaces.length);
-      });
+      TimeScheduleModule.changeDurationApi(timeScheduleContainer);
     }
 
   });
-
-  function createFullHourElement(h) {
-    let hour = h % 24;
-    let hourContainer = GeneralModule.generateElementApi("div", ["hour", "full"]);
-
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["visual-aid"]));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["whole"], hour + ":00"));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["quarter"], hour + ":15"));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["half"], hour + ":30"));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["three-fourths"], hour + ":45"));
-
-    return hourContainer;
-  }
-
-  function createShortHourElement(h) {
-    let hour = h % 24;
-    let hourContainer = GeneralModule.generateElementApi("div", ["hour", "short"]);
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["visual-aid"]));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["whole"], hour + ":00"));
-    return hourContainer;
-  }
-
-  function calculateMinDurationValue() {
-    let minValue = 0;
-    fightPlaces.forEach((fightPlace) => {
-      let totalTimeForThisPlace = 0;
-      let timeBlocks = fightPlace.querySelectorAll("div.time-block");
-      timeBlocks.forEach((timeBlock) => {
-        let singleDuration = parseInt(timeBlock.querySelector("span.duration").innerText);
-        totalTimeForThisPlace += singleDuration;
-      });
-      if (totalTimeForThisPlace > minValue) {
-        minValue = totalTimeForThisPlace;
-      }
-    });
-    let minValueInHours = Math.ceil(minValue / 60);
-    return minValueInHours;
-  }
 
   timeBlocksContainer.addEventListener("mousedown", function (e) {
     let target = e.target;
@@ -181,7 +91,7 @@
     }
   });
 
-  fightPlacesContainer.addEventListener("mousedown", function (e) {
+  locationsContainer.addEventListener("mousedown", function (e) {
     let target = e.target;
     while (target.nodeName !== "BODY" && !target.classList.contains("time-block")) {
       target = target.parentElement;

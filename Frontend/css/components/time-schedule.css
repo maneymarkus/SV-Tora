@@ -115,6 +115,7 @@
   height: 3rem;
 }
 
+/* specific style for the time block inside the fight-place column container */
 .fight-place .time-block {
   margin: 0;
   top: 0;
@@ -123,29 +124,7 @@
   box-shadow: none;
 }
 
-.time-actions {
-  padding: 2rem 0;
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.time-actions .primary-button {
-  flex-shrink: 0;
-  flex-grow: 0;
-  font-size: 0.75rem;
-}
-
-.time-blocks-container {
-  position: fixed;
-  width: 100%;
-  height: 10rem;
-  left: 0;
-  bottom: 0;
-  background-color: var(--theme-color-1);
-  box-shadow: 0 0 10px 3px var(--box-shadow);
-  z-index: 100;
-}
-
+/* general styles for the time block */
 .time-block {
   cursor: pointer;
   box-shadow: 0 0 5px 2px black;
