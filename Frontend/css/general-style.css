@@ -178,11 +178,15 @@ table, .table, th, td {
 
 /* This container element should contain elements that might exceed the width of the window */
 .oversize-container {
-    width: calc(100% + 4rem);
+    width: 100%;
     overflow-x: auto;
     padding: 2rem 3rem 3rem;
     margin-left: -2rem;
     height: auto;
+}
+
+main .oversize-container {
+    width: calc(100% + 4rem);
 }
 
 /* This is a class to insert some space after elements that exceed the width of the window */
@@ -329,6 +333,11 @@ a.go-back i {
 
 .space-below {
     margin-bottom: 1em !important;
+}
+
+.emphasize {
+    font-size: 1.25em !important;
+    font-weight: bold !important;
 }
 
 

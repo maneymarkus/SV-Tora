@@ -32,7 +32,7 @@
 /* TODO: calculate width and height*/
 .time-schedule-container {
   width: calc(8em + 16em * 1 + 2em); /* standard width of time container (8rem for the time scale on the left, 2rem for a little space on the right of the container and 16rem needs every fight place container */
-  height: calc(5em + 10em * 3);
+  height: calc(5em + 10em * 1);
   position: relative;
   padding-left: 7em;
   display: flex;
@@ -44,7 +44,7 @@
   z-index: 11;
   left: 7em;
   margin-top: 4em; /* The standard top offset (hr is displayed exactly at the starting time of the tournament */
-  border-color: #2699FB;
+  border-color: var(--accent-color-1-light);
 }
 
 .time-schedule-container .time-scale {
@@ -57,21 +57,18 @@
   z-index: 10;
 }
 
-.time-scale .hour {
+.time-scale > span {
+  /* This should be changed when changing the height of the one minute time unit height */
+  font-size: 1.25em;
+  height: 2em;
+  line-height: 2em;
+  display: block;
   position: relative;
-  height: 10em;
-}
-
-.time-scale .hour.short {
-  height: 3em;
-}
-
-.time-scale span {
-  position: absolute;
   transform: translateY(-50%) translateY(2.5px);
+  padding-left: 0.75em;
 }
 
-.time-scale span:before {
+.time-scale > span:before {
   content: '';
   position: absolute;
   background-color: var(--accent-color-1-dark);
@@ -79,43 +76,17 @@
   left: 0;
   top: 50%;
   transform: translateY(-50%);
+  width: 0.5em;
 }
 
 .time-scale span.whole,
 .time-scale span.start {
-  font-size: 1.5em;
   padding-left: 1.25em;
-  top: 0;
 }
 
 .time-scale span.whole:before,
 .time-scale span.start:before {
   width: 1em;
-}
-
-.time-scale span.quarter,
-.time-scale span.half,
-.time-scale span.three-fourths {
-  font-size: 1.25em;
-  padding-left: 0.75em;
-}
-
-.time-scale span.quarter:before,
-.time-scale span.half:before,
-.time-scale span.three-fourths:before {
-  width: 0.5em;
-}
-
-.time-scale span.quarter {
-  top: 25%;
-}
-
-.time-scale span.half {
-  top: 50%;
-}
-
-.time-scale span.three-fourths {
-  top: 75%;
 }
 
 .time-schedule-container .fight-place {

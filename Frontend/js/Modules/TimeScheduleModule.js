@@ -33,10 +33,12 @@ var TimeScheduleModule = (function (window, document, undefined) {
     this.currentTimeIndicator = undefined;
 
     this.numberLocations = this.locationColumnElements.length;
-    this.lengthInHours = this.timeScaleElement.querySelectorAll("div.hour.full").length;
-    this.startTime = this.timeScaleElement.querySelector("div.hour.full span.whole").innerText;
+    // since start time and end time (on the time scale!) have separate spans, increasing the total amount of spans by 1, we need to deduct a span to get the correct amount of hours displayed on the time scale
+    this.lengthInHours = (this.timeScaleElement.querySelectorAll("span.time").length - 1) / 4;
+    this.startTime = this.timeScaleElement.querySelector("span.start").innerText;
     // TODO: get expected end time from backend via unique Identifier
     this.expectedEndTime = undefined;
+    this.minuteInterval = undefined;
 
 
     /*********************************************************************
@@ -55,8 +57,8 @@ var TimeScheduleModule = (function (window, document, undefined) {
       let currentTimeInMinutes = 960;
       let startTimeInMinutes = 0;
       let parts = This.startTime.split(":");
-      startTimeInMinutes += parts[0] * 60;
-      startTimeInMinutes += parts[1];
+      startTimeInMinutes += parseInt(parts[0]) * 60;
+      startTimeInMinutes += parseInt(parts[1]);
 
       // TODO: get expected end time from backend
       let expectedEndInMinutes = undefined;
@@ -65,9 +67,8 @@ var TimeScheduleModule = (function (window, document, undefined) {
       let maxEndTimeRelative = This.lengthInHours * 60;
 
       let currentTimeInMinutesRelative = currentTimeInMinutes - startTimeInMinutes;
-      adjustCurrentTimeIndicator(currentTimeInMinutesRelative * ONE_MINUTE_LENGTH_IN_EM);
 
-      let minuteInterval = window.setInterval(adjustCurrentTimeIndicator, 60000);
+      This.minuteInterval = window.setInterval(adjustCurrentTimeIndicator, 60000);
 
       function adjustCurrentTimeIndicator() {
         currentTimeInMinutesRelative++;
@@ -76,12 +77,32 @@ var TimeScheduleModule = (function (window, document, undefined) {
           // Top offset can't be smaller than 0
           topOffset = (topOffset < 0) ? 0 : topOffset;
           This.currentTimeIndicator.style.top = topOffset + "em";
+          This.locationColumnElements.forEach((column) => {
+            markTimeBlocksAsDone(column, currentTimeInMinutesRelative);
+          });
         } else {
-          clearInterval(minuteInterval);
+          clearInterval(This.minuteInterval);
         }
       }
     }
 
+    /**
+     *  This function disables a prior enabled time indicator
+     * @param remove {boolean} This parameter determines if the time indicator element should also be removed (from displaying)
+     */
+    this.disableTimeIndicator = function (remove = false) {
+      if (This.minuteInterval) {
+        clearInterval(This.minuteInterval);
+        if (remove) {
+          This.currentTimeIndicator.remove();
+        }
+      }
+    }
+
+    /**
+     * This function sets the height of the time schedule container (after e.g. changing the duration of the tournament)
+     * @param countHours {number} This variable determines how high the container should be and can also contain fractions of hours
+     */
     this.setHeightOfTimeContainer = function (countHours) {
       // TODO: calculation of height and width of elements should be done in backend
       let heightOf1Hour = ONE_MINUTE_LENGTH_IN_EM * 60;
@@ -121,7 +142,7 @@ var TimeScheduleModule = (function (window, document, undefined) {
     /**
      * This function asks the user to change the length of the time schedule in the well defined limits
      */
-    this.changeLength = function () {
+    this.changeDuration = function () {
       let calculatedMinValue = This.calculateMinDurationValue();
       let minValue = (calculatedMinValue !== 0) ? calculatedMinValue : 1;
       let rangeInput = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.RANGE, [], undefined, "total-duration", "Länge des Wettkampfes (in Stunden):", (This.lengthInHours) ? This.lengthInHours : 1, undefined, undefined);
@@ -131,18 +152,30 @@ var TimeScheduleModule = (function (window, document, undefined) {
 
       ModalModule.confirmModalApi("Länge des Wettkampfes", rangeInput.inputContainer, function () {
         let chosenDuration = rangeInput.getValue();
-
-
-
-        let startHour = parseInt(This.startTime.substring(0, This.startTime.indexOf(":")));
+        let hours = parseInt(This.startTime.substring(0, This.startTime.indexOf(":")));
+        let minutes = parseInt(This.startTime.substring(This.startTime.indexOf(":") + 1));
         This.timeScaleElement.innerHTML = "";
-        let hour = startHour;
-        for (let i = 1; i <= chosenDuration; i++) {
-          This.timeScaleElement.appendChild(createFullHourElement(hour++));
+
+        let startTimeSpan = createTimeScaleSpan(hours, minutes, true);
+        This.timeScaleElement.appendChild(startTimeSpan);
+
+        let numberQuarterHours = chosenDuration * 4;
+
+        for (let i = 0; i < numberQuarterHours; i++) {
+          minutes += 15;
+          if (minutes === 60) {
+            minutes = 0;
+            hours += 1;
+          }
+          if (hours === 24) {
+            hours = 0;
+          }
+          let span = createTimeScaleSpan(hours, minutes);
+          This.timeScaleElement.appendChild(span);
         }
-        This.timeScaleElement.appendChild(createShortHourElement(hour));
-        let countHours = This.timeScaleElement.querySelectorAll("div.hour.full").length;
-        This.setHeightOfTimeContainer(countHours);
+
+        This.setHeightOfTimeContainer(chosenDuration);
+
       });
     }
 
@@ -159,31 +192,79 @@ var TimeScheduleModule = (function (window, document, undefined) {
           minValue = totalTimeForThisLocation;
         }
       });
-      let minValueInHours = Math.ceil(minValue / 60);
+
+      // calculate the number of quarter hours needed
+      let minValueInQuarterHours = Math.ceil(minValue / 15);
+
+      // convert to hours
+      let minValueInHours = minValueInQuarterHours / 4;
+
+      // add another quarter hour as "padding"
+      minValueInHours += 0.25;
       return minValueInHours;
     }
 
   }
 
-  function createFullHourElement(h) {
-    let hour = h % 24;
-    let hourContainer = GeneralModule.generateElementApi("div", ["hour", "full"]);
-
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["visual-aid"]));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["whole"], hour + ":00"));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["quarter"], hour + ":15"));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["half"], hour + ":30"));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["three-fourths"], hour + ":45"));
-
-    return hourContainer;
+  /**
+   * This function marks time blocks that have been already passed as "done" (the categories e.g. have already been finished)
+   * @param column {HTMLElement} The location column element in which the time block should be marked
+   * @param currentTime {number} The current time in minutes
+   */
+  function markTimeBlocksAsDone(column, currentTime) {
+    let timeBlocks = column.querySelectorAll("div.time-block");
+    let cumulativeCategoriesTime = 0;
+    timeBlocks.forEach((timeBlock) => {
+      let duration = parseInt(timeBlock.querySelector("span.duration").innerText);
+      cumulativeCategoriesTime += duration;
+      if (cumulativeCategoriesTime < currentTime) {
+        timeBlock.classList.add("done");
+      }
+    });
   }
 
-  function createShortHourElement(h) {
-    let hour = h % 24;
-    let hourContainer = GeneralModule.generateElementApi("div", ["hour", "short"]);
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["visual-aid"]));
-    hourContainer.appendChild(GeneralModule.generateElementApi("span", ["whole"], hour + ":00"));
-    return hourContainer;
+  /**
+   * This function creates a span element representing a time on the time scale
+   * @param hours {number}
+   * @param minutes {number}
+   * @param start {boolean} Contains if the span to be generated is the first span
+   */
+  function createTimeScaleSpan(hours, minutes, start = false) {
+    let span = GeneralModule.generateElementApi("span", ["time"]);
+    let emphasizeSpan = undefined;
+
+    // convert number values to strings
+    let textMinutes = minutes + "";
+    let textHours = hours + "";
+
+
+    if (minutes === 0) {
+      textMinutes = "00";
+    }
+    if (hours === 0) {
+      textHours = "00";
+    }
+
+
+    if (start) {
+      emphasizeSpan = GeneralModule.generateElementApi("span", ["emphasize"], textHours + ":" + textMinutes);
+      span.classList.add("start");
+    }
+
+    if (minutes === 0) {
+      if (!emphasizeSpan) {
+        emphasizeSpan = GeneralModule.generateElementApi("span", ["emphasize"], textHours + ":" + textMinutes);
+      }
+      span.classList.add("whole");
+    }
+
+    if (emphasizeSpan) {
+      span.appendChild(emphasizeSpan);
+    } else {
+      span.innerHTML = textHours + ":" + textMinutes;
+    }
+
+    return span;
   }
 
   /**
