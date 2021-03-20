@@ -25,17 +25,6 @@ main .page-container.active {
   z-index: 11;
 }
 
-/* Resembles the progress bar */
-.tournament-progress:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 0.75em;
-  width: 59%;
-  background-color: var(--accent-color-1-light);
-}
-
 .tournament-progress span {
   font-size: 1.2em;
   z-index: 2;
@@ -63,6 +52,29 @@ main .page-container.active {
   z-index: 1;
   text-shadow: 1px 1px 2px var(--text-shadow);
 }
+
+.tournament-progress .progress-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 0.75em;
+  width: 59%;
+  background-color: var(--accent-color-1-light);
+}
+
+
+/*
+/-------------------------------------------------------------------
+/
+/ Styles for the detail view page
+/
+/-------------------------------------------------------------------
+*/
+
+.fight-place-detail-view .select-input-container {
+  margin-bottom: 4rem;
+}
+
 
 /*
 /-------------------------------------------------------------------
@@ -172,7 +184,7 @@ main .page-container.active {
 .category-detail-modal h3 {
   font-size: 2em;
   margin-top: 0;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   padding-bottom: 0.25em;
   display: inline-block;
   border-bottom: 3px solid var(--theme-color-3);
@@ -213,6 +225,10 @@ main .page-container.active {
 
 .category-detail-modal .link {
   font-weight: bold;
+}
+
+.category-detail-modal .category-status-control {
+  margin: 1.5em 0;
 }
 
 .category-detail-modal .category-actions {
@@ -346,16 +362,13 @@ main .page-container.active {
     width: 1020px;
   }
 
-  .category-control {
-    left: 50%;
-  }
-
-  .category-control.previous-category {
+  .category-detail-view a.category-control.previous-category {
     left: 50%;
     transform: translateX(-620px);
   }
 
-  .category-control.next-category {
+  .category-detail-view a.category-control.next-category {
+    left: 50%;
     right: auto;
     transform: translateX(520px);
   }

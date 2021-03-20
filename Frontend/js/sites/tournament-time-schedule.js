@@ -101,6 +101,7 @@
     }
   });
 
+
   /**
    * The following block block contains code responsible for the drag and drop action to create the timing schedule
    */

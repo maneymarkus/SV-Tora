@@ -262,7 +262,7 @@
      * This function handles the change of the status of the current tournament
      */
     function changeStatusOfTournament() {
-      let statuus = GeneralModule.generalVariables.tournamentSelectableStatuus;
+      let statuus = GeneralModule.generalVariables.tournamentSelectableStatuusOrder;
       let select = MaterialInputsModule.createInputApi(GeneralModule.generalVariables.inputTypes.SELECT, undefined, undefined, "tournament-status", "Wettkampf-Status", undefined, undefined, statuus);
       ModalModule.confirmModalApi("Wettkampf Status ändern", select.inputContainer, function () {
         let status = select.getValue();

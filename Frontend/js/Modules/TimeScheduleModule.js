@@ -13,6 +13,14 @@ var TimeScheduleModule = (function (window, document, undefined) {
   const ONE_MINUTE_LENGTH_IN_EM = GeneralModule.generalVariables.ONE_MINUTE_LENGTH;
   const MAX_LENGTH_IN_HOURS = 15;
 
+  let progressEvent = new CustomEvent(
+      "timeScheduleProgress",
+      {
+        bubbles: true,
+        cancelable: true,
+      }
+      );
+
   let timeSchedules = [];
 
   /**
@@ -39,6 +47,7 @@ var TimeScheduleModule = (function (window, document, undefined) {
     // TODO: get expected end time from backend via unique Identifier
     this.expectedEndTime = undefined;
     this.minuteInterval = undefined;
+    this.progress = 0;
 
 
     /*********************************************************************
@@ -56,7 +65,7 @@ var TimeScheduleModule = (function (window, document, undefined) {
 
       // TODO: reactivate
       //let currentTimeInMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
-      let currentTimeInMinutes = 960;
+      let currentTimeInMinutes = 900;
       let startTimeInMinutes = 0;
       let parts = This.startTime.split(":");
       startTimeInMinutes += parseInt(parts[0]) * 60;
@@ -82,10 +91,18 @@ var TimeScheduleModule = (function (window, document, undefined) {
           This.locationColumnElements.forEach((column) => {
             markTimeBlocksAsDone(column, currentTimeInMinutesRelative);
           });
+          updateProgress();
         } else {
           clearInterval(This.minuteInterval);
         }
       }
+
+      function updateProgress() {
+        let progress = currentTimeInMinutesRelative / maxEndTimeRelative
+        This.progress = Math.round(progress * 100) / 100;
+        This.timeScheduleElement.dispatchEvent(progressEvent);
+      }
+
     }
 
     /**
@@ -133,15 +150,6 @@ var TimeScheduleModule = (function (window, document, undefined) {
     }
 
     /**
-     * This function initializes the time schedule element in order to ensure a correct display in frontend
-     */
-    this.initialization = function () {
-      This.setHeightOfTimeContainer(This.lengthInHours);
-      This.setWidthOfTimeContainer(This.numberLocations);
-    }
-    this.initialization();
-
-    /**
      * This function asks the user to change the length of the time schedule in the well defined limits
      */
     this.changeDuration = function () {
@@ -182,21 +190,10 @@ var TimeScheduleModule = (function (window, document, undefined) {
     }
 
     this.calculateMinDurationValue = function () {
-      let minValue = 0;
-      This.locationColumnElements.forEach((column) => {
-        let totalTimeForThisLocation = 0;
-        let timeBlocks = column.querySelectorAll("div.time-block");
-        timeBlocks.forEach((timeBlock) => {
-          let singleDuration = parseInt(timeBlock.querySelector("span.duration").innerText);
-          totalTimeForThisLocation += singleDuration;
-        });
-        if (totalTimeForThisLocation > minValue) {
-          minValue = totalTimeForThisLocation;
-        }
-      });
+      let longestDuration = this.calculateExpectedEndTime();
 
       // calculate the number of quarter hours needed
-      let minValueInQuarterHours = Math.ceil(minValue / 15);
+      let minValueInQuarterHours = Math.ceil(longestDuration / 15);
 
       // convert to hours
       let minValueInHours = minValueInQuarterHours / 4;
@@ -206,6 +203,50 @@ var TimeScheduleModule = (function (window, document, undefined) {
       return minValueInHours;
     }
 
+    this.calculateExpectedEndTime = function () {
+      let maxValue = 0;
+      This.locationColumnElements.forEach((column) => {
+        let totalTimeForThisLocation = calculateDurationOfLocation(column);
+        if (totalTimeForThisLocation > maxValue) {
+          maxValue = totalTimeForThisLocation;
+        }
+      });
+      return maxValue;
+    }
+
+    /**
+     * This function updates properties (after a manual call) that could potentially have changed
+     */
+    this.updateProperties = function () {
+      this.locationColumnElements = timeSchedule.querySelectorAll("div.locations div.fight-place");
+      this.numberLocations = this.locationColumnElements.length;
+      this.setWidthOfTimeContainer(This.numberLocations);
+    }
+
+    /**
+     * This function initializes the time schedule element in order to ensure a correct display in frontend
+     */
+    this.initialization = function () {
+      this.setHeightOfTimeContainer(this.lengthInHours);
+      this.setWidthOfTimeContainer(this.numberLocations);
+      this.expectedEndTime = this.calculateExpectedEndTime();
+    }
+    this.initialization();
+
+  }
+
+  function calculateDurationOfLocation(column) {
+    if (column.classList.contains("location-column")) {
+      let totalTime = 0;
+      let timeBlocks = column.querySelectorAll("div.time-block");
+      timeBlocks.forEach((timeBlock) => {
+        let singleDuration = parseInt(timeBlock.querySelector("span.duration").innerText);
+        totalTime += singleDuration;
+      });
+      return totalTime;
+    } else {
+      return undefined;
+    }
   }
 
   /**
@@ -317,6 +358,35 @@ var TimeScheduleModule = (function (window, document, undefined) {
         timeSchedules.forEach((tS) => {
           if (tS.timeScheduleElement === timeScheduleElement) {
             tS.disableTimeIndicator(remove);
+          }
+        });
+      }
+    },
+    /**
+     * This api function returns the progress of a given time schedule element
+     * @param timeScheduleElement {HTMLElement} The time schedule element of which the progress is requested
+     * @return {number}
+     */
+    getProgressApi : function (timeScheduleElement) {
+      let progress = 0;
+      if (timeScheduleElement.classList.contains("time-schedule-container")) {
+        timeSchedules.forEach((tS) => {
+          if (tS.timeScheduleElement === timeScheduleElement) {
+            progress = tS.progress;
+          }
+        });
+      }
+      return progress;
+    },
+    /**
+     * This api function updates properties of a time schedule object that could potentially have changed
+     * @param timeScheduleElement {HTMLElement} The time schedule element of which the progress is requested
+     */
+    updatePropertiesApi : function (timeScheduleElement) {
+      if (timeScheduleElement.classList.contains("time-schedule-container")) {
+        timeSchedules.forEach((tS) => {
+          if (tS.timeScheduleElement === timeScheduleElement) {
+            tS.updateProperties();
           }
         });
       }

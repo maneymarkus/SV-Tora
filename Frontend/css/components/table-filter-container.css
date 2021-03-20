@@ -65,15 +65,7 @@ div.chosen-filters {
   padding: 1em 2em;
 }
 
-.filter-container .secondary-button i {
-  font-size: 1.5em;
-  margin-right: 0.25em;
-  vertical-align: -0.25em;
-}
-
 .filter-container .secondary-button .text {
-  letter-spacing: 0;
-  display: block;
   font-size: 1em;
 }
 

@@ -68,13 +68,13 @@
                         <span class="time whole"><span class="emphasize">18:00</span></span>
                     </div>
                     <div class="locations">
-                        <div class="fight-place" data-name="pool 1">
+                        <div class="location-column fight-place" data-name="pool 1">
                             <h2>Pool 1</h2>
-                            <div class="category done time-block" data-category="1" style="height: 2.66rem">
+                            <div class="category time-block" data-category="1" style="height: 2.66rem">
                                 <h3>Kategorie <span class="category-name">1</span></h3>
                                 <p><span class="duration">16</span> Minuten</p>
                             </div>
-                            <div class="category done time-block" data-category="3" style="height: 7.5rem">
+                            <div class="category time-block" data-category="3" style="height: 7.5rem">
                                 <h3>Kategorie <span class="category-name">3</span></h3>
                                 <p><span class="duration">44</span> Minuten</p>
                             </div>
@@ -87,21 +87,21 @@
                                 <p><span class="duration">36</span> Minuten</p>
                             </div>
                         </div>
-                        <div class="fight-place" data-name="pool 2">
+                        <div class="location-column fight-place" data-name="pool 2">
                             <h2>Pool 2</h2>
-                            <div class="category done time-block" data-category="2" style="height: 5.33rem">
+                            <div class="category time-block" data-category="2" style="height: 5.33rem">
                                 <h3>Kategorie <span class="category-name">2</span></h3>
                                 <p><span class="duration">32</span> Minuten</p>
                             </div>
-                            <div class="category done time-block" data-category="6" style="height: 1.33rem">
+                            <div class="category time-block" data-category="6" style="height: 1.33rem">
                                 <h3>Kategorie <span class="category-name">6</span></h3>
                                 <p><span class="duration">8</span> Minuten</p>
                             </div>
-                            <div class="category done time-block" data-category="7" style="height: 2rem">
+                            <div class="category time-block" data-category="7" style="height: 2rem">
                                 <h3>Kategorie <span class="category-name">7</span></h3>
                                 <p><span class="duration">12</span> Minuten</p>
                             </div>
-                            <div class="category done time-block" data-category="8" style="height: 4.66rem">
+                            <div class="category time-block" data-category="8" style="height: 4.66rem">
                                 <h3>Kategorie <span class="category-name">8</span></h3>
                                 <p><span class="duration">28</span> Minuten</p>
                             </div>
@@ -114,13 +114,13 @@
                                 <p><span class="duration">10</span> Minuten</p>
                             </div>
                         </div>
-                        <div class="fight-place" data-name="pool 3">
+                        <div class="location-column fight-place" data-name="pool 3">
                             <h2>Pool 3</h2>
-                            <div class="category done time-block" data-category="4" style="height: 12rem">
+                            <div class="category time-block" data-category="4" style="height: 12rem">
                                 <h3>Kategorie <span class="category-name">4</span></h3>
                                 <p><span class="duration">72</span> Minuten</p>
                             </div>
-                            <div class="category done time-block" data-category="5" style="height: 2.33rem">
+                            <div class="category time-block" data-category="5" style="height: 2.33rem">
                                 <h3>Kategorie <span class="category-name">5</span></h3>
                                 <p><span class="duration">14</span> Minuten</p>
                             </div>
@@ -141,11 +141,12 @@
                 <span class="start">Start:<br /><span class="time time-start">15:00</span> Uhr</span>
                 <span class="estimated-end">Geschätztes Ende:<br /><span class="time time-end">17:43</span> Uhr</span>
                 <span class="progress">59%</span>
+                <span class="progress-bar"></span>
             </div>
 
         </div>
 
-        <div class="page-container fight-place-overview">
+        <div class="page-container fight-place-detail-view">
 
             <h1>Wettkampftag! - Pool&shy;übersicht</h1>
 
@@ -206,6 +207,12 @@
                 <p class="referees" data-property="Kampfrichter"><a class="link">1</a></p>
                 <p class="helper" data-property="Helfer"><a class="link">0</a></p>
             </div>
+            <a class="secondary-button category-status-control finish-category">
+                <span class="text">
+                    <i class="material-icons">check_circle</i>
+                    Kategorie abschließen
+                </span>
+            </a>
             <div class="category-actions">
                 <a class="primary-button print" href="#">
                     <i class="material-icons">print</i>
@@ -230,7 +237,7 @@
         <a class="complete-overview page-switcher active" data-page="complete-overview">
             <i class="material-icons">dashboard</i>
         </a>
-        <a class="fight-place-overview page-switcher" data-page="fight-place-overview">
+        <a class="fight-place-overview page-switcher" data-page="fight-place-detail-view">
             <i class="material-icons">view_array</i>
         </a>
     </div>

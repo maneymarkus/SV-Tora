@@ -38,6 +38,23 @@
     }
   });
 
+  /**
+   * The following block contains code responsible for managing the tournament progress
+   */
+
+  let tournamentProgressContainer = document.querySelector("div.tournament-progress");
+  let startSpan = tournamentProgressContainer.querySelector("span.time-start");
+  let endSpan = tournamentProgressContainer.querySelector("span.time-end");
+  let progressSpan = tournamentProgressContainer.querySelector("span.progress");
+  let progressBar = tournamentProgressContainer.querySelector("span.progress-bar");
+
+  mainTimeScheduleContainer.addEventListener("timeScheduleProgress", function () {
+    let progressInPercent = Math.round(TimeScheduleModule.getProgressApi(mainTimeScheduleContainer) * 100);
+    progressSpan.innerHTML = progressInPercent + "%";
+    progressSpan.style.left = progressInPercent + "%";
+    progressBar.style.width = progressInPercent + "%";
+  });
+
 
   /**
    * The following block contains code responsible for recognizing interactions (more specifically: clicks) with the time schedule
@@ -59,13 +76,36 @@
    * The following block contains code responsible for managing the single pool time schedule overview
    */
 
-  let fightPlaceOverviewPage = document.querySelector("div.fight-place-overview");
-  let fightPlaceSelectElement = fightPlaceOverviewPage.querySelector("div.select-input-container");
+  let overviewPage = document.querySelector("div.complete-overview");
+  let overviewPageLocationsContainer = overviewPage.querySelector("div.locations");
+
+  let detailViewPage = document.querySelector("div.fight-place-detail-view");
+  let detailViewPageTimeScheduleElement = detailViewPage.querySelector("div.time-schedule-container");
+  let fightPlaceSelectElement = detailViewPage.querySelector("div.select-input-container");
   let fightPlaceSelect = MaterialInputsModule.getInputObjectApi(fightPlaceSelectElement);
-  let fightPlaceContainerElement = fightPlaceOverviewPage.querySelector("div.fight-place-container");
+  let fightPlaceContainerElement = detailViewPage.querySelector("div.fight-place-container");
+  let detailViewPageLocationsContainer = detailViewPage.querySelector("div.locations");
 
   fightPlaceSelectElement.addEventListener("change", function () {
-    console.log(fightPlaceSelect.getValue());
+    let selectedLocationName = fightPlaceSelect.getValue().toLowerCase();
+    let selectedLocation = undefined;
+    let availableLocations = overviewPageLocationsContainer.querySelectorAll("div.location-column");
+    availableLocations.forEach((location) => {
+      if (location.getAttribute("data-name") === selectedLocationName) {
+        selectedLocation = location;
+      }
+    });
+
+    // copy the location column element to insert the copy in the detail view page
+    let locationCopy = selectedLocation.cloneNode(true);
+
+    // insert copy into location container element
+    detailViewPageLocationsContainer.innerHTML = "";
+    detailViewPageLocationsContainer.appendChild(locationCopy);
+
+    TimeScheduleModule.updatePropertiesApi(detailViewPageTimeScheduleElement);
+    TimeScheduleModule.enableTimeIndicatorApi(detailViewPageTimeScheduleElement);
+
   });
 
 
@@ -95,6 +135,8 @@
   /**
    * This block initializes variables to identify the elements with dynamic content
    */
+  let categoryStatuus = GeneralModule.generalVariables.categoryStatuus;
+
   let categoryModal = categoryDetailView.querySelector("div.category-detail-modal");
   let categoryNameElement = categoryModal.querySelector(".category span.category-name");
   let categoryStatusElement = categoryModal.querySelector(".category-status span.current-status");
@@ -105,29 +147,95 @@
   let categoryFighterElement = categoryModal.querySelector(".fighter");
   let categoryRefereesElement = categoryModal.querySelector(".referees");
   let categoryHelperElement = categoryModal.querySelector(".helper");
-  let categoryPrintBtn = categoryModal.querySelector(".print");
-  let categoryFightingSystemBtn = categoryModal.querySelector(".execute-fighting-system");
-  let categoryPositioningBtn = categoryModal.querySelector(".positioning");
+
+  let categoryStatusControlBtn = categoryModal.querySelector(".secondary-button.category-status-control");
+  let categoryPrintBtn = categoryModal.querySelector(".primary-button.print");
+  let categoryFightingSystemBtn = categoryModal.querySelector(".primary-button.execute-fighting-system");
+  let categoryPositioningBtn = categoryModal.querySelector(".primary-button.positioning");
+
+  categoryStatusControlBtn.addEventListener("click", function () {
+    if (categoryStatusControlBtn.classList.contains("start-category")) {
+      // TODO: start category
+      changeCategoryStatusControlBtn(["start-category"], ["finish-category", "accent-2"], "check_circle", "Kategorie abschließen");
+      SecondaryButtonModule.disableSecondaryButtonApi(categoryStatusControlBtn);
+
+    } else if (categoryStatusControlBtn.classList.contains("finish-category")) {
+      // TODO: finish category
+      changeCategoryStatusControlBtn(["finish-category", "accent-2"], ["restart-category", "accent-1"], "replay", "Kategorie neustarten");
+
+    } else if (categoryStatusControlBtn.classList.contains("restart-category")) {
+      // TODO: restart category
+      changeCategoryStatusControlBtn(["restart-category", "accent-1"], ["finish-category", "accent-2"], "check_circle", "Kategorie abschließen");
+      SecondaryButtonModule.disableSecondaryButtonApi(categoryStatusControlBtn);
+
+    }
+  });
+
+  function changeCategoryStatusControlBtn(removeClasses, addClasses, iconName, btnText) {
+    removeClasses.forEach((rClass) => {
+      categoryStatusControlBtn.classList.remove(rClass);
+    });
+    addClasses.forEach((aClass) => {
+      categoryStatusControlBtn.classList.add(aClass);
+    });
+
+    let contentSpan = categoryStatusControlBtn.querySelector("span.text");
+    contentSpan.innerHTML = "";
+    let icon = GeneralModule.generateElementApi("i", ["material-icons"], iconName);
+    contentSpan.appendChild(icon);
+    contentSpan.appendChild(document.createTextNode(btnText));
+  }
 
   /**
    * This function represents the scope of the detailed category view and is being initiated when clicking on a time-block in the schedule
    */
   function enterCategoryDetailedView(categoryName) {
     categoryDetailView.classList.add("active");
-    let categoryObject = undefined;
+    //let categoryObject = undefined;
+    let categoryObject = {status: categoryStatuus.ACTIVE};
     let nextCategoryName = undefined;
     let previousCategoryName = undefined;
     previousCategoryBtn.classList.remove("disabled");
     nextCategoryBtn.classList.remove("disabled");
+    categoryModal.scrollTop = 0;
 
-    function fillInCategoryModal(categoryName) {
+    function prepareCategoryModal(categoryName) {
       // TODO: handle returned data from backend correctly
       let categoryInformation = getCategoryInformation(categoryName);
       categoryNameElement.innerHTML = categoryName;
       registerControlButtons();
+      initializeCategoryStatusControlButton();
+      initializeCategoryActionButtons();
+      initializeCategoryStatusControlButton();
+    }
+    prepareCategoryModal(categoryName);
+
+    function initializeCategoryActionButtons() {
+      if (categoryObject.status === categoryStatuus.DONE || categoryObject.status === categoryStatuus.TERMINATED) {
+        PrimaryButtonModule.enablePrimaryButtonApi(categoryPositioningBtn);
+      }
     }
 
-    fillInCategoryModal(categoryName);
+    function initializeCategoryStatusControlButton() {
+      categoryStatusControlBtn.className = "";
+      categoryStatusControlBtn.classList.add("secondary-button", "category-status-control");
+      SecondaryButtonModule.enableSecondaryButtonApi(categoryStatusControlBtn);
+      switch (categoryObject.status) {
+        case categoryStatuus.READY:
+          changeCategoryStatusControlBtn([], ["start-category"], "play_arrow", "Kategorie starten");
+          break;
+        case categoryStatuus.ACTIVE:
+          changeCategoryStatusControlBtn([], ["finish-category", "accent-2"], "check_circle", "Kategorie abschließen");
+          SecondaryButtonModule.disableSecondaryButtonApi(categoryStatusControlBtn);
+          break;
+        case categoryStatuus.DONE:
+          changeCategoryStatusControlBtn([], ["finish-category", "accent-2"], "check_circle", "Kategorie abschließen");
+          break;
+        case categoryStatuus.TERMINATED:
+          changeCategoryStatusControlBtn([], ["restart-category", "accent-1"], "replay", "Kategorie neustarten");
+          break;
+      }
+    }
 
     function registerControlButtons() {
       if (!previousCategoryName) {

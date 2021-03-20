@@ -27,6 +27,9 @@ var MapModule = (function (window, document, undefined) {
         }
 
         this.mouseDownHandler = function(e) {
+            This.mapElement.style.cursor= "grabbing";
+            This.mapElement.classList.add("shifting");
+
             This.pos = {
                 // The current scroll
                 left: This.mapContainer.scrollLeft,
@@ -53,6 +56,7 @@ var MapModule = (function (window, document, undefined) {
 
         this.mouseUpHandler = function() {
             This.mapElement.classList.remove("shifting");
+            This.mapElement.style.cursor = "grab";
 
             document.removeEventListener('mousemove', This.mouseMoveHandler);
             document.removeEventListener('mouseup', This.mouseUpHandler);
@@ -60,7 +64,6 @@ var MapModule = (function (window, document, undefined) {
 
         this.mapElement.addEventListener("mousedown", function (e) {
             if (!This.drag) {
-                This.mapElement.classList.add("shifting");
                 This.mouseDownHandler(e);
             }
         });

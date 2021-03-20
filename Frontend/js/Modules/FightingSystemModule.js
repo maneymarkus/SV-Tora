@@ -113,9 +113,12 @@ var FightingSystemModule = (function(window, document, undefined) {
         this.fighters.forEach((fighter) => {
           let pointArray = [];
           for (let i = 0; i < this.numberReferees - 1; i++) {
+            let pointTd = GeneralModule.generateElementApi("td", ["points"]);
+            pointTd.appendChild(GeneralModule.generateElementApi("input", undefined, 0, {"type":"text"}));
             pointArray.push({
               points: 0,
               canceled: false,
+              tdElement: pointTd,
             });
           }
           this.points[fighter.id] = {

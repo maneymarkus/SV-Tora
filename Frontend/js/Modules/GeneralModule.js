@@ -98,34 +98,53 @@ var GeneralModule = (function(window, document, undefined) {
     }
 
     /**
-     * This constant contains all different statuses of a tournament (actually the plural of status is status (with a long spoken u), so the variable is called statuus on purpose)
+     * This constant contains all different statuses of a tournament in chronological order (actually the plural of status is status (with a long spoken u), so the variable is called statuus on purpose)
      * @type {string[]}
      */
-    const tournamentStatuus = ["Wettkampf erstellt", "Anmeldung freigeschalten", "Anmeldung geschlossen", "Wettkampftag", "Wettkampf abgeschlossen"];
+    const tournamentStatuusOrder = ["Wettkampf erstellt", "Anmeldung freigeschalten", "Anmeldung geschlossen", "Wettkampftag", "Wettkampf abgeschlossen"];
 
     /**
-     * This constant contains all the different manually alterable statuses of a tournament (actually the plural of status is status (with a long spoken u), so the variable is called statuus on purpose)
+     * This constant contains all the different manually alterable statuses of a tournament in chronological order (actually the plural of status is status (with a long spoken u), so the variable is called statuus on purpose)
      * @type {string[]}
      */
-    const tournamentSelectableStatuus = ["Anmeldung freigeschalten", "Anmeldung geschlossen", "Wettkampftag", "Wettkampf abgeschlossen"];
+    const tournamentSelectableStatuusOrder = ["Anmeldung freigeschalten", "Anmeldung geschlossen", "Wettkampftag", "Wettkampf abgeschlossen"];
 
     /**
-     * This constant contains all the different statuses of a category in a tournament context. A category can be "in preparation" (the category is being prepared for the tournament), "ready" (to be executed), "active" (currently executed) and "done" (the category has been successfully finished)
+     * This constant contains all the different statuses of a category in a tournament context in chronological order. A category can be "in preparation" (the category is being prepared for the tournament), "ready" (to be executed), "active" (currently executed), "done" (the category (or rather the fighting system) has been successfully finished) and "terminated" (the category is completely finished and winners have been determined)
      * @type {string[]}
      */
-    const categoryStatuus = ["In Vorbereitung", "Bereit", "Aktiv", "Durchgeführt"];
+    const categoryStatuusOrder = ["In Vorbereitung", "Bereit", "Aktiv", "Durchgeführt", "Abgeschlossen"];
+
+    /**
+     * This constant contains all the different statues of a category in a tournament context
+     * @type {{}}
+     */
+    const categoryStatuus = {
+        IN_PREPARATION: "In Vorbereitung",
+        READY: "Bereit",
+        ACTIVE: "Aktiv",
+        DONE: "Durchgeführt",
+        TERMINATED: "Abgeschlossen",
+    }
 
     /**
      * This constant contains all the different graduations in karate in ascending order
      * @type {string[]}
      */
-    const graduations = ["9. Kyu", "8. Kyu", "7. Kyu", "6. Kyu", "5. Kyu", "4. Kyu", "3. Kyu", "2. Kyu", "1. Kyu", "1. Dan", "2. Dan", "3. Dan", "4. Dan", "5. Dan", "6. Dan"];
+    const graduationsOrder = ["9. Kyu", "8. Kyu", "7. Kyu", "6. Kyu", "5. Kyu", "4. Kyu", "3. Kyu", "2. Kyu", "1. Kyu", "1. Dan", "2. Dan", "3. Dan", "4. Dan", "5. Dan", "6. Dan"];
 
     /**
      * This constant contains all the different examination types that can be executed at a tournament
      * @type {string[]}
      */
-    const examinationTypes = ["Kihon", "Kata", "Kumite", "Kihon Ippon Kumite", "Jiyu Ippon Kumite", "Shobu Ippon Kumite", "Team"];
+    const examinationTypes = {
+        KIHON: "Kihon",
+        KATA: "Kata",
+        KIHON_IPPON_KUMITE: "Kihon Ippon Kumite",
+        JIYU_IPPON_KUMITE: "Jiyu Ippon Kumite",
+        SHOBU_IPPON_KUMITE: "Shobu Ippon Kumite",
+        TEAM: "Team",
+    }
 
     /**
      * This constant stores all the different regular categories (tournament,examinationType,graduation,age(-range),special examination type,sex (in this order!) -> determine -> category) (applies to "Nachwuchsturnier" and "Tora-Pokal)
@@ -536,7 +555,7 @@ var GeneralModule = (function(window, document, undefined) {
         notificationTypes,
         modalTypes,
         errorTypes,
-        graduations,
+        graduationsOrder,
         examinationTypes,
         categoryReference,
         tournaments,
@@ -547,8 +566,9 @@ var GeneralModule = (function(window, document, undefined) {
         progressSteps,
         clubMails,
         excludedClubs,
-        tournamentStatuus,
-        tournamentSelectableStatuus,
+        tournamentStatuusOrder,
+        tournamentSelectableStatuusOrder,
+        categoryStatuusOrder,
         categoryStatuus,
         personTypes,
         fightingSystemTypes,

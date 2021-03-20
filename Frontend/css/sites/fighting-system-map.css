@@ -81,6 +81,40 @@
   color: var(--theme-color-5);
 }
 
+.fighting-system-name {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 65%;
+  max-width: 25em;
+  font-size: 1.5em;
+  background: rgba(23, 23, 23, 0.8);
+  z-index: 100;
+  padding: 1.5em 3em 0.5em 1.5em;
+  text-shadow: 1px 1px 2px var(--text-shadow), 2px 2px 2px white;
+  font-weight: bold;
+}
+
+.fighting-system-name:before {
+  content: '';
+  position: absolute;
+  width: 90%;
+  height: 0.25em;
+  top: 0.75em;
+  left: 5%;
+  background-color: var(--accent-color-1-dark);
+}
+
+.fighting-system-name:after {
+  content: '';
+  position: absolute;
+  height: 50%;
+  width: 0.25em;
+  top: 35%;
+  right: 2em;
+  background-color: var(--accent-color-1-dark);
+}
+
 
 /*****************************************************************
            FIGHT-TREES for KO-System, Doppel-KO-System
@@ -550,6 +584,11 @@ table, th, td {
     width: 90%;
     font-size: 1rem;
   }
+
+  .fighting-system-name {
+    font-size: 2em;
+  }
+
 }
 
 @media only screen and (min-width: 992px) {

@@ -3,16 +3,33 @@
  */
 (function (window, document, undefined) {
 
-  let dependencies = ["PrimaryButtonModule", "SecondaryButtonModule", "ModalModule", "FormModule", "TranslationModule", "MaterialInputsModule"];
+  let dependencies = ["PrimaryButtonModule", "SecondaryButtonModule", "ModalModule", "FormModule", "TranslationModule", "MaterialInputsModule", "ContextMenuModule"];
   GeneralModule.checkDependenciesApi(dependencies);
 
-  /*
-    START Fight Tree
+  /**
+   * Instructions for fight tree
+   * @type {NodeListOf<Element>}
    */
 
   let fightTrees = document.querySelectorAll("div.tree");
   fightTrees.forEach((tree) => {
+
+    let fighterSpans = tree.querySelectorAll("span.fighter-name");
+
+    ContextMenuModule.registerNewContextMenu(tree, {"Hat gewonnen": hasWon, "Rückgängig machen": madeMistake}, "span.fighter-name.filled");
+
+    function hasWon(fighterSpan) {
+      console.log(fighterSpan + " has won");
+    }
+
+    function madeMistake(fighterSpan) {
+      console.log("Here has been made a mistake: " + fighterSpan);
+    }
+
+
     tree.addEventListener("click", function (e) {
+
+      /*
       let target = e.target;
       if (target.classList.contains("winner") || target.classList.contains("loser") || target.classList.contains("last")) {
         return;
@@ -58,6 +75,7 @@
           }
         }
       }
+       */
     });
     tree.addEventListener("mousedown", function (e) {
       //drag = true;

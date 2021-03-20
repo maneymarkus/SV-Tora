@@ -71,7 +71,7 @@ var PrimaryButtonModule = (function (window, document, undefined) {
     }
     button.appendChild(GeneralModule.generateElementApi("i", ["material-icons"], iconName));
     button.appendChild(GeneralModule.generateElementApi("p", [], text));
-    TiltModule.registerTiltElementApi(button);
+    primaryButtons.push(new PrimaryButton(button));
     return button;
   }
 
