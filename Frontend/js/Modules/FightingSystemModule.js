@@ -95,39 +95,69 @@ var FightingSystemModule = (function(window, document, undefined) {
       this.fighters = fighters;
       this.numberReferees = numberReferees;
 
-      this.points = {};
+      this.stats = {};
 
-      if (typeof this.fighters[0] !== "undefined") {
-        this.initializeTable();
-      }
+      this.initializeStats();
 
     }
 
-    setFighters(fighters) {
-      this.fighters = fighters;
-      this.initializeTable();
+    addFighter(fighter) {
+      this.fighters.push(fighter);
+      this.addStat(fighter);
     }
 
-    initializeTable() {
-      if (typeof this.fighters[0] !== "undefined") {
-        this.fighters.forEach((fighter) => {
-          let pointArray = [];
-          for (let i = 0; i < this.numberReferees - 1; i++) {
-            let pointTd = GeneralModule.generateElementApi("td", ["points"]);
-            pointTd.appendChild(GeneralModule.generateElementApi("input", undefined, 0, {"type":"text"}));
-            pointArray.push({
-              points: 0,
-              canceled: false,
-              tdElement: pointTd,
-            });
-          }
-          this.points[fighter.id] = {
-            "refereePoints": pointArray,
-            "sum": 0,
-            "position": undefined,
-          };
+    removeFighter(fighter) {
+      this.fighters.splice(this.fighters.indexOf(fighter), 1);
+      this.removeStat(fighter);
+    }
+
+    initializeStats() {
+      this.fighters.forEach((fighter) => {
+        this.addStat(fighter);
+      });
+    }
+
+    addStat(fighter) {
+      let pointArray = [];
+      for (let i = 0; i < this.numberReferees - 1; i++) {
+        let pointTd = GeneralModule.generateElementApi("td", ["points"]);
+        pointTd.appendChild(GeneralModule.generateElementApi("input", undefined, "0", {"type":"text"}));
+        pointArray.push({
+          points: 0,
+          canceled: false,
+          tdElement: pointTd,
         });
       }
+      let sumTd = GeneralModule.generateElementApi("td", ["points"]);
+      let positionTd = GeneralModule.generateElementApi("td", ["points"]);
+      this.stats[fighter.id] = {
+        "points": pointArray,
+        "sum": 0,
+        "sumTd": sumTd,
+        "position": null,
+        "positionTd": positionTd,
+      };
+    }
+
+    removeStat(fighter) {
+      delete this.stats[fighter.id];
+    }
+
+    changeReferees(newNumberReferees) {
+      if (this.numberReferees > newNumberReferees) {
+        for (let stat in this.stats) {
+          if (this.stats.hasOwnProperty(stat)) {
+            stat["points"] = stat["points"].slice(0, this.numberReferees);
+          }
+        }
+      } else {
+        for (let stat in this.stats) {
+          if (this.stats.hasOwnProperty(stat)) {
+            stat["points"] = stat["points"].slice(0, this.numberReferees);
+          }
+        }
+      }
+      this.numberReferees = newNumberReferees;
     }
 
   }
