@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Fighter Tournament Configuration</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/property-information.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/fighter-tournament-configuration.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="fighter-tournament-configuration-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main class="limited">
+        <h1>Kämpfer hinzufügen</h1>
+
+        <div class="fighter-cards-container">
+            <div class="fighter-card">
+                <h2 class="fighter-name"><span class="first-name">Marcus</span> <span class="family-name">Popopov</span></h2>
+
+                <div class="property-information">
+                    <p data-property="Alter">21 Jahre</p>
+                    <p data-property="Geschlecht">Männlich</p>
+                    <p data-property="Graduierung">6. Dan</p>
+                    <p data-property="Verein">SV Tora</p>
+                </div>
+
+                <div class="configuration">
+                    <h3>Optionen</h3>
+                    <div class="exam-type-container">
+                        <div class="exam-type">
+                            <h4>Kata:</h4>
+                        </div>
+                        <div class="exam-type-configuration kata">
+                            <div class="radio-group input-container required">
+                                <label class="radio-input-container">
+                                    Teilnehmen
+                                    <input type="radio" name="kata" value="yes" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-input-container">
+                                    Nicht Teilnehmen
+                                    <input type="radio" name="kata" value="no" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="exam-type-container kumite">
+                        <div class="exam-type">
+                            <h4>Kumite:</h4>
+                        </div>
+                        <div class="exam-type-configuration">
+                            <div class="radio-group input-container required">
+                                <label class="radio-input-container">
+                                    Teilnehmen
+                                    <input type="radio" name="kumite" value="yes" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-input-container">
+                                    Nicht Teilnehmen
+                                    <input type="radio" name="kumite" value="no" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <a class="primary-button unenroll-fighter warning">
+                        <i class="material-icons">close</i>
+                        <p>Kämpfer nicht hinzufügen</p>
+                    </a>
+                    <a class="primary-button enroll-fighter">
+                        <i class="material-icons">add</i>
+                        <p>Kämpfer anmelden</p>
+                    </a>
+                </div>
+
+                <div class="progress-indicator"><span class="current">1</span> von <span class="total">4</span></div>
+            </div>
+
+            <div class="fighter-card">
+                <h2 class="fighter-name"><span class="first-name">Jemandine</span> <span class="family-name">Anderes</span></h2>
+
+                <div class="info">
+                    <p data-property="Alter">12 Jahre</p>
+                    <p data-property="Geschlecht">Weiblich</p>
+                    <p data-property="Graduierung">6. Kyu</p>
+                    <p data-property="Verein">SV Tora</p>
+                </div>
+
+                <div class="configuration">
+                    <h3>Optionen</h3>
+                    <div class="exam-type-container kata">
+                        <div class="exam-type">
+                            <h4>Kata:</h4>
+                        </div>
+                        <div class="exam-type-configuration">
+                            <div class="radio-group input-container required">
+                                <label class="radio-input-container">
+                                    Teilnehmen
+                                    <input type="radio" name="kata" value="yes" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-input-container">
+                                    Nicht Teilnehmen
+                                    <input type="radio" name="kata" value="no" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="exam-type-container kumite">
+                        <div class="exam-type">
+                            <h4>Kumite:</h4>
+                        </div>
+                        <div class="exam-type-configuration">
+                            <div class="radio-group input-container required">
+                                <label class="radio-input-container">
+                                    Teilnehmen
+                                    <input type="radio" name="kumite" value="yes" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-input-container">
+                                    Nicht Teilnehmen
+                                    <input type="radio" name="kumite" value="no" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <p>Kategorie:</p>
+                        </div>
+                        <div class="category-configuration">
+                            <div class="select-input-container input-container disabled">
+                                <label class="icon"><i class="material-icons">list</i></label>
+                                <span data-name="topic" class="select-input chosen placeholder">Auswählen</span>
+                                <i class="material-icons">expand_more</i>
+                                <div class="options">
+                                    <div class="option">Kihon Ippon Kumite</div>
+                                    <div class="option">Jiyu Ippon Kumite</div>
+                                    <div class="option">Shobu Ippon Kumite</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <a class="primary-button unenroll-fighter warning">
+                        <i class="material-icons">close</i>
+                        <p>Kämpfer nicht hinzufügen</p>
+                    </a>
+                    <a class="primary-button enroll-fighter">
+                        <i class="material-icons">add</i>
+                        <p>Kämpfer anmelden</p>
+                    </a>
+                </div>
+
+                <div class="progress-indicator"><span class="current">2</span> von <span class="total">4</span></div>
+            </div>
+
+            <div class="fighter-card">
+                <h2 class="fighter-name"><span class="first-name">Jemand</span> <span class="family-name">Anderes</span></h2>
+
+                <div class="info">
+                    <p data-property="Alter">13 Jahre</p>
+                    <p data-property="Geschlecht">Männlich</p>
+                    <p data-property="Graduierung">6. Kyu</p>
+                    <p data-property="Verein">SV Tora</p>
+                </div>
+
+                <div class="configuration">
+                    <h3>Optionen</h3>
+                    <div class="exam-type-container kata">
+                        <div class="exam-type">
+                            <h4>Kata:</h4>
+                        </div>
+                        <div class="exam-type-configuration">
+                            <div class="radio-group input-container required">
+                                <label class="radio-input-container">
+                                    Teilnehmen
+                                    <input type="radio" name="kata" value="yes" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-input-container">
+                                    Nicht Teilnehmen
+                                    <input type="radio" name="kata" value="no" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="exam-type-container kumite">
+                        <div class="exam-type">
+                            <h4>Kumite:</h4>
+                        </div>
+                        <div class="exam-type-configuration">
+                            <div class="radio-group input-container required">
+                                <label class="radio-input-container">
+                                    Teilnehmen
+                                    <input type="radio" name="kumite" value="yes" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-input-container">
+                                    Nicht Teilnehmen
+                                    <input type="radio" name="kumite" value="no" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <p>Kategorie:</p>
+                        </div>
+                        <div class="category-configuration">
+                            <div class="select-input-container input-container disabled">
+                                <label class="icon"><i class="material-icons">list</i></label>
+                                <span data-name="topic" class="select-input chosen placeholder">Auswählen</span>
+                                <i class="material-icons">expand_more</i>
+                                <div class="options">
+                                    <div class="option">Jiyu Ippon Kumite</div>
+                                    <div class="option">Shobu Ippon Kumite</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <a class="primary-button unenroll-fighter warning">
+                        <i class="material-icons">close</i>
+                        <p>Kämpfer nicht hinzufügen</p>
+                    </a>
+                    <a class="primary-button enroll-fighter">
+                        <i class="material-icons">add</i>
+                        <p>Kämpfer anmelden</p>
+                    </a>
+                </div>
+
+                <div class="progress-indicator"><span class="current">3</span> von <span class="total">4</span></div>
+            </div>
+
+            <div class="fighter-card">
+                <h2 class="fighter-name"><span class="first-name">Jemand</span> <span class="family-name">Ganz Anderes</span></h2>
+
+                <div class="info">
+                    <p data-property="Alter">11 Jahre</p>
+                    <p data-property="Geschlecht">Männlich</p>
+                    <p data-property="Graduierung">5. Kyu</p>
+                    <p data-property="Verein">SV Tora</p>
+                </div>
+
+                <div class="configuration">
+                    <h3>Optionen</h3>
+                    <div class="exam-type-container kata">
+                        <div class="exam-type">
+                            <h4>Kata:</h4>
+                        </div>
+                        <div class="exam-type-configuration">
+                            <div class="radio-group input-container required">
+                                <label class="radio-input-container">
+                                    Teilnehmen
+                                    <input type="radio" name="kata" value="yes" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-input-container">
+                                    Nicht Teilnehmen
+                                    <input type="radio" name="kata" value="no" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="exam-type-container kumite">
+                        <div class="exam-type">
+                            <h4>Kumite:</h4>
+                        </div>
+                        <div class="exam-type-configuration">
+                            <div class="radio-group input-container required">
+                                <label class="radio-input-container">
+                                    Teilnehmen
+                                    <input type="radio" name="kumite" value="yes" />
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-input-container">
+                                    Nicht Teilnehmen
+                                    <input type="radio" name="kumite" value="no" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <p>Kategorie:</p>
+                        </div>
+                        <div class="category-configuration">
+                            <div class="select-input-container input-container disabled">
+                                <label class="icon"><i class="material-icons">list</i></label>
+                                <span data-name="topic" class="select-input chosen placeholder">Auswählen</span>
+                                <i class="material-icons">expand_more</i>
+                                <div class="options">
+                                    <div class="option">Jiyu Ippon Kumite</div>
+                                    <div class="option">Shobu Ippon Kumite</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <a class="primary-button unenroll-fighter warning">
+                        <i class="material-icons">close</i>
+                        <p>Kämpfer nicht hinzufügen</p>
+                    </a>
+                    <a class="primary-button enroll-fighter">
+                        <i class="material-icons">add</i>
+                        <p>Kämpfer anmelden</p>
+                    </a>
+                </div>
+
+                <div class="progress-indicator"><span class="current">4</span> von <span class="total">4</span></div>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Table
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <table data-filter="filter-entities" data-add="add-entity" class="table">
+/     <thead>
+/       <tr>
+/         <th>
+/           <a class="sort">
+/             <span class="column-header">Column-Name</span>
+/             <span class="icon">
+/               <i class="material-icons">expand_less</i>
+/               <i class="material-icons">expand_more</i>
+/             </span>
+/           </a>
+/         </th>
+/       </tr>
+/     </thead>
+/     <tbody>
+/       <tr>
+/         <td data-column="Column-name">Value</td>
+/       </tr>
+/     </tbody>
+/   </table>
+/
+/
+*/
+
+
+.table {
+  position: relative;
+  width: 100%;
+  max-width: 1900px;
+  text-align: left;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.table thead {
+  text-align: left;
+}
+
+.table thead th {
+  display: table-cell;
+  position: sticky;
+  top: 4em; /* for position sticky */
+  width: auto;
+  box-shadow: 0px 7px 10px 0 var(--box-shadow);
+  color: var(--text-color);
+  background-color: var(--theme-color-5);
+  z-index: 100;
+}
+
+.darkmode .table thead th {
+  background-color: var(--theme-color-1);
+}
+
+.table th:last-of-type {
+  display: table-cell;
+  border: none;
+}
+
+.table .sort {
+  width: 100%;
+  position: relative;
+  padding: 0.75em 2em 0.75em 1em;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 1em;
+  display: inline-block;
+}
+
+.table .sort:hover {
+  color: var(--accent-color-1-light);
+  transform: none;
+}
+
+.table .sort .icon {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  right: 1em;
+  width: 1em;
+  height: 1.5em;
+  color: var(--accent-color-1-dark);
+  transition: 0.2s ease;
+  transform: translateY(-50%);
+}
+
+.table .sort:hover .icon {
+  color: var(--accent-color-1-light);
+}
+
+.table .sort i {
+  font-size: 2em;
+  transition: 0.2s ease;
+  position: absolute;
+}
+
+.table .sort.ascending i:first-child {
+  display: none;
+}
+
+.table .sort.descending i:last-child {
+  display: none;
+}
+
+.table .sort i:first-child {
+  top: -0.3em;
+}
+
+.table .sort i:last-child {
+  bottom: -0.3em;
+}
+
+.table .sort:hover i:first-child {
+  top: -0.5em;
+}
+
+.table .sort:hover i:last-child {
+  bottom: -0.5em;
+}
+
+.table tr {
+  position: relative;
+  width: 100%;
+  transition: 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #969ED7;
+}
+
+.darkmode .table tbody tr:hover {
+  background-color: #303950;
+}
+
+.table tr.even {
+  background-color: var(--theme-color-4);
+}
+
+.table tr.odd {
+  background-color: var(--theme-color-3);
+}
+
+.table td {
+  padding: 0.5em 0.5em 0.5em 1em;
+  display: table-cell;
+  width: auto;
+  max-width: 10em;
+  border-right: 1px solid #171717;
+  word-wrap: break-word;
+}
+
+.table td:before {
+  display: none;
+}
+
+.table td.row-actions a.primary-button {
+  position: static;
+  margin: 1em;
+  font-size: 0.5em;
+}
+
+@media only screen and (min-width: 600px) {
+  .table {
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+  .table {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .table {
+    font-size: 1.2rem;
+    margin: 0 auto;
+  }
+
+  main .filter-container {
+    width: calc(1200px - 6rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

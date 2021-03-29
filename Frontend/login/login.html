@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Login</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/login-registration-form.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/login.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./login-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <span class="light-spot"></span>
+    <img class="light-fighter" src="../images/fighter-symbol-white.png"  alt="fighter image"/>
+
+    <main>
+
+        <p class="info">Noch nicht <span>registriert</span>? Klicken Sie hier und <span>registrieren</span> Sie sich erst.</p>
+        <img class="arrow" alt="arrow pointing to registration form" src="../images/arrow.png" />
+
+
+        <div class="login-change-container">
+
+            <div class="login-container ">
+                <h1>Login</h1>
+                <form class="login clearfix" action="" method="post">
+                    <span class="text-input-container input-container required">
+                        <label class="icon" for="login-name"><i class="material-icons">person</i></label>
+                        <input class="text-input" type="text" id="login-name" name="username" required />
+                        <label class="text" for="login-name">Benutzername/E-Mail</label>
+                        <span class="underline"></span>
+                    </span>
+                    <span class="text-input-container input-container required">
+                        <label class="icon password-label" for="login-password"><i class="material-icons">lock</i></label>
+                        <input class="text-input" type="password" id="login-password" name="password" required />
+                        <label class="text" for="login-password">Passwort</label>
+                        <span class="underline"></span>
+                    </span>
+                    <a href="#" class="link password-forgotten">Passwort vergessen</a>
+                    <button type="submit" class="secondary-button disabled login-button" >
+                        <span class="text">Login</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="registration-container small">
+                <h1>Registrieren</h1>
+                <form class="registration clearfix" action="" method="post">
+                    <span class="text-input-container input-container required">
+                        <label class="icon" for="register-username"><i class="material-icons">person</i></label>
+                        <input class="text-input" type="text" id="register-username" name="username" />
+                        <label class="text" for="register-username">Benutzername</label>
+                        <span class="underline"></span>
+                    </span>
+                    <span class="text-input-container input-container email required">
+                        <label class="icon" for="register-mail"><i class="material-icons">email</i></label>
+                        <input class="text-input" type="text" id="register-mail" name="mail" />
+                        <label class="text" for="register-mail">E-Mail</label>
+                        <span class="underline"></span>
+                    </span>
+                    <span class="text-input-container input-container repeat-1 required">
+                        <label class="icon password-label" for="register-password-1"><i class="material-icons">lock</i></label>
+                        <input class="text-input" type="password" id="register-password-1" name="password" />
+                        <label class="text" for="register-password-1">Passwort</label>
+                        <span class="underline"></span>
+                    </span>
+                    <span class="text-input-container input-container repeat-2 required">
+                        <label class="icon password-label" for="register-password-2"><i class="material-icons">lock</i></label>
+                        <input class="text-input" type="password" id="register-password-2" name="password" />
+                        <label class="text" for="register-password-2">Passwort wiederholen</label>
+                        <span class="underline"></span>
+                    </span>
+                    <button type="submit" class="secondary-button disabled register-button">
+                        <span class="text">Registrieren</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

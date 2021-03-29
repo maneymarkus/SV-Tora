@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Tournaments Administration</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/card.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button-floating-container.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/tournaments-administration.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="tournaments-administration-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <div class="primary-button-floating-container flip-control">
+        <a class="primary-button flip">
+            <i class="material-icons">flip_to_back</i>
+            <p>Karten umdrehen</p>
+        </a>
+    </div>
+
+    <div class="primary-button-floating-container add-tournament-control">
+        <a class="primary-button add-tournament">
+            <i class="material-icons">add</i>
+            <p>Wettkampf hinzufügen</p>
+        </a>
+    </div>
+
+    <main class="limited clearfix">
+        <h1>
+            Wettkämpfe
+        </h1>
+        <div class="oversize-container">
+            <div class="perspective-container">
+
+                <div class="tournament-card">
+                    <div data-bg="Tora-Pokal" class="card front">
+                        <div class="bg">
+                            <p class="number">1</p>
+                        </div>
+                        <h3 class="district">
+                            Tora-Pokal
+                        </h3>
+                    </div>
+                    <div class="back">
+                        <h3 data-name="tournament-name" data-key="Wettkampfname">
+                            Tora-Pokal
+                        </h3>
+                        <p data-name="age-range" data-key="Alter">
+                            8-16
+                        </p>
+                        <p data-name="graduations" data-key="Graduierungen">
+                            7. Kyu - 6. Dan
+                        </p>
+                        <p data-name="teams" data-key="Teams">
+                            Ja
+                        </p>
+                        <p data-name="kihon" data-key="Kihon">
+                            Nein
+                        </p>
+                        <a class="secondary-button edit">
+                            <span class="text">
+                                Bearbeiten
+                            </span>
+                        </a>
+                        <a class="secondary-button delete">
+                            <span class="text">
+                                Löschen
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tournament-card">
+                  <div data-bg="Weihnachtsturnier" class="card front">
+                    <div class="bg">
+                      <p class="number">2</p>
+                    </div>
+                    <h3 class="district">
+                      Weihnachts&shy;turnier
+                    </h3>
+                  </div>
+                  <div class="back">
+                      <h3 data-name="tournament-name" data-key="Wettkampfname">
+                          Weihnachtsturnier
+                      </h3>
+                      <p data-name="age-range" data-key="Alter">
+                          8-16
+                      </p>
+                      <p data-name="graduations" data-key="Graduierungen">
+                          7. Kyu - 6. Dan
+                      </p>
+                      <p data-name="teams" data-key="Teams">
+                          Ja
+                      </p>
+                      <p data-name="kihon" data-key="Kihon">
+                          Nein
+                      </p>
+                      <a class="secondary-button edit">
+                          <span class="text">
+                            Bearbeiten
+                          </span>
+                      </a>
+                      <a class="secondary-button delete">
+                          <span class="text">
+                            Löschen
+                          </span>
+                      </a>
+                  </div>
+                </div>
+                <div class="tournament-card">
+                  <div data-bg="Nachwuchsturnier" class="card front">
+                    <div class="bg">
+                      <p class="number">3</p>
+                    </div>
+                    <h3 class="district">
+                      Nachwuchs&shy;turnier
+                    </h3>
+                  </div>
+                    <div class="back">
+                      <h3 data-name="tournament-name" data-key="Wettkampfname">
+                          Nachwuchsturnier
+                      </h3>
+                      <p data-name="age-range" data-key="Alter">
+                          6-12
+                      </p>
+                      <p data-name="graduations" data-key="Graduierungen">
+                          9. Kyu - 8. Kyu
+                      </p>
+                      <p data-name="teams" data-key="Teams">
+                          Nein
+                      </p>
+                      <p data-name="kihon" data-key="Kihon">
+                          Ja
+                      </p>
+                      <a class="secondary-button edit">
+                          <span class="text">
+                            Bearbeiten
+                          </span>
+                      </a>
+                      <a class="secondary-button delete">
+                          <span class="text">
+                            Löschen
+                          </span>
+                      </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

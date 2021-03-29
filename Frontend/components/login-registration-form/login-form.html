@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Login Form</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/login-registration-form.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="login-form-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main>
+
+        <div class="login-container">
+            <h1>Login</h1>
+            <form class="login clearfix" action="" method="post">
+                <span class="text-input-container input-container required">
+                    <label class="icon" for="login-name"><i class="material-icons">mail</i></label>
+                    <input class="text-input" type="text" id="login-name" name="username" required />
+                    <label class="text" for="login-name">Benutzername/E-Mail</label>
+                    <span class="underline"></span>
+                </span>
+                <span class="text-input-container input-container required">
+                    <label class="icon password-label" for="login-password"><i class="material-icons">lock</i></label>
+                    <input class="text-input" type="password" id="login-password" name="password" required />
+                    <label class="text" for="login-password">Passwort</label>
+                    <span class="underline"></span>
+                </span>
+                <a href="#" class="link password-forgotten">Passwort vergessen</a>
+                <button type="submit" class="secondary-button login-button" >
+                    <span class="text">Login</span>
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+</body>
+</html>

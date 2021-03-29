@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Registration Form</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/login-registration-form.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="registration-form-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main>
+
+        <div class="registration-container small">
+            <h1>Registrieren</h1>
+            <form class="registration clearfix" action="" method="post">
+                <span class="text-input-container input-container required">
+                    <label class="icon" for="register-username"><i class="material-icons">person</i></label>
+                    <input class="text-input" type="text" id="register-username" name="username" />
+                    <label class="text" for="register-username">Benutzername</label>
+                    <span class="underline"></span>
+                </span>
+                <span class="text-input-container input-container email required">
+                    <label class="icon" for="register-mail"><i class="material-icons">email</i></label>
+                    <input class="text-input" type="text" id="register-mail" name="mail" />
+                    <label class="text" for="register-mail">E-Mail</label>
+                    <span class="underline"></span>
+                </span>
+                <span class="text-input-container input-container repeat-1 required">
+                    <label class="icon password-label" for="register-password-1"><i class="material-icons">lock</i></label>
+                    <input class="text-input" type="password" id="register-password-1" name="password" />
+                    <label class="text" for="register-password-1">Passwort</label>
+                    <span class="underline"></span>
+                </span>
+                <span class="text-input-container input-container repeat-2 required">
+                    <label class="icon password-label" for="register-password-2"><i class="material-icons">lock</i></label>
+                    <input class="text-input" type="password" id="register-password-2" name="password" />
+                    <label class="text" for="register-password-2">Passwort wiederholen</label>
+                    <span class="underline"></span>
+                </span>
+                <button type="submit" class="secondary-button disabled register-button">
+                    <span class="text">Registrieren</span>
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+</body>
+</html>

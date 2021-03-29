@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Split Category</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/split-category.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./split-category-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main class="limited clearfix">
+        <h1>Kategorie <span class="old-category-name">5</span> Teilen</h1>
+
+        <div class="left-category category-container">
+            <span class="left-category-name category-name">5a</span>
+        </div>
+
+        <div class="right-category category-container">
+            <span class="right-category-name category-name">5b</span>
+        </div>
+
+        <div class="commands clearfix">
+
+            <a class="primary-button divide" href="#">
+                <i class="material-icons">done</i>
+                <p>Kategorie teilen!</p>
+            </a>
+
+            <a class="primary-button cancel warning" href="#">
+                <i class="material-icons">close</i>
+                <p>Abbrechen</p>
+            </a>
+
+        </div>
+
+    </main>
+
+    <div class="fighter-card">
+        <h2 class="fighter-name">Marcus Popopov</h2>
+        <p class="clearfix">Alter: <span class="age">21</span></p>
+        <p class="clearfix">Geschlecht: <span class="sex">Männlich</span></p>
+        <p class="clearfix">Kategorie: <span class="category">5</span></p>
+        <p class="clearfix">Graduierung: <span class="graduation">Obermeister</span></p>
+        <p class="clearfix">Verein: <span class="club">SV Tora</span></p>
+    </div>
+    <div class="fighter-card">
+        <h2 class="fighter-name">Florian Reichbürger</h2>
+        <p class="clearfix">Alter: <span class="age">21 Jahre</span></p>
+        <p class="clearfix">Geschlecht: <span class="sex">Männlich</span></p>
+        <p class="clearfix">Kategorie: <span class="category">5</span></p>
+        <p class="clearfix">Graduierung: <span class="graduation">Meister</span></p>
+        <p class="clearfix">Verein: <span class="club">SV Tora</span></p>
+    </div>
+    <div class="fighter-card">
+        <h2 class="fighter-name">Markus The Strong Städler</h2>
+        <p class="clearfix">Alter: <span class="age">22 Jahre</span></p>
+        <p class="clearfix">Geschlecht: <span class="sex">Super Männlich</span></p>
+        <p class="clearfix">Kategorie: <span class="category">8</span></p>
+        <p class="clearfix">Graduierung: <span class="graduation">Powerlifter</span></p>
+        <p class="clearfix">Verein: <span class="club">Mein Verein e. V. </span></p>
+    </div>
+    <div class="fighter-card">
+        <h2 class="fighter-name">Irgendein Anderer</h2>
+        <p class="clearfix">Alter: <span class="age">20 Jahre</span></p>
+        <p class="clearfix">Geschlecht: <span class="sex">Weiblich</span></p>
+        <p class="clearfix">Kategorie: <span class="category">6</span></p>
+        <p class="clearfix">Graduierung: <span class="graduation">Leutnant</span></p>
+        <p class="clearfix">Verein: <span class="club">SV Tora</span></p>
+    </div>
+
+    <div class="assigning-commands active">
+        <a class="to-left">
+            <i class="material-icons">keyboard_arrow_left</i>
+        </a>
+        <a class="to-right">
+            <i class="material-icons">keyboard_arrow_right</i>
+        </a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+.member-input {
+    margin-bottom: 1rem;
+    float: left;
+    width: 80%;
+}
+
+.member-container:last-of-type {
+    margin-bottom: 2rem;
+}
+
+a.add-member {
+    position: relative;
+    display: block;
+    width: 3.5rem;
+    margin: 0 auto;
+    clear: both;
+}
+
+a.add-member i {
+    font-size: 2rem;
+    border-radius: 50%;
+    padding: 0.5rem;
+    border: 3px solid #707070;
+    color: #707070;
+}
+
+a.add-member:hover i {
+    color: white;
+    border-color: white;
+}
+
+a.delete-member {
+    float: right;
+    margin-top: 0.5rem;
+}
+
+a.delete-member:hover {
+    color: #8D0909;
+}

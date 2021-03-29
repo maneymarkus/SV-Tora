@@ -1,0 +1,11 @@
+.modal-window .modal-button {
+    padding: 0.25rem 1rem;
+}
+
+.modal-button i {
+    font-size: 2.5rem;
+}
+
+.login-container .modal-button:hover {
+    transform: translateX(5px);
+}

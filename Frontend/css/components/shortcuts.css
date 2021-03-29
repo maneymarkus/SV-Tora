@@ -1,0 +1,116 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Shortcuts (and Shortcut menu strip)
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div class="shortcuts">
+/       <div class="container">
+/           <a class="primary-button mail" href="#">
+/               <i class="material-icons">mail</i>
+/               <p>E-Mail schreiben</p>
+/           </a>
+/           Further anchor elements...
+/       </div>
+/   </div>
+/
+/
+*/
+
+.shortcuts {
+  position: fixed;
+  top: 0;
+  left: -10em;
+  background-color: var(--theme-color-3);
+  width: 10em;
+  height: 100%;
+  transition: 0.5s ease;
+  overflow: visible;
+  box-shadow: 0 0 10px 5px var(--box-shadow);
+  z-index: 100000;
+  font-size: 0.8rem;
+  transition-delay: 0.25s;
+}
+
+.darkmode .shortcuts {
+  background-color: var(--theme-color-1);
+}
+
+.shortcuts:hover,
+.shortcuts:focus {
+  left: 0;
+  transition-delay: 0s;
+}
+
+.shortcuts .container {
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5em 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  text-align: center;
+}
+
+.shortcuts:after {
+  content: '\E315';
+  font-family: "Material Icons";
+  font-size: 5em;
+  width: 0.9em;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 100%;
+  display: inline-block;
+  border-radius: 0 5em 5em 0;
+  background-color: var(--theme-color-3);
+  box-shadow: 0 0 10px 5px var(--box-shadow);
+  z-index: -1;
+  cursor: pointer;
+  color: var(--accent-color-1-dark);
+  transition: 0.5s ease;
+}
+
+.darkmode .shortcuts:after {
+  background-color: var(--theme-color-1);
+}
+
+.shortcuts:hover:after,
+.shortcuts:focus:after {
+  color: var(--accent-color-1-light);
+}
+
+.shortcuts a.primary-button {
+  position: relative;
+  top: 0;
+  left: 0;
+  font-size: 1em;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+  .shortcuts {
+    font-size: 1rem;
+  }
+
+  .shortcuts:after {
+    width: 0.8em;
+    margin-left: -0.2em;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

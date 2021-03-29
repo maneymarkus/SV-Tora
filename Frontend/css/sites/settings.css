@@ -1,0 +1,37 @@
+main h1 {
+  margin-bottom: 1.5rem;
+}
+
+main h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+main a {
+  font-size: 1.5rem;
+}
+
+label span.fight-time {
+  color: var(--accent-color-1-dark);
+  font-weight: bold;
+}
+
+.margin-bottom {
+  margin-bottom: 1.5rem;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

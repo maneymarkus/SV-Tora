@@ -1,0 +1,129 @@
+.user-profile {
+  border-radius: 3px;
+  top: -10%;
+  right: -5%;
+  position: fixed;
+  width: 90%;
+  height: auto;
+  transition: 0.2s ease;
+  opacity: 0;
+  transform: scale(0.25);
+  box-shadow: 0 3px 10px 2px var(--box-shadow);
+  z-index: 100;
+  font-size: 0.8rem;
+  visibility: hidden;
+  background: linear-gradient(45deg, rgba(205, 205, 205, 0.9) 10%, rgba(181, 181, 181, 0.75) 65%);
+}
+
+.darkmode .user-profile {
+  background: linear-gradient(45deg, rgba(48, 48, 48, 0.9) 10%, rgba(74, 74, 74, 0.75) 65%);
+}
+
+.user-profile.open {
+  transform: scale(1);
+  opacity: 1;
+  top: 6.5rem;
+  right: 1rem;
+  visibility: visible;
+}
+
+.user-profile:before {
+  content: '';
+  background-image: url(../../images/profile-arrow.svg);
+  backgrund-size: 30px 45px;
+  width: 45px;
+  height: 30px;
+  position: absolute;
+  top: -29px;
+  right: 7px;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.darkmode .user-profile:before {
+  opacity: 1;
+}
+
+.user-profile .user-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.user-profile.open .user-wrapper {
+  height: auto;
+}
+
+.user-profile .user-wrapper:before {
+  content: '';
+  position: absolute;
+  width: 30em;
+  height: 30em;
+  border-radius: 50%;
+  top: -40%;
+  left: 5%;
+  border: 25px solid var(--theme-color-1);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.user-profile .pic-container {
+  position: relative;
+  top: 2em;
+  margin: 0 auto;
+  max-width: 10em;
+  width: 50%;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 2px 2px 4px var(--box-shadow);
+  overflow: hidden;
+}
+
+.user-profile .pic-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  transform: scale(1.06);
+}
+
+.user-profile p {
+  font-size: 1.5em;
+  text-align: center;
+  margin: 2.5em 0 2.5em 0;
+  text-shadow: 2px 2px 5px var(--text-shadow);
+}
+
+.user-profile .secondary-button {
+  width: 85%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .user-profile {
+    width: 20%;
+    min-width: 25em;
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+  .user-profile {
+    font-size: 1rem;
+  }
+
+  .user-profile.open {
+    top: 8rem;
+    right: 2rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .user-profile {
+    max-width: 30em;
+  }
+}

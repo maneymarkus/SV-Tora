@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Administration</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/table-actions-container.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/administration.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./administration-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main>
+        <h1>Administratoren</h1>
+        <div data-admin-table="32kj2345gkjh" class="table-actions clearfix">
+            <a class="primary-button add-admin add-entity">
+                <i class="material-icons">add</i>
+                <p>Admin hinzufügen</p>
+            </a>
+        </div>
+        <div class="oversize-container">
+            <table id="32kj2345gkjh" class="admin-table space-after">
+                <thead>
+                    <tr>
+                        <th class="not-visible">
+                        </th>
+                        <th>
+                            Vereine hinzufügen
+                            <!-- TODO: insert tooltip for each right/privilege to explain it better -->
+                        </th>
+                        <th>
+                            Recht2
+                        </th>
+                        <th>
+                            Recht3
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="pic-container">
+                                <img src="../images/placeholder.png" />
+                            </div>
+                            <span class="admin">Marcus Popopov</span>
+                        </td>
+                        <td data-privilege="Verein hinzufügen" class="privilege">
+                            <i class="material-icons">close</i>
+                        </td>
+                        <td data-privilege="Recht2" class="privilege privileged">
+                            <i class="material-icons">done</i>
+                        </td>
+                        <td data-privilege="Recht3" class="privilege">
+                            <i class="material-icons">close</i>
+                        </td>
+                        <td >
+                            <a class="primary-button edit" href="#">
+                                <i class="material-icons">create</i>
+                                <p>Bearbeiten</p>
+                            </a>
+                            <a class="primary-button delete warning" href="#">
+                                <i class="material-icons">delete</i>
+                                <p>Löschen</p>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="pic-container">
+                                <img src="../images/placeholder.png" />
+                            </div>
+                            <span class="admin">Der Markus</span>
+                        </td>
+                        <td data-privilege="Verein hinzufügen" class="privilege privileged">
+                            <i class="material-icons">done</i>
+                        </td>
+                        <td data-privilege="Recht2" class="privilege privileged">
+                            <i class="material-icons">done</i>
+                        </td>
+                        <td data-privilege="Recht3" class="privilege privileged">
+                            <i class="material-icons">done</i>
+                        </td>
+                        <td>
+                            <a class="primary-button edit" href="#">
+                                <i class="material-icons">create</i>
+                                <p>Bearbeiten</p>
+                            </a>
+                            <a class="primary-button delete warning" href="#">
+                                <i class="material-icons">delete</i>
+                                <p>Löschen</p>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="pic-container">
+                                <img src="../images/placeholder.png" />
+                            </div>
+                            <span class="admin">Flori auch noch</span>
+                        </td>
+                        <td data-privilege="Verein hinzufügen" class="privilege privileged">
+                            <i class="material-icons">done</i>
+                        </td>
+                        <td data-privilege="Recht2" class="privilege">
+                            <i class="material-icons">close</i>
+                        </td>
+                        <td data-privilege="Recht3" class="privilege">
+                            <i class="material-icons">close</i>
+                        </td>
+                        <td>
+                            <a class="primary-button edit" href="#">
+                                <i class="material-icons">create</i>
+                                <p>Bearbeiten</p>
+                            </a>
+                            <a class="primary-button delete warning" href="#">
+                                <i class="material-icons">delete</i>
+                                <p>Löschen</p>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

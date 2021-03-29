@@ -1,0 +1,237 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Navigation
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <nav class="nav">
+/       <a class="primary-button close">
+/           <i class="material-icons">close</i>
+/           <p>Close</p>
+/       </a>
+/       <p class="bg-text"></p>
+/       <ul>
+/           <li>
+/               <a href="#">
+/                   <span class="text">Link</span>
+/               </a>
+/               <span class="bg"></span>
+/           </li>
+/       </ul>
+/       <div class="image-container">
+/           <img src="../src" />
+/       </div>
+/   </nav>
+/
+/
+*/
+
+nav.nav {
+  width: 100%;
+  height: 100%;
+  top: -100%;
+  left: 0;
+  z-index: 100000;
+  position: fixed;
+  transition: 0.5s ease;
+  /*transform: rotateX(50deg) scale(0.5);*/
+  transform-origin: center top;
+  visibility: hidden;
+  opacity: 0;
+  background:
+    radial-gradient(white 15%, transparent 16%) 0 0,
+    radial-gradient(white 15%, transparent 16%) 10px 10px,
+    radial-gradient(rgba(0,0,0,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(0,0,0,.1) 15%, transparent 20%) 10px 11px;
+  background-color: rgba(225, 225, 225, 0.6);
+  background-size: 20px 20px;
+}
+
+.darkmode nav.nav {
+  background:
+          radial-gradient(black 15%, transparent 16%) 0 0,
+          radial-gradient(black 15%, transparent 16%) 10px 10px,
+          radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+          radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 10px 11px;
+  background-color: rgba(30, 30, 30, 0.6);
+  background-size: 20px 20px;
+}
+
+nav.nav.open {
+  /*transform: rotateX(0deg) scale(1);*/
+  top: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+nav a.primary-button {
+  position: absolute;
+  top: 5%;
+  right: 10%;
+}
+
+nav.nav .bg-text {
+  position: absolute;
+  text-align: center;
+  width: 200%;
+  left: -50%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 900;
+  font-size: 10rem;
+  color: black;
+  opacity: 0.2;
+  letter-spacing: 0.3rem;
+  margin: 0;
+  transition: 0.2s ease;
+}
+
+nav.nav ul {
+  list-style: none;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+  padding: 5rem 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+nav ul li {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+nav.nav ul a {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 4rem;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  padding: 1rem;
+}
+
+nav.nav ul a span {
+  transition: 0.1s ease;
+}
+
+nav.nav ul a span.text {
+    display: inline-block;
+}
+
+nav.nav ul a:hover span.text {
+  transform: scale(1.1) skew(0, -10deg);
+  font-weight: bold;
+  animation: glowing 0.5s ease-in infinite alternate;
+}
+
+@keyframes glowing {
+  from {
+    text-shadow: 1px 1px 10px var(--accent-color-1-light);
+  }
+  to {
+    text-shadow: 1px 1px 25px var(--accent-color-1-light);
+  }
+}
+
+nav.nav li span.bg {
+  position: absolute;
+  display: block;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 10rem;
+  background: url("../../images/stain.png") no-repeat center/20rem;
+  opacity: 0;
+  z-index: -1;
+}
+
+nav.nav ul a:hover + span.bg {
+  opacity: 0.2;
+}
+
+.darkmode nav.nav ul a:hover + span.bg {
+  opacity: 1;
+}
+
+nav.nav .image-container {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  width: 4rem;
+  height: auto;
+}
+
+nav.nav .image-container img {
+  width: 100%;
+  height: auto;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+  nav.nav .bg-text {
+    font-size: 13rem;
+    letter-spacing: 0.5rem;
+  }
+
+  nav.nav ul a {
+    font-size: 5rem;
+    padding: 1rem;
+  }
+
+  nav.nav li span.bg {
+    background-size: 25rem;
+  }
+
+  nav.nav .image-container {
+    bottom: 2rem;
+    left: 2rem;
+    width: 5rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+
+  nav.nav .bg-text {
+    font-size: 15rem;
+    letter-spacing: 0.5rem;
+  }
+
+  nav.nav ul a {
+    display: inline-block;
+    width: auto;
+    font-size: 4rem;
+    padding: 1rem;
+  }
+
+  nav.nav .image-container {
+    bottom: 3rem;
+    left: 3rem;
+    width: 7rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  nav.nav ul a {
+    font-size: 5rem;
+    padding: 1rem;
+  }
+
+  nav.nav li span.bg {
+    background-size: 30rem;
+  }
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Documents</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../css/components/material-inputs.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/modal.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/primary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/secondary-button.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sites/documents.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="./documents-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main class="limited">
+        <h1>Dokumente</h1>
+        <div class="document-reservoir">
+            <div class="document">
+                <i class="material-icons icon">description</i>
+                <p>Irgendeine Liste 1.pdf</p>
+            </div>
+            <div class="document">
+                <i class="material-icons icon">description</i>
+                <p>Irgendeine Liste 2.pdf</p>
+            </div>
+            <div class="document">
+                <i class="material-icons icon">description</i>
+                <p>Irgendeine Liste 3.pdf</p>
+            </div>
+            <div class="document">
+                <i class="material-icons icon">description</i>
+                <p>Irgendeine Liste 4.pdf</p>
+            </div>
+            <div class="document">
+                <i class="material-icons icon">description</i>
+                <p>Irgendwas Anderes.docx</p>
+            </div>
+        </div>
+        <label for="file-input" class="file-input-container">
+            <input type="file" name="file-input" value="value" id="file-input" multiple />
+            <i class="material-icons">publish</i>
+            <span class="file-name">Datei auswählen...</span>
+        </label>
+    </main>
+
+    <i class="document-bg material-icons">description</i>
+
+    <div class="document-interaction">
+        <div class="document-meta">
+            <a class="primary-button rename" href="#">
+                <i class="material-icons">edit</i>
+                <p>Dokument umbenennen</p>
+            </a>
+            <span class="document-name">Irgendeine Liste</span>
+            <span class="document-type">.pdf</span>
+            <a class="primary-button delete warning" href="#">
+                <i class="material-icons">clear</i>
+                <p>Dokument löschen</p>
+            </a>
+        </div>
+        <a class="primary-button download" href="#">
+            <i class="material-icons">get_app</i>
+            <p>Dokument runterladen</p>
+        </a>
+    </div>
+
+</body>
+</html>

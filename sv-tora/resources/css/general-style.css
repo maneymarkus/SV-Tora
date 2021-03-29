@@ -1,0 +1,794 @@
+/*
+
+    MOST GENERAL STATEMENTS
+
+ */
+
+@font-face {
+    font-family: "Source Sans Pro";
+    src: url(../fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+html {
+    height: 100%;
+    font-size: 1em;
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+body {
+    height: 100%;
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+    position: relative;
+    margin: 0;
+}
+
+h1 {
+    padding-left: 3rem;
+    font-size: 3rem;
+    margin: 1rem 0;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+a i {
+    transition: 0.2s ease;
+}
+
+a.disabled {
+    opacity: 0.65;
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+}
+
+.darkmode a {
+    color: white;
+}
+
+.button1 {
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 1rem;
+}
+
+.darkmode .button1 {
+    color: white;
+    background-color: #272727;
+}
+
+.button2 {
+    text-align: center;
+    display: inline-block;
+    border: 1px solid;
+    color: white;
+    padding: 1rem 0;
+    transition: 0.2s ease;
+}
+
+.darkmode .button2 {
+    background-color: #272727;
+    border-color: #4A4A4A;
+}
+
+.darkmode .button2:hover {
+    border-color: #9b9b9b;
+    background-color: black;
+    color: #2699FB;
+}
+
+main {
+    margin-left: 3rem;
+    margin-right: 3rem;
+    padding-bottom: 3rem;
+}
+
+.align-center {
+    padding: 0;
+    text-align: center;
+}
+
+.darkmode {
+    background-color: #303030;
+    color: white;
+}
+
+.lightmode {
+    background-color: #EEEEEE;
+    color: black;
+}
+
+.material-icons {
+    transition: 0.2s ease;
+}
+
+.hide, .no-display {
+    display: none;
+}
+
+/*
+
+    STATEMENTS FOR GENERAL ELEMENTS
+
+ */
+
+/*
+    HEADER.PHP
+ */
+
+header.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    height: 4rem;
+}
+
+.darkmode header {
+    background-color: #212121;
+    box-shadow: 0 3px 5px #282828;
+}
+
+.lightmode header {
+    background-color: #D7D7D7;
+}
+
+header h2 {
+    position: relative;
+    width: 50%;
+    top: 0;
+    left: 50%;
+    text-align: center;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    margin: 0.75rem 0 0.75rem 0;
+}
+
+header .menu, header .user {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+header .material-icons {
+    font-size: 3rem;
+}
+
+header .menu {
+    left: 1rem;
+}
+
+header .user {
+    right: 1rem;
+}
+
+header .material-icons:hover {
+    color: #2699FB;
+}
+
+header .user-menu {
+    border-radius: 3px;
+    top: -7rem;
+    right: -9rem;
+    position: fixed;
+    width: 20%;
+    min-width: 300px;
+    height: auto;
+    transition: 0.2s ease;
+    opacity: 0;
+    transform: scale(0);
+    box-shadow: 0 3px 5px #282828;
+}
+
+.darkmode header .user-menu {
+    background-color: #4A4A4A;
+}
+
+.lightmode header .user-menu {
+    background-color: #FAFAFA;
+}
+
+header .user-menu.open {
+    transform: scale(1);
+    opacity: 1;
+    top: 6.5rem;
+    right: 1rem;
+}
+
+.user-menu:before {
+    content: "";
+    border-top: none;
+    border-right: solid 15px transparent;
+    border-left: solid 15px transparent;
+    position: absolute;
+    top: -30px;
+    right: 7px;
+}
+
+.darkmode .user-menu:before {
+    border-bottom: solid 30px #4A4A4A;
+}
+
+.lightmode .user-menu:before {
+    border-bottom: 30px solid #FAFAFA;
+}
+
+.user-menu .wrapper {
+    position: relative;
+}
+
+.user-menu .pic-container {
+    position: relative;
+    top: 2rem;
+    margin: 0 auto;
+    max-width: 110px;
+    width: 50%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.user-menu .pic-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.user-menu p {
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 2.5rem 0 3rem 0;
+}
+
+.user-menu .user-button {
+    position: relative;
+    margin: 0 auto 1rem auto;
+    display: block;
+    width: 90%;
+    height: auto;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.user-menu .user-button:hover {
+    background-color: #2699FB;
+}
+
+/*
+    NAV.PHP
+ */
+
+nav.nav {
+    position: fixed;
+    width: 25%;
+    top: 0;
+    left: -25%;
+    height: 100%;
+    z-index: 100000;
+    transition: 0.5s ease;
+}
+
+.darkmode nav {
+    background: #4A4A4A;
+}
+
+.lightmode nav {
+    background-color: #FAFAFA;
+}
+
+nav.open {
+    left: 0;
+    box-shadow: 3px 0 5px #282828;
+}
+
+nav .nav-head {
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 4rem;
+    position: relative;
+}
+
+.darkmode nav .nav-head {
+    background-color: #212121;
+}
+
+.lightmode nav .nav-head {
+    background-color: #616161;
+}
+
+.nav-head a {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-head .material-icons {
+    font-size: 3rem;
+}
+
+.nav-head .home i:hover {
+    color: #2699FB;
+}
+
+.nav-head .close i:hover {
+    color: #8D0909;
+}
+
+.nav-head .home {
+    left: 0.5rem;
+}
+
+.nav-head .close {
+    right: 0.5rem;
+}
+
+nav p.breadcrumb {
+    width: 100%;
+    padding-left: 1rem;
+    font-size: 1rem;
+    margin: 0.75rem 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 1.5rem;
+    margin: 0.75rem 0;
+}
+
+nav ul li {
+    margin-bottom: 0.5rem;
+}
+
+nav ul a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    padding: 1rem 0 1rem 2rem;
+    transition: 0.2s ease;
+}
+
+.darkmode nav ul a {
+    background-color: #3B3B3B;
+    color: white;
+}
+
+nav ul li a:hover {
+    background-color: #2699FB;
+}
+
+.nav .logo-container {
+    width: 20%;
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo-container img {
+    width: 100%;
+    height: auto;
+}
+
+/*
+    DASHBOARD/DASHBOARD.PHP
+ */
+
+.container {
+    height: auto;
+    margin-bottom: 2rem;
+}
+
+.tournaments {
+    text-align: center;
+    position: relative;
+    margin: 0 0 0 2.5%;
+    float: left;
+    width: 45%;
+    height: 40%;
+    border-radius: 20px;
+    border: 4px solid;
+    transition: 0.2s ease;
+}
+
+.darkmode .tournaments {
+    border-color: #4A4A4A;
+    background-color: transparent;
+}
+
+.darkmode .tournaments:hover {
+    border-color: #2699FB;
+}
+
+.tournaments h3 {
+    text-align: left;
+    padding-left: 3rem;
+    font-size: 2rem;
+    font-style: italic;
+    margin: 1rem 0;
+}
+
+.tournaments span {
+    position: relative;
+    color: #2699FB;
+    font-size: 8rem;
+    margin: 0 auto;
+}
+
+.tournaments p {
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0.5rem 0 2rem 0;
+}
+
+.bar {
+    width: 45%;
+    float: right;
+    margin: 0 2.5% 1rem 0;
+    border-radius: 3px;
+    transition: 0.2s ease;
+}
+
+.darkmode .bar {
+    background-color: #4A4A4A;
+}
+
+.darkmode .bar:hover {
+    background-color: #2699FB;
+}
+
+.bar h3 {
+    font-size: 2rem;
+    margin: 1.5rem 0 1.5rem 6%;
+    float: left;
+}
+
+.bar span {
+    position: relative;
+    top: 0.8rem;
+    margin-right: 15%;
+    font-size: 3rem;
+    color: #2699FB;
+    float: right;
+    transition: 0.2s ease;
+}
+
+.darkmode .bar:hover span {
+    color: #272727;
+}
+
+a.mail {
+    margin-left: 2.5%;
+    text-align: center;
+    float: left;
+    display: inline-block;
+    width: 15%;
+    border: 1px solid;
+    color: white;
+    padding: 1rem 0;
+    transition: 0.2s ease;
+}
+
+.darkmode .mail {
+    background-color: #272727;
+    border-color: #4A4A4A;
+}
+
+.darkmode .mail:hover {
+    border-color: #9b9b9b;
+    background-color: black;
+    color: #2699FB;
+}
+
+.mail i {
+    font-size: 5rem;
+}
+
+.mail p {
+    font-size: 1.2rem;
+}
+
+/*
+    SETTINGS/SETTINGS.PHP
+ */
+
+main.settings {
+    margin-top: 3rem;
+    margin-left: 5rem;
+}
+
+main.settings label {
+    font-size: 2rem;
+}
+
+main.settings h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+main.settings a {
+    color: #2699FB;
+    font-size: 1.2rem;
+    transition: 0.2s ease;
+}
+
+main.settings a:hover {
+    color: #095cfb;
+}
+
+/*
+    STUFF ON SITES WITH TABLES
+ */
+
+main .add-button {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.25rem 1rem 0.75rem 1rem;
+}
+
+main .add-button i {
+    font-size: 1.5rem;
+    position: relative;
+    top: 0.4rem;
+    margin-right: 1rem;
+}
+
+main .tournament-button {
+    width: auto;
+}
+
+/*
+    PERSONS.PHP
+ */
+
+main.main-persons {
+    height: 80%;
+    padding-top: 2rem;
+}
+
+main .person-group {
+    position: relative;
+    display: block;
+    width: 45%;
+    height: 50%;
+    margin-bottom: 2rem;
+    transition: 0.2s ease;
+}
+
+main .person-group:nth-child(odd) {
+    margin-left: 3%;
+    float: left;
+}
+
+main .person-group:nth-child(even) {
+    margin-right: 3%;
+    float: right;
+}
+
+.darkmode main .person-group:hover {
+    color: #2699FB;
+    background-color: #1c1c1c;
+}
+
+main .person-group h3 {
+    position: relative;
+    margin: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+main .person-group.starter, main .person-group.teams {
+    top: 55%;
+    width: 30%;
+    transform: translateY(-50%);
+}
+
+main .person-group.starter {
+    left: 10%;
+}
+
+main .person-group.teams {
+    right: 10%;
+}
+
+/*
+    CLUB-OVERVIEW.PHP
+ */
+
+body > p {
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-bottom: 3rem;
+    font-size: 1.2rem;
+}
+
+.choose-club {
+    width: calc(360px + 5%);
+    margin: 0 auto;
+    max-width: 1500px;
+    text-align: center;
+}
+
+@media screen and (min-width: 655px) {
+    .choose-club {
+        width: calc(540px + 7.5%);
+    }
+}
+
+@media screen and (min-width: 890px) {
+    .choose-club {
+        width: calc(720px + 10%);
+    }
+}
+
+@media screen and (min-width: 1150px) {
+    .choose-club {
+        width: 90%;
+    }
+}
+
+.card {
+    float: left;
+    width: 17.5%;
+    margin-right: 2.5%;
+    text-align: center;
+    transition: 0.2s ease;
+    border-radius: 5px;
+    position: relative;
+    min-height: 250px;
+    min-width: 180px;
+    margin-bottom: 2.5%;
+}
+
+.darkmode .card {
+    background-color: #4A4A4A;
+}
+
+.card:hover {
+    color: #2699FB;
+}
+
+.darkmode .card:hover {
+    background-color: #373737;
+}
+
+.card .image-container {
+    border-radius: 50%;
+    width: 50%;
+    height: auto;
+    max-width: 125px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    margin-top: 10%;
+    margin-bottom: 75%;
+}
+
+.card .image-container img {
+    width: 100%;
+    height: auto;
+    transform: scale(1);
+    transition: 0.2s ease;
+}
+
+.card:hover img {
+    transform: scale(1.15);
+    transition: 3s ease;
+}
+
+.card p {
+    position: absolute;
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.card p:first-of-type {
+    font-weight: bold;
+    bottom: 4rem;
+}
+
+.card p:last-of-type {
+    bottom: 2rem;
+}
+
+.last-card {
+    float: left;
+    width: 17.5%;
+    border-radius: 10px;
+    text-align: center;
+    min-height: 250px;
+    min-width: 180px;
+    transition: 0.2s ease;
+    position: relative;
+    padding-top: 23%;
+}
+
+.darkmode .last-card {
+    border: 3px dashed #4A4A4A;
+    color: #4A4A4A;
+}
+
+.last-card i {
+    color: #707070;
+    font-size: 3rem;
+    padding: 2rem;
+    border-radius: 50%;
+    border: 5px solid #707070;
+    position: absolute;
+    transition: 0.2s ease;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.last-card p {
+    color: #707070;
+    position: absolute;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    width: 100%;
+    top: 70%;
+    transition: 0.2s ease;
+}
+
+.darkmode .last-card:hover {
+    border: 3px solid white;
+}
+
+.darkmode .last-card:hover i {
+    color: white;
+    border-color: white;
+    transform: translateX(-50%) scale(1.1);
+ }
+
+.darkmode .last-card:hover p {
+    color: white;
+}
+
+@media screen and (min-width: 600px) {
+
+}
+
+@media screen and (min-width: 960px) {
+
+}
+
+@media print {
+    body {
+        padding-top: 0;
+    }
+
+    nav.nav {
+        display: none;
+    }
+
+    header.header {
+        display: none;
+    }
+
+    main {
+        padding-bottom: 0;
+        margin: 0;
+    }
+}

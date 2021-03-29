@@ -1,0 +1,132 @@
+table.admin-table {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  font-size: 1rem;
+}
+
+thead {
+  text-align: left;
+}
+
+thead th {
+  color: white;
+  background-color: #171717;
+  z-index: 10;
+  position: sticky;
+  top: 0; /* for position sticky */
+  width: auto;
+  box-shadow: 0 7px 10px 0 black;
+  padding: 0.5em;
+}
+
+tbody tr {
+  width: 100%;
+  transition: 0.2s ease;
+  border-bottom: 1px solid black;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+table tbody tr:hover,
+table tr.edit-mode {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+}
+
+td {
+  position: relative;
+  border-right: 1px solid black;
+  word-wrap: break-word;
+  padding: 0.25em 0.5em 0.25em 1em;
+  min-width: 100px;
+  max-width: 10em;
+}
+
+td:first-child {
+  margin-top: 1em;
+  min-width: 300px;
+}
+
+td:last-child {
+  padding: 0;
+  position: relative;
+  border: none;
+  text-align: center;
+  min-width: 200px;
+}
+
+td.privilege i {
+  color: #B23A48;
+  font-size: 2.5em;
+  transition: 0.2s ease;
+}
+
+tr:hover td.privilege i {
+  color: #F71735;
+}
+
+td.privileged i {
+  color: #20BF55;
+}
+
+tr:hover td.privileged i {
+  color: #5EFC8D;
+}
+
+td:last-child a.primary-button {
+  margin: 1em;
+  font-size: 0.5em;
+}
+
+td .pic-container {
+  width: 50px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1rem;
+}
+
+.pic-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.admin {
+  word-wrap: break-word;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+td .switch-container .switch {
+  margin-top: -0.4em;
+}
+
+@media only screen and (min-width: 600px) {
+  table {
+    font-size: 1.3rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+  table {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  table {
+    font-size: 1.2rem;
+    margin: 0 auto;
+  }
+
+  main .actions {
+    width: calc(1200px - 6rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

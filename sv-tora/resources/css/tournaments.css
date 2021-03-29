@@ -1,0 +1,41 @@
+.modal-window form .row .age-input {
+    width: 40%;
+}
+
+.modal-window form .row .from-age {
+    float: left;
+}
+
+.modal-window form .row .to-age {
+    float: right;
+}
+
+.modal-window form .row .between {
+    position: relative;
+    top: 0.5rem;
+    font-size: 1.2rem;
+    margin: 0 auto;
+}
+
+.modal-window .row:last-of-type {
+    text-align: left;
+}
+
+.modal-window .row:last-of-type label {
+    font-size: 1.5rem;
+    display: block;
+    top: 0;
+    width: 45%;
+    position: relative;
+}
+
+.model-window .row .teams {
+    float: left;
+}
+
+.modal-window .row:last-of-type .kihon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: right;
+}

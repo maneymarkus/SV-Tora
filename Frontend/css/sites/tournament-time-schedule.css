@@ -1,0 +1,123 @@
+main {
+    padding-bottom: 10rem;
+}
+
+main p {
+    font-size: 1.5rem;
+}
+
+.time-actions {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.time-actions .primary-button {
+    flex-shrink: 0;
+    flex-grow: 0;
+    font-size: 0.75rem;
+}
+
+.time-blocks-container {
+    position: fixed;
+    width: 100%;
+    height: 10rem;
+    left: 0;
+    bottom: 0;
+    background-color: var(--theme-color-1);
+    box-shadow: 0 0 10px 3px var(--box-shadow);
+    z-index: 100;
+}
+
+.time-block.dragging {
+    position: absolute;
+    max-width: 15rem;
+    z-index: 1000;
+}
+
+.time-blocks-container .break-section {
+    width: 13rem;
+    padding: 0.5rem 1rem;
+    border-right: 5px solid var(--theme-color-3);
+    height: 100%;
+    display: inline-block;
+    box-shadow: 15px 0 10px -10px var(--box-shadow);
+    z-index: 100;
+}
+
+.break {
+    width: 100%;
+    height: 100%;
+}
+
+.break.dragging {
+    height: 10rem;
+}
+
+.break h3 {
+    margin: 0 0 0.5rem;
+    text-shadow: 1px 1px 3px var(--text-shadow);
+}
+
+.break p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+}
+
+.time-blocks-container .category-section {
+    display: inline-block;
+    width: calc(100% - 13.5rem);
+    height: 100%;
+    top: 0;
+    vertical-align: top;
+}
+
+.category-section .category-container {
+    width: auto;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding: 0.5rem 1rem;
+}
+
+.category {
+    width: 15rem;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.category h3 {
+    margin: 0 0 0.5rem;
+    text-shadow: 1px 1px 3px var(--text-shadow);
+}
+
+.category p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+}
+
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+    .time-actions .primary-button {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .scroll-container {
+        padding: 1rem 0 3rem;
+        margin-left: 0;
+        width: 100%;
+    }
+}
