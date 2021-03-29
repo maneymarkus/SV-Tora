@@ -90,6 +90,7 @@ var FightingSystemModule = (function(window, document, undefined) {
 
   }
 
+
   class FightTable {
     constructor(fighters, numberReferees) {
       this.fighters = fighters;
@@ -119,24 +120,47 @@ var FightingSystemModule = (function(window, document, undefined) {
 
     addStat(fighter) {
       let pointArray = [];
-      for (let i = 0; i < this.numberReferees - 1; i++) {
-        let pointTd = GeneralModule.generateElementApi("td", ["points"]);
-        pointTd.appendChild(GeneralModule.generateElementApi("input", undefined, "0", {"type":"text"}));
+      for (let i = 0; i < this.numberReferees; i++) {
+        let inputElement = GeneralModule.generateElementApi("input", ["points-input"], "0", {"type":"text"});
         pointArray.push({
           points: 0,
           canceled: false,
-          tdElement: pointTd,
+          pointInputElement: inputElement,
         });
       }
-      let sumTd = GeneralModule.generateElementApi("td", ["points"]);
+      let totalPointsTd = GeneralModule.generateElementApi("td", ["points"]);
       let positionTd = GeneralModule.generateElementApi("td", ["points"]);
       this.stats[fighter.id] = {
         "points": pointArray,
-        "sum": 0,
-        "sumTd": sumTd,
+        "totalPoints": 0,
+        "totalPointsTd": totalPointsTd,
         "position": null,
         "positionTd": positionTd,
       };
+    }
+
+    /**
+     * This function updates the (whole) statistic of a fighter
+     * @param fighter {Object} The fighter of which the statistic should be updated
+     * @param statObject {Object} This object contains the new points for the fighter
+     */
+    updateStatForFighter(fighter, statObject) {
+      if (this.stats[fighter.id]) {
+        if (statObject["points"].length === this.numberReferees) {
+          let fighterStat = this.stats[fighter.id];
+          fighterStat["sum"] = statObject["sum"];
+          fighterStat["sumTd"].innerHTML = statObject["sum"] + "";
+          if (statObject["position"]) {
+            fighterStat["position"] = statObject["position"];
+            fighterStat["positionTd"].innerHTML = statObject["position"] + "";
+          }
+          let newPointsArray = statObject["points"];
+          let i = 0;
+          newPointsArray.forEach((pointObject) => {
+            this.changeStatBySystem(fighter, i++, pointObject["points"], pointObject["canceled"]);
+          });
+        }
+      }
     }
 
     removeStat(fighter) {
@@ -145,19 +169,116 @@ var FightingSystemModule = (function(window, document, undefined) {
 
     changeReferees(newNumberReferees) {
       if (this.numberReferees > newNumberReferees) {
-        for (let stat in this.stats) {
-          if (this.stats.hasOwnProperty(stat)) {
-            stat["points"] = stat["points"].slice(0, this.numberReferees);
+        for (let fighterStat in this.stats) {
+          if (this.stats.hasOwnProperty(fighterStat)) {
+            fighterStat["points"] = fighterStat["points"].slice(0, this.numberReferees);
           }
         }
       } else {
-        for (let stat in this.stats) {
-          if (this.stats.hasOwnProperty(stat)) {
-            stat["points"] = stat["points"].slice(0, this.numberReferees);
+        for (let fighterStat in this.stats) {
+          if (this.stats.hasOwnProperty(fighterStat)) {
+            let diffNumberReferees = newNumberReferees - this.numberReferees;
+
+            // append the "missing" number of referees to each fighter
+            for (let i = 0; i < diffNumberReferees; i++) {
+              let inputElement = GeneralModule.generateElementApi("input", ["points-input"], "0", {"type":"text"});
+              fighterStat["points"].push({
+                points: 0,
+                canceled: false,
+                pointInputElement: inputElement,
+              });
+            }
           }
         }
       }
       this.numberReferees = newNumberReferees;
+    }
+
+    /**
+     * This function changes a fighters statistic after it has been manually changed by a user
+     * @param changedInputElement {HTMLElement} The respective td element that has been changed
+     */
+    changeStatByUser(changedInputElement) {
+      if (changedInputElement.classList.contains("points-input")) {
+        let newPoints = parseInt(changedInputElement.value);
+        let fighter;
+        // iterate over all the fighter statistics in the statistics object
+        for (let fighterStat in this.stats) {
+          if (this.stats.hasOwnProperty(fighterStat)) {
+
+            // get the point array
+            let pointsArray = fighterStat["points"];
+
+            // iterate over the point array
+            pointsArray.forEach((pointsObject) => {
+              if (pointsObject.pointInputElement === changedInputElement) {
+                pointsObject.points = newPoints;
+              }
+            });
+          }
+        }
+        this.calculateTotalPoints();
+      }
+    }
+
+    /**
+     * This function changes the points of a fighter (the change on this particular frontend-device was not initiated by the user)
+     * @param fighter {Object} The fighter of which the statistics have to be updated
+     * @param pointObjectIndex {Number} The index of the point object in the point array that is being changed
+     * @param newPoints {Number} The new points
+     * @param canceled {Boolean} This parameter determines if the new points are canceled (which means that they are not counted to the total points)
+     */
+    changeStatBySystem(fighter, pointObjectIndex, newPoints, canceled) {
+      if (this.stats[fighter.id] !== undefined) {
+        let fighterStat = this.stats[fighter.id];
+
+        // get the point array
+        let pointsArray = fighterStat["points"];
+
+        pointsArray[pointObjectIndex].points = newPoints;
+        pointsArray[pointObjectIndex].inputElement.innerHTML = newPoints + "";
+      }
+    }
+
+    /**
+     * This function automatically cancels points from fighters statistics
+     * @param fighter {Object} The fighter where points are canceled
+     * @param cancelIndex {Number} The index of the respective points in the points array which should be canceled
+     */
+    cancelPoints(fighter , cancelIndex) {
+      if (this.stats[fighter.id] !== undefined) {
+        let fighterStat = this.stats[fighter.id];
+
+        // get the point array
+        let pointsArray = fighterStat["points"];
+
+        pointsArray[cancelIndex].canceled = true;
+        pointsArray[cancelIndex].inputElement.classList.add("canceled");
+      }
+    }
+
+    /**
+     * This function calculates the current total points of a given fighter
+     * @param fighter {Object}
+     */
+    calculateTotalPoints(fighter) {
+      if (this.stats[fighter.id] !== undefined) {
+        let fighterStat = this.stats[fighter.id];
+
+        let totalPoints = 0;
+
+        // get the point array
+        let pointsArray = fighterStat["points"];
+
+        pointsArray.forEach((pointObject) => {
+          if (!pointObject.canceled) {
+            totalPoints += pointObject.points;
+          }
+        });
+
+        fighterStat.totalPoints = totalPoints;
+        fighterStat.totalPointsTd.innerHTML = totalPoints + "";
+      }
     }
 
   }
