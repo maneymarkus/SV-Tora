@@ -1,3 +1,39 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Header
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <header class="header">
+/     <a href="#" class="menu"><i class="material-icons">menu</i></a>
+/     <p>Site Name</p>
+/     <a href="#" class="profile"><i class="material-icons">person</i></a>
+/     <div class="user-profile">
+/       <div class="user-wrapper">
+/         <div class="pic-container">
+/           <img src="../src" alt="profile pic" />
+/         </div>
+/         <p class="username">User Name</p>
+/         <a class="secondary-button settings" href="#">
+/           <span class="text">
+/             Settings
+/           </span>
+/         </a>
+/         <a class="secondary-button logout" href="#">
+/           <span class="text">
+/             Log out
+/           </span>
+/         </a>
+/       </div>
+/     </div>
+/   </header>
+/
+/
+*/
+
+
 header {
   top: 0;
   left: 0;
@@ -14,10 +50,10 @@ header:before {
   left: 0;
   width: 100%;
   height: 150%;
-  background-color: #171717;
+  background-color: var(--theme-color-1);
   z-index: -1;
   border-radius: 0 0 50% 50%/0 0 75% 75%;
-  box-shadow: 0 0 10px 3px black;
+  box-shadow: 0 0 10px 3px var(--box-shadow);
   opacity: 0.75;
 }
 
@@ -34,20 +70,20 @@ header > a {
   border-radius: 10%;
   width: 5rem;
   height: 5rem;
-  background-color: #171717;
+  background-color: var(--theme-color-1);
   text-align: center;
   top: -0.5rem;
-  box-shadow: 0 0 10px 3px black;
+  box-shadow: 0 0 10px 3px var(--box-shadow);
   transition: 0.5s ease;
   cursor: pointer;
   z-index: 2;
   text-decoration: none;
-  color: white;
+  color: var(--text-color);
 }
 
 header > a:hover,
 header > a:focus {
-  background-color: #2699FB;
+  background-color: var(--accent-color-1-light);
 
 }
 
@@ -64,13 +100,13 @@ header .profile {
 .header > a i {
   font-size: 2rem;
   line-height: 3;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   transition: 0.2s ease;
 }
 
 .header > a:hover i,
 .header > a:focus i {
-  color: white;
+  color: var(--text-color);
 }
 
 @media only screen and (min-width: 600px) {

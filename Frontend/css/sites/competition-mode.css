@@ -1,0 +1,375 @@
+main {
+  height: auto;
+}
+
+main .page-container {
+  padding-bottom: 12rem;
+  display: none;
+}
+
+main .page-container.active {
+  display: block;
+}
+
+.tournament-progress {
+  position: fixed;
+  bottom: 6rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em 0.5em 1em;
+  font-size: 1rem;
+  background-color: rgba(61, 118, 225, 0.9);
+  box-shadow: 0 0 10px 5px rgba(61, 118, 225, 0.5);
+  z-index: 11;
+}
+
+.tournament-progress span {
+  font-size: 1.2em;
+  z-index: 2;
+}
+
+.tournament-progress .time {
+  font-size: 1.5em;
+  color: var(--accent-color-1-light);
+  font-weight: bold;
+  text-shadow: 1px 1px 3px black;
+}
+
+.tournament-progress .start {
+
+}
+
+.tournament-progress .estimated-end {
+  text-align: right;
+}
+
+.tournament-progress .progress {
+  position: absolute;
+  bottom: calc(0% + 0.5em);
+  left: 59%;
+  z-index: 1;
+  text-shadow: 1px 1px 2px var(--text-shadow);
+}
+
+.tournament-progress .progress-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 0.75em;
+  width: 59%;
+  background-color: var(--accent-color-1-light);
+}
+
+
+/*
+/-------------------------------------------------------------------
+/
+/ Styles for the detail view page
+/
+/-------------------------------------------------------------------
+*/
+
+.fight-place-detail-view .select-input-container {
+  margin-bottom: 4rem;
+}
+
+
+/*
+/-------------------------------------------------------------------
+/
+/ Styles for the category detail view (could be understand as a separate site, as this displays detailed information about a chosen category (in a modal))
+/
+/-------------------------------------------------------------------
+*/
+
+.category-detail-view {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 0;
+  font-size: 1rem;
+  transition: 0.5s ease;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.category-detail-view.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 100;
+}
+
+.category-detail-view .close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 0.8em;
+}
+
+.category-control {
+  position: absolute;
+  top: 55%;
+  background: linear-gradient(-45deg, var(--theme-color-4), var(--theme-color-2));
+  box-shadow: 2px 2px 8px 3px var(--box-shadow), 0 0 15px var(--box-shadow) inset;
+  border-radius: 50%;
+  transition: 0.2s ease;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.category-control:hover {
+  color: var(--accent-color-1-light);
+  transform: scale(1.05);
+  box-shadow: 2px 2px 8px 3px var(--box-shadow), 0 0 15px var(--accent-color-1-light) inset;
+}
+
+.category-control i {
+  font-size: 3em;
+  padding: 0.25em;
+}
+
+.category-control.previous-category {
+  left: 1rem;
+  background: linear-gradient(-45deg, var(--theme-color-4), var(--theme-color-2));
+}
+
+.category-control.previous-category:hover {
+  background: linear-gradient(-45deg, var(--theme-color-2), var(--theme-color-4));
+}
+
+.category-control.next-category {
+  right: 1rem;
+  background: linear-gradient(45deg, var(--theme-color-4), var(--theme-color-2));
+}
+
+.category-control.next-category:hover {
+  background: linear-gradient(45deg, var(--theme-color-2), var(--theme-color-4));
+}
+
+.category-detail-view a.category-control.disabled {
+  cursor: auto;
+  background: var(--theme-color-3);
+  color: var(--theme-color-5);
+  box-shadow: 2px 2px 8px 3px var(--box-shadow), 0 0 15px var(--box-shadow) inset;
+  transform: scale(1);
+}
+
+.category-detail-view .category-detail-modal {
+  position: absolute;
+  background-color: var(--theme-color-1);
+  box-shadow: 2px 2px 10px 5px var(--box-shadow), 0 0 15px var(--box-shadow) inset;
+  width: 85%;
+  height: 75%;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.3);
+  border: 10px solid var(--theme-color-1);
+  padding: 1.5em;
+  text-align: center;
+  overflow-y: auto;
+  opacity: 0;
+  transition: 0.5s ease;
+}
+
+.active .category-detail-modal {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+.category-detail-modal h3 {
+  font-size: 2em;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.25em;
+  display: inline-block;
+  border-bottom: 3px solid var(--theme-color-3);
+  box-shadow: 0 20px 10px -10px var(--box-shadow);
+  text-shadow: 1px 1px 3px var(--text-shadow);
+}
+
+.category-detail-modal .category-status {
+  font-weight: bold;
+  font-size: 1.5em;
+  margin: 0.5em 0;
+}
+
+.category-status .current-status.in-preparation {
+  color: var(--accent-color-2-dark);
+}
+
+.category-status .current-status.ready {
+  color: var(--accent-color-1-dark);
+}
+
+.category-status .current-status.active {
+  color: var(--accent-color-3-dark);
+}
+
+.category-status .current-status.done {
+  color: var(--theme-color-4);
+}
+
+.property-information p {
+  font-size: 1em;
+}
+
+.property-information p:before {
+  color: var(--theme-color-4);
+  text-shadow: 2px 2px 2px var(--text-shadow);
+}
+
+.category-detail-modal .link {
+  font-weight: bold;
+}
+
+.category-detail-modal .category-status-control {
+  margin: 1.5em 0;
+}
+
+.category-detail-modal .category-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.category-actions .primary-button {
+  flex-shrink: 0;
+  font-size: 0.75em;
+}
+
+.category-actions .primary-button.execute-fighting-system i {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.category-actions .primary-button.execute-fighting-system:hover i {
+  transform: translate(-50%, -50%) rotate(90deg) scale(1.1) translateZ(30px);
+}
+
+
+/*
+/-------------------------------------------------------------------
+/
+/ Styles for the lower bottom fixed page control (to switch pages)
+/
+/-------------------------------------------------------------------
+*/
+
+.page-control {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: var(--theme-color-1);
+  box-shadow: 0 0 10px 5px var(--box-shadow);
+  display: flex;
+  justify-content: space-evenly;
+  height: 6rem;
+  padding: 0.5rem 0;
+  z-index: 11;
+}
+
+.page-control a {
+  width: 5rem;
+  height: 5rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 3rem;
+  position: relative;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.page-control a.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.page-control a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.page-control a:before,
+.page-control a:after {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%) scale(0.4);
+  transition: 0.2s ease;
+  color: var(--theme-color-4);
+  opacity: 0;
+}
+
+.page-control a:hover:before,
+.page-control a:hover:after {
+  transform: translateY(-50%) translateX(-50%) scale(1);
+  opacity: 1;
+  color: var(--theme-color-5);
+}
+
+.page-control a:before {
+  content: '(';
+}
+
+.page-control a:hover:before {
+  left: -10%;
+}
+
+.page-control a:after {
+  content: ')';
+}
+
+.page-control a:hover:after {
+  left: 110%;
+}
+
+.page-control a i {
+  font-size: inherit;
+  color: var(--theme-color-4);
+  transition: 0.2s ease;
+}
+
+.page-control a:hover i {
+  color: var(--text-color);
+}
+
+.page-control a.active i {
+  color: var(--text-color);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+  .category-detail-view {
+    font-size: 1.2rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .category-detail-view {
+    font-size: 1.4rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .category-detail-view .category-detail-modal {
+    width: 1020px;
+  }
+
+  .category-detail-view a.category-control.previous-category {
+    left: 50%;
+    transform: translateX(-620px);
+  }
+
+  .category-detail-view a.category-control.next-category {
+    left: 50%;
+    right: auto;
+    transform: translateX(520px);
+  }
+}

@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="../css/material-icons-font.css" type="text/css" />
 
     <!-- Specific style -->
-    <link rel="stylesheet" href="../css/components/vertical-card.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/horizontal-card.css" type="text/css" />
+    <link rel="stylesheet" href="../css/components/theater.css" type="text/css" />
     <link rel="stylesheet" href="../css/sites/dashboard.css" type="text/css" />
 
     <!--[if lt IE 9]>
@@ -36,11 +37,12 @@
 </head>
 <body class="darkmode">
 
+    <h1 class="greeting">Dashboard</h1>
+
     <main class="dashboard">
-        <h1 class="greeting">Dashboard</h1>
 
         <div class="fade-wrapper clearfix">
-            <div class="col">
+            <div class="container-medium">
                 <a class="tournaments" href="#">
                     <h3 class="heading">Wettkämpfe</h3>
                     <span class="count">25</span>
@@ -48,8 +50,8 @@
                 </a>
             </div>
 
-            <div class="col">
-                <a data-bg="Personen" class="vertical-card" href="#">
+            <div class="container-medium">
+                <a data-bg="Personen" class="horizontal-card" href="#">
                     <h3 class="district">
                         Personen
                     </h3>
@@ -57,7 +59,7 @@
                     513
                 </span>
                 </a>
-                <a data-bg="Teams" class="vertical-card" href="#">
+                <a data-bg="Teams" class="horizontal-card" href="#">
                     <h3 class="district">
                         Teams
                     </h3>
@@ -65,7 +67,7 @@
                     107
                 </span>
                 </a>
-                <a data-bg="Vereine" class="vertical-card" href="#">
+                <a data-bg="Vereine" class="horizontal-card" href="#">
                     <h3 class="district">
                         Vereine
                     </h3>

@@ -1,3 +1,33 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Modal Windows
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup (e.g. Confirmation Modal):
+/   <div class="overlay">
+/     <div class="modal-window">
+/       <a class="primary-button", "close-modal", "close">
+/         <i class="material-icons">close</i>
+/         <p>Close</p>
+/       </a>
+/       <div class="mw-header">
+/         <h2>Heading</h2>
+/       </div>
+/       <div class="modal-content">
+/       <div class="modal-content">
+/         Content goes here...
+/       </div>
+/       <div class="mw-footer">
+/         <secondary-button class="abort" />
+/         <secondary-button class="confirm" />
+/       </div>
+/
+/
+*/
+
+
 main {
   transition: 0.2s ease 0.5s;
 }
@@ -7,7 +37,8 @@ main.blur {
   transition: 0.2s ease 0s;
 }
 
-.overlay {
+.overlay,
+.just-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -16,9 +47,16 @@ main.blur {
   background-color: rgba(0, 0, 0, 0);
   transition: 0.2s ease 0.7s;
   z-index: 10000;
+  overflow-y: auto;
+  padding-bottom: 5rem;
 }
 
-.overlay.open {
+.overlay {
+  z-index: 100000;
+}
+
+.overlay.open,
+.just-overlay.open {
   background-color: rgba(0, 0, 0, 0.5);
   transition: 0.2s ease;
 }
@@ -31,15 +69,29 @@ main.blur {
   top: 40%;
   left: 50%;
   z-index: 100;
-  transform: translate(-50%, -50%) scale(0);
+  transform: translateY(-50%) translateX(-50%) scale(0);
   transition: 0.5s ease 0.5s;
   font-size: 1rem; /* ADJUST Size individually */
-  background-color: #222222;
-  box-shadow: 0 10px 15px 3px black;
+  background-color: var(--theme-color-4);
+  box-shadow: 0 10px 15px 3px var(--box-shadow);
+}
+
+.darkmode .modal-window {
+  background-color: var(--theme-color-2);
+}
+
+.modal-window:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  visibility: hidden;
 }
 
 .open .modal-window {
-  transform: translate(-50%, -50%) scale(1);
+  transform: translateY(-50%) translateX(-50%) scale(1);
 }
 
 a.primary-button.close-modal {
@@ -53,11 +105,11 @@ a.primary-button.close-modal {
 
 a.primary-button.close-modal i {
   color: #171717;
-  background-color: #B23A48;
+  background-color: var(--accent-color-2-dark);
   border-radius: 50%;
   padding: 0.1em;
   font-size: 3.5em;
-  box-shadow: 0 3px 5px 2px black;
+  box-shadow: 0 3px 5px 2px var(--box-shadow);
 }
 
 .primary-button.close-modal:hover i {
@@ -69,24 +121,29 @@ a.primary-button.close-modal i {
   height: 0;
   overflow: hidden;
   margin: 0.75em 0 1em 0;
-  background-color: #171717;
+  background-color: var(--theme-color-5);
   font-weight: bold;
   transition: 0.5s ease;
+}
+
+.darkmode .modal-window .mw-header {
+  background-color: var(--theme-color-1);
 }
 
 .modal-window .mw-header h2 {
   font-size: 2em;
   padding: 0.75em 1.5em 0.75em 1.5em;
   margin: 0;
-  text-shadow: 2px 2px 5px black;
-  color: white;
+  text-shadow: 2px 2px 5px var(--text-shadow);
+  color: var(--text-color);
 }
 
 .modal-window .mw-content {
   font-size: 1.5em;
   padding: 0.5em 1em 1.5em;
   overflow-y: auto;
-  max-height: 13em;
+  max-height: 18em;
+  word-wrap: break-word;
 }
 
 .mw-content p {
@@ -112,11 +169,11 @@ a.primary-button.close-modal i {
   display: flex;
   justify-content: space-between;
   padding: 1.5em 1em 1em;
-  border-top: 2px solid #171717;
+  border-top: 2px solid var(--theme-color-1);
 }
 
 .modal-window .secondary-button {
-  font-size: 1rem;
+  font-size: 0.8em;
   letter-spacing: 0;
   text-transform: none;
   height: auto;
@@ -124,16 +181,51 @@ a.primary-button.close-modal i {
   margin: 0;
 }
 
+.custom-modal-window {
+  position: absolute;
+  width: 90%;
+  max-width: 1200px;
+  min-height: 90%;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background-color: var(--theme-color-1);
+  padding: 2rem 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px 5px var(--box-shadow), 0 0 6px 2px var(--box-shadow) inset;
+  border: 3px solid var(--theme-color-3);
+  z-index: 10001;
+  transition: 0.5s ease;
+  text-align: center;
+}
+
+.open .custom-modal-window {
+  transform: translateX(-50%) scale(1);
+}
+
+.custom-modal-window a.primary-button.close-modal {
+  top: -0.5em;
+  right: -0.5em;
+}
+
 @media only screen and (min-width: 600px) {
 
 }
 
 @media only screen and (min-width: 768px) {
-
+  .modal-window .secondary-button {
+    font-size: 0.9em;
+  }
 }
 
 @media only screen and (min-width: 992px) {
+  .modal-window .secondary-button {
+    font-size: 1em;
+  }
 
+  .custom-modal-window {
+    padding: 3rem 3rem 2rem;
+  }
 }
 
 @media only screen and (min-width: 1200px) {

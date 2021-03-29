@@ -1,181 +1,108 @@
-/*
-  Dependencies: GeneralModule
+/**
+ * This Module contains code responsible for managing accordions
  */
+var AccordionModule = (function(window, document, undefined) {
 
-if (typeof GeneralModule === "undefined") {
-  console.log("Missing GeneralModule Dependency!");
-}
-
-let AccordionModule = (function(window, document, undefined) {
+  /**
+   * DEPENDENCIES
+   */
+  let dependencies = [];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   let accordions = [];
 
+  /**
+   * This "class" represents a application specific displayed HTML accordion element and enables a detailed control over it
+    * @param accordion {HTMLElement} The respective HTML element this object represents
+   * @constructor
+   */
   let Accordion = function(accordion) {
     let This = this;
     this.accordionElement = accordion;
-    this.accordionHeaders = this.accordionElement.querySelectorAll(".bar-header");
+    this.accordionBars = this.accordionElement.querySelectorAll(".accordion-bar");
+
+    this.openBar = undefined;
+    this.sliding = false;
+
+    // This boolean is true if the bar should stay open, e.g. when clicked on a tool
     this.stayOpen = false;
 
-    this.addAccordionBar = function (nextBarSibling, categoryName, graduation, ageRange, sex, content) {
+    /**
+     * This function adds an additional accordion bar to the accordion
+     * @param nextBarSibling {HTMLElement} The next html element sibling which the new bar should be inserted before
+     * @param heading {string | HTMLElement} The heading of the new bar. Can be either a simple string or an HTML element for more complex usages
+     * @param content {HTMLElement} The content of the new bar
+     * @return {HTMLElement}
+     */
+    this.addAccordionBar = function (nextBarSibling, heading, content) {
       let newBar = GeneralModule.generateElementApi("DIV", ["accordion-bar", "clearfix"]);
       let newHeader = GeneralModule.generateElementApi("DIV", ["bar-header", "clearfix"]);
       let barIcon = GeneralModule.generateElementApi("I", ["material-icons", "open-indicator"], "keyboard_arrow_down");
       newHeader.appendChild(barIcon);
-      let categoryHeader = GeneralModule.generateElementApi("H4", ["category"], "Kategorie: ");
-      let categoryNameSpan = GeneralModule.generateElementApi("SPAN", ["category-name"], categoryName);
-      categoryHeader.appendChild(categoryNameSpan);
-      newHeader.appendChild(categoryHeader);
-      let categoryProperties = GeneralModule.generateElementApi("H4", ["category-properties"]);
-      let graduationSpan = GeneralModule.generateElementApi("SPAN", ["category-graduation"], graduation);
-      categoryProperties.appendChild(graduationSpan);
-      categoryProperties.appendChild(document.createTextNode(" / "));
-      let ageSpan = GeneralModule.generateElementApi("SPAN", ["category-age"], ageRange);
-      categoryProperties.appendChild(ageSpan);
-      categoryProperties.appendChild(document.createTextNode(" / "));
-      let sexSpan = GeneralModule.generateElementApi("SPAN", ["category-sex"], sex);
-      categoryProperties.appendChild(sexSpan);
-      categoryProperties.appendChild(document.createTextNode(" / "));
-      newHeader.appendChild(categoryProperties);
+      if (typeof heading === "string") {
+        let barHeaderContent = GeneralModule.generateElementApi("h4", ["heading"], heading);
+      } else {
+        newHeader.appendChild(heading);
+      }
 
-      //Create <div class="tools">...</div>
-      let tools = GeneralModule.generateElementApi("DIV", ["tools"]);
-      let print = GeneralModule.generateElementApi("A", ["primary-button tool print"]);
-      print.appendChild(GeneralModule.generateElementApi("I", ["material-icons"], "print"));
-      print.appendChild(GeneralModule.generateElementApi("P", [], "Drucken"));
-      tools.appendChild(print);
-      let edit = GeneralModule.generateElementApi("A", ["primary-button tool edit"]);
-      edit.appendChild(GeneralModule.generateElementApi("I", ["material-icons"], "create"));
-      edit.appendChild(GeneralModule.generateElementApi("P", [], "Umbenennen"));
-      tools.appendChild(edit);
-      let split = GeneralModule.generateElementApi("A", ["primary-button tool split"]);
-      split.appendChild(GeneralModule.generateElementApi("I", ["material-icons"], "call_split"));
-      split.appendChild(GeneralModule.generateElementApi("P", [], "Splitten"));
-      tools.appendChild(split);
-      let merge = GeneralModule.generateElementApi("A", ["primary-button tool merge"]);
-      merge.appendChild(GeneralModule.generateElementApi("I", ["material-icons"], "merge_type"));
-      merge.appendChild(GeneralModule.generateElementApi("P", [], "Mergen"));
-      tools.appendChild(merge);
-
-      newHeader.appendChild(tools);
       newBar.appendChild(newHeader);
       let newContent = GeneralModule.generateElementApi("DIV", ["bar-content"]);
       newContent.appendChild(content);
       newBar.appendChild(newContent);
       This.accordionElement.insertBefore(newBar, nextBarSibling);
+      This.accordionBars = This.accordionElement.querySelectorAll(".accordion-bar");
+      return newBar;
     }
 
+    /**
+     * This function manages clicks on the accordion element and controls its behavior
+     */
     this.accordionElement.addEventListener("click", function (e) {
       let target = e.target;
       e.preventDefault();
-      while (target.nodeName !== "BODY" && !target.classList.contains("tool") && !target.classList.contains("bar-header")) {
+      while (target.nodeName !== "BODY" && !target.classList.contains("bar-header")) {
         target = target.parentNode;
       }
-      if (target.classList.contains("tool")) {
-        This.handleToolClick(target);
-        return;
-      }
+
+      // the bar header is clicked
       if (target.classList.contains("bar-header")) {
-        if (!target.parentElement.classList.contains("open") && !This.stayOpen) {
-          This.hideAllExcept(This, target.parentElement);
-          This.show(target.parentElement);
-        } else {
-          if (!This.stayOpen) {
-            This.hide(target.parentElement);
+        // This timeout enables other modules to individually set the stayOpen property e.g. and to have it a real effect
+        window.setTimeout( function () {
+          // if the clicked bar is NOT open and NO other bars should stay open and any possible frontend sliding animations are done
+          if (!target.parentElement.classList.contains("open") && !This.stayOpen && !This.sliding) {
+            This.hideAllExcept(This, target.parentElement);
+            This.show(target.parentElement);
+          } else {
+            if (!This.stayOpen && !This.sliding) {
+              This.hide(target.parentElement);
+            }
           }
-        }
+        },20);
         return;
       }
     });
 
-    this.deleteCategoryBar = function (accordionBar) {
-      accordionBar.remove();
-    }
-
-    this.handleToolClick = function(target) {
-      let barHeader = target;
-      while (!barHeader.classList.contains("bar-header")) {
-        barHeader = barHeader.parentElement;
+    /**
+     * This function deletes a given accordion bar
+     * @param accordionBar {HTMLElement} This bar will be deleted
+     */
+    this.deleteAccordionBar = function (accordionBar) {
+      if (accordionBar.classList.contains("accordion-bar")) {
+        accordionBar.remove();
+        This.accordionBars = This.accordionElement.querySelectorAll(".accordion-bar");
       }
-      let categoryName = barHeader.querySelector("span.category-name").innerHTML.trim();
-      let categoryGraduation = barHeader.querySelector("span.graduation").innerHTML.trim();
-      let categoryAge = barHeader.querySelector("span.category-age").innerHTML.trim();
-      let categorySex = barHeader.querySelector("span.category-sex").innerHTML.trim();
-      if (target.classList.contains("print")) {
-        //Print category
-        alert("print");
-        return;
-      }
-      if (target.classList.contains("edit")) {
-        This.renameCategory(barHeader, categoryName);
-        return;
-      }
-      if (target.classList.contains("split")) {
-        //Split existing category into two new ones
-
-        return;
-      }
-      if (target.classList.contains("merge")) {
-        //Merge two existing categories into one
-
-        return;
-      }
-    }
-
-    this.renameCategory = function (barHeader, categoryName) {
-      This.stayOpen = true;
-      let categoryNameSpan = barHeader.querySelector("span.category-name");
-      let graduationSpan = barHeader.querySelector("span.graduation");
-      categoryNameSpan.style.display = "none";
-      let cNameInput = GeneralModule.generateElementApi("INPUT", ["category-name"]);
-      cNameInput.value = categoryName;
-      barHeader.querySelector("h4").insertBefore(cNameInput, graduationSpan);
-      cNameInput.style.width = (cNameInput.value.length + 2) * 13 + "px";
-      cNameInput.focus();
-      cNameInput.addEventListener("focusout", function() {
-        This.endInput(cNameInput, categoryNameSpan);
-      });
-      cNameInput.addEventListener("keydown", function (e) {
-        let keyCode = e.which || e.keyCode;
-        if (keyCode === 13) {
-          This.endInput(cNameInput, categoryNameSpan);
-        } else {
-          cNameInput.style.width = (cNameInput.value.length + 2) * 13 + "px";
-        }
-      });
-    }
-
-    this.endInput = function (input, span) {
-      let value = input.value.trim();
-      if (value === "") {
-        input.focus();
-        return;
-      }
-      input.remove();
-      span.innerHTML = value;
-      span.style.display = "inline";
-      This.stayOpen = false;
     }
 
   };
 
-  if (document.getElementsByClassName("accordion")[0]) {
-    let accordionElements = document.querySelectorAll("div.accordion");
-
-    accordionElements.forEach(function (accordion) {
-      accordions.push(new Accordion(accordion));
-    });
-
-  }
-
-  function insertNewCategoryBar (accordion, nextBarSibling, categoryName, graduation, ageRange, sex, content) {
-    accordions.forEach(function (acc) {
-      if (acc.accordionElement === accordion) {
-        acc.addAccordionBar(nextBarSibling, categoryName, graduation, ageRange, sex, content);
-      }
-    });
-  }
-
+  /**
+   * This function handles the behavior of showing an accordion bar
+   * @param accordionBar {HTMLElement} This given accordion bar will be shown
+   */
   Accordion.prototype.show = function (accordionBar) {
+    let This = this;
+    this.openBar = accordionBar;
+    this.sliding = true;
     accordionBar.classList.add("open");
     let content = accordionBar.querySelector("div.bar-content");
     let getHeight = function () {
@@ -184,9 +111,19 @@ let AccordionModule = (function(window, document, undefined) {
     };
     content.style.height = getHeight() + "px";
     document.getElementsByTagName("BODY")[0].classList.add("open-accordion");
+    window.setTimeout(function () {
+      This.sliding = false;
+    }, 500);
   };
 
+  /**
+   * This function handles the behaviour of hiding an accordion bar
+   * @param accordionBar {HTMLElement} This given bar will be hidden
+   */
   Accordion.prototype.hide = function (accordionBar) {
+    let This = this;
+    this.openBar = undefined;
+    this.sliding = true;
     accordionBar.classList.remove("open");
     let content = accordionBar.querySelector("div.bar-content");
     content.style.height = "0";
@@ -194,38 +131,99 @@ let AccordionModule = (function(window, document, undefined) {
 
     window.setTimeout(function () {
       content.style.display = "none";
-    },500);
+      This.sliding = false;
+    }, 500);
   };
 
+  /**
+   * This function will hide all accordion bars except the given one
+   * @param accordion {object} The containing accordion object
+   * @param accordionBar {HTMLElement} The accordion bar which should stay open
+   */
   Accordion.prototype.hideAllExcept = function(accordion, accordionBar) {
-    let openBars = document.querySelectorAll(".open");
-    openBars.forEach(function (bar) {
-      if (bar !== accordionBar) {
-        bar.classList.remove("open");
-        accordion.hide(bar);
-      }
-    });
+    if (accordion.accordionElement.classList.contains("accordion") && accordionBar.classList.contains("accordion-bar")) {
+      let openBars = document.querySelectorAll(".open");
+      openBars.forEach(function (bar) {
+        if (bar !== accordionBar) {
+          bar.classList.remove("open");
+          accordion.hide(bar);
+        }
+      });
+    }
   };
 
+  /**
+   * This function returns the currently open bar
+   * @return {Element}
+   */
   function getOpenBar() {
     let openBar = document.querySelector("div.accordion-bar.open");
     return openBar;
   }
 
+  /**
+   * This block initializes the static accordion elements on an application page
+   */
+  let accordionElements = document.querySelectorAll("div.accordion");
+  accordionElements.forEach(function (accordion) {
+    accordions.push(new Accordion(accordion));
+  });
+
+  /**
+   * API:
+   */
   return {
+    /**
+     * This api function returns the respective accordion object to a given accordion html element
+     * @param accordionElement {HTMLElement} The respective html element to which the responsible accordion object should be found
+     * @return {object}
+     */
+    getAccordionObjectApi : function (accordionElement) {
+      if (accordionElement.classList.contains("accordion")) {
+        let wantedAccordion = undefined;
+        accordions.forEach((accordion) => {
+          if (accordion.accordionElement === accordionElement) {
+            wantedAccordion = accordion;
+          }
+        });
+        return wantedAccordion;
+      }
+    },
+    /**
+     * This api function gets and returns the currently open bar
+     * @return {Element}
+     */
     getOpenBarApi : function () {
       return getOpenBar();
     },
-    insertNewCategoryBarApi : function (accordion, nextBarSibling, categoryName, graduation, ageRange, sex, content) {
-      insertNewCategoryBar(accordion, nextBarSibling, categoryName, graduation, ageRange, sex, content);
+    /**
+     * This api function inserts a new accordion bar on a given accordion html element
+     * @param accordionElement {HTMLElement} The accordion on which the new bar should be inserted
+     * @param nextBarSibling {HTMLElement} The next html element sibling which the new bar should be inserted before
+     * @param heading {string | HTMLElement} The heading of the new bar. Can be either a simple string or an HTML element for more complex usages
+     * @param content {HTMLElement} The content of the new bar
+     */
+    insertNewCategoryBarApi : function (accordionElement, nextBarSibling, heading, content) {
+      if (accordionElement.classList.contains("accordion")) {
+        accordions.forEach(function (acc) {
+          if (acc.accordionElement === accordionElement) {
+            acc.addAccordionBar(nextBarSibling, heading, content);
+          }
+        });
+      }
     },
-    deleteCategoryBarApi : function (accordion, accordionBar) {
+    /**
+     * This api function deletes a given accordion bar from a given accordion html element
+     * @param accordionElement {HTMLElement} The html accordion element from which the bar should be deleted
+     * @param accordionBar {HTMLElement} The bar that should be deleted
+     */
+    deleteCategoryBarApi : function (accordionElement, accordionBar) {
       accordions.forEach((acc) => {
-        if (acc.accordionElement === accordion) {
-          acc.deleteCategoryBar(accordionBar);
+        if (acc.accordionElement === accordionElement) {
+          acc.deleteAccordionBar(accordionBar);
         }
       });
-    }
+    },
   }
 
 })(window, document);

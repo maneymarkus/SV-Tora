@@ -9,14 +9,15 @@ main h3 {
 
 main a {
   font-size: 1.5rem;
-  text-decoration: none;
-  color: #3D76E1;
-  transition: 0.2s ease;
 }
 
-main a:hover {
-  color: #2699FB;
-  text-decoration: underline;
+label span.fight-time {
+  color: var(--accent-color-1-dark);
+  font-weight: bold;
+}
+
+.margin-bottom {
+  margin-bottom: 1.5rem;
 }
 
 @media only screen and (min-width: 600px) {

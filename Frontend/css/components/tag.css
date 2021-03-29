@@ -1,0 +1,105 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Table
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <span class="tag">
+/     <span class="tag-details">
+/       <span class="tag-key">Key</span>:<span class="tag-value">Value</span>
+/     </span>
+/     <a class="delete-button">
+/       <i class="material-icons">close</i>
+/     </a>
+/   </span>
+/
+/
+*/
+
+
+.tag {
+    background-color: var(--theme-color-2);
+    border-radius: 50px;
+    height: 2.5em;
+    display: inline-block;
+    padding-left: 1em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+    transition: 0.2s ease;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px 0 var(--box-shadow);
+    z-index: 1;
+}
+
+.tag:hover {
+    background-color: var(--theme-color-3);
+    cursor: pointer;
+    box-shadow: 0 4px 6px 0 black;
+}
+
+.tag .tag-details {
+    position: relative;
+    margin-right: 0.5em;
+    top: -0.9em;
+}
+
+.tag a {
+    border-radius: 50%;
+    height: 2.5em;
+    width: 2.5em;
+    position: relative;
+    text-align: center;
+    top: 0;
+    display: inline-block;
+    transition: 0.2s ease;
+}
+
+.tag:hover a {
+    background-color: var(--theme-color-2);
+}
+
+.tag a:hover {
+    background-color: var(--accent-color-2-dark);
+}
+
+.tag-details .tag-key {
+    margin-right: 0.1em;
+}
+
+.tag-details .tag-value {
+    margin-left: 0.25em;
+}
+
+.tag a i {
+    font-size: 1.5em;
+    padding: 0.25em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.2s ease;
+    color: var(--accent-color-2-dark);
+    font-weight: bold;
+}
+
+.tag a:hover i {
+    color: var(--theme-color-2);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

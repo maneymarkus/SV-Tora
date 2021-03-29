@@ -1,0 +1,85 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Context Menus
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <nav class="context-menu context-menu--active">
+/     <ul class="context-menu-items">
+/       <li class="context-menu__item">
+/         <a class="context-menu__option">Do something</a>
+/       </li>
+/     </ul>
+/   </nav>
+/
+/
+*/
+
+.context-menu {
+  position: absolute;
+  background-color: var(--theme-color-1);
+  z-index: 100;
+  border-radius: 3px;
+  padding: 0.5em 0;
+  border: 1px solid var(--theme-color-4);
+  transition: opacity 0.2s ease;
+  visibility: hidden;
+  opacity: 0;
+  font-size: 1em;
+  width: 20em;
+  box-shadow: 1px 3px 6px 1px var(--box-shadow);
+}
+
+.context-menu.context-menu--active {
+  transition: 0.2s ease;
+}
+
+.context-menu.context-menu--active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.context-menu-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.context-menu__item {
+  display: block;
+  margin-bottom: 0.2em;
+}
+
+.context-menu__option {
+  display: block;
+  padding: 0.25em 0.5em;
+  transition: 0.2s ease;
+  color: var(--accent-color-1-dark);
+  font-size: 1.2em;
+  cursor: pointer;
+  background-color: var(--theme-color-2);
+}
+
+.context-menu__option:hover {
+  background-color: var(--accent-color-1-light);
+  color: var(--text-color);
+}
+
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

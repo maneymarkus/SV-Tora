@@ -1,9 +1,13 @@
+body {
+  overflow-x: hidden;
+}
+
 .light-fighter {
   display: block;
-  position: absolute;
+  position: fixed;
   width: 3rem;
   height: auto;
-  filter: drop-shadow(0 0 20px white);
+  filter: drop-shadow(0 0 20px var(--text-color));
   top: 50%;
   left: 50%;
   transform: translate(-45%, -45%) scale(0.3);
@@ -13,15 +17,15 @@
 }
 
 .light-spot {
-  position: absolute;
+  position: fixed;
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0.3);
-  background-color: white;
+  background-color: var(--text-color);
   top: 50%;
   left: 50%;
-  box-shadow: 0 0 50px 60px white;
+  box-shadow: 0 0 50px 60px var(--box-shadow);
   transition: transform 2s ease-in, opacity 1s ease;
   transition-delay: 0.5s;
   opacity: 0;
@@ -38,18 +42,25 @@
 }
 
 main {
+  padding-bottom: 55rem;
+}
+
+main:before {
+  content: '';
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
   background: linear-gradient(135deg, transparent 49%, rgba(255, 255, 255, 0.4) 50%, transparent 51%);
 }
 
 main p {
-  position: absolute;
+  position: relative;
   font-size: 2rem;
-  width: calc(100% - 6rem);
-  top: calc(50% - 22rem);
-  left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 10;
   transition: 0.5s ease;
+  margin-top: 0;
 }
 
 .sent p {
@@ -57,17 +68,16 @@ main p {
 }
 
 main p span {
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
 }
 
 main .arrow {
   width: 100px;
   height: auto;
-  filter: drop-shadow(2px 2px 3px black);
+  filter: drop-shadow(2px 2px 3px var(--box-shadow));
   position: absolute;
-  top: calc(50% - 15rem);
-  left: 70%;
-  transform: translate(-50%, -50%);
+  top: 8rem;
+  left: 60%;
   opacity: 0;
   transition: 0.5s ease;
 }
@@ -80,44 +90,25 @@ body.sent .arrow {
   opacity: 0;
 }
 
-.login-container {
-  background: radial-gradient(circle at 100% 100%, #303030 65%, #3D76E1);
+.login-change-container {
   position: absolute;
-  top: 55%;
+  width: 100%;
+  height: 50rem;
+  top: 5rem;
+  left: 0;
+  transition: 0.5s ease;
+}
+
+.login-change-container.sent {
+  transform: scale(0.3);
+  opacity: 0;
+}
+
+.login-container {
+  position: absolute;
+  top: 50%;
   left: 40%;
   transform: translate(-50%, -50%);
-  min-width: 20rem;
-  width: 50%;
-  max-width: 50rem;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px 2px black;
-  padding: 1rem 3rem 3rem;
-  overflow: hidden;
-  border: 10px solid rgba(0, 0, 0, 0.3);
-  z-index: 5;
-  transition: 0.5s ease;
-}
-
-.login-container.sent {
-  transform: translate(-50%, -50%) scale(0.3);
-  opacity: 0;
-  left: 50%;
-}
-
-.login-container:before {
-  content: '';
-  position: absolute;
-  top: -70%;
-  left: 70%;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.25);
-  transition: 0.5s ease;
-}
-
-.login-container:hover:before {
-  transform: scale(1.25);
 }
 
 .login-container.transition {
@@ -126,109 +117,23 @@ body.sent .arrow {
   z-index: 10;
 }
 
-.login-container h1 {
-  font-size: 3rem;
-  margin: 1rem 0 5rem;
-  text-shadow: 2px 2px 8px black;
-}
-
-.login-container .input-container {
-  margin-bottom: 3rem;
-}
-
-.login-container .input-container:last-of-type {
-  margin-bottom: 2rem;
-}
-
-.login-container a {
-  display: inline-block;
-  position: relative;
-  font-size: 1.25rem;
-  color: #3D76E1;
-  transition: 0.2s ease;
-  margin-top: -1rem;
-}
-
-.login-container a:hover,
-.login-container a:focus {
-  color: #2699FB;
-}
-
-.login-container .secondary-button,
-.registration-container .secondary-button {
-  font-size: 1em;
-  width: 10em;
-  height: auto;
-  float: right;
-  margin-top: 5rem;
-}
-
-.registration-container .secondary-button {
-  width: auto;
-  padding: 0.5em 2em;
-  margin-top: 5rem;
-}
-
 .registration-container {
-  background: radial-gradient(circle at 0% 100%, #303030 65%, #3D76E1);
   position: absolute;
-  top: 55%;
-  left: 65%;
+  top: 50%;
+  left: 60%;
   transform: translate(-50%, -50%) scale(1);
-  min-width: 20rem;
-  width: 50%;
-  max-width: 50rem;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px 2px black;
-  padding: 1rem 3rem 3rem;
-  overflow: hidden;
-  border: 10px solid rgba(0, 0, 0, 0.3);
+}
+
+.registration-container.transition {
+  transform: translate(-50%, -50%) scale(0.8);
+  left: 75%;
   z-index: 10;
-  transition: 0.5s ease;
-}
-
-.registration-container.sent {
-  transform: translate(-50%, -50%) scale(0.3);
-  opacity: 0;
-  left: 50%;
-}
-
-.registration-container h1 {
-  font-size: 3rem;
-  margin: 1rem 0 5rem;
-  text-shadow: 2px 2px 8px black;
-}
-
-.registration-container .input-container {
-  margin-bottom: 3rem;
-}
-
-.registration-container:before {
-  content: '';
-  position: absolute;
-  top: 70%;
-  left: -70%;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.25);
-  transition: 0.5s ease;
-}
-
-.registration-container:hover:before {
-  transform: scale(1.25);
 }
 
 .small {
   min-width: 30rem;
   transform: translate(-50%, -50%) scale(0.6);
   z-index: 1;
-}
-
-.registration-container.transition {
-  transform: translate(-50%, -50%) scale(0.8);
-  left: 80%;
-  z-index: 10;
 }
 
 @media only screen and (min-width: 600px) {
@@ -241,16 +146,19 @@ body.sent .arrow {
 
 @media only screen and (min-width: 992px) {
   main p {
-    font-size: 3rem;
+    font-size: 2.5rem;
     max-width: 95rem;
     top: calc(50% - 24rem);
   }
 
   main .arrow {
     width: 150px;
-    top: calc(50% - 15rem);
-    left: calc(50% + 15rem);
+    top: 9rem;
   }
+
+  .login-change-container {
+     top: 8rem;
+   }
 
   .login-container {
     left: calc(50% - 10rem);
@@ -262,5 +170,7 @@ body.sent .arrow {
 }
 
 @media only screen and (min-width: 1200px) {
-
+  main {
+    max-width: 1500px;
+  }
 }

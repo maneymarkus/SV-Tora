@@ -1,6 +1,6 @@
 .is-typing:after {
     content: '|';
-    color: #2699FB;
+    color: var(--accent-color-1-light);
     -webkit-animation: blink 650ms infinite;
     animation: blink 650ms infinite;
 }

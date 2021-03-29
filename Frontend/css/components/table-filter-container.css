@@ -1,0 +1,104 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Table
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div data-table="" class="filter-container clearfix">
+/     <p>Filter:</p>
+/     <div class="chosen-filters">
+/       Will contain the chosen filters
+/     </div>
+/     <a class="secondary-button add-filter">
+/       <span class="text">
+/         <i class="material-icons">filter_list</i>
+/         Add Filters
+/       </span>
+/     </a>
+/   </div>
+/
+/
+*/
+
+
+.filter-container {
+  position: relative;
+  margin-bottom: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter-container:before {
+  content: 'Filter';
+  position: absolute;
+  font-size: 4rem;
+  color: black;
+  font-style: italic;
+  font-weight: 900;
+  opacity: 0.3;
+  letter-spacing: 0.05em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) skewY(-3deg);
+  z-index: -1;
+}
+
+.filter-container p {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+div.chosen-filters {
+  margin: 0;
+  display: block;
+}
+
+.filter-container .secondary-button {
+  font-size: 1rem;
+  width: auto;
+  float: right;
+  margin-top: 2em;
+  padding: 1em 2em;
+}
+
+.filter-container .secondary-button .text {
+  font-size: 1em;
+}
+
+.filter {
+  background-color: #171717;
+}
+
+.filter:hover a {
+  background-color: #171717;
+}
+
+.filter a:hover {
+  background-color: var(--accent-color-2-dark);
+}
+
+@media only screen and (min-width: 600px) {
+  .filter-container:before {
+    font-size: 5rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .filter-container:before {
+    font-size: 6rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .filter-container:before {
+    font-size: 7rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

@@ -1,11 +1,10 @@
 /*
-    Dependencies: None
- */
-
-/*
     Encapsulate (not anywhere else needed) code in anonymous function
  */
 (function (window, document, undefined) {
+
+  let dependencies = [];
+  GeneralModule.checkDependenciesApi(dependencies);
 
   // TODO: Real behaviour
 
@@ -13,6 +12,7 @@
   let darkmodeSwitch = document.querySelector("input#darkmode");
   darkmodeSwitch.addEventListener("change", function () {
     console.log("Toggle Dark Mode!");
+    document.querySelector("body").classList.toggle("darkmode");
   });
 
   // User toggles table smartphone optimization

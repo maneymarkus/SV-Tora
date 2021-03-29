@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 main {
   padding: 3rem 1rem;
 }
@@ -9,7 +13,7 @@ main h1 {
 }
 
 h1 span {
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
 }
 
 .category-container {
@@ -18,9 +22,14 @@ h1 span {
   top: 0;
   min-height: 300px;
   height: calc(100% - 5rem - 4rem); /* 100% height - paddings and heading - space for buttons */
-  background-color: rgba(23, 23, 23, 0.75);
+  background-color: rgba(23, 23, 23, 0.5);
   overflow-y: auto;
   padding: 0 1.5rem 3rem;
+}
+
+.darkmode .category-container {
+  background-color: rgba(23, 23, 23, 0.75);
+
 }
 
 .left-category {
@@ -39,12 +48,12 @@ h1 span {
   width: 100%;
   margin: 0 auto 0.75em;
   transform: translateX(0);
-  background-color: #303030;
-  box-shadow: 0 5px 15px 5px black;
+  background-color: var(--theme-color-3);
+  box-shadow: 0 5px 15px 5px var(--box-shadow);
   border-radius: 3px;
   padding: 0;
   text-align: left;
-  border: 2px solid #303030;
+  border: 2px solid var(--theme-color-3);
   transition: 0.2s ease;
   z-index: 1;
   font-size: 0.8rem;
@@ -52,8 +61,8 @@ h1 span {
 }
 
 .category-container .fighter-card:hover {
-  background-color: #4A4A4A;
-  border-color: #2699FB;
+  background-color: var(--theme-color-4);
+  border-color: var(--accent-color-1-light);
 }
 
 .category-container .fighter-card h2 {
@@ -85,19 +94,16 @@ h1 span {
   top: 0;
   position: sticky;
   padding: 0.5em 1em;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   font-weight: bold;
   font-style: italic;
-  background-color: #171717;
-  border-bottom: 2px solid #3D76E1;
-  box-shadow: 0 10px 15px -5px black;
+  background-color: var(--theme-color-1);
+  border-bottom: 2px solid var(--accent-color-1-dark);
+  box-shadow: 0 10px 15px -5px var(--box-shadow);
   z-index: 10;
   margin-bottom: 0.5em;
   margin-left: -1.5rem;
   margin-right: -1.5rem;
-}
-
-.left-category-name {
 }
 
 .right-category-name {
@@ -109,6 +115,18 @@ h1 span {
   padding: 0.75rem 0;
 }
 
+a.divide {
+  float: left;
+  margin-left: 10%;
+  font-size: 0.8rem;
+}
+
+a.cancel {
+  float: right;
+  margin-right: 10%;
+  font-size: 0.8rem;
+}
+
 .fighter-card {
   position: absolute;
   min-width: 300px;
@@ -117,13 +135,13 @@ h1 span {
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #171717;
-  box-shadow: 0 5px 15px 5px black, -2000px -2000px 0 5000px rgba(0, 0, 0, 0.25);
+  background-color: var(--theme-color-1);
+  box-shadow: 0 5px 15px 5px var(--box-shadow);
   border-radius: 10px;
   padding: 0 1rem 2rem;
   text-align: center;
-  border: 2px solid #303030;
-  z-index: 50;
+  border: 2px solid var(--theme-color-3);
+  z-index: 10001;
   cursor: pointer;
   display: none;
   transition: 0.5s ease;
@@ -140,10 +158,10 @@ h1 span {
 .fighter-card h2 {
   display: inline-block;
   width: auto;
-  border-bottom: 2px solid #9B9B9B;
+  border-bottom: 2px solid var(--theme-color-5);
   padding: 0 1rem 0.25rem 1rem;
-  box-shadow: 0 12px 10px -10px black;
-  text-shadow: 2px 2px 5px black;
+  box-shadow: 0 12px 10px -10px var(--box-shadow);
+  text-shadow: 2px 2px 5px var(--text-shadow);
   margin-bottom: 2rem;
 }
 
@@ -157,13 +175,13 @@ h1 span {
 
 .fighter-card span {
   float: right;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   font-weight: bold;
   margin-left: 0.5rem;
   margin-top: 0.25rem;
 }
 
-.division-commands {
+.assigning-commands {
   position: absolute;
   top: 75%;
   left: 50%;
@@ -171,49 +189,37 @@ h1 span {
   max-width: 400px;
   transform: translateX(-50%);
   justify-content: space-between;
-  z-index: 51;
+  z-index: 10002;
   display: none;
 }
 
-.division-commands.active {
+.assigning-commands.active {
   display: flex;
 }
 
-.division-commands a {
+.assigning-commands a {
   display: inline-block;
   text-align: center;
   cursor: pointer;
   border-radius: 50%;
-  border: 3px solid #171717;
-  background-color: #171717;
-  box-shadow: 0 2px 7px 2px black;
+  border: 3px solid var(--theme-color-1);
+  background-color: var(--theme-color-1);
+  box-shadow: 0 2px 7px 2px var(--box-shadow);
   transition: 0.2s ease;
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
 }
 
-.division-commands a:hover {
-  border-color: #2699FB;
-  color: #2699FB;
-  background-color: #222222;
+.assigning-commands a:hover {
+  border-color: var(--accent-color-1-light);
+  color: var(--accent-color-1-light);
+  background-color: var(--theme-color-2);
   box-shadow: 0 0 3px 2px rgba(61, 118, 225, 1);
   transform: scale(1.2);
 }
 
-.division-commands i {
+.assigning-commands i {
   padding: 0.75rem;
   font-size: 3rem;
-}
-
-a.divide {
-  float: left;
-  margin-left: 10%;
-  font-size: 0.8rem;
-}
-
-a.cancel {
-  float: right;
-  margin-right: 10%;
-  font-size: 0.8rem;
 }
 
 @media only screen and (min-width: 600px) {

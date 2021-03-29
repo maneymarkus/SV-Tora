@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Message</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../../css/components/notification.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/components/message.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Every page needs this module to load other (specific) modules -->
+    <script src="../../js/Modules/LoadModule.js"></script>
+
+    <!-- This script loads JS modules necessary for this page -->
+    <script src="message-entrypoint.js"></script>
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+</head>
+<body class="darkmode">
+
+    <main>
+        <div class="message">
+            <p class="time">15.11.2020 12:36</p>
+            <p class="sender">System</p>
+            <div class="notification clearfix">
+                <i class="material-icons symbol">info</i>
+                <p class="message-content">Irgendetwas super duper mega krass wichtiges!</p>
+            </div>
+        </div>
+
+        <div class="message">
+            <p class="time">15.11.2020 12:36</p>
+            <p class="sender">System</p>
+            <div class="notification success clearfix">
+                <i class="material-icons symbol">done</i>
+                <p class="message-content">Irgendetwas hat geklappt</p>
+            </div>
+        </div>
+
+        <div class="message">
+            <p class="time">15.11.2020 12:36</p>
+            <p class="sender">System</p>
+            <div class="notification error clearfix">
+                <i class="material-icons symbol">error_outline</i>
+                <p class="message-content">Irgendetwas hat nicht geklappt</p>
+            </div>
+        </div>
+
+        <div class="message">
+            <p class="time">15.11.2020 12:36</p>
+            <p class="sender">System</p>
+            <div class="notification warning clearfix">
+                <i class="material-icons symbol">warning</i>
+                <p class="message-content">Irgendetwas sollte mal begutachtet werden, weil es sonst zu Problemen kommt</p>
+            </div>
+        </div>
+
+        <div class="message">
+            <p class="time">15.11.2020 12:36</p>
+            <p class="sender">System</p>
+            <div class="notification interactive clearfix">
+                <i class="material-icons symbol">info</i>
+                <p class="message-content">Irgendeine super wichtige Info, die dann meist noch einen Link beherbergt.</p>
+            </div>
+        </div>
+
+        <div class="message">
+            <p class="time">15.11.2020 12:36</p>
+            <p class="sender">System</p>
+            <div class="notification warning interactive clearfix">
+                <i class="material-icons symbol">warning</i>
+                <p class="message-content">Irgendwas sollte mal begutachtet werden und das kann bestenfalls mit dem beigefügtem Link erledigt werden</p>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

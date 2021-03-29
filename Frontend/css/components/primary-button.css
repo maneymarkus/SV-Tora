@@ -1,10 +1,27 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Primary Button
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <a class="primary-button" href="#">
+/     <i class="material-icons">mail</i>
+/     <p>E-Mail schreiben</p>
+/   </a>
+/
+/
+*/
+
+
 a.primary-button {
   text-align: center;
   display: inline-block;
-  width: 4em;
-  height: 4em;
+  width: 3em;
+  height: 3em;
   margin: 2em;
-  color: white;
+  color: var(--text-color);
   transition: 0.2s ease;
   background-color: transparent;
   transform-style: preserve-3d;
@@ -17,7 +34,7 @@ a.primary-button:before {
   content: '';
   position: absolute;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid;
   width: 0;
   height: 0;
   top: 50%;
@@ -26,125 +43,38 @@ a.primary-button:before {
   opacity: 0;
   z-index: -1;
   transition: 0.2s ease;
-  box-shadow: 0 0 20px 3px #2699FB inset, 0 0 10px 3px black;
+  box-shadow: 0 0 2.5em 1em var(--accent-color-1-light) inset, 0 0 10px 3px var(--box-shadow);
 }
 
-a.primary-button.cancel:before,
-a.primary-button.close:before,
-a.primary-button.delete:before {
-  box-shadow: 0 0 20px 3px #F71735 inset, 0 0 10px 3px black;
-}
-
-a.primary-button.documents:before,
-a.primary-button.accept:before {
-  box-shadow: 0 0 20px 3px #5EFC8D inset, 0 0 10px 3px black;
-}
-
-a.primary-button.messages:before {
-  box-shadow: 0 0 20px 3px #FFF275 inset, 0 0 10px 3px black;
-}
-
-a.primary-button.settings:before {
-  box-shadow: 0 0 20px 3px #9C1EC2 inset, 0 0 10px 3px black;
-}
-
-a.primary-button.disabled:before {
-  box-shadow: 0 0 20px 3px #4A4A4A inset, 0 0 10px 3px black;
+.darkmode .primary-button:hover:before {
+  box-shadow: 0 0 1.5em 0.25em var(--accent-color-1-light) inset, 0 0 10px 3px var(--box-shadow);
 }
 
 a.primary-button:hover:before {
-  width: 220%;
-  height: 220%;
+  width: 225%;
+  height: 225%;
   opacity: 1;
-  border-color: #2699FB;
-}
-
-a.primary-button.cancel:hover:before,
-a.primary-button.close:hover:before,
-a.primary-button.delete:hover:before {
-  border-color: #F71735;
-}
-
-a.primary-button.documents:hover:before,
-a.primary-button.accept:hover:before {
-  border-color: #5EFC8D;
-}
-
-a.primary-button.messages:hover:before {
-  border-color: #FFF275;
-}
-
-a.primary-button.settings:hover:before {
-  border-color: #9C1EC2;
-}
-
-a.primary-button.disabled:hover:before {
-  border-color: #4A4A4A;
+  border-color: var(--accent-color-1-light);
 }
 
 .primary-button i {
-  color: #3D76E1;
+  color: var(--accent-color-1-dark);
   position: absolute;
-  font-size: 5em;
+  font-size: 4em;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   transition: 0.2s ease;
   z-index: 2;
   transform-style: preserve-3d;
+  text-shadow: 0 1px 4px var(--text-shadow);
 }
 
 .primary-button:hover i {
-  color: #2699FB;
-  top: 20%;
+  color: var(--accent-color-1-light);
+  top: 0;
   transform: translate(-50%, -50%) scale(1.1) translateZ(30px);
-}
-
-.primary-button.cancel i,
-.primary-button.close i,
-.primary-button.delete i {
-  color: #B23A48;
-}
-
-.primary-button.documents i,
-.primary-button.accept i {
-  color: #20BF55;
-}
-
-.primary-button.messages i {
-  color: #E3B505;
-}
-
-.primary-button.settings i {
-  color: #7B1461;
-}
-
-.primary-button.disabled i {
-  color: #303030;
-}
-
-.primary-button.cancel:hover i,
-.primary-button.close:hover i,
-.primary-button.delete:hover i {
-  font-weight: bold;
-  color: #F71735;
-}
-
-.primary-button.documents:hover i,
-.primary-button.accept:hover i {
-  color: #5EFC8D;
-}
-
-.primary-button.messages:hover i {
-  color: #FFF275;
-}
-
-.primary-button.settings:hover i {
-   color: #9C1EC2;
- }
-
-.primary-button.disabled:hover i {
-  color: #4A4A4A;
+  text-shadow: 0 1px 7px var(--text-shadow);
 }
 
 .primary-button p {
@@ -153,7 +83,7 @@ a.primary-button.disabled:hover:before {
   margin: 0;
   transform: translate(-50%, -50%);
   position: absolute;
-  font-size: 1em;
+  font-size: 0.9em;
   transition: 0.2s ease;
   z-index: 1;
   opacity: 0;
@@ -167,5 +97,127 @@ a.primary-button.disabled:hover:before {
 }
 
 .primary-button.disabled:hover p {
-  color: #9B9B9B;
+  color: var(--disabled-text-color);
+}
+
+
+/*
+/-------------------------------------------------------------------
+/
+/ Alternative accentual styles:
+/
+/-------------------------------------------------------------------
+*/
+
+
+a.primary-button.close:before,
+a.primary-button.warning:before {
+  box-shadow: 0 0 2.5em 1em var(--accent-color-2-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.close:before,
+.darkmode a.primary-button.warning:before {
+  box-shadow: 0 0 1.5em 0.25em var(--accent-color-2-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button.accent-1:before {
+  box-shadow: 0 0 2.5em 1em var(--accent-color-3-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.accent-1:before {
+  box-shadow: 0 0 1.5em 0.25em var(--accent-color-3-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button.accent-2:before {
+  box-shadow: 0 0 2.5em 1em var(--accent-color-4-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.accent-2:before {
+  box-shadow: 0 0 1.5em 0.25em var(--accent-color-4-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button.accent-3:before {
+  box-shadow: 0 0 2.5em 1em var(--accent-color-5-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.accent-3:before {
+  box-shadow: 0 0 1.5em 0.25em var(--accent-color-5-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button.disabled:before {
+  box-shadow: 0 0 2.5em 1em var(--disabled-dark) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.disabled:before  {
+  box-shadow: 0 0 1.5em 0.25em var(--disabled-dark) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+
+
+a.primary-button.close:hover:before,
+a.primary-button.warning:hover:before {
+  border-color: var(--accent-color-2-light);
+}
+
+a.primary-button.accent-1:hover:before {
+  border-color: var(--accent-color-3-light);
+}
+
+a.primary-button.accent-2:hover:before {
+  border-color: var(--accent-color-4-light);
+}
+
+a.primary-button.accent-3:hover:before {
+  border-color: var(--accent-color-5-light);
+}
+
+a.primary-button.disabled:hover:before {
+  border-color: var(--disabled-dark);
+}
+
+
+
+.primary-button.close i,
+.primary-button.warning i {
+  color: var(--accent-color-2-dark);
+}
+
+.primary-button.accent-1 i {
+  color: var(--accent-color-3-dark);
+}
+
+.primary-button.accent-2 i {
+  color: var(--accent-color-4-dark);
+}
+
+.primary-button.accent-3 i {
+  color: var(--accent-color-5-dark);
+}
+
+.primary-button.disabled i {
+  color: var(--disabled-dark);
+}
+
+
+
+.primary-button.close:hover i,
+.primary-button.warning:hover i {
+  font-weight: bold;
+  color: var(--accent-color-2-light);
+}
+
+.primary-button.accent-1:hover i {
+  color: var(--accent-color-3-light);
+}
+
+.primary-button.accent-2:hover i {
+  color: var(--accent-color-4-light);
+}
+
+.primary-button.accent-3:hover i {
+  color: var(--accent-color-5-light);
+}
+
+.primary-button.disabled:hover i {
+  color: var(--disabled-light);
 }

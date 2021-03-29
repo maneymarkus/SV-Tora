@@ -1,26 +1,24 @@
 /*
-  Dependencies: GeneralModule
- */
-
-if (typeof GeneralModule === "undefined") {
-  console.log("Missing GeneralModule Dependency!");
-}
-
-/*
     Encapsulate (not anywhere else needed) code in anonymous function
  */
 (function (window, document, undefined) {
 
+  let dependencies = ["PrimaryButtonModule", "ModalModule"];
+  GeneralModule.checkDependenciesApi(dependencies);
+
   if (document.querySelector("h1 span.old-category-name")) {
 
     let body = document.querySelector("body");
-    let divisionCommands = document.querySelector(".division-commands");
+    let divisionCommands = document.querySelector(".assigning-commands");
     let toLeftBtn = divisionCommands.querySelector("a.to-left");
     let toRightBtn = divisionCommands.querySelector("a.to-right");
     let leftCategoryContainer = document.querySelector("div.left-category");
     let rightCategoryContainer = document.querySelector("div.right-category");
     let divideBtn = document.querySelector("a.divide");
     let cancelBtn = document.querySelector("a.cancel");
+
+    PrimaryButtonModule.disablePrimaryButtonApi(divideBtn);
+    ModalModule.appendOverlayApi();
 
     let allCards = [];
     let unassignedCards =  [];
@@ -203,14 +201,16 @@ if (typeof GeneralModule === "undefined") {
     }
 
     function activateAssigning() {
+      ModalModule.appendOverlayApi();
       unassignedCards[0].becomesCurrentCard();
       divisionCommands.classList.add("active");
-      divideBtn.classList.add("disabled");
+      PrimaryButtonModule.disablePrimaryButtonApi(divideBtn);
     }
 
     function deactivateAssigning() {
+      ModalModule.removeOverlayApi();
       divisionCommands.classList.remove("active");
-      divideBtn.classList.remove("disabled");
+      PrimaryButtonModule.enablePrimaryButtonApi(divideBtn);
     }
 
     toLeftBtn.addEventListener("click", function () {

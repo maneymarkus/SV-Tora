@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <title>Horizontal-Card</title>
+
+    <!-- General styles and fonts and stuff like that -->
+    <link rel="stylesheet" href="../../css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/general-style.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/material-icons-font.css" type="text/css" />
+
+    <!-- Specific style -->
+    <link rel="stylesheet" href="../../css/components/horizontal-card.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+    <script src="../../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!--
+
+        Webdesign by Markus Städler, weberlin-design.de, markus.staedler@weberlin-design.de
+
+    -->
+
+    <style>
+
+        main {
+            text-align: center;
+        }
+
+        main .col {
+            width: 100%;
+            max-width: 960px;
+            float: left;
+        }
+
+        @media only screen and (min-width: 992px) {
+            main .col {
+                width: 50%;
+            }
+        }
+
+    </style>
+
+</head>
+<body class="darkmode">
+
+    <main class="clearfix">
+        <div class="col">
+            <a data-bg="Personen" class="horizontal-card" href="#">
+                <h3 class="district">
+                    Personen
+                </h3>
+                <span class="count">
+                    513
+                </span>
+            </a>
+            <a data-bg="Teams" class="horizontal-card" href="#">
+                <h3 class="district">
+                    Teams
+                </h3>
+                <span class="count">
+                    107
+                </span>
+            </a>
+            <a data-bg="Vereine" class="horizontal-card" href="#">
+                <h3 class="district">
+                    Vereine
+                </h3>
+                <span class="count">
+                    29
+                </span>
+            </a>
+        </div>
+    </main>
+
+
+
+</body>
+</html>
