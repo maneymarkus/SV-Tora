@@ -1,0 +1,90 @@
+main h1 {
+  font-size: 2.5rem;
+}
+
+main p {
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+main a.enroll {
+  position: relative;
+  color: var(--text-color);
+  font-size: 1.75rem;
+  transition: 0.2s ease;
+  float: right;
+  right: 2rem;
+  margin-top: 3.5rem;
+  visibility: visible;
+  opacity: 1;
+  text-decoration: none;
+}
+
+a.enroll.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+main a.enroll:hover,
+main a.enroll:focus {
+  color: var(--accent-color-1-light);
+  text-decoration: none;
+}
+
+main a.enroll:before {
+  content: '';
+  position: absolute;
+  width: 7em;
+  height: 4px;
+  bottom: 20%;
+  left: 0;
+  background-color: var(--accent-color-1-light);
+  transition: 0.2s ease;
+  transition-delay: 0.2s;
+}
+
+main a.enroll:hover:before,
+main a.enroll:focus:before {
+  width: 0;
+  left: 7em;
+  transition-delay: 0s;
+}
+
+main a.enroll i {
+  font-size: 3.5rem;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-block;
+  line-height: 1.4;
+  border: 3px solid var(--text-color);
+  text-align: center;
+  vertical-align: middle;
+  margin-left: 1rem;
+  transition: 0.2s ease;
+  transition-delay: 0s;
+  color: var(--accent-color-1-light);
+}
+
+main a.enroll:hover i,
+main a.enroll:focus i {
+  border-color: var(--accent-color-1-light);
+  transform: scale(1.2);
+  transition-delay: 0.2s;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

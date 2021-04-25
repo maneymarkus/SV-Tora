@@ -1,0 +1,180 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Header
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <header class="header">
+/     <a href="#" class="menu"><i class="material-icons">menu</i></a>
+/     <p>Site Name</p>
+/     <a href="#" class="profile"><i class="material-icons">person</i></a>
+/     <div class="user-profile">
+/       <div class="user-wrapper">
+/         <div class="pic-container">
+/           <img src="../src" alt="profile pic" />
+/         </div>
+/         <p class="username">User Name</p>
+/         <a class="secondary-button settings" href="#">
+/           <span class="text">
+/             Settings
+/           </span>
+/         </a>
+/         <a class="secondary-button logout" href="#">
+/           <span class="text">
+/             Log out
+/           </span>
+/         </a>
+/       </div>
+/     </div>
+/   </header>
+/
+/
+*/
+
+
+header {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    padding: 1.5rem 0 1rem 0;
+    transition: 0.5s ease;
+    text-align: center;
+    z-index: 1000;
+}
+
+header:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 0;
+    width: 100%;
+    height: 150%;
+    background-color: var(--theme-color-1);
+    z-index: -1;
+    border-radius: 0 0 50% 50%/0 0 75% 75%;
+    box-shadow: 0 0 10px 3px var(--box-shadow);
+    opacity: 0.95;
+}
+
+header div.logo {
+    position: relative;
+    background-image: url("/images/Logo_dark.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 25px;
+    transition: 0.5s ease;
+}
+
+.darkmode header div.logo {
+    background-image: url("/images/Logo_light.png");
+}
+
+header > a {
+    display: block;
+    position: absolute;
+    border-radius: 10%;
+    width: 5rem;
+    height: 5rem;
+    background-color: var(--theme-color-1);
+    text-align: center;
+    top: -0.5rem;
+    box-shadow: 0 0 10px 3px var(--box-shadow);
+    transition: 0.5s ease;
+    cursor: pointer;
+    z-index: 2;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+header > a:hover,
+header > a:focus {
+    background-color: var(--accent-color-1-light);
+
+}
+
+header .menu {
+    left: 0;
+    transform: rotate(-5deg);
+}
+
+header .profile {
+    right: 0;
+    transform: rotate(5deg);
+}
+
+.header > a i {
+    font-size: 2rem;
+    line-height: 3;
+    color: var(--accent-color-1-dark);
+    transition: 0.2s ease;
+}
+
+.header > a:hover i,
+.header > a:focus i {
+    color: var(--text-color);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+    header:hover,
+    header.open-menu {
+        transform: translateY(50%);
+        padding-top: 0;
+    }
+
+    header div.logo {
+        height: 40px;
+    }
+
+    header:hover div.logo,
+    header.open-menu div.logo {
+        height: 55px;
+    }
+
+    header > a {
+        width: 6rem;
+        height: 6rem;
+        top: -2rem;
+    }
+
+    header .menu {
+        left: -1rem;
+        transform: rotate(-30deg);
+    }
+
+    header:hover .menu,
+    header.open-menu .menu {
+        left: -0.5rem;
+        transform: rotate(-5deg);
+    }
+
+    header .profile {
+        right: -1rem;
+        transform: rotate(30deg);
+    }
+
+    header:hover .profile,
+    header.open-menu .profile {
+        right: -0.5rem;
+        transform: rotate(5deg);
+    }
+
+    .header > a i {
+        line-height: 3.5;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

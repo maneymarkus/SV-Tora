@@ -1,0 +1,60 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Tooltips
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   See: https://atomiks.github.io/tippyjs/
+/
+/
+*/
+
+
+.tt-trigger {
+  color: var(--accent-color-1-dark);
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.tt-trigger i {
+  font-size: 3rem;
+  transition: 0.2s ease;
+}
+
+.tt-trigger:hover i {
+  color: var(--accent-color-1-light);
+  transform: scale(1.2);
+}
+
+.tippy-box[data-theme~='svtora'] {
+  font-size: 1.3rem;
+  background-color: var(--theme-color-1);
+  padding: 0.2rem 0.4rem;
+  color: var(--text-color);
+  text-shadow: 1px 1px 2px var(--text-shadow);
+  box-shadow: 0 2px 10px 3px var(--box-shadow), 0 0 0 2px var(--accent-color-1-light) inset;
+  word-wrap: break-word;
+}
+
+.tippy-box[data-theme~='svtora'] > .tippy-svg-arrow {
+  fill: var(--accent-color-1-light);
+  transform: scale(1.5);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

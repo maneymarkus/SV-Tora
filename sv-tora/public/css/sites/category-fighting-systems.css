@@ -1,0 +1,184 @@
+main {
+    height: auto;
+    padding-bottom: 5rem;
+}
+
+.accordion {
+    margin-bottom: 4rem;
+}
+
+.open .bar-header {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.bar-header .heading {
+    padding-right: 4em;
+}
+
+.bar-header:before,
+.bar-header:after {
+    background-color: var(--error-dark);
+}
+
+.bar-header:hover:before,
+.bar-header:hover:after {
+    background-color: var(--error-light);
+}
+
+.bar-header .open-indicator {
+    color: var(--error-dark);
+}
+
+.prepared .bar-header:before,
+.prepared .bar-header:after {
+    background-color: var(--success-dark);
+}
+
+.prepared .bar-header:hover:before,
+.prepared .bar-header:hover:after {
+    background-color: var(--success-light);
+}
+
+.prepared .bar-header .open-indicator {
+    color: var(--success-dark);
+}
+
+.prepared .bar-header:hover .open-indicator,
+.open.prepared .bar-header .open-indicator {
+    color: #171717;
+}
+
+.prepared .prepared {
+    position: absolute;
+    color: var(--success-dark);
+    font-size: 2.5em;
+    font-weight: bold;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0.75em;
+}
+
+.bar-header:hover .prepared {
+    color: var(--success-light);
+}
+
+.open .bar-content {
+    border-color: var(--error-dark);
+}
+
+.open .bar-header:hover ~ .bar-content {
+    border-color: var(--error-light);
+}
+
+.prepared .bar-content {
+    border-color: var(--success-dark);
+}
+
+.open.prepared .bar-header:hover ~ .bar-content {
+    border-color: var(--success-light);
+}
+
+.bar-content .side {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bar-content .side:last-of-type {
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.bar-content .fighting-system {
+    position: relative;
+    font-size: 2em;
+    font-style: italic;
+    cursor: pointer;
+    color: var(--accent-color-1-dark);
+    transition: 0.2s ease;
+    margin-top: 1em;
+}
+
+.prepared .fighting-system {
+    font-weight: bold;
+    font-style: normal;
+}
+
+.bar-content .fighting-system:hover {
+    color: var(--accent-color-1-light);
+}
+
+.bar-content .fighting-system:before {
+    content: 'Kampfsystem';
+    position: absolute;
+    font-style: italic;
+    color: var(--theme-color-3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) skewY(-10deg);
+    text-shadow: 0 0 5px var(--text-shadow);
+    z-index: -1;
+    font-size: 1.5em;
+}
+
+.bar-content .actions-container {
+    height: 100%;
+    text-align: center;
+}
+
+.bar-content .primary-button {
+    font-size: 0.8rem;
+    margin: 4em 3em;
+}
+
+.carousel-container {
+    position: fixed;
+    bottom: -15em;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.5s ease, bottom 0.5s ease;
+    z-index: 100000;
+}
+
+.carousel-container.active {
+    bottom: 50%;
+    transform: translateX(-50%) translateY(50%);
+}
+
+.custom-modal-window .tree {
+    font-size: 0.7rem;
+    min-width: 32em;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+    .custom-modal-window .tree {
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .bar-content .side {
+        width: 50%;
+        float: left;
+        height: 100%;
+    }
+
+    .bar-content .fighting-system {
+        margin-top: 0;
+    }
+
+    .custom-modal-window .tree {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

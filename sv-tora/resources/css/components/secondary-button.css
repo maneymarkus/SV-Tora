@@ -1,0 +1,203 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Secondary Button
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <a class="secondary-button">
+/    <span class="text">
+/      Button
+/    </span>
+/   </a>
+/
+/
+*/
+
+
+.secondary-button {
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  letter-spacing: 0.1em;
+  background: var(--theme-color-3);
+  transition: 0.5s ease, background-color 0.5s;
+  font-size: 0.9rem;
+  height: auto;
+  border: 2px solid var(--accent-color-1-dark);
+  color: var(--text-color);
+  padding: 0.5em 2em;
+  box-shadow: 0 2px 8px 3px var(--box-shadow);
+}
+
+.darkmode .secondary-button {
+  background-color: var(--theme-color-1);
+}
+
+.secondary-button:hover,
+.secondary-button:focus {
+  border: 2px solid var(--accent-color-1-light);
+  color: var(--accent-color-1-light);
+}
+
+.secondary-button.clicked {
+  transition: background-color 0.1s;
+  background-color: var(--theme-color-4);
+  box-shadow: 0 0 10px 3px var(--box-shadow);
+}
+
+.secondary-button.clicked:before,
+.secondary-button.clicked:after {
+  background-color: var(--theme-color-4);
+  transition: background-color 0.1s;
+}
+
+.secondary-button:before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: calc(100% + 6px);
+  height: calc(100% - 1em);
+  background: var(--theme-color-3);
+  top: 0.5em;
+  left: -3px;
+  transition: 0.4s ease;
+}
+
+.darkmode .secondary-button:before {
+  background: var(--theme-color-1);
+}
+
+.secondary-button:after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: calc(100% - 1em);
+  height: calc(100% + 4px);
+  background: var(--theme-color-3);
+  top: -2px;
+  left: 0.5em;
+  transition: 0.4s ease;
+}
+
+.darkmode .secondary-button:after {
+  background: var(--theme-color-1);
+}
+
+.secondary-button:hover:before,
+.secondary-button:focus:before {
+  top: 50%;
+  height: 0;
+}
+
+.secondary-button:hover:after,
+.secondary-button:focus:after {
+  left: 50%;
+  width: 0;
+}
+
+.secondary-button i {
+  font-size: 1.5em;
+  margin-right: 0.25em;
+  vertical-align: -0.25em;
+}
+
+.secondary-button .text {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: block;
+  font-size: 1em;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/*
+/-------------------------------------------------------------------
+/
+/ Alternative accentual styles:
+/
+/-------------------------------------------------------------------
+*/
+
+
+.secondary-button.delete {
+  border-color: var(--accent-color-2-dark);
+  color: var(--accent-color-2-dark);
+  transition: background-color 0.2s ease 0s, color 0.2s ease 0s, border 0.2s ease 0s;
+}
+
+.secondary-button.accent-1 {
+  border-color: var(--accent-color-2-dark);
+}
+
+.secondary-button.accent-2 {
+  border-color: var(--accent-color-3-dark);
+}
+
+.secondary-button.disabled {
+  color: #4A4A4A;
+  border-color: #4A4A4A;
+  cursor: not-allowed;
+}
+
+
+
+.secondary-button.delete:focus,
+.secondary-button.delete:hover {
+  border: 2px solid var(--accent-color-2-light);
+  color: #171717;
+  background-color: var(--accent-color-2-light);
+  transition: background-color 0.2s ease 0.6s, color 0.2s ease 0.6s;
+}
+
+.secondary-button.accent-1:focus,
+.secondary-button.accent-1:hover {
+  border: 2px solid var(--accent-color-2-light);
+  color: var(--accent-color-2-light);
+}
+
+.secondary-button.accent-2:focus,
+.secondary-button.accent-2:hover {
+  border: 2px solid var(--accent-color-3-light);
+  color: var(--accent-color-3-light);
+}
+
+.secondary-button.disabled:focus,
+.secondary-button.disabled:hover {
+  color: #4A4A4A;
+  border-color: #4A4A4A;
+}
+
+
+
+.secondary-button.delete:before,
+.secondary-button.delete:after {
+  transition-delay: 0.3s;
+}
+
+
+
+.secondary-button.delete:hover:before,
+.secondary-button.delete:focus:before,
+.secondary-button.delete:hover:after,
+.secondary-button.delete:focus:after {
+  transition-delay: 0s;
+}
+
+.secondary-button.disabled:hover:before,
+.secondary-button.disabled:focus:before {
+  height: calc(100% - 1em);
+  top: 0.5em;
+}
+
+.secondary-button.disabled:hover:after,
+.secondary-button.disabled:focus:after {
+  width: calc(100% - 1em);
+  left: 0.5em;
+}

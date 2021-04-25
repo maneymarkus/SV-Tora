@@ -1,0 +1,224 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Primary Button
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <a class="primary-button" href="#">
+/     <i class="material-icons">mail</i>
+/     <p>E-Mail schreiben</p>
+/   </a>
+/
+/
+*/
+
+
+a.primary-button {
+    text-align: center;
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    margin: 2em;
+    color: var(--text-color);
+    transition: 0.2s ease;
+    background-color: transparent;
+    transform-style: preserve-3d;
+    font-size: 0.8rem;
+    z-index: 100;
+    cursor: pointer;
+    position: relative;
+}
+
+a.primary-button:before {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    z-index: -1;
+    transition: 0.2s ease;
+    box-shadow: 0 0 2.5em 1em var(--accent-color-1-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode .primary-button:hover:before {
+    box-shadow: 0 0 1.5em 0.25em var(--accent-color-1-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button:hover:before {
+    width: 225%;
+    height: 225%;
+    opacity: 1;
+    border-color: var(--accent-color-1-light);
+}
+
+.primary-button i {
+    color: var(--accent-color-1-dark);
+    position: absolute;
+    font-size: 4em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.2s ease;
+    z-index: 2;
+    transform-style: preserve-3d;
+    text-shadow: 0 1px 4px var(--text-shadow);
+}
+
+.primary-button:hover i {
+    color: var(--accent-color-1-light);
+    top: 0;
+    transform: translate(-50%, -50%) scale(1.1) translateZ(30px);
+    text-shadow: 0 1px 7px var(--text-shadow);
+}
+
+.primary-button p {
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    font-size: 0.9em;
+    transition: 0.2s ease;
+    z-index: 1;
+    opacity: 0;
+    transform-style: preserve-3d;
+}
+
+.primary-button:hover p {
+    top: 100%;
+    opacity: 1;
+    transform: translate(-50%, -50%) translateZ(15px);
+}
+
+.primary-button.disabled:hover p {
+    color: var(--disabled-text-color);
+}
+
+
+/*
+/-------------------------------------------------------------------
+/
+/ Alternative accentual styles:
+/
+/-------------------------------------------------------------------
+*/
+
+
+a.primary-button.close:before,
+a.primary-button.warning:before {
+    box-shadow: 0 0 2.5em 1em var(--accent-color-2-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.close:before,
+.darkmode a.primary-button.warning:before {
+    box-shadow: 0 0 1.5em 0.25em var(--accent-color-2-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button.accent-1:before {
+    box-shadow: 0 0 2.5em 1em var(--accent-color-3-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.accent-1:before {
+    box-shadow: 0 0 1.5em 0.25em var(--accent-color-3-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button.accent-2:before {
+    box-shadow: 0 0 2.5em 1em var(--accent-color-4-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.accent-2:before {
+    box-shadow: 0 0 1.5em 0.25em var(--accent-color-4-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button.accent-3:before {
+    box-shadow: 0 0 2.5em 1em var(--accent-color-5-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.accent-3:before {
+    box-shadow: 0 0 1.5em 0.25em var(--accent-color-5-light) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+a.primary-button.disabled:before {
+    box-shadow: 0 0 2.5em 1em var(--disabled-dark) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+.darkmode a.primary-button.disabled:before  {
+    box-shadow: 0 0 1.5em 0.25em var(--disabled-dark) inset, 0 0 10px 3px var(--box-shadow);
+}
+
+
+
+a.primary-button.close:hover:before,
+a.primary-button.warning:hover:before {
+    border-color: var(--accent-color-2-light);
+}
+
+a.primary-button.accent-1:hover:before {
+    border-color: var(--accent-color-3-light);
+}
+
+a.primary-button.accent-2:hover:before {
+    border-color: var(--accent-color-4-light);
+}
+
+a.primary-button.accent-3:hover:before {
+    border-color: var(--accent-color-5-light);
+}
+
+a.primary-button.disabled:hover:before {
+    border-color: var(--disabled-dark);
+}
+
+
+
+.primary-button.close i,
+.primary-button.warning i {
+    color: var(--accent-color-2-dark);
+}
+
+.primary-button.accent-1 i {
+    color: var(--accent-color-3-dark);
+}
+
+.primary-button.accent-2 i {
+    color: var(--accent-color-4-dark);
+}
+
+.primary-button.accent-3 i {
+    color: var(--accent-color-5-dark);
+}
+
+.primary-button.disabled i {
+    color: var(--disabled-dark);
+}
+
+
+
+.primary-button.close:hover i,
+.primary-button.warning:hover i {
+    font-weight: bold;
+    color: var(--accent-color-2-light);
+}
+
+.primary-button.accent-1:hover i {
+    color: var(--accent-color-3-light);
+}
+
+.primary-button.accent-2:hover i {
+    color: var(--accent-color-4-light);
+}
+
+.primary-button.accent-3:hover i {
+    color: var(--accent-color-5-light);
+}
+
+.primary-button.disabled:hover i {
+    color: var(--disabled-light);
+}

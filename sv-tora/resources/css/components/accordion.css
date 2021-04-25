@@ -1,0 +1,186 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Accordion
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div class="accordion">
+/     <div class="accordion-bar">
+/       <div class="bar-header">
+/         <i class="material-icons open-indicator">keyboard_arrow_down</i>
+/         <h4 class="heading">Überschrift</h4>
+/       </div>
+/       <div class="bar-content">
+/         Specific Content...
+/       </div>
+/     </div>
+/   </div>
+/
+/
+*/
+
+.accordion-title {
+    text-align: center;
+    font-size: 2rem;
+    border-bottom: 3px solid var(--theme-color-4);
+    margin: 5rem auto 3rem;
+    width: 20%;
+    box-shadow: 0 15px 10px -10px var(--box-shadow);
+}
+
+.accordion {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.accordion-bar {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.bar-header {
+    position: relative;
+    transition: 0.2s ease;
+    background-color: var(--theme-color-1);
+    overflow: hidden;
+}
+
+.bar-header:hover {
+    background-color: var(--theme-color-3);
+}
+
+.open .bar-header {
+    position: sticky;
+    top: 4em;
+    left: 0;
+    z-index: 5;
+}
+
+.bar-header:before,
+.bar-header:after {
+    content: '';
+    position: absolute;
+    width: 1em;
+    height: 100%;
+    top: 0;
+    background-color: var(--accent-color-1-dark);
+    transition: 0.2s ease;
+    z-index: 0;
+}
+
+.accordion-bar:nth-of-type(even) .bar-header:before,
+.accordion-bar:nth-of-type(even) .bar-header:after {
+    transform: skew(5deg);
+}
+
+.accordion-bar:nth-of-type(odd) .bar-header:before,
+.accordion-bar:nth-of-type(odd) .bar-header:after {
+    transform: skew(-5deg);
+}
+
+.bar-header:hover:before,
+.bar-header:hover:after {
+    background-color: var(--accent-color-1-light);
+}
+
+.bar-header:before {
+    left: -0.5em;
+}
+
+.bar-header:hover:before,
+.open .bar-header:before {
+    width: 4em;
+}
+
+.bar-header:after {
+    right: -0.5em;
+}
+
+.bar-header:hover:after,
+.open .bar-header:after {
+    width: 2em;
+}
+
+.bar-header .open-indicator {
+    position: absolute;
+    font-size: 3em;
+    color: var(--accent-color-1-dark);
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.1em;
+    transition: 0.2s ease;
+}
+
+.bar-header:hover .open-indicator {
+    color: #171717;
+    transform: translateY(-50%) scale(1.5);
+}
+
+.accordion-bar.open .open-indicator {
+    color: #171717;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.accordion-bar .heading {
+    display: inline-block;
+    width: auto;
+    padding-left: 3em;
+    padding-right: 1em;
+    position: relative;
+    z-index: 1;
+}
+
+.accordion-bar h3, .accordion-bar h4 {
+    width: 80%;
+    font-size: 1.2em;
+    margin: 0 auto;
+    padding: 0.75em 0;
+
+}
+
+.bar-content {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    display: none;
+    opacity: 0;
+    height: 0;
+    transition: height 0.5s ease 0s, border-color 0.2s ease 0s, border-width 0.2s ease 0.2s, opacity 0.2s ease 0.5s;
+    overflow: hidden;
+    background-color: rgba(23, 23, 23, 0.5);
+    border: 0 solid rgba(23, 23, 23, 0.5);
+    cursor: auto;
+}
+
+.open .bar-content {
+    transition: height 0.5s ease 0s, border-color 0.2s ease 0s, border-width 0.2s ease 0s, opacity 0.2s ease 0.5s;
+    border-width: 1px;
+    border-color: var(--accent-color-1-dark);
+    opacity: 1;
+}
+
+.open .bar-header:hover ~ .bar-content {
+    border-color: var(--accent-color-1-light);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

@@ -1,0 +1,117 @@
+main {
+    height: auto;
+}
+
+.fight-places-container {
+    text-align: left;
+    margin: 4rem auto;
+}
+
+.fight-place {
+    position: relative;
+    background-color: var(--theme-color-1);
+    display: inline-block;
+    width: 18em;
+    height: 18em;
+    font-size: 0.75rem;
+    box-shadow: 0 2px 6px 2em var(--box-shadow);
+    outline: 2em solid var(--theme-color-1);
+    border: 2em solid var(--theme-color-4);
+    margin: 3em;
+    transition: 0.2s ease;
+}
+
+.fight-place:hover {
+    outline-color: var(--accent-color-1-light);
+}
+
+.fight-place:before,
+.fight-place:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 2em;
+    height: 4em;
+    transform: translateY(-50%);
+    background-color: var(--theme-color-4);
+}
+
+.fight-place:before {
+    left: 2em;
+}
+
+.fight-place:after {
+    right: 2em;
+}
+
+.fight-place h2,
+.fight-place input {
+    position: absolute;
+    width: calc(100% + 3em);
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 2em;
+    text-shadow: 2px 2px 4px var(--text-shadow);
+    color: var(--accent-color-1-dark);
+    font-style: italic;
+}
+
+.fight-place .primary-button {
+    font-size: 0.75em;
+    position: absolute;
+    margin: 0;
+    top: calc(50% - 2em);
+}
+
+.fight-place .rename {
+    left: 2.5em;
+}
+
+.fight-place .delete {
+    right: 2.5em;
+}
+
+.fight-place p.fights {
+    position: absolute;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    font-size: 1.75em;
+    margin: 0;
+    padding-left: 1em;
+}
+
+.fight-place p.fights span {
+    color: var(--accent-color-1-dark);
+    font-weight: bold;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+.add-container {
+    position: relative;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 2em;
+    font-size: 0.8rem;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

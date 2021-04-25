@@ -1,0 +1,104 @@
+.mail-content {
+    top: 0;
+    width: 100%;
+    height: auto;
+    padding: 3rem 1rem;
+    transition: transform 1s ease, top 1s ease, opacity 0.5s ease 0.75s;
+    position: relative;
+}
+
+.mail-content h3 {
+    font-size: 2rem;
+    margin-left: -1.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 6px var(--text-shadow);
+}
+
+.mail-content h3:first-child {
+    margin-top: 0;
+}
+
+div.chosen-receivers {
+    margin: 1rem 0;
+    padding: 0.5rem 1rem 0 1rem;
+    display: block;
+    border-bottom: 2px solid var(--accent-color-1-dark);
+    background-color: rgba(0, 0, 0, 0.25);
+    vertical-align: bottom;
+    max-height: 13.5rem;
+    overflow-y: auto;
+}
+
+.chosen-receivers .to {
+    font-size: 1.25rem;
+    vertical-align: top;
+    line-height: 2.5rem;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.chosen-receivers .receiver {
+    font-size: 1rem;
+}
+
+form.mail-content .radio-input-container {
+    font-size: 1.25rem;
+}
+
+.primary-button.send {
+    float: left;
+}
+
+.primary-button.cancel {
+    float: right;
+}
+
+.mail-content .secondary-button {
+    margin: 0.5rem 0 1rem 2.5rem;
+    font-size: 1em;
+    width: auto;
+}
+
+.envelope {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    color: black;
+    opacity: 0.3;
+    font-size: 25rem;
+    z-index: -1;
+    transition: opacity 1.25s ease, transform 1.25s ease, left 1s ease-out 1.5s;
+}
+
+.sent .mail-content {
+    top: -10%;
+    transform: scale(0.2);
+    opacity: 0;
+}
+
+.sent .envelope {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.5);
+    left: 200%;
+}
+
+@media only screen and (min-width: 600px) {
+}
+
+@media only screen and (min-width: 768px) {
+}
+
+@media only screen and (min-width: 992px) {
+    .mail-content {
+        margin: 0 auto;
+        width: 75%;
+        padding: 2rem 0 2rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .mail-content {
+        width: 900px;
+    }
+}

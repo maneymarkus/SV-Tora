@@ -1,0 +1,42 @@
+/* General styles and fonts and stuff like that */
+@import "normalize.css";
+@import "general-style.css";
+@import "fonts.css";
+@import "material-icons-font.css";
+
+/* All available components */
+@import "components/accordion.css";
+@import "components/card.css";
+@import "components/carousel.css";
+@import "components/context-menu.css";
+@import "components/creator-button.css";
+@import "components/detail-card.css";
+@import "components/fighting-systems.css";
+@import "components/header.css";
+@import "components/horizontal-card.css";
+@import "components/info-card.css";
+@import "components/loader.css";
+@import "components/login-registration-form.css";
+@import "components/map.css";
+@import "components/material-inputs.css";
+@import "components/message.css";
+@import "components/modal.css";
+@import "components/nav.css";
+@import "components/notification.css";
+@import "components/primary-button.css";
+@import "components/primary-button-floating-container.css";
+@import "components/property-information.css";
+@import "components/secondary-button.css";
+@import "components/shortcuts.css";
+@import "components/smartphone-optimized-table.css";
+@import "components/svg-arrow.css";
+@import "components/table.css";
+@import "components/table-actions-container.css";
+@import "components/table-filter-container.css";
+@import "components/tag.css";
+@import "components/theater.css";
+@import "components/time-schedule.css";
+@import "components/tippy.css";
+@import "components/tooltip.css";
+@import "components/user-profile.css";
+

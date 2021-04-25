@@ -1,0 +1,165 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: (Vertical) Card
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <a class="card" href="#">
+/     <div class="bg">
+/       <p class="number">1</p>
+/     </div>
+/     <p class="bg-text">
+/       Background-Text
+/     </p>
+/     <h3 class="district">
+/       Text
+/     </h3>
+/   </a>
+/
+/
+*/
+
+
+.card {
+    display: inline-block;
+    border-radius: 15px;
+    min-width: 12rem;
+    width: 25%;
+    max-width: 16rem;
+    min-height: 18rem;
+    height: 40vw;
+    max-height: 22rem;
+    background-color: var(--theme-color-3);
+    transition: 0.5s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 3px 3px 15px var(--box-shadow);
+    margin: 0 2.5% 2rem 2.5%;
+    text-decoration: none;
+}
+
+.card:before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 60%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--accent-color-1-dark);
+    transform: skewY(15deg);
+    transition: 0.5s ease;
+    z-index: 1;
+}
+
+.card:hover {
+    background-color: var(--theme-color-4);
+    transform: scale(1.05);
+    box-shadow: 3px 3px 25px var(--box-shadow);
+}
+
+.card:hover:before {
+    top: 75%;
+    transform: skewY(-20deg);
+    background-color: var(--accent-color-1-light);
+}
+
+.card:after {
+    content: attr(data-bg);
+    position: absolute;
+    top: 30%;
+    left: -15%;
+    margin: 0;
+    font-size: 5rem;
+    color: black;
+    opacity: 0.2;
+    text-align: center;
+    font-weight: 900;
+    z-index: 0;
+    white-space: nowrap;
+}
+
+.card .bg {
+    position: absolute;
+    top: -5%;
+    right: 5%;
+    text-align: center;
+    font-size: 10rem;
+    background: url("../../../public/images/gradient-background_non-transparent.png");
+    background-size: 25rem;
+    background-position: 40% 50%;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    z-index: 5;
+    opacity: 0.4;
+    transition: 0.5s ease;
+    padding-left: 1rem;
+}
+
+.card .number {
+    margin: 0;
+    padding: 0;
+    /*text-shadow: 1px 0 0 #F2F2F2, -1px 0 0 #F2F2F2, 0 1px 0 #F2F2F2, 0 -1px 0 #F2F2F2;*/
+}
+
+.card:hover .bg {
+    transform: scale(1.5);
+    top: -10%;
+    right: -10%;
+    opacity: 0.2;
+}
+
+.card .district {
+    position: relative;
+    text-align: center;
+    margin: 0;
+    color: var(--theme-color-2);
+    font-size: 1.5rem;
+    top: 75%;
+    width: 100%;
+    z-index: 10;
+    transition: 0.5s ease;
+}
+
+.card:hover .district {
+    color: #3E3E3E;
+    top: 45%;
+    font-size: 2rem;
+}
+
+.darkmode .card:hover .district {
+    color: #C6C6C6;
+}
+
+@media only screen and (min-width: 600px) {
+}
+
+@media only screen and (min-width: 768px) {
+
+    .card .bg {
+        font-size: 10rem;
+    }
+
+    .card .bg-text {
+        font-size: 7rem;
+    }
+
+    .card .district {
+        font-size: 2rem;
+    }
+
+    .card:hover .district {
+        font-size: 2.5rem;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

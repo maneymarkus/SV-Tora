@@ -1,0 +1,140 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Horizontal Cards
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <a data-bg="background text" class="vertical-card" href="#">
+/     <h3 class="district">
+/       Text
+/     </h3>
+/     <span class="count">
+/       7
+/     </span>
+/   </a>
+/
+/
+*/
+
+
+.horizontal-card {
+    display: block;
+    border-radius: 15px;
+    width: 100%;
+    height: 5rem;
+    background-color: var(--theme-color-3);
+    transition: 0.5s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 3px 3px 15px var(--box-shadow);
+    margin-bottom: 2rem;
+    text-decoration: none;
+    font-size: 0.75rem;
+}
+
+.horizontal-card:before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: -50%;
+    width: 200%;
+    height: 15rem;
+    transform: translateY(20%) rotate(-20deg);
+    transform-origin: 50% -100%;
+    background-color: var(--accent-color-1-dark);
+    transition: 0.5s ease;
+    z-index: 1;
+    margin-bottom: 2rem;
+}
+
+.horizontal-card:hover {
+    background-color: var(--theme-color-4);
+    transform: scale(1.05);
+    box-shadow: 3px 3px 25px var(--box-shadow);
+}
+
+.horizontal-card:hover:before {
+    transform: translateY(20%) rotate(20deg);
+    background-color: var(--accent-color-1-light);
+}
+
+.horizontal-card:after {
+    content: attr(data-bg);
+    position: absolute;
+    bottom: -0.1em;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 5em;
+    color: black;
+    opacity: 0.1;
+    text-align: center;
+    font-weight: 900;
+    z-index: 0;
+    text-shadow: 2px 2px 4px var(--text-shadow);
+    white-space: nowrap;
+}
+
+.horizontal-card .district {
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    margin: 0;
+    color: var(--theme-color-1);
+    font-size: 3em;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: 0.5s ease;
+    text-shadow: 1px 1px 2px var(--text-shadow);
+}
+
+.horizontal-card:hover .district {
+    color: #3E3E3E;
+    font-size: 3.5em;
+    text-shadow: 1px 1px 4px black;
+}
+
+.darkmode .horizontal-card:hover .district {
+    color: #C6C6C6;
+}
+
+.horizontal-card .count {
+    position: absolute;
+    font-size: 5em;
+    font-weight: bold;
+    color: var(--theme-color-1);
+    z-index: 3;
+    top: 70%;
+    transform: translateY(-50%);
+    right: 2%;
+    transition: 0.5s ease;
+
+}
+
+.horizontal-card:hover .count {
+    color: var(--accent-color-1-light);
+    top: 50%;
+    right: 7.5%;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

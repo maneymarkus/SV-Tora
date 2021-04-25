@@ -1,0 +1,110 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Shortcuts (and Shortcut menu strip)
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div class="shortcuts">
+/       <div class="container">
+/           <a class="primary-button mail" href="#">
+/               <i class="material-icons">mail</i>
+/               <p>E-Mail schreiben</p>
+/           </a>
+/           Further anchor elements...
+/       </div>
+/   </div>
+/
+/
+*/
+
+.shortcuts {
+    position: fixed;
+    top: 0;
+    left: -10em;
+    width: 10em;
+    height: 100%;
+    transition: 0.5s ease;
+    overflow: visible;
+    box-shadow: 0 0 10px 5px var(--box-shadow);
+    z-index: 100000;
+    font-size: 0.8rem;
+    transition-delay: 0.25s;
+}
+
+.shortcuts:hover,
+.shortcuts:focus {
+    left: 0;
+    transition-delay: 0s;
+}
+
+.shortcuts .shortcuts-container {
+    background-color: var(--theme-color-3);
+    position: relative;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.5em 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    text-align: center;
+    box-shadow: 10px 0 10px var(--box-shadow) inset;
+}
+
+.darkmode .shortcuts-container {
+     background-color: var(--theme-color-1);
+ }
+
+.shortcuts:after {
+    content: '\E315';
+    font-family: "Material Icons";
+    font-size: 5em;
+    width: 0.9em;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 100%;
+    display: inline-block;
+    border-radius: 0 5em 5em 0;
+    background-color: var(--theme-color-3);
+    box-shadow: 0 0 10px 5px var(--box-shadow);
+    z-index: -1;
+    color: var(--accent-color-1-dark);
+    transition: 0.5s ease;
+    margin-left: -0.2em;
+}
+
+.darkmode .shortcuts:after {
+    background-color: var(--theme-color-1);
+}
+
+.shortcuts:hover:after,
+.shortcuts:focus:after {
+    color: var(--accent-color-1-light);
+}
+
+.shortcuts a.primary-button {
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: 1em;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

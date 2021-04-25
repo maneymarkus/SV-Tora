@@ -1,0 +1,148 @@
+main {
+  text-align: center;
+}
+
+main h1 {
+  text-align: left;
+}
+
+.document-reservoir {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.document {
+  display: inline-block;
+  width: auto;
+  max-width: 10rem;
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.document:hover {
+  cursor: pointer;
+}
+
+.document i {
+  font-size: 4rem;
+  color: var(--accent-color-3-dark);
+  transition: 0.2s ease;
+}
+
+.document:hover i,
+.document.chosen i {
+  color: var(--accent-color-3-light);
+  filter: drop-shadow(0 0 5px var(--accent-color-3-light));
+  transform: scale(1.2);
+}
+
+.document p {
+  transition: 0.2s ease;
+  font-size: 1.2rem;
+  margin: 0.5em 0 0 0;
+  line-height: 1.25;
+}
+
+.document:hover p {
+  color: var(--accent-color-3-dark);
+  text-decoration: underline;
+}
+
+.darkmode .document:hover p {
+  color: var(--accent-color-3-light);
+}
+
+.file-input-container {
+  margin-bottom: 5rem;
+}
+
+.document-bg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  color: black;
+  opacity: 0.3;
+  font-size: 25rem;
+  z-index: -1;
+  transition: opacity 1.25s ease, transform 1.25s ease, left 1s ease-out 1.5s;
+}
+
+.document-interaction {
+  position: fixed;
+  left: 0;
+  bottom: -18em;
+  width: 100%;
+  background: linear-gradient(var(--theme-color-3) 25%, var(--theme-color-1));
+  box-shadow: 0 0 15px 5px var(--box-shadow);
+  text-align: center;
+  transition: 0.5s ease;
+}
+
+.document-interaction.active {
+  bottom: 0;
+}
+
+.document-interaction div {
+  margin: 2rem 0 1.5rem 0;
+  font-size: 1.25rem;
+  word-wrap: normal;
+}
+
+.document-interaction .document-name {
+  background-color: var(--theme-color-1);
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  box-shadow: 0 0 9px 3px var(--box-shadow) inset;
+  margin-left: 1rem;
+  display: inline-block;
+}
+
+.document-interaction input.quick-input {
+  background-color: var(--theme-color-1);
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  display: inline-block;
+  color: var(--text-color);
+  border: none;
+  box-shadow: 0 0 9px 3px var(--box-shadow) inset, 0 0 9px 3px var(--theme-color-5);
+  font-style: italic;
+}
+
+.document-interaction .rename {
+  font-size: 0.7rem;
+  margin-bottom: -1em;
+  margin-left: -4em;
+}
+
+.document-interaction .download {
+  font-size: 0.8rem;
+}
+
+.document-interaction .delete {
+  font-size: 0.7rem;
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  margin: 0;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

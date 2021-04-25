@@ -1,0 +1,180 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Time Schedule
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div class="time-schedule-container">
+/     <hr class="current-time" />
+/     <div class="time-scale">
+/       <div class="hour full">
+/         <span class="visual-aid"></span>
+/         <span class="whole">15:00</span>
+/         <span class="quarter">15:15</span>
+/         <span class="half">15:30</span>
+/         <span class="three-fourths">15:45</span>
+/       </div>
+/     </div>
+/     <div class="locations">
+/       <div class="fight-place" data-name="location 1">
+/         <h2>Location 1</h2>
+/         <div class="category done time-block" data-category="4" style="height: 12rem">
+/           <h3>Kategorie <span class="category-name">4</span></h3>
+/           <p><span class="duration">72</span> Minuten</p>
+/         </div>
+/       </div>
+/     </div>
+/
+*/
+
+/* TODO: calculate width and height*/
+.time-schedule-container {
+    min-width: 100%;
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding-left: 7em;
+    display: flex;
+}
+
+.time-schedule-container .current-time-indicator {
+    position: absolute;
+    width: calc(100% - 9em);
+    z-index: 11;
+    left: 7em;
+    margin-top: 4em; /* The standard top offset (hr is displayed exactly at the starting time of the tournament */
+    border-color: var(--accent-color-1-light);
+}
+
+.time-schedule-container .time-scale {
+    position: absolute;
+    top: 4em;
+    left: 0;
+    border-left: 5px solid var(--accent-color-1-dark);
+    height: calc(100% - 4em); /* This is the height of the names (h2 elements) of the fighting places which are not part of the timing schedule */
+    width: 6em;
+    z-index: 10;
+}
+
+.time-scale > span {
+    /* This should be changed when changing the height of the one minute time unit height */
+    font-size: 1em;
+    height: 1.5em;
+    line-height: 1.5em;
+    display: block;
+    position: relative;
+    transform: translateY(-50%) translateY(2.5px);
+    padding-left: 0.75em;
+}
+
+.time-scale > span:before {
+    content: '';
+    position: absolute;
+    background-color: var(--accent-color-1-dark);
+    height: 5px;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.5em;
+}
+
+.time-scale span.whole,
+.time-scale span.start {
+    padding-left: 1.25em;
+}
+
+.time-scale span.whole:before,
+.time-scale span.start:before {
+    width: 1em;
+}
+
+.time-schedule-container .fight-place {
+    background-color: var(--theme-color-1);
+    background-image: linear-gradient(180deg, var(--theme-color-3) 2px, var(--theme-color-1) 2px);
+    background-size: 100% 10em;
+    background-repeat: repeat-y;
+    background-position: 0 4em;
+    display: inline-block;
+    height: 100%;
+    width: 10rem;
+    padding: 0.5rem;
+    position: relative;
+    box-shadow: 0 2px 5px 0 var(--box-shadow);
+    margin: 0 0.5rem;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.fight-place h2 {
+    margin: 0 0 0.5rem;
+    padding: 0.5rem 0 1rem 0.5rem;
+    background-color: var(--theme-color-2);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 2px var(--box-shadow);
+    height: 3rem;
+}
+
+/* specific style for the time block inside the fight-place column container */
+.fight-place .time-block {
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: none;
+}
+
+/* general styles for the time block */
+.time-block {
+    cursor: pointer;
+    box-shadow: 0 0 5px 2px black;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--theme-color-2);
+    background-color: var(--theme-color-3);
+    transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+.time-block.done {
+    background-color: var(--theme-color-2);
+    color: var(--theme-color-5);
+    border-color: var(--box-shadow);
+}
+
+.time-block:hover {
+    border-color: var(--accent-color-1-light);
+    background-color: var(--theme-color-4);
+}
+
+.time-block.done:hover {
+    border-color: var(--accent-color-1-dark);
+    background-color: var(--theme-color-3);
+}
+
+.time-block h3 {
+    margin: 0 0 0.5rem;
+    text-shadow: 1px 1px 3px var(--text-shadow);
+}
+
+.time-block p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

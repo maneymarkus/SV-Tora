@@ -1,0 +1,67 @@
+.bar-header input.quick-input {
+    margin-right: 0.5em;
+    padding: 0 0.5rem;
+}
+
+.bar-header .tools {
+    float: right;
+    position: relative;
+    margin-right: 2em;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.2s ease;
+}
+
+.open .bar-header .tools {
+    visibility: visible;
+    opacity: 1;
+}
+
+.bar-header a.primary-button {
+    width: 3em;
+    height: 3em;
+    margin: 1em;
+    font-size: 0.6em;
+}
+
+.primary-button i {
+    font-size: 3em;
+}
+
+.bar-content table, .bar-content th {
+    border-collapse: collapse;
+}
+
+.bar-content table {
+    width: 100%;
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.bar-content tr {
+    border-bottom: 1px solid var(--theme-color-4);
+}
+
+.bar-content table td {
+    padding: 0.4em 0 0.4em 0.4em;
+}
+
+.bar-content table td:nth-child(even) {
+    font-style: italic;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

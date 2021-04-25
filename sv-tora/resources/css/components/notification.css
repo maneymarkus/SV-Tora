@@ -1,0 +1,279 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Notification
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div class="notification clearfix">
+/       <i class="material-icons symbol">info</i>
+/       <p class="message">Info</p>
+/       <i class="material-icons close">close</i>
+/   </div>
+/
+/
+*/
+
+.notification {
+  position: fixed;
+  border: 1px solid var(--accent-color-1-dark);
+  height: 4.5em;
+  width: 4.5em;
+  background: rgba(61, 118, 225, 0.7);
+  box-shadow: 2px 2px 10px 3px black, 0 0 12px 1px var(--accent-color-1-dark) inset;
+  right: -6em;
+  bottom: 2em;
+  padding: 0.5em;
+  transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 1.25s;
+  overflow: hidden;
+  transform-origin: 50% 100%;
+}
+
+.darkmode .notification {
+  background: rgba(61, 118, 225, 0.4);
+}
+
+.notification.visible {
+  transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 0s;
+  right: 2em;
+}
+
+.notification.visible:hover {
+  height: 7em;
+  width: calc(100% - 4rem);
+  background: rgba(61, 118, 225, 0.9);
+  transition: width 0.75s ease 0s, height 0.5s ease 0.75s;
+  animation-play-state: paused;
+}
+
+.notification.info,
+.notification.warning {
+  animation: attention 2s ease 1s 3;
+}
+
+@keyframes attention {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  5% {
+    transform: translateY(-30px) rotate(0deg);
+  }
+
+  20% {
+    transform: translateY(-30px) rotate(10deg);
+  }
+
+  25% {
+    transform: translateY(-30px) rotate(-10deg);
+  }
+
+  30% {
+    transform: translateY(-30px) rotate(10deg);
+  }
+
+  35% {
+    transform: translateY(-30px) rotate(-10deg);
+  }
+
+  40% {
+    transform: translateY(-30px) rotate(10deg);
+  }
+
+  55% {
+    transform: translateY(-30px) rotate(0deg);
+  }
+
+  60% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+}
+
+.notification .symbol {
+  position: absolute;
+  top: 50%;
+  left: 0.25em;
+  transform: translateY(-50%);
+  font-size: 2.5em;
+}
+
+.notification p {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-height: 4em;
+  float: right;
+  margin: 0.5em 0;
+  font-size: 1em;
+  padding-left: 4em;
+  padding-right: 2em;
+  transition: 0.2s ease;
+  transition-delay: 0s;
+  line-height: 1.3;
+  opacity: 0;
+  overflow-y: auto;
+}
+
+.notification:hover p,
+.success.visible p,
+.error.visible p {
+  opacity: 1;
+  transition-delay: 1.25s;
+}
+
+.notification .close {
+  position: absolute;
+  font-size: 1.5rem;
+  font-weight: bold;
+  right: 0.5rem;
+  top: 0.5rem;
+  color: var(--theme-color-1);
+  text-align: center;
+  transition: color 0.2s ease, opacity 0.2s ease 0s;
+  cursor: pointer;
+  transition-delay: 0s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.notification .close:before {
+  content: '';
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 50%;
+  background-color: var(--theme-color-1);
+  position: absolute;
+  top: -0.05em;
+  left: -0.05em;
+  z-index: -1;
+  transition: 0.2s ease;
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+.notification .close:hover {
+  color: var(--accent-color-1-dark);
+  transition-delay: 0s;
+}
+
+.notification .close:hover:before {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.notification:hover .close,
+.error.visible .close,
+.success.visible .close {
+  visibility: visible;
+  opacity: 0.9;
+  transition: color 0.2s ease, opacity 0.2s ease 1.25s;
+}
+
+
+/*
+/-------------------------------------------------------------------
+/
+/ Alternative accentual styles:
+/
+/-------------------------------------------------------------------
+*/
+
+
+.notification.error {
+  border: 1px solid var(--accent-color-2-dark);
+  background: rgba(178, 58, 72, 0.7);
+  box-shadow: 2px 2px 10px 3px black, 0 0 12px 1px var(--accent-color-2-dark) inset;
+}
+
+.darkmode .notification.error {
+  background: rgba(178, 58, 72, 0.4);
+}
+
+.notification.visible.error {
+  height: 5em;
+  width: calc(100% - 4rem);
+}
+
+.notification.visible.error:hover {
+  background: rgba(178, 58, 72, 0.8);
+}
+
+.darkmode .notification.visible.error:hover {
+  background: rgba(178, 58, 72, 0.6);
+}
+
+.notification.success {
+  border: 1px solid var(--accent-color-3-dark);
+  background: rgba(32, 191, 85, 0.7);
+  box-shadow: 2px 2px 10px 3px black, 0 0 12px 1px var(--accent-color-3-dark) inset;
+}
+
+.darkmode .notification.success {
+  background: rgba(32, 191, 85, 0.4);
+}
+
+.notification.visible.success {
+  height: 5em;
+  width: calc(100% - 4rem);
+}
+
+.notification.visible.success:hover {
+  background: rgba(32, 191, 85, 0.8);
+}
+
+.darkmode .notification.visible.success:hover {
+  background: rgba(32, 191, 85, 0.6);
+}
+
+
+.notification.warning .symbol {
+  color: var(--accent-color-5-dark);
+}
+
+.darkmode .notification.warning .symbol {
+  color: var(--accent-color-5-light);
+}
+
+.notification.error .symbol {
+  color: var(--accent-color-2-light);
+}
+
+.notification.success .symbol {
+  color: var(--accent-color-3-light);
+}
+
+
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+  .notification.visible:hover {
+    width: calc(50% - 2em);
+  }
+
+  .notification.error,
+  .notification.error:hover,
+  .notification.success,
+  .notification.success {
+    width: calc(50% - 2em);
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .notification.visible:hover {
+    width: 900px;
+  }
+}

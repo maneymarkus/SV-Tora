@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'Baloo Chettan 2';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-Regular.ttf); /* For IE6-8 */
+    src: local('Baloo Chettan 2'),
+    local('BalooChettan2-Regular'),
+    url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-Regular.ttf) format('truetype')
+}
+
+@font-face {
+    font-family: 'Baloo Chettan 2';
+    font-style: normal;
+    font-weight: 500;
+    src: url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-Medium.ttf); /* For IE6-8 */
+    src: local('Baloo Chettan 2'),
+    local('BalooChettan2-Regular'),
+    url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-Medium.ttf) format('truetype')
+}
+
+@font-face {
+    font-family: 'Baloo Chettan 2';
+    font-style: normal;
+    font-weight: 600;
+    src: url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-SemiBold.ttf); /* For IE6-8 */
+    src: local('Baloo Chettan 2'),
+    local('BalooChettan2-Regular'),
+    url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-SemiBold.ttf) format('truetype')
+}
+
+@font-face {
+    font-family: 'Baloo Chettan 2';
+    font-style: normal;
+    font-weight: 700;
+    src: url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-Bold.ttf); /* For IE6-8 */
+    src: local('Baloo Chettan 2'),
+    local('BalooChettan2-Regular'),
+    url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-Bold.ttf) format('truetype')
+}
+
+@font-face {
+    font-family: 'Baloo Chettan 2';
+    font-style: normal;
+    font-weight: 800;
+    src: url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-ExtraBold.ttf); /* For IE6-8 */
+    src: local('Baloo Chettan 2'),
+    local('BalooChettan2-Regular'),
+    url(../../public/fonts/Baloo_Chettan_2/BalooChettan2-ExtraBold.ttf) format('truetype')
+}

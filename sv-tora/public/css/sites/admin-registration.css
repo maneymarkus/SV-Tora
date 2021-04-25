@@ -1,0 +1,44 @@
+main h1 {
+    font-size: 2rem;
+}
+
+p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.registration-container .secondary-button {
+    font-size: 1em;
+    float: right;
+    width: auto;
+    margin-top: 5rem;
+}
+
+.registration-container {
+    margin: 0 auto;
+    width: 90%;
+    visibility: hidden;
+    opacity: 0;
+}
+
+main.welcome-done .registration-container {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

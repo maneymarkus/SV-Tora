@@ -1,0 +1,138 @@
+.meta-info {
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+    width: 90%;
+    overflow: hidden;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    z-index: 100;
+    padding: 1.25em 0 2em 0;
+}
+
+.meta-info:before {
+    content: '';
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--box-shadow);
+    box-shadow: 0 0 25px 15px var(--box-shadow);
+    top: -25%;
+    border-radius: 0 0 5em 5em;
+}
+
+.chunk {
+    min-width: 7em;
+    width: 15%;
+    height: 3.5em;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    padding: 0 1em;
+    margin: 0 0.25em;
+}
+
+.chunk.main .value {
+    font-size: 2em;
+    top: -0.2em;
+    color: var(--text-color);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
+}
+
+.darkmode .chunk.main .value {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.75);
+}
+
+.chunk .value {
+    font-size: 1.5em;
+    text-shadow: 2px 2px 5px var(--text-shadow);
+    color: var(--text-color);
+}
+
+.chunk span {
+    position: absolute;
+    width: 100%;
+    display: inline-block;
+    left: 0;
+}
+
+.chunk .value {
+    top: 0;
+    font-weight: bold;
+}
+
+.chunk .separator {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 60%;
+    margin: 0;
+    border: 1px solid var(--text-color);
+}
+
+.chunk .key {
+    bottom: 0;
+    font-size: 0.9em;
+    color: var(--theme-color-5);
+}
+
+.fighting-system-name {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 65%;
+    max-width: 25em;
+    font-size: 1.5em;
+    background: rgba(23, 23, 23, 0.8);
+    z-index: 100;
+    padding: 1.5em 3em 0.5em 1.5em;
+    text-shadow: 1px 1px 2px var(--text-shadow), 2px 2px 2px white;
+    font-weight: bold;
+}
+
+.fighting-system-name:before {
+    content: '';
+    position: absolute;
+    width: 90%;
+    height: 0.25em;
+    top: 0.75em;
+    left: 5%;
+    background-color: var(--accent-color-1-dark);
+}
+
+.fighting-system-name:after {
+    content: '';
+    position: absolute;
+    height: 50%;
+    width: 0.25em;
+    top: 35%;
+    right: 2em;
+    background-color: var(--accent-color-1-dark);
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+    .meta-info {
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .meta-info {
+        width: 75%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .meta-info {
+        width: 900px;
+    }
+}

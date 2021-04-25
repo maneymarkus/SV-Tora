@@ -1,0 +1,126 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Smartphone-optimized Table (users can determine by themselves if they want to use these styles)
+/
+/-------------------------------------------------------------------
+/
+/   ATTENTION: The appliance of these styles work exactly the other way around than usual in this project!
+/              Usually, the media queries build up on each other starting with the lowest MIN-width.
+/              In this case, the media queries build up on each other starting with a MAX-width! (Since this way of displaying should only be applied to screens "thinner" than 992px in width
+/
+/ Generic Markup:
+/   View table.css
+/
+/
+*/
+
+
+@media only screen and (max-width: 1200px) {
+    .space-after:after {
+        display: none;
+    }
+
+    .table.smartphone-optimized thead th {
+        position: relative;
+        top: 0;
+        box-shadow: none;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .table.smartphone-optimized th:last-of-type {
+        display: none;
+    }
+
+    .table.smartphone-optimized th:last-child {
+        box-shadow: 0 3px 6px 0 black;
+    }
+
+    .table.smartphone-optimized .sort:hover {
+        transform: scale(1.05);
+    }
+
+    .table.smartphone-optimized .sort .icon {
+        right: 2em;
+    }
+
+    .table.smartphone-optimized td {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        padding: 0.25em 0.5em 0.25em 45%;
+        max-width: none;
+        border: none;
+    }
+
+    .table.smartphone-optimized td:first-child {
+        margin-top: 1em;
+    }
+
+    .table.smartphone-optimized td:last-child {
+        margin-bottom: 1em;
+    }
+
+    .table.smartphone-optimized td:before {
+        content: attr(data-column);
+        position: absolute;
+        top: 45%;
+        transform: translateY(-50%);
+        right: 0;
+        color: #171717;
+        font-size: 1.1em;
+        font-weight: 900;
+        font-style: italic;
+        opacity: 0.9;
+        text-align: right;
+        display: inline-block;
+        max-width: 100%;
+        padding-right: 58%;
+        text-shadow: 1px 1px 1px black;
+        margin: 0;
+    }
+
+    .table.smartphone-optimized td.row-actions {
+        padding-left: 0;
+        height: 3em;
+        position: relative;
+    }
+
+    .table.smartphone-optimized td.row-actions a.primary-button {
+        position: absolute;
+        margin: 0;
+    }
+
+    .table.smartphone-optimized td.row-actions a:first-child {
+        left: 20%;
+    }
+
+    .table.smartphone-optimized td.row-actions a:last-child {
+        right: 20%;
+    }
+
+    .table.smartphone-optimized td.row-actions:before {
+        right: auto;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        padding-right: 0;
+        font-size: 1.5em;
+    }
+
+}
+
+@media only screen and (max-width: 1200px) {
+
+}
+
+@media only screen and (max-width: 768px) {
+
+}
+
+@media only screen and (max-width: 600px) {
+    .table.smartphone-optimized {
+        font-size: 1rem !important;
+    }
+}

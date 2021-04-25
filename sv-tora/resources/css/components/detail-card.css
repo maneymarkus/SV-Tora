@@ -1,0 +1,194 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Detail Card
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <div class="big-card">
+/     <h1>Heading</h1>
+/     <div class="info-container clearfix">
+/       <div class="info">
+/         <p class="name">Some name</p>
+/         <p class="mail">example@mail.com</p>
+/       </div>
+/       <div class="image-container">
+/         <img src="../src" alt="image" />
+/       </div>
+/     </div>
+/     <h2>Sub-Heading</h2>
+/   </div>
+/
+/
+*/
+
+
+.big-card {
+    position: relative;
+    min-height: 100%;
+    padding: 3rem;
+    background-color: var(--accent-color-1-dark);
+    border-radius: 25px;
+    box-shadow: 5px 5px 25px 10px var(--box-shadow);
+    overflow: hidden;
+    margin: 0 auto 2rem;
+    max-width: 1000px;
+}
+
+.darkmode .big-card {
+    background-color: var(--accent-color-1-light);
+}
+
+.big-card:before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 110%;
+    top: -5%;
+    left: -25%;
+    border-radius: 50%;
+    background: var(--theme-color-4);
+    z-index: 0;
+}
+
+.big-card h1 {
+    position: relative;
+    margin: 0 0 3rem 0;
+    font-size: 3rem;
+    text-shadow: 2px 2px 10px var(--text-shadow);
+    text-align: center;
+    border-bottom: 3px solid var(--theme-color-5);
+    box-shadow: 0 15px 15px -15px var(--box-shadow);
+}
+
+.big-card .info-container {
+    height: auto;
+    padding: 0 1rem;
+    margin-bottom: 4rem;
+}
+
+.big-card .info {
+    z-index: 1;
+    position: relative;
+    font-size: 1.5rem;
+    vertical-align: middle;
+    padding-bottom: 3rem;
+}
+
+.big-card .info p {
+    text-align: center;
+    margin: 0 0 1rem 0;
+}
+
+.big-card .info .club-name {
+    color: var(--accent-color-1-dark);
+    font-weight: bold;
+    text-shadow: 2px 2px 3px var(--text-shadow);
+    font-size: 2rem;
+    border-bottom: 2px solid var(--theme-color-5);
+    padding-bottom: 1rem;
+}
+
+.darkmode .big-card .info .club-name {
+    color: var(--accent-color-1-light);
+}
+
+.big-card .info .club-mail {
+    font-style: italic;
+}
+
+.big-card .image-container {
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 15px 0 var(--box-shadow);
+    padding: 0;
+    max-width: 300px;
+    width: 50%;
+    min-width: 150px;
+    margin: 0 auto;
+}
+
+.big-card .image-container img {
+    top: 0;
+    left: 0;
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform: scale(1.1);
+    transition: 0.2s ease;
+}
+
+.big-card h2 {
+    position: relative;
+    font-size: 2rem;
+    text-shadow: 1px 1px 3px var(--text-shadow);
+    border-bottom: 2px solid var(--theme-color-3);
+    padding-bottom: 0.25rem;
+    margin-top: 4rem;
+    clear: both;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+    .big-card h1 {
+        font-size: 3.5rem;
+    }
+
+    .big-card .info-container {
+        padding: 0 3rem;
+    }
+
+    .big-card .info {
+        float: left;
+        width: 50%;
+        padding-top: 4rem;
+        padding-bottom: 0;
+        font-size: 2rem;
+    }
+
+    .big-card .info p {
+        text-align: left;
+        margin: 0 0 2rem 0;
+        font-size: 1.5rem;
+    }
+
+    .big-card .info .club-name {
+        padding-bottom: 0.25rem;
+        font-size: 2rem;
+    }
+
+    .big-card .image-container {
+        float: right;
+        margin: 0;
+        width: 35%;
+    }
+
+    .big-card .vertical-card {
+        width: 47%;
+        display: inline-block;
+    }
+
+    .big-card .vertical-card:nth-child(even) {
+        margin-right: 5%;
+    }
+
+    .big-card .vertical-card:last-child {
+        margin-right: 0;
+        display: block;
+        width: 100%;
+    }
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}
