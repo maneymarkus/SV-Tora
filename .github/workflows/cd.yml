@@ -25,7 +25,7 @@ jobs:
       - name: Webpack JS Bundling
         run: npm run webpack_prod
       - name: Upload from public_html via FTP
-        uses: maneymarkus/SV-Tora@master
+        uses: airvzxf/ftp-deployment-action@master
         with:
           server: ${{ secrets.SFTP_SERVER }}
           user: ${{ secrets.SFTP_USERNAME }}
