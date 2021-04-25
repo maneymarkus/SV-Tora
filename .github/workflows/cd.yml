@@ -1,0 +1,34 @@
+name: Continuous Deployment
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration - Laravel test"]
+    types:
+      - completed
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./sv-tora
+    defaults:
+      run:
+        working-directory: ./sv-tora
+        
+    steps:
+      - uses: actions/checkout@v2
+      # Here is the deployment action
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.development', '.env');"
+      - name: Laravel Mix CSS Bundling
+        run: npm run prod
+      - name: Webpack JS Bundling
+        run: npm run webpack_prod
+      - name: Upload from public_html via FTP
+        uses: maneymarkus/SV-Tora@master
+        with:
+          server: ${{ secrets.SFTP_SERVER }}
+          user: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          local_dir: "./sv-tora"
+          delete: "false"
