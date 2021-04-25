@@ -312,32 +312,29 @@ input.time-input {
     border-color: var(--disabled-dark);
 }
 
-.checkbox-input-container:hover input ~ .checkmark {
-    border: 0;
+.checkbox-input-container input:checked ~ .checkmark {
+    border-color: var(--accent-color-1-dark);
     background-color: var(--accent-color-1-dark);
 }
 
-.checkbox-input-container.disabled:hover input ~ .checkmark {
-    border: 0.15em solid var(--disabled-dark);
-    background-color: transparent;
-}
-
-.checkbox-input-container:hover input ~ .checkmark:after {
-    display: block;
-}
-
-.checkbox-input-container.disabled:hover input ~ .checkmark:after {
-    display: none;
-}
-
-.checkbox-input-container input:checked ~ .checkmark {
-    border: 0;
-    background-color: #2196F3;
-}
-
 .checkbox-input-container.disabled input:checked ~ .checkmark {
-    border: 0.15em solid var(--disabled-dark);
+    border-color: var(--disabled-dark);
+    background-color: var(--disabled-dark);
+}
+
+.checkbox-input-container:hover input ~ .checkmark {
+    border-color: var(--accent-color-1-light);
+    background-color: var(--accent-color-1-light);
+}
+
+.checkbox-input-container.disabled:hover input ~ .checkmark {
+    border-color: var(--disabled-dark);
     background-color: transparent;
+}
+
+.checkbox-input-container.disabled:hover input:checked ~ .checkmark {
+    border-color: var(--disabled-dark);
+    background-color: var(--disabled-dark);
 }
 
 .checkbox-input-container .checkmark:after {
@@ -355,11 +352,13 @@ input.time-input {
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.checkbox-input-container input:checked ~ .checkmark:after {
+.checkbox-input-container input:checked ~ .checkmark:after,
+.checkbox-input-container:hover input ~ .checkmark:after,
+.checkbox-input-container.disabled:hover input:checked ~ .checkmark:after {
     display: block;
 }
 
-.checkbox-input-container.disabled input:checked ~ .checkmark:after {
+.checkbox-input-container.disabled:hover input ~ .checkmark:after {
     display: none;
 }
 
@@ -418,28 +417,19 @@ input.time-input {
     border-color: var(--disabled-dark);
 }
 
-.radio-input-container:hover input ~ .checkmark:after {
-    display: block;
-}
-
-.radio-input-container.disabled:hover input ~ .checkmark:after {
-    display: none;
-}
-
 .radio-input-container input:checked ~ .checkmark {
-    border-color: var(--accent-color-1-light);
+    border-color: var(--accent-color-1-dark);
 }
 
 .radio-input-container.disabled input:checked ~ .checkmark {
     border-color: var(--disabled-dark);
 }
 
-.radio-input-container input:checked ~ .checkmark:after {
-    background-color: var(--accent-color-1-light);
+.radio-input-container:hover input ~ .checkmark {
+    border-color: var(--accent-color-1-light);
 }
-
-.radio-input-container.disabled input:checked ~ .checkmark:after {
-    background-color: transparent;
+.radio-input-container.disabled:hover input ~ .checkmark {
+    border-color: var(--disabled-dark);
 }
 
 .radio-input-container .checkmark:after {
@@ -460,7 +450,19 @@ input.time-input {
 }
 
 .radio-input-container.disabled input:checked ~ .checkmark:after {
+    background-color: var(--disabled-dark);
+}
+
+.radio-input-container:hover input ~ .checkmark:after {
+    background-color: var(--accent-color-1-light);
+}
+
+.radio-input-container.disabled:hover input ~ .checkmark:after {
     display: none;
+}
+
+.radio-input-container.disabled:hover input:checked ~ .checkmark:after {
+    display: block;
 }
 
 /*

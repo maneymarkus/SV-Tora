@@ -41,6 +41,7 @@ header {
   width: 100%;
   padding: 1.5rem 0 1rem 0;
   transition: 0.5s ease;
+  text-align: center;
 }
 
 header:before {
@@ -57,11 +58,18 @@ header:before {
   opacity: 0.75;
 }
 
-header p {
+header div.logo {
   position: relative;
-  text-align: center;
-  margin: 0;
-  font-size: 1.5rem;
+  background-image: url("../../images/Logo_dark.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 25px;
+  transition: 0.5s ease;
+}
+
+.darkmode header div.logo {
+  background-image: url("../../images/Logo_light.png");
 }
 
 header > a {
@@ -131,10 +139,16 @@ header .profile {
   header:hover,
   header.open-menu {
     transform: translateY(50%);
+    padding-top: 0;
   }
 
-  header > p {
-    font-size: 2rem;
+  header div.logo {
+    height: 40px;
+  }
+
+  header:hover div.logo,
+  header.open-menu div.logo {
+    height: 55px;
   }
 
   header > a {
