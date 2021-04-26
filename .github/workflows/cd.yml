@@ -35,3 +35,4 @@ jobs:
           port: 22
           local-dir: "./sv-tora/"
           server-dir: "./SV-Tora/"
+          protocol: ftps
