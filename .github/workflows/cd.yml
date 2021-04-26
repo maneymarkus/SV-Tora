@@ -17,7 +17,6 @@ jobs:
         
     steps:
       - uses: actions/checkout@v2
-      # Here is the deployment action
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.development', '.env');"
       - name: Install dependencies
