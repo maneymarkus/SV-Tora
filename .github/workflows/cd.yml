@@ -26,12 +26,13 @@ jobs:
         run: npm run prod
       - name: Webpack JS Bundling
         run: npm run webpack_prod
-      - name: Upload from public_html via FTP
-        uses: airvzxf/ftp-deployment-action@master
+      - name: Upload to FTP Server
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: ${{ secrets.SFTP_SERVER }}
-          user: ${{ secrets.SFTP_USERNAME }}
+          username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          local_dir: "./sv-tora"
-          delete: "false"
-          ftp_ssl_allow: "true"
+          port: 22
+          local-dir: "./sv-tora"
+          server-dir: "./"
+          protocol: ftps
