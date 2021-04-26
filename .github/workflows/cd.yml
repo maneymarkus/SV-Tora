@@ -34,3 +34,4 @@ jobs:
           password: ${{ secrets.SFTP_PASSWORD }}
           local_dir: "./sv-tora"
           delete: "false"
+          ftp_ssl_allow: "true"
