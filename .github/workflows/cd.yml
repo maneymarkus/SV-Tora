@@ -35,3 +35,4 @@ jobs:
           password: ${{ secrets.SFTP_PASSWORD }}
           local-dir: "./sv-tora/"
           server-dir: "./SV-Tora/"
+          protocol: ftps
