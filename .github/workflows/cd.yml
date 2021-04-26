@@ -33,6 +33,6 @@ jobs:
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
           port: 22
-          local-dir: "./sv-tora"
+          local-dir: "./sv-tora/"
           server-dir: "./"
           protocol: ftps
