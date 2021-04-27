@@ -16,8 +16,8 @@
         <div class="logo"></div>
     </header>
 
-    <span class="light-spot"></span>
     <img class="light-fighter" src="{{ asset("images/fighter-symbol-white.png") }}" alt="fighter image"/>
+    <span class="shadow"></span>
 
     <main>
 

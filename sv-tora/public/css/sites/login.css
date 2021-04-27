@@ -7,7 +7,6 @@ body {
     position: fixed;
     width: 3rem;
     height: auto;
-    /*filter: drop-shadow(0 0 20px var(--text-color));*/
     top: 50%;
     left: 50%;
     transform: translate(-45%, -45%) scale(0.3);
@@ -16,23 +15,23 @@ body {
     opacity: 0;
 }
 
-.light-spot {
+.shadow {
     position: fixed;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0.3);
-    background-color: var(--text-color);
     top: 50%;
     left: 50%;
-    /*box-shadow: 0 0 50px 60px var(--box-shadow);*/
-    transition: transform 2s ease-in, opacity 1s ease;
-    transition-delay: 0.5s;
+    width: 25%;
+    height: 25%;
+    transform: translate(-50%, -50%);
+    background-color: #171717;
+    box-shadow: 0 0 80vmax 35vmax #171717;
+    z-index: -1;
     opacity: 0;
+    transition: 2s ease;
 }
 
-.darkmode .light-spot {
-    /*box-shadow: 0 0 50px 60px white;*/
+.darkmode .shadow {
+    background-color: white;
+    box-shadow: 0 0 80vmax 35vmax white;
 }
 
 .sent .light-fighter {
@@ -40,9 +39,8 @@ body {
     transform: translate(-50%, -50%) scale(20);
 }
 
-.sent .light-spot {
+.sent .shadow {
     opacity: 1;
-    transform: translate(-45%, -45%) scale(20);
 }
 
 main:before {
