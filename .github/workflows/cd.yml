@@ -28,10 +28,14 @@ jobs:
       - name: Upload to FTP Server
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ssh.strato.de
-          port: 22
-          username: weberlin-design
+          server: ftp.strato.de
+          port: 21
+          username: svtora@sv-tora.weberlin-design.de
           password: ${{ secrets.SFTP_PASSWORD }}
           local-dir: "./sv-tora/"
-          server-dir: "./SV-Tora/"
-          protocol: ftps
+          server-dir: "./"
+          exclude: .git*
+            - .git*/**
+            -  **/.git*/**
+            - node_modules/**
+            - node_modules/**/*
