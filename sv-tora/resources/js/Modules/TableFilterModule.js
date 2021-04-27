@@ -2,6 +2,7 @@
  * DEPENDENCIES
  */
 
+import * as GeneralModule from "./GeneralModule";
 import { createInput } from "./MaterialInputsModule";
 import * as ModalModule from "./ModalModule";
 import { createTag } from "./TagModule";
@@ -121,7 +122,7 @@ let TableFilterContainer = function(tableFilterContainer) {
         let keys = Object.keys(This.connectedTableObject.possibleFilters);
         let keySelect = createInput(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-column", "required"], undefined, "filter-column", "Spalte", undefined, undefined, keys);
         let valueSelect = createInput(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-value", "disabled", "required"], undefined, "filter-value", "Wert", undefined, undefined, undefined);
-        let container = GeneralModule.generateElementApi("div");
+        let container = GeneralModule.generateElement("div");
         container.appendChild(keySelect.inputContainer);
         container.appendChild(valueSelect.inputContainer);
         keySelect.inputContainer.addEventListener("change", function () {

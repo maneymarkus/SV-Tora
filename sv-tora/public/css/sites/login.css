@@ -7,7 +7,7 @@ body {
     position: fixed;
     width: 3rem;
     height: auto;
-    filter: drop-shadow(0 0 20px var(--text-color));
+    /*filter: drop-shadow(0 0 20px var(--text-color));*/
     top: 50%;
     left: 50%;
     transform: translate(-45%, -45%) scale(0.3);
@@ -25,7 +25,7 @@ body {
     background-color: var(--text-color);
     top: 50%;
     left: 50%;
-    box-shadow: 0 0 50px 60px var(--box-shadow);
+    /*box-shadow: 0 0 50px 60px var(--box-shadow);*/
     transition: transform 2s ease-in, opacity 1s ease;
     transition-delay: 0.5s;
     opacity: 0;
