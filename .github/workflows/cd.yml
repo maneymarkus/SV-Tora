@@ -17,7 +17,6 @@ jobs:
         
     steps:
       - uses: actions/checkout@v2
-      # Here is the deployment action
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.development', '.env');"
       - name: Install dependencies
@@ -26,11 +25,17 @@ jobs:
         run: npm run prod
       - name: Webpack JS Bundling
         run: npm run webpack_prod
-      - name: Upload from public_html via FTP
-        uses: airvzxf/ftp-deployment-action@master
+      - name: Upload to FTP Server
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ${{ secrets.SFTP_SERVER }}
-          user: ${{ secrets.SFTP_USERNAME }}
+          server: ftp.strato.de
+          port: 21
+          username: svtora@sv-tora.weberlin-design.de
           password: ${{ secrets.SFTP_PASSWORD }}
-          local_dir: "./sv-tora"
-          delete: "false"
+          local-dir: "./sv-tora/"
+          server-dir: "./"
+          exclude: .git*
+            - .git*/**
+            -  **/.git*/**
+            - node_modules/**
+            - node_modules/**/*
