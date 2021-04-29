@@ -148,6 +148,13 @@ main {
     transform: translateX(-50%) translateY(50%);
 }
 
+a.primary-button.carousel-close {
+    position: fixed;
+    top: 5vh;
+    right: 10%;
+    z-index: 100000;
+}
+
 .custom-modal-window .tree {
     font-size: 0.7rem;
     min-width: 32em;

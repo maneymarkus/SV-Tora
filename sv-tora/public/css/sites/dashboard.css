@@ -38,6 +38,10 @@ h1.welcome-done {
     margin-top: 7rem;
 }
 
+footer {
+    margin-bottom: -5rem;
+}
+
 .dashboard .container-medium {
     margin-bottom: 2rem;
 }

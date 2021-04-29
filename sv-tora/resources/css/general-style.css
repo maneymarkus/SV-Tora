@@ -108,7 +108,7 @@ body.darkmode:before {
 }
 
 main {
-    padding: 7.5rem 1.5rem 2rem;
+    padding: 7.5rem 1.5rem 7rem;
     position: relative;
     width: 100%;
     height: 100%;
@@ -364,7 +364,7 @@ a.go-back i {
     }
 
     main {
-        padding: 7.5rem 2rem 2rem;
+        padding: 7.5rem 2rem 7rem;
     }
 
     .oversize-container {

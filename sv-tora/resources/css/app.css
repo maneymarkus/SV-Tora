@@ -12,9 +12,11 @@
 @import "components/creator-button.css";
 @import "components/detail-card.css";
 @import "components/fighting-systems.css";
+@import "components/footer.css";
 @import "components/header.css";
 @import "components/horizontal-card.css";
 @import "components/info-card.css";
+@import "components/legal.css";
 @import "components/loader.css";
 @import "components/login-registration-form.css";
 @import "components/map.css";

@@ -2258,6 +2258,53 @@ table, th, td {
 /*
 /-------------------------------------------------------------------
 /
+/   Styles for: Footer
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <footer>
+/   </footer>
+/
+/
+*/
+
+main {
+    padding-bottom: 7rem !important;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(var(--theme-color-2), var(--theme-color-1));
+    text-align: center;
+    padding: 1.5rem 0;
+    box-shadow: 0 -5px 10px var(--box-shadow);
+}
+
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+    footer a.link {
+        font-size: 1.25rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}
+
+/*
+/-------------------------------------------------------------------
+/
 /   Styles for: Header
 /
 /-------------------------------------------------------------------
@@ -2705,6 +2752,36 @@ header .profile {
     bottom: 12%;
     opacity: 1;
     transition-delay: 0.2s;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}
+
+.legal h3 {
+    margin: 0 0 0.5rem;
+}
+
+.legal p {
+    margin: 0 0 2rem;
+}
+
+.legal .main-logo {
+    height: auto;
+    width: 50%;
+    max-width: 8rem;
 }
 
 @media only screen and (min-width: 600px) {

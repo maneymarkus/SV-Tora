@@ -2,7 +2,9 @@
  * DEPENDENCIES
  */
 
+import { createPrimaryButton } from "./PrimaryButtonModule";
 import { enableSecondaryButton, disableSecondaryButton } from "./SecondaryButtonModule";
+import { removeOverlay } from "./ModalModule";
 
 /**
  * This Module contains code responsible for managing carousels
@@ -20,6 +22,8 @@ let Carousel = function(carouselContainer) {
     this.carouselElement = carouselContainer;
     this.slideWrapper = carouselContainer.querySelector("div.page-wrapper");
     this.slides = carouselContainer.querySelectorAll("div.page");
+    this.carouselDeactivationButton = createPrimaryButton(["close", "carousel-close"], undefined, "close", "Karussel schließen");
+
     this.slideCount = this.slides.length;
     this.angleDistance = 360 / this.slideCount;
     this.active = true;
@@ -263,16 +267,25 @@ let Carousel = function(carouselContainer) {
      * This function activates this carousel (user interaction possible)
      */
     this.activateCarousel = function () {
-        this.active = true;
-        this.carouselElement.classList.add("active");
+        This.active = true;
+        This.carouselElement.classList.add("active");
+        This.carouselDeactivationButton.addEventListener("click", This.deactivateCarousel);
+        This.carouselElement.parentElement.appendChild(this.carouselDeactivationButton);
     }
 
     /**
      * This function deactivates this carousel (user interaction not possible)
      */
     this.deactivateCarousel = function () {
-        this.active = false;
-        this.carouselElement.classList.remove("active");
+        This.active = false;
+        This.carouselElement.classList.remove("active");
+        if (This.carouselElement.parentElement.querySelector(".primary-button.carousel-close")) {
+            This.carouselDeactivationButton.removeEventListener("click", This.deactivateCarousel);
+            This.carouselElement.parentElement.removeChild(This.carouselDeactivationButton);
+            if (document.querySelector(".just-overlay")) {
+                removeOverlay();
+            }
+        }
     }
 
     /**

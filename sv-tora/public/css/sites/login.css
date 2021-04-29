@@ -89,12 +89,13 @@ body.sent .arrow {
 }
 
 .login-change-container {
-    position: absolute;
+    position: relative;
     width: 100%;
-    height: 50rem;
-    top: 5rem;
+    height: 35rem;
     left: 0;
     transition: 0.5s ease;
+    margin-top: 0;
+    margin-bottom: 2rem;
 }
 
 .login-change-container.sent {
@@ -155,7 +156,7 @@ body.sent .arrow {
     }
 
     .login-change-container {
-        top: 8rem;
+        margin-top: 5rem;
     }
 
     .login-container {

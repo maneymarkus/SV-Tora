@@ -159,6 +159,23 @@ Route::get("/tournament/category/id/fighting-system", function () {
 
 
 /**************************************************************
+ *      Legal Stuff                                           *
+ **************************************************************/
+
+Route::get("/legal-notice", function () {
+    return view("legal-notice");
+});
+
+Route::get("/data-privacy-statement", function () {
+    return view("data-privacy-statement");
+});
+
+/*
+ * TODO: Check if AGB is needed (or anything else)
+ */
+
+
+/**************************************************************
  *      Miscellaneous                                         *
  **************************************************************/
 

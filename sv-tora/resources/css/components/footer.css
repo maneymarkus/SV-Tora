@@ -1,0 +1,47 @@
+/*
+/-------------------------------------------------------------------
+/
+/   Styles for: Footer
+/
+/-------------------------------------------------------------------
+/
+/ Generic Markup:
+/   <footer>
+/   </footer>
+/
+/
+*/
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(var(--theme-color-2), var(--theme-color-1));
+    text-align: center;
+    padding: 1.5rem 0;
+    box-shadow: 0 -5px 10px var(--box-shadow);
+}
+
+.footer-divider {
+    margin: 0 0.25rem;
+}
+
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+    footer a.link,
+    .footer-divider {
+        font-size: 1.25rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

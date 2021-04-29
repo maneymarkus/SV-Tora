@@ -54,6 +54,10 @@ main.blur {
     z-index: 100000;
 }
 
+.just-overlay {
+    transition: 0.2s ease;
+}
+
 .overlay.open,
 .just-overlay.open {
     background-color: rgba(0, 0, 0, 0.5);
