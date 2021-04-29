@@ -571,7 +571,7 @@ body.darkmode:before {
 }
 
 main {
-    padding: 7.5rem 1.5rem 2rem;
+    padding: 7.5rem 1.5rem 7rem;
     position: relative;
     width: 100%;
     height: 100%;
@@ -837,7 +837,7 @@ a.go-back i {
     }
 
     main {
-        padding: 7.5rem 2rem 2rem;
+        padding: 7.5rem 2rem 7rem;
     }
 
     .oversize-container {
@@ -2269,10 +2269,6 @@ table, th, td {
 /
 */
 
-main {
-    padding-bottom: 7rem !important;
-}
-
 footer {
     position: absolute;
     bottom: 0;
@@ -2281,6 +2277,10 @@ footer {
     text-align: center;
     padding: 1.5rem 0;
     box-shadow: 0 -5px 10px var(--box-shadow);
+}
+
+.footer-divider {
+    margin: 0 0.25rem;
 }
 
 
@@ -2293,7 +2293,8 @@ footer {
 }
 
 @media only screen and (min-width: 992px) {
-    footer a.link {
+    footer a.link,
+    .footer-divider {
         font-size: 1.25rem;
     }
 }
@@ -3082,9 +3083,10 @@ header .profile {
 span.error {
     position: absolute;
     left: 0;
-    top: calc(100% + 1em);
+    top: 100%;
     border: 2px solid var(--error-light);
-    background-color: rgba(0, 0, 0, 0.75);
+    border-top: 0;
+    background-color: rgba(0, 0, 0, 0.9);
     width: 100%;
     border-radius: 5px;
     padding: 0.5em;
@@ -4786,6 +4788,10 @@ main.blur {
 
 .overlay {
     z-index: 100000;
+}
+
+.just-overlay {
+    transition: 0.2s ease;
 }
 
 .overlay.open,

@@ -30,7 +30,9 @@
             <div class="login-container ">
                 <h2>Login</h2>
                 <form class="login clearfix" action="/dashboard" method="get">
-                    <x-inputs.text-input type="email" name="user" class="required" label="Benutzername/E-Mail"></x-inputs.text-input>
+                    <x-inputs.text-input type="default" name="user" class="required" label="Benutzername/E-Mail">
+                        <x-slot name="icon">person</x-slot>
+                    </x-inputs.text-input>
                     <x-inputs.text-input type="password" name="password" class="required" label="Passwort"></x-inputs.text-input>
                     <a class="link password-forgotten">Passwort vergessen</a>
                     <button type="submit" class="secondary-button disabled login-button" >

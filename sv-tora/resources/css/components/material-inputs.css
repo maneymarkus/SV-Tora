@@ -5,9 +5,10 @@
 span.error {
     position: absolute;
     left: 0;
-    top: calc(100% + 1em);
+    top: 100%;
     border: 2px solid var(--error-light);
-    background-color: rgba(0, 0, 0, 0.75);
+    border-top: 0;
+    background-color: rgba(0, 0, 0, 0.9);
     width: 100%;
     border-radius: 5px;
     padding: 0.5em;
