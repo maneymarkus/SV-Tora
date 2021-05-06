@@ -54,10 +54,6 @@
     text-shadow: 2px 2px 8px var(--text-shadow);
 }
 
-.registration-container h2 {
-    text-align: right;
-}
-
 .login-container .input-container,
 .registration-container .input-container {
     margin-bottom: 2rem;

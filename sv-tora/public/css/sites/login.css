@@ -1,7 +1,3 @@
-body {
-    overflow-x: hidden;
-}
-
 .light-fighter {
     display: block;
     position: fixed;
@@ -53,86 +49,62 @@ main:before {
     background: linear-gradient(135deg, transparent 49%, rgba(255, 255, 255, 0.4) 50%, transparent 51%);
 }
 
-main p {
-    position: relative;
-    font-size: 1.5rem;
-    z-index: 10;
+.intro {
     transition: 0.5s ease;
-    margin-top: 0;
+    margin-bottom: 3rem;
 }
 
-.sent p {
-    opacity: 0;
-}
-
-main p span {
-    color: var(--accent-color-1-dark);
-}
-
-main .arrow {
-    width: 100px;
-    height: auto;
-    filter: drop-shadow(2px 2px 3px var(--box-shadow));
-    position: absolute;
-    top: 10rem;
-    left: 70%;
-    opacity: 0;
-    transition: 0.5s ease;
-}
-
-main.welcome-done .arrow {
-    opacity: 1;
-}
-
-body.sent .arrow {
-    opacity: 0;
-}
-
-.login-change-container {
-    position: relative;
-    width: 100%;
-    height: 35rem;
-    left: 0;
-    transition: 0.5s ease;
-    margin-top: 0;
-    margin-bottom: 2rem;
-}
-
-.login-change-container.sent {
-    transform: scale(0.3);
+.sent .intro {
     opacity: 0;
 }
 
 .login-container {
-    position: absolute;
-    top: 50%;
-    left: 40%;
-    transform: translate(-50%, -50%);
+    opacity: 0;
+    margin: 0 auto;
+    transition: 0.5s ease;
+    transform: scale(0.5);
 }
 
-.login-container.transition {
-    transform: translate(-50%, -50%) scale(0.8);
-    left: 25%;
-    z-index: 10;
+.welcome-done .login-container {
+    opacity: 1;
+    transform: scale(1);
 }
 
-.registration-container {
-    position: absolute;
-    top: 50%;
-    left: 60%;
-    transform: translate(-50%, -50%) scale(1);
+.sent .login-container {
+    transform: scale(0.3);
+    opacity: 0;
 }
 
-.registration-container.transition {
-    transform: translate(-50%, -50%) scale(0.8);
-    left: 75%;
-    z-index: 10;
+.made-with {
+    margin: 2rem 0;
+    transition: 0.5s ease;
+    font-size: 0.75rem;
+    text-align: center;
+    opacity: 0;
+    transition-delay: 1s;
 }
 
-.small {
-    min-width: 30rem;
-    transform: translate(-50%, -50%) scale(0.6);
-    z-index: 1;
+.welcome-done .made-with {
+    opacity: 1;
+}
+
+.made-with .material-icons {
+    font-size: 0.75rem;
+    vertical-align: sub;
+    margin: 0 0.2em;
+}
+
+.made-with .love {
+    color: darkred;
+}
+
+.made-with .education {
+    color: darkblue;
+}
+
+.sent .love {
+    transition-delay: 0s;
+    opacity: 0;
 }
 
 @media only screen and (min-width: 600px) {
@@ -144,28 +116,7 @@ body.sent .arrow {
 }
 
 @media only screen and (min-width: 992px) {
-    main p {
-        font-size: 2rem;
-        max-width: 95rem;
-    }
 
-    main .arrow {
-        width: 150px;
-        top: 12rem;
-        left: 62%;
-    }
-
-    .login-change-container {
-        margin-top: 5rem;
-    }
-
-    .login-container {
-        left: calc(50% - 10rem);
-    }
-
-    .registration-container {
-        left: calc(50% + 10rem);
-    }
 }
 
 @media only screen and (min-width: 1200px) {

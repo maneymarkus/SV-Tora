@@ -71,6 +71,7 @@ const modalTypes = {
 const errorTypes = {
     REQUIRED: "required",
     EMAIL: "email",
+    PASSWORD: "password",
     REPEAT: "repeat",
     TIME: "time",
     DATE: "date",

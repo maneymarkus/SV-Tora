@@ -49,6 +49,15 @@ let Header = function(headerElement) {
         this.headerElement.classList.remove("open-menu");
     }
 
+    /**
+     * This function is the laravel specific way of securely logging out (laravel requires a post request to the /logout route, to securely log out the user)
+     */
+    if (this.userMenu) {
+        this.userMenu.querySelector("a.secondary-button.logout").addEventListener("click", function () {
+            document.querySelector("#logout-form").submit();
+        });
+    }
+
 }
 
 let headerElement = document.querySelector("header.header");

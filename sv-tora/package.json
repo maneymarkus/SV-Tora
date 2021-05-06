@@ -17,6 +17,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
+        "webpack": "npm run webpack_dev",
         "webpack_dev": "webpack --config webpack.dev.config.js",
         "webpack_prod": "webpack --config webpack.prod.config.js"
     },

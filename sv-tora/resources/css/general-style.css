@@ -153,7 +153,7 @@ a.link:after {
     background-color: var(--accent-color-1-light);
     width: 0;
     bottom: 0;
-    left: 0;
+    right: 0;
     transition: 0.2s ease;
     transition-delay: 0.2s;
 }
@@ -165,6 +165,7 @@ a.link:focus {
 
 a.link:hover:after,
 a.link:focus:after {
+    left: 0;
     width: 100%;
 }
 
