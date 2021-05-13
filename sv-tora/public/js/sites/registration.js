@@ -3,7 +3,7 @@
  */
 (function (window, document, undefined) {
 
-    let dependencies = ["TheaterModule", "LoginRegistrationModule"];
+    let dependencies = ["TheaterModule"];
     App.GeneralModule.checkDependencies(dependencies);
 
     let main = document.querySelector("main");

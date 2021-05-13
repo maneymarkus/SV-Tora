@@ -16,7 +16,7 @@ class AuthenticationController extends Controller
 
     public function login(Request $request) {
         $request->validate([
-            "user_identifier" => "bail|required",
+            "user_identifier" => "required",
             "password" => "required",
         ]);
 
