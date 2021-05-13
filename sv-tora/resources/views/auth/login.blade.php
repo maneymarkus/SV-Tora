@@ -1,4 +1,4 @@
-@extends("layouts.base-template", ["title" => "auth.login"])
+@extends("layouts.base-template", ["title" => "Login"])
 
 @push("styles")
 <!-- Specific style -->
