@@ -17,8 +17,6 @@ jobs:
         
     steps:
       - uses: actions/checkout@v2
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.development', '.env');"
       - name: Install dependencies
         run: npm install
       - name: Laravel Mix CSS Bundling
