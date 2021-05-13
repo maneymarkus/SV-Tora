@@ -40,9 +40,9 @@ let Error = function (errorType, errorMessage) {
         case errorTypes.PASSWORD:
             This.errorMessage = "Das Passwort muss mindestens 8 Zeichen lang sein, mindestens eine Zahl und einen Großbuchstaben sowie ein Sonderzeichen (#?!@$ %^&*-) enthalten."
             break;
-        case errorTypes.REPEAT:
+        case errorTypes.CONFIRMATION:
             This.errorMessage = "Der Inhalt muss mit dem anderen Feld übereinstimmen.";
-            classes.push("repeatError");
+            classes.push("confirmError");
             break;
         case errorTypes.TIME:
             This.errorMessage = "Die erste Zeit muss vor der zweiten Zeit liegen.";
@@ -1256,7 +1256,7 @@ class TextInput extends Input {
                 this.inputValidation.mail.regex = /^(?:[\w\.\-]{2,})(?:\@)(?:[\w\.\-]{2,})(?:\.)(?:[\w]{2,})$/;
                 this.inputValidation.mail.error = errorTypes.EMAIL;
             }
-            if (this.inputContainer.classList.contains("password-register")) {
+            if (this.inputContainer.classList.contains("password-check")) {
                 this.inputValidation.password = {};
                 this.inputValidation.password.regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
                 this.inputValidation.password.error = errorTypes.PASSWORD;

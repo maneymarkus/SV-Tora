@@ -146,18 +146,13 @@
     background: rgba(32, 191, 85, 0.6);
 }
 
-.notification .symbol {
+.message .notification .symbol {
     float: left;
 }
 
 .message .notification p {
-    float: right;
-    position: relative;
     display: inline-block;
     width: calc(100% - 4em);
-    margin: 0.5em 0;
-    font-size: 1em;
-    transition: 0.2s ease;
     opacity: 1;
     max-height: unset;
     padding-left: unset;
@@ -166,7 +161,7 @@
     overflow-y: unset;
 }
 
-.notification p:before {
+.message .notification p:before {
     content: '';
     position: absolute;
     width: 0.2em;

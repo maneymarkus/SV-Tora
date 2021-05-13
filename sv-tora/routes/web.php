@@ -31,6 +31,16 @@ Route::post("/login", [\App\Http\Controllers\AuthenticationController::class, "l
 
 Route::post("/logout", [\App\Http\Controllers\AuthenticationController::class, "logout"])->name("logout");
 
+Route::get("/registration", [\App\Http\Controllers\RegistrationController::class, "showRegistration"])->name("registration");
+
+Route::post("/registration", [\App\Http\Controllers\RegistrationController::class, "register"]);
+
+Route::post("/password/email", [\App\Http\Controllers\PasswordController::class, "sendResetLink"])->name("password.email");
+
+Route::get("/password/reset/{token}", [\App\Http\Controllers\PasswordController::class, "showResetForm"])->name("password.reset");
+
+Route::post("/password/reset", [\App\Http\Controllers\PasswordController::class, "reset"]);
+
 /* For the following routes authentication is required */
 
 Route::middleware(["auth:web"])->group(function () {

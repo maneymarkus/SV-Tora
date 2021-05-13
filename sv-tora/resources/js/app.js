@@ -1,7 +1,7 @@
 import * as tilt from "tilt.js";
 
 import * as GeneralModule from "./Modules/GeneralModule.js";
-import * as SendModule from "./Modules/SendModule.js";
+import * as SendRequestModule from "./Modules/SendRequestModule.js";
 import * as LoaderModule from "./Modules/LoaderModule.js";
 import * as PersonModule from "./Modules/PersonModule.js";
 import * as MaterialInputsModule from "./Modules/MaterialInputsModule.js";
@@ -26,13 +26,12 @@ import * as ContextMenuModule from "./Modules/ContextMenuModule.js";
 import * as AccordionModule from "./Modules/AccordionModule.js";
 import * as CarouselModule from "./Modules/CarouselModule.js";
 import * as AdministrationModule from "./Modules/AdministrationModule.js";
-import * as LoginRegistrationModule from "./Modules/LoginRegistrationModule.js";
 import * as MapModule from "./Modules/MapModule.js";
 import * as TimeScheduleModule from "./Modules/TimeScheduleModule.js";
 
 export {
     GeneralModule,
-    SendModule,
+    SendRequestModule,
     LoaderModule,
     PersonModule,
     MaterialInputsModule,
@@ -57,7 +56,6 @@ export {
     AccordionModule,
     CarouselModule,
     AdministrationModule,
-    LoginRegistrationModule,
     MapModule,
     TimeScheduleModule,
 }

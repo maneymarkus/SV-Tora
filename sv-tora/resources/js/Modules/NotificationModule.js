@@ -39,7 +39,7 @@ function notificationFactory(type, content) {
             notification.appendChild(GeneralModule.generateElement("i", ["material-icons", "symbol"], "error_outline"))
             break;
     }
-    notification.appendChild(GeneralModule.generateElement("p", ["message"], content));
+    notification.appendChild(GeneralModule.generateElement("p", ["message", "no-scrollbar"], content));
     notification.appendChild(GeneralModule.generateElement("i", ["material-icons", "close"], "close"));
     notification.querySelector(".close").addEventListener("click", function () {
         removeNotification(notification);
@@ -84,6 +84,7 @@ function appendNotification(notification) {
             notification.classList.add("visible");
         }, 100);
     }
+    // automatically remove error and success notifications
     if (notification.classList.contains("success") || notification.classList.contains("error")) {
         window.setTimeout(function () {
             removeNotification(notification);

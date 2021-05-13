@@ -1,17 +1,19 @@
-h1 {
-    top: 50%;
-    left: 10%;
+h1.greeting {
+    top: 10rem;
+    left: 2rem;
     transform: translateY(-50%);
     margin: 0;
     font-size: 3rem;
     text-shadow: 2px 2px 10px var(--text-shadow);
     transition: top 0.5s ease 1s, left 0.5s ease 1s;
-    position: fixed;
+    position: absolute;
 }
 
-h1.welcome-done {
-    top: 10rem;
-    left: 2rem;
+h1.greeting.greet {
+    top: 50%;
+    left: 10%;
+    position: fixed;
+    transition: top 0.5s ease, left 0.5s ease;
 }
 
 .dashboard {
@@ -26,8 +28,12 @@ h1.welcome-done {
     width: 100%;
     visibility: hidden;
     opacity: 0;
-    transition: 0.5s ease 2s;
+    transition: 0.5s ease;
     transform: scale(0.75);
+}
+
+.dashboard.greet .fade-wrapper {
+    transition: 0.5s ease 2s;
 }
 
 .dashboard.welcome-done .fade-wrapper {
@@ -153,7 +159,7 @@ footer {
 }
 
 @media only screen and (min-width: 992px) {
-    h1.welcome-done {
+    h1.greeting {
         top: 12rem;
         left: 3rem;
     }

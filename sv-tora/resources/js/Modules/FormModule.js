@@ -4,6 +4,7 @@
 
 import { generalVariables } from "./GeneralModule";
 import * as MaterialInputsModule from "./MaterialInputsModule";
+import * as SecondaryButtonModule from "./SecondaryButtonModule";
 
 /**
  * This "Module" contains code responsible for checking forms and groups of inputs
@@ -18,7 +19,7 @@ let errorTypes = generalVariables.errorTypes;
  * @param inputContainer1 {HTMLElement}
  * @param inputContainer2 {HTMLElement}
  */
-function checkRepetition (inputContainer1, inputContainer2) {
+function checkConfirmation (inputContainer1, inputContainer2) {
     let input1 = MaterialInputsModule.getInputObject(inputContainer1);
     let input2 = MaterialInputsModule.getInputObject(inputContainer2);
 
@@ -45,9 +46,9 @@ function checkEquality(input1, input2) {
     let value2 = input2.getValue();
 
     if (value1 !== value2) {
-        input2.throwInputError(errorTypes.REPEAT);
+        input2.throwInputError(errorTypes.CONFIRMATION);
     } else {
-        input2.revokeInputError(errorTypes.REPEAT);
+        input2.revokeInputError(errorTypes.CONFIRMATION);
     }
 
 }
@@ -141,12 +142,77 @@ function checkInput(inputContainer, throwErrors) {
     return check;
 }
 
+
+/**
+ * Check if there are form containers on the side
+ */
+let formContainers = [];
+
+let FormContainer = function (formContainer) {
+    let This = this;
+    this.formContainerElement = formContainer;
+    this.form = this.formContainerElement.querySelector("form");
+    this.submitButton = this.formContainerElement.querySelector(".secondary-button.submit-button");
+    this.confirmationInputs = this.formContainerElement.querySelectorAll(".confirm");
+    this.submitFunction = undefined;
+
+    this.confirmationInputs.forEach((confirmationInput) => {
+        let relatedId = confirmationInput.getAttribute("data-confirm");
+        let baseInput = document.querySelector("." + relatedId);
+        checkConfirmation(baseInput, confirmationInput);
+    });
+
+    SecondaryButtonModule.disableSecondaryButton(this.submitButton);
+
+    if (this.submitButton) {
+        this.submitButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (checkForm(This.form, true)) {
+                if (This.submitFunction) {
+                    This.submitFunction(This.form);
+                } else {
+                    This.form.submit();
+                }
+            }
+        });
+    }
+
+    This.formContainerElement.addEventListener("input", function () {
+        if (checkForm(This.form, false)) {
+            SecondaryButtonModule.enableSecondaryButton(This.submitButton);
+        } else {
+            SecondaryButtonModule.disableSecondaryButton(This.submitButton);
+        }
+    });
+
+    this.setSubmitFunction = function(submitFunction) {
+        This.submitFunction = submitFunction;
+    }
+
+}
+
+function setSubmitFunction(form, submitForm) {
+    if (form.classList.contains("form-container")) {
+        formContainers.forEach((formContainer) => {
+            if (formContainer.formContainerElement === form) {
+                formContainer.setSubmitFunction(submitForm);
+            }
+        });
+    }
+}
+
+let formContainerElements = document.querySelectorAll(".form-container");
+formContainerElements.forEach(function (formContainer) {
+    formContainers.push(new FormContainer(formContainer));
+});
+
 /**
  * API:
  */
 export {
-    checkRepetition,
+    checkConfirmation,
     checkTime,
     checkForm,
-    checkInput
+    checkInput,
+    setSubmitFunction
 }

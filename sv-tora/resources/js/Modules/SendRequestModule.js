@@ -3,6 +3,8 @@
  */
 
 import { generalVariables } from "./GeneralModule";
+import {createNotification} from "./NotificationModule";
+import {GeneralModule} from "../app";
 
 /**
  * This Module contains code responsible for managing HTTP requests (mainly to connect to the backend)
@@ -18,7 +20,7 @@ let requests = generalVariables.requests;
  * @param url {string} The destination the request should be sent to
  * @param successCallback {function} An function reference to call when the request returns a successful response
  * @param failureCallback {function} An optional function reference to call when the request returns a failure response
- * @param content {string} The content of the request (body)
+ * @param content {object} The content of the request (body)
  */
 function sendRequest(method, url, successCallback, failureCallback, content) {
     switch(method) {
@@ -36,21 +38,41 @@ function getRequest(url, successCallback, failureCallback) {
     fetch(url)
         .then(response => response.json())
         .then(json => {
-            successCallback(json);
+            if (successCallback) {
+                successCallback(json);
+            }
         });
 }
 
 function postRequest(url, successCallback, failureCallback, content) {
+    let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
     fetch(url, {
         method: requests.POST,
         body: JSON.stringify(content),
-        header: {
-            "content-type": "application/json; charset=UTF-8"
+        headers: {
+            "content-type": "application/json; charset=UTF-8",
+            "X-CSRF-TOKEN": csrfToken,
         }
     })
         .then(response => response.json())
         .then(json => {
-            successCallback(json);
+            if ("type" in json) {
+                switch (json["type"]) {
+                    case "error":
+                        createNotification(GeneralModule.generalVariables.notificationTypes.ERROR, json["message"], json["timestamp"], json["sender"]);
+                        if (failureCallback) {
+                            failureCallback(json);
+                        }
+                        break;
+                    case "success":
+                        createNotification(GeneralModule.generalVariables.notificationTypes.SUCCESS, json["message"], json["timestamp"], json["sender"]);
+                        if (successCallback) {
+                            successCallback(json);
+                        }
+                        break;
+                }
+            }
         });
 }
 

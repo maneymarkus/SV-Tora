@@ -11,12 +11,12 @@
     let theater = App.TheaterModule.theater;
     let greeting = document.getElementsByClassName("greeting")[0];
 
-    if (App.GeneralModule.getCookie("user") !== "") {
-        greeting.classList.add("welcome-done");
+    if (App.GeneralModule.getCookie("visitedDashboard") !== "") {
         main.classList.add("welcome-done");
-        greeting.style.position = "absolute";
     } else {
         greeting.innerHTML = "";
+        greeting.classList.add("greet");
+        main.classList.add("greet");
 
         theater.addActor("greeting", {accuracy: 1}, ".greeting");
 
@@ -33,14 +33,14 @@
             .addScene("Dashboard")
             .addScene(function () {
                 greeting.classList.remove("is-typing");
-                greeting.classList.add("welcome-done");
+                greeting.classList.remove("greet");
                 main.classList.add("welcome-done");
                 window.setTimeout(function () {
                     greeting.style.position = "absolute";
                 }, 2000);
             });
 
-        App.GeneralModule.setCookie("user", user);
+        App.GeneralModule.setCookie("visitedDashboard", true);
     }
 
 })(window, document);

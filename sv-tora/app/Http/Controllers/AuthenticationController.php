@@ -11,36 +11,38 @@ class AuthenticationController extends Controller
 {
     public function showLogin() {
         $checkboxOptions = [["text" => "Angemeldet bleiben", "value" => "remember", "checked" => false, "disabled" => false]];
-        return view("login", ["checkboxOptions" => $checkboxOptions]);
+        return view("auth.login", ["checkboxOptions" => $checkboxOptions]);
     }
 
     public function login(Request $request) {
-        $credentials = $request->only("email", "password");
+        $request->validate([
+            "user_identifier" => "bail|required",
+            "password" => "required",
+        ]);
 
-        if (Auth::attempt($credentials)) {
+        $login_type = filter_var($request->input("user_identifier"), FILTER_VALIDATE_EMAIL) ? "email" : "username";
+
+        $request->merge([$login_type => $request->input("user_identifier")]);
+
+        $credentials = $request->only($login_type, "password");
+
+        $remember = $request->input("remember") !== NULL;
+
+        if (Auth::attempt($credentials, $remember)) {
             return redirect()->intended("dashboard");
         }
 
         return back()->withErrors([
-            // TODO
+            "user_identifier" => "Die eingegebenen Daten stimmen nicht mit einem Eintrag in unserer Datenbank überein.",
         ]);
-
     }
 
-    public function credentials(Request $request) {
-        $field = filter_var($request->get($this->username()), FILTER_VALIDATE_EMAIL)
-            ? $this->username()
-            : 'username';
-        return [
-            $field => $request->get($this->username()),
-            'password' => $request->password,
-        ];
-    }
-
-    public function logout() {
+    public function logout(Request $request) {
         Session::flush();
         Auth::logout();
-        return redirect("login");
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route("login");
     }
 
 }

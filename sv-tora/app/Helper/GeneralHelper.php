@@ -48,6 +48,16 @@ class GeneralHelper
             $randKey = array_rand($charsArray);
             $randomString .= $charsArray[$randKey];
         }
-        return $randomString;
+        return "id-".$randomString;
     }
+
+    public static function sendNotification($type, $message, $sender = "System") {
+        $timestamp = date("d.m.Y H:i");
+        $response_code = 200;
+        if ($type === "error") {
+            $response_code = 400;
+        }
+        return response(json_encode(["type" => $type, "message" => $message, "timestamp" => $timestamp, "sender" => $sender]), $response_code);
+    }
+
 }

@@ -1,4 +1,4 @@
-@extends("layouts.base-template", ["title" => "Login"])
+@extends("layouts.base-template", ["title" => "auth.login"])
 
 @push("styles")
 <!-- Specific style -->
@@ -23,12 +23,20 @@
 
         <h1 class="intro"><span class="highlighted-span">SV Tora Berlin e.V.</span> Wettkampf-Management-System</h1>
 
+        @if ($errors->any())
+            <p class="form-error">
+                {{ old("email") }}
+                {{ $errors->first() }}
+            </p>
+        @endif
+
         <div class="login-container">
             <h2>Login</h2>
             <form class="login clearfix" action="/login" method="post">
                 @csrf
-                <x-inputs.text-input type="default" name="username" class="required" label="Benutzername/E-Mail">
+                <x-inputs.text-input type="default" name="user_identifier" class="required" label="Benutzername/E-Mail">
                     <x-slot name="icon">person</x-slot>
+                    <x-slot name="value">{{ old("username") }}</x-slot>
                 </x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password" class="required" label="Passwort"></x-inputs.text-input>
                 <x-inputs.check-boxes name="remember" :options="$checkboxOptions"></x-inputs.check-boxes>

@@ -1,3 +1,10 @@
+.form-error {
+    padding: 0.75rem;
+    background-color: rgba(178, 58, 72, 0.8);
+    border: 1px solid var(--error-light);
+}
+
+.form-container,
 .login-container,
 .registration-container {
     background: radial-gradient(circle at 100% 100%, var(--theme-color-3) 65%, var(--accent-color-1-dark));
@@ -47,6 +54,7 @@
     transform: scale(1.25);
 }
 
+.form-container h2,
 .login-container h2,
 .registration-container h2 {
     font-size: 2.5rem;
@@ -54,6 +62,7 @@
     text-shadow: 2px 2px 8px var(--text-shadow);
 }
 
+.form-container .input-container,
 .login-container .input-container,
 .registration-container .input-container {
     margin-bottom: 2rem;
@@ -69,6 +78,7 @@
     margin-top: -1rem;
 }
 
+.form-container .secondary-button,
 .login-container .secondary-button,
 .registration-container .secondary-button {
     font-size: 0.8em;
