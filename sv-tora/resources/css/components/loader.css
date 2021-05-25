@@ -24,13 +24,13 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(3px);
   z-index: 10000;
 }
 
 .darkmode .loader-container {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .small-loader-container {

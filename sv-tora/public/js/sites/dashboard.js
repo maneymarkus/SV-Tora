@@ -6,7 +6,7 @@
     let dependencies = ["TheaterModule"];
     App.GeneralModule.checkDependencies(dependencies);
 
-    let user = "Marcus";
+    let user = document.querySelector("span.username").innerText;
     let main = document.getElementsByClassName("dashboard")[0];
     let theater = App.TheaterModule.theater;
     let greeting = document.getElementsByClassName("greeting")[0];

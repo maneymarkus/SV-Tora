@@ -17,16 +17,16 @@ let smallLoaderElement = undefined;
  * @return {HTMLElement}
  */
 function createLoader(bigLoader) {
-    let container = GeneralModule.generateElementApi("div", ["loader-container"]);
+    let container = generateElement("div", ["loader-container"]);
     if (bigLoader) {
         container.classList.add("big-loader-container");
     } else {
         container.classList.add("small-loader-container");
     }
 
-    let loaderDiv = GeneralModule.generateElementApi("div", ["loader"]);
-    let fighterDiv = GeneralModule.generateElementApi("div", ["fighter"]);
-    let image = GeneralModule.generateElementApi("img");
+    let loaderDiv = generateElement("div", ["loader"]);
+    let fighterDiv = generateElement("div", ["fighter"]);
+    let image = generateElement("img");
     image.setAttribute("src", "../images/fighter-symbol-white.png");
     image.setAttribute("alt", "fighter");
     fighterDiv.appendChild(image);

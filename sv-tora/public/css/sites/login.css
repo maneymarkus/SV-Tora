@@ -58,6 +58,11 @@ main:before {
     opacity: 0;
 }
 
+.sent p.form-error {
+    transition: 0.5s ease;
+    opacity: 0;
+}
+
 .login-container {
     opacity: 0;
     margin: 0 auto;

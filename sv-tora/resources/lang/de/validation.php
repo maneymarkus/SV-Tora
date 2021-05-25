@@ -153,6 +153,9 @@ return [
         "password-confirmation" => [
             "required" => "Das Passwort muss zur Sicherheit einmal wiederholt werden.",
             "same" => "Die beiden Passwörter stimmen nicht überein.",
+        ],
+        "token" => [
+            "required" => "Das Token Feld wird benötigt (Dieser Fehler ist vermutlich nicht durch Sie entstanden. Bitte fordern Sie die Seite erneut an oder, falls das nicht klappen sollte, wenden Sie sich an: markus.staedler@hotmail.de)."
         ]
     ],
 

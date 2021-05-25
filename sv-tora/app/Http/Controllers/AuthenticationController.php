@@ -29,6 +29,7 @@ class AuthenticationController extends Controller
         $remember = $request->input("remember") !== NULL;
 
         if (Auth::attempt($credentials, $remember)) {
+            session(["username" => Auth::user()["username"]]);
             return redirect()->intended("dashboard");
         }
 

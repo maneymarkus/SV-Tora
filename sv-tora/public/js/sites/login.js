@@ -75,7 +75,7 @@
 
     function passwordForgotten(email) {
         let data = {email: email};
-        App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, "/password/email", undefined, undefined, data);
+        App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, "/password/email", undefined, undefined, data, true);
     }
 
 })(window, document);

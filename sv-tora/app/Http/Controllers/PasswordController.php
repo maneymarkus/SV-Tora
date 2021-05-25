@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Helper\GeneralHelper;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class PasswordController extends Controller
 {
     public function sendResetLink(Request $request) {
 
         // no validation because there is no explicit form to return the possible error(s) to
+
+        // show nice loading animation :)
+        sleep(1);
 
         $status = Password::sendResetLink(
             $request->only("email")
@@ -21,8 +26,8 @@ class PasswordController extends Controller
 
     }
 
-    public function showResetForm($token) {
-        return view("auth.reset-password", ["token" => $token]);
+    public function showResetForm(Request $request, $token) {
+        return view("auth.reset-password", ["token" => $token, "email" => $request->input("email")]);
     }
 
     public function reset(Request $request) {
@@ -46,9 +51,11 @@ class PasswordController extends Controller
             }
         );
 
-        redirect()->route("password.reset");
+        redirect()->route("login");
 
-        return $status == Password::PASSWORD_RESET ? GeneralHelper::sendNotification("success", "Ihr Passwort wurde erfolgreich zurückgesetzt.") : GeneralHelper::sendNotification("error", "Leider hat das nicht geklappt. Bitte versuchen Sie es später erneut.");
+        return $status == Password::PASSWORD_RESET ?
+            view("auth.password-reset-result") :
+            view("auth.password-reset-result", ["error" => true]);
     }
 
 }

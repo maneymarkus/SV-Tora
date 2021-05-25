@@ -294,6 +294,18 @@ a.go-back i {
     padding: 0.5rem;
 }
 
+.success {
+    border: 1px solid var(--success-light);
+    background: rgba(32, 191, 85, 0.8);
+    padding: 1em;
+}
+
+.error {
+    border: 1px solid var(--error-light);
+    background: rgba(178, 58, 72, 0.8);
+    padding: 1em;
+}
+
 
 /*
 /-------------------------------------------------------------------

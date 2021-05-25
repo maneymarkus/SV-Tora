@@ -32,9 +32,11 @@
         <div class="form-container small">
             <h2>Passwort ändern</h2>
             <form class="password-reset clearfix" action="/password/reset" method="post">
+                @csrf
                 <input name="token" value="{{ $token }}" type="hidden"/>
-                <x-inputs.text-input type="password" name="password" class="password-check required {{ $confirm_id }}" label="Passwort"></x-inputs.text-input>
-                <x-inputs.text-input type="password" name="password-confirmation" class="required confirm" data-confirm="{{ $confirm_id }}" label="Passwort wiederholen"></x-inputs.text-input>
+                <input name="email" value="{{ $email }}" type="hidden">
+                <x-inputs.text-input type="password" name="password" class="password-check required {{ $confirm_id }}" label="Neues Passwort"></x-inputs.text-input>
+                <x-inputs.text-input type="password" name="password-confirmation" class="required confirm" data-confirm="{{ $confirm_id }}" label="Neues Passwort wiederholen"></x-inputs.text-input>
                 <button type="submit" class="secondary-button change-password-button submit-button">
                     <span class="text">Passwort ändern!</span>
                 </button>

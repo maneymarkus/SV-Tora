@@ -12,6 +12,8 @@
 
 @section("content")
 
+    <span class="username no-display">{{ session("username", "User") }}</span>
+
     <h1 class="greeting">Dashboard</h1>
 
     <main class="dashboard">
