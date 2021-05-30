@@ -14,6 +14,9 @@ class PasswordController extends Controller
     public function sendResetLink(Request $request) {
 
         // no validation because there is no explicit form to return the possible error(s) to
+        $request->validate([
+            "email" => "bail|required|email|max:255"
+        ]);
 
         // show nice loading animation :)
         sleep(1);

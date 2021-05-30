@@ -18,7 +18,7 @@
 
         <div class="col">
             <h3>Kategorien</h3>
-            <a class="link" href="/settings/categories">Bearbeiten</a>
+            <a class="link" href="/settings/categories">Anzeigen</a>
 
             <h3>Wettkämpfe</h3>
             <a class="link" href="/settings/tournaments">Bearbeiten</a>

@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/registration", function () {
-    return view("registration");
+Route::get("/mailable", function () {
+    return new \App\Mail\InvitationMail(\App\Helper\GeneralHelper::generateRandomToken(), "sldfgh@lsdhg.de");
 });
 
 Route::get("/test", function () {
@@ -31,7 +31,7 @@ Route::post("/login", [\App\Http\Controllers\AuthenticationController::class, "l
 
 Route::post("/logout", [\App\Http\Controllers\AuthenticationController::class, "logout"])->name("logout");
 
-Route::get("/registration", [\App\Http\Controllers\RegistrationController::class, "showRegistration"])->name("registration");
+Route::get("/registration/{token}", [\App\Http\Controllers\RegistrationController::class, "showRegistration"])->name("registration");
 
 Route::post("/registration", [\App\Http\Controllers\RegistrationController::class, "register"]);
 
@@ -40,6 +40,8 @@ Route::post("/password/email", [\App\Http\Controllers\PasswordController::class,
 Route::get("/password/reset/{token}", [\App\Http\Controllers\PasswordController::class, "showResetForm"])->name("password.reset");
 
 Route::post("/password/reset", [\App\Http\Controllers\PasswordController::class, "reset"]);
+
+Route::post("/invitation", [\App\Http\Controllers\RegistrationController::class, "invite"]);
 
 /* For the following routes authentication is required */
 
@@ -94,6 +96,13 @@ Route::middleware(["auth:web"])->group(function () {
     Route::get("/settings/categories", function () {
         return view("Settings.categories");
     });
+
+
+    /**************************************************************
+     *      Registration Invitation Route                         *
+     **************************************************************/
+
+    Route::post("/registration/invitation", [\App\Http\Controllers\RegistrationController::class, "invite"]);
 
 
     /**************************************************************

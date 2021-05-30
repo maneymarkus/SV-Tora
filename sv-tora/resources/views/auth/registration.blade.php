@@ -40,6 +40,7 @@
             <h2>Registrieren</h2>
             <form class="registration clearfix" action="/registration" method="post">
                 @csrf
+                <input name="token" value="{{ $token }}" type="hidden"/>
                 <x-inputs.text-input type="default" name="name" class="required" label="Name">
                     <x-slot name="value">{{ old("name") }}</x-slot>
                 </x-inputs.text-input>
@@ -48,7 +49,7 @@
                     <x-slot name="value">{{ old("username") }}</x-slot>
                 </x-inputs.text-input>
                 <x-inputs.text-input type="email" name="email" class="required" label="E-Mail">
-                    <x-slot name="value">{{ old("email") }}</x-slot>
+                    <x-slot name="value">{{ old("email") ?? $email }}</x-slot>
                 </x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password" class="password-check required {{ $confirm_id }}" label="Passwort"></x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password-confirmation" class="required confirm" data-confirm="{{ $confirm_id }}" label="Passwort wiederholen"></x-inputs.text-input>

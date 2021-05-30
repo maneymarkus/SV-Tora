@@ -12,6 +12,8 @@
 
 @section("content")
 
+    <a class="go-back" href="{{ back() }}"></a>
+
     <main>
         <h1 class="heading">C<span>r</span>e<span>a</span>t<span>o</span>r</h1>
         <p class="p0 written">Wer hat das hier eigentlich alles geschrieben?</p>

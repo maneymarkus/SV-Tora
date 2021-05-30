@@ -72,6 +72,8 @@ function postRequest(url, successCallback, failureCallback, content, loader) {
 }
 
 function handleJsonResponse(json, successCallback, failureCallback) {
+    //TODO: remove!
+    console.log(json);
     if ("type" in json) {
         switch (json["type"]) {
             case "error":

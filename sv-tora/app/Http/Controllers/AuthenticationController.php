@@ -30,6 +30,7 @@ class AuthenticationController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             session(["username" => Auth::user()["username"]]);
+            $request->session()->regenerate();
             return redirect()->intended("dashboard");
         }
 
