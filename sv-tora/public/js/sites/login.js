@@ -66,17 +66,14 @@
     passwordForgottenButton.addEventListener("click", function (e) {
         e.preventDefault();
         let emailInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.TEXT, ["required", "email"], undefined, "email", "E-Mail-Adresse", undefined, undefined, undefined);
-        App.ModalModule.confirmModal("E-Mail Adresse eingeben", emailInput.inputContainer, function () {
-            passwordForgotten(emailInput.getValue());
-        }, undefined, function () {
-            return App.FormModule.checkInput(emailInput.inputContainer, true);
+        let ModalWindow = App.ModalModule.confirmModal("E-Mail Adresse eingeben", emailInput.inputContainer, undefined, undefined, function () {
+            if (!App.FormModule.checkInput(emailInput.inputContainer, true)) {
+                return false;
+            } else {
+                let data = {email: emailInput.getValue()};
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, "/password/email", () => {ModalWindow.closeModal()}, data, true);
+            }
         });
     });
-
-    function passwordForgotten(email) {
-        let data = {email: email};
-        //App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, "/password/email", undefined, undefined, data, true);
-        App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, "/invitation", undefined, undefined, data, true);
-    }
 
 })(window, document);

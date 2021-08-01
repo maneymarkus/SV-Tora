@@ -1,9 +1,10 @@
 .mail-content {
     top: 0;
+    margin-top: 0;
     width: 100%;
     height: auto;
     padding: 3rem 1rem;
-    transition: transform 1s ease, top 1s ease, opacity 0.5s ease 0.75s;
+    transition: transform 1s ease, margin-top 1s ease, opacity 0.5s ease 0.75s;
     position: relative;
 }
 
@@ -38,7 +39,7 @@ div.chosen-receivers {
 }
 
 .chosen-receivers .receiver {
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
 
 form.mail-content .radio-input-container {
@@ -72,7 +73,7 @@ form.mail-content .radio-input-container {
 }
 
 .sent .mail-content {
-    top: -10%;
+    margin-top: 15%;
     transform: scale(0.2);
     opacity: 0;
 }

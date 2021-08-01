@@ -8,8 +8,10 @@
     <!-- Header component -->
     <x-header></x-header>
 
-    <!-- Shortcuts component -->
-    <x-shortcuts></x-shortcuts>
+    @can("admin")
+        <!-- Shortcuts component -->
+        <x-shortcuts></x-shortcuts>
+    @endcan
 
     @yield("content")
 

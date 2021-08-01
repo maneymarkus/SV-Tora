@@ -1,6 +1,6 @@
 h1.greeting {
-    top: 10rem;
-    left: 2rem;
+    top: 8rem;
+    left: 3rem;
     transform: translateY(-50%);
     margin: 0;
     font-size: 3rem;
@@ -10,15 +10,18 @@ h1.greeting {
 }
 
 h1.greeting.greet {
-    top: 50%;
+    top: 50vh;
     left: 10%;
-    position: fixed;
     transition: top 0.5s ease, left 0.5s ease;
 }
 
 .dashboard {
-    padding-top: 7rem;
-    padding-bottom: 5rem;
+    padding: 7rem 1.5rem 5rem 3rem;
+    display: none;
+}
+
+.dashboard.greet {
+    display: block;
 }
 
 .dashboard .fade-wrapper {
@@ -41,11 +44,7 @@ h1.greeting.greet {
     opacity: 1;
     transform: scale(1);
     top: 0;
-    margin-top: 7rem;
-}
-
-footer {
-    margin-bottom: -5rem;
+    margin-top: 5rem;
 }
 
 .dashboard .container-medium {
@@ -143,9 +142,27 @@ footer {
     bottom: 1rem;
 }
 
+.actions {
+    background-color: rgba(77, 77, 77, 0.8);
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 10px var(--box-shadow);
+    margin: 0 1rem 8rem;
+}
+
+.darkmode .actions {
+    background-color: rgba(23, 23, 23, 0.8);
+}
+
+.actions h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
 .creator-button {
     position: absolute;
-    bottom: 1rem;
+    bottom: 6rem;
     right: 1rem;
     font-size: 2rem;
 }
@@ -160,12 +177,12 @@ footer {
 
 @media only screen and (min-width: 992px) {
     h1.greeting {
-        top: 12rem;
-        left: 3rem;
+        top: 10rem;
+        left: 4rem;
     }
 
     .dashboard {
-        padding-top: 9rem;
+        padding: 9rem 1.5rem 5rem 4rem;
     }
 
     .dashboard .col:not(:last-of-type) {

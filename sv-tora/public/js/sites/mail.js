@@ -17,9 +17,9 @@
         let sendButton = mailForm.querySelector("a.send");
         let cancelButton = mailForm.querySelector("a.cancel");
 
-        let allClubs = App.GeneralModule.generalVariables.clubs;
-
-        let enrolledClubs = App.GeneralModule.generalVariables.enrolledClubs;
+        let allClubsUrl = receiverSelection.querySelector("input[value='all']").getAttribute("data-url");
+        let enrolledClubsUrl = receiverSelection.querySelector("input[value='only-enrolled']").getAttribute("data-url");
+        let selectedClubsUrl = receiverSelection.querySelector("input[value='choose']").getAttribute("data-url");
 
         /**
          * This array contains the name of the clubs that should receive this mail
@@ -27,16 +27,28 @@
          */
         let receivers = [];
 
+        let clubMails = [];
+
         App.SecondaryButtonModule.disableSecondaryButton(chooseReceiversBtn);
 
         sendButton.addEventListener("click", function (e) {
             e.preventDefault();
+            if (chosenReceivers.querySelector(".tag") === null) {
+                App.ModalModule.infoModal("Empfänger hinzufügen", "Um eine E-Mail zu verschicken musst du mindestens einen Empfänger hinzufügen!");
+                return;
+            }
             if (App.FormModule.checkForm(mailForm, true)) {
-                document.getElementsByTagName("body")[0].classList.add("sent");
-                window.setTimeout(function () {
-                    envelope.innerHTML = "mail";
-                }, 1000);
-                //TODO: Send form via AJAX
+                let data = App.TranslationModule.translateInputsToObject(mailForm);
+                data["receivers"] = receivers;
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, sendButton.getAttribute("href"), () => {
+                    document.querySelector("main").classList.add("sent");
+                    window.setTimeout(function () {
+                        envelope.innerHTML = "mail";
+                    }, 1000);
+                    window.setTimeout(function () {
+                        window.location.href = cancelButton.getAttribute("href");
+                    }, 3000);
+                }, data);
             }
         });
 
@@ -75,12 +87,31 @@
         function changeReceiverSelection(target) {
             target.checked = true;
             if (target.value === "all") {
-                addReceivers(allClubs);
+                if (clubMails.length <= 0) {
+                    App.LoaderModule.addBigLoader();
+                    App.SendRequestModule.getData(allClubsUrl, (allClubs) => {
+                        App.LoaderModule.removeBigLoader();
+                        addReceivers(allClubs);
+                    });
+                } else {
+                    addReceivers(clubMails);
+                }
             }
             if (target.value === "only-enrolled") {
-                addReceivers(enrolledClubs);
+                App.LoaderModule.addBigLoader();
+                App.SendRequestModule.getData(enrolledClubsUrl, (enrolledClubs) => {
+                    App.LoaderModule.removeBigLoader();
+                    addReceivers(enrolledClubs);
+                });
             }
             if (target.value === "choose") {
+                if (clubMails.length <= 0) {
+                    App.LoaderModule.addBigLoader();
+                    App.SendRequestModule.getData(allClubsUrl, (allClubs) => {
+                        App.LoaderModule.removeBigLoader();
+                        clubMails = allClubs;
+                    });
+                }
                 App.SecondaryButtonModule.enableSecondaryButton(chooseReceiversBtn);
             }
             lastSelected = target;
@@ -89,10 +120,9 @@
         function clearReceiverSection() {
             let clubSpans = chosenReceivers.querySelectorAll("span.receiver");
             clubSpans.forEach((span) => {
-                let receiverName = span.querySelector("span.tag-value").innerText;
-                receivers.splice(receivers.indexOf(receiverName), 1);
                 span.remove();
             });
+            receivers = [];
         }
 
         function addReceivers(receivers) {
@@ -102,36 +132,45 @@
         }
 
         function addReceiver(receiver) {
-            // TODO: If receiver already present don't add it
-            receivers.push(receiver);
+            if (receivers.indexOf(receiver["mail"]) === -1) {
+                receivers.push(receiver["mail"]);
 
-            let receiverName = "Gast";
-            let receiverMail = receiver;
-            if (App.GeneralModule.generalVariables.clubMails[receiver]) {
-                receiverName = receiver;
-                receiverMail = App.GeneralModule.generalVariables.clubMails[receiver];
+                let receiverMail = receiver["mail"];
+
+                let receiverSpan;
+                if (typeof receiver["name"] === "undefined") {
+                    receiverSpan = App.TagModule.createTag(["receiver"], receiverMail);
+                } else {
+                    receiverSpan = App.TagModule.createTag(["receiver"], receiver["name"], receiverMail);
+                }
+                chosenReceivers.appendChild(receiverSpan);
             }
-
-            let receiverSpan = App.TagModule.createTag(["receiver"], receiverName, receiverMail);
-            chosenReceivers.appendChild(receiverSpan);
         }
 
         chooseReceiversBtn.addEventListener("click", function () {
-            // TODO: if pre selected options...
             let options = [];
-            allClubs.forEach((club) => {
+            let clubs = [];
+            clubMails.forEach((club) => {
+                if (clubs.indexOf(club["name"]) === -1) {
+                    clubs.push(club["name"]);
+                }
+            });
+
+            clubs.forEach((club) => {
                 let object = {};
                 object["value"] = club;
                 object["text"] = club;
                 object["checked"] = false;
                 options.push(object);
             });
-            let container = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.CHECKBOX, [], undefined, "receiver", undefined, undefined, undefined, options);
+            let container = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.CHECKBOX, [], undefined, "receivers", undefined, undefined, undefined, options);
             App.ModalModule.confirmModal("Vereine auswählen", container.inputContainer, function () {
                 clearReceiverSection();
                 let chosenClubs = App.TranslationModule.translateInputsToObject(container.inputContainer);
-                let receivers = chosenClubs["receiver"];
-                addReceivers(receivers);
+                let data = {receivers: chosenClubs["receivers"]};
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, selectedClubsUrl, (jsonData) => {
+                    addReceivers(jsonData);
+                }, data);
             });
         });
 
@@ -141,7 +180,7 @@
         freeTextBtn.addEventListener("click", function () {
             let input = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.TEXT, ["email"], undefined, "receiver-address", "E-Mail", undefined, undefined, undefined);
             App.ModalModule.confirmModal("Empfänger hinzufügen", input.inputContainer, function () {
-                addReceiver(input.getValue());
+                addReceiver({"mail": input.getValue()});
             });
         });
 
@@ -155,8 +194,13 @@
             }
             if (target.classList.contains("delete")) {
                 target = target.parentElement;
-                let receiverName = target.querySelector("span.tag-value").innerText;
-                receivers.splice(receivers.indexOf(receiverName), 1)
+                let receiverMail;
+                if (target.querySelector("span.tag-value") !== null) {
+                    receiverMail = target.querySelector("span.tag-value").innerText;
+                } else {
+                    receiverMail = target.querySelector("span.tag-key").innerText;
+                }
+                receivers.splice(receivers.indexOf(receiverMail), 1)
                 target.remove();
             }
         });

@@ -6,4 +6,5 @@ const mix = require('laravel-mix');
  */
 
 mix
+    .disableNotifications()
     .css('resources/css/app.css', 'public/css');

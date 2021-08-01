@@ -20,13 +20,6 @@ class InvitationMail extends Mailable
     public String $token;
 
     /**
-     * The receivers mail address
-     *
-     * @var String
-     */
-    public String $email;
-
-    /**
      * The Url of the button
      *
      * @var String
@@ -38,10 +31,9 @@ class InvitationMail extends Mailable
      *
      * @return void
      */
-    public function __construct($token, $email) {
+    public function __construct($token) {
         $this->token = $token;
-        $this->email = $email;
-        $this->url = "http:\\\\laravel.test/registration/" . $token . "?email=" . $email;
+        $this->url = "http:\\\\laravel.test/registration/" . $token;
     }
 
     /**
@@ -51,6 +43,8 @@ class InvitationMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.registration-invitation');
+        return $this
+            ->subject("Einladung zum SV Tora Wettkampf-Management System")
+            ->markdown('emails.registration-invitation');
     }
 }

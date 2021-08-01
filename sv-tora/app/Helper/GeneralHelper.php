@@ -2,7 +2,9 @@
 
 namespace App\Helper;
 
+use App\Models\Club;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use phpDocumentor\Reflection\Types\Boolean;
 
 /**
@@ -85,7 +87,7 @@ class GeneralHelper
     public static function sendNotification($type, $message, $sender = "System") {
         $timestamp = date("d.m.Y H:i");
         $response_code = 200;
-        if ($type === "error") {
+        if ($type === NotificationTypes::ERROR) {
             $response_code = 422;
         }
         return response(json_encode(["type" => $type, "message" => $message, "timestamp" => $timestamp, "sender" => $sender]), $response_code);
@@ -94,10 +96,41 @@ class GeneralHelper
 
     /**
      * This functions generates a token
+     * @param int $length The length of the token (default is 25)
+     * @param string[] $otherTokens An optional array of other tokens that should differ from the token generated in this function
      * @throws Exception
      */
-    public static function generateRandomToken($length = 25): string {
-        return $randomToken = self::generateRandomString($length, false);
+    public static function generateUniqueRandomToken($length = 25, $otherTokens = []): string {
+        do {
+            $randomToken = self::generateRandomString($length, false);
+        } while (in_array($randomToken, $otherTokens));
+        return $randomToken;
+    }
+
+    /**
+     * This function creates an array with the different options a checkbox or radio-button group or a select could have.
+     * The array is a Frontend specific way of encoding these different options
+     *
+     * @param $key
+     * @param $selectedValue
+     */
+    public static function addOtherChoosableOptions($key, $selectedValue = null) {
+        $encodedOptions = [];
+        if ($key === "clubs") {
+            $allOptions = Club::all()->pluck("name");
+        } else {
+            $allOptions = config("global." . $key);
+        }
+        foreach ($allOptions as $option) {
+            $encodedOption = [
+                "value" => $option,
+                "text" => $option,
+                "checked" => $option === $selectedValue,
+                "disabled" => false,
+            ];
+            array_push($encodedOptions, $encodedOption);
+        }
+        return $encodedOptions;
     }
 
 }

@@ -6,10 +6,13 @@
 
         <h1>Registrierte Personen</h1>
 
-        <x-card title="Kämpfer" number="1" href="/entities/fighters"></x-card>
-        <x-card title="Coaches" number="2" href="/entities/coaches"></x-card>
-        <x-card title="Kampf&shy;richter" number="3" href="/entities/referees"></x-card>
-        <x-card title="Helfer" number="4" href="/entities/helpers"></x-card>
+        @can("admin")
+            <x-card title="Nutzer" number="{{ $counter = 1 }}" href="/entities/users"></x-card>
+        @endcan
+        <x-card title="Kämpfer" number="{{ isset($counter) ? $counter += 1 : $counter = 1 }}" href="/entities/fighters"></x-card>
+        <x-card title="Coaches" number="{{ $counter += 1 }}" href="/entities/coaches"></x-card>
+        <x-card title="Kampf&shy;richter" number="{{ $counter += 1 }}" href="/entities/referees"></x-card>
+        <x-card title="Helfer" number="{{ $counter += 1 }}" href="/entities/helpers"></x-card>
 
     </main>
 

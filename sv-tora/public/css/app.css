@@ -651,18 +651,6 @@ table, .table, th, td {
     height: auto;
 }
 
-/* This is a class to insert some space after elements that exceed the width of the window */
-.space-after:after {
-    content: '';
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    height: 100%;
-    margin-right: 2rem;
-    width: 2rem;
-}
-
 .faded-out {
     visibility: hidden !important;
     opacity: 0 !important;
@@ -2840,14 +2828,14 @@ header .profile {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.5);
   -webkit-backdrop-filter: blur(3px);
           backdrop-filter: blur(3px);
-  z-index: 10000;
+  z-index: 100000;
 }
 
 .darkmode .loader-container {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .small-loader-container {
@@ -3099,7 +3087,7 @@ header .profile {
     ERROR MESSAGE (Applies to almost all input-containers
  */
 
-span.error {
+span.input-error {
     position: absolute;
     left: 0;
     top: 100%;
@@ -3113,14 +3101,14 @@ span.error {
     text-align: left;
 }
 
-span.error i {
+span.input-error i {
     font-size: 2em;
     color: var(--error-dark);
     vertical-align: middle;
     margin: 0 0.25em 0.1em 0;
 }
 
-span.error .message {
+span.input-error .message {
     vertical-align: middle;
     font-size: 1.25em;
     line-height: 1.75;
@@ -3669,7 +3657,7 @@ input.time-input {
     top: 100%;
     right: 0;
     height: auto;
-    max-height: calc(5 * (1em + 0.6em));
+    max-height: calc(3 * 2.15em);
     overflow-y: auto;
     transition: 0.5s ease;
     opacity: 0;
@@ -4839,7 +4827,7 @@ main.blur {
     top: 100%;
     left: 0;
     width: 100%;
-    height: 5rem;
+    height: 3rem;
     visibility: hidden;
 }
 
@@ -4870,7 +4858,7 @@ a.primary-button.close-modal i {
     box-shadow: none;
 }
 
-.modal-window .mw-header{
+.modal-window .mw-header {
     height: 0;
     overflow: hidden;
     margin: 0.75em 0 1em 0;
@@ -4891,11 +4879,14 @@ a.primary-button.close-modal i {
     color: var(--text-color);
 }
 
+.modal-window .mw-body {
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
 .modal-window .mw-content {
     font-size: 1.25em;
     padding: 0.5em 1em 1.5em;
-    overflow-y: auto;
-    max-height: 45vh;
     word-wrap: break-word;
 }
 
@@ -4914,6 +4905,10 @@ a.primary-button.close-modal i {
 
 .mw-content .select-input-container {
     margin-bottom: 1em;
+}
+
+.mw-content :first-child {
+    margin-top: 0 !important;
 }
 
 .modal-window .mw-footer {
@@ -4959,6 +4954,16 @@ a.primary-button.close-modal i {
 .custom-modal-window a.primary-button.close-modal {
     top: -0.5em;
     right: -0.5em;
+}
+
+/*
+    SPECIFIC COMPONENT STYLES INSIDE MODAL WINDOW
+
+ */
+
+.modal-window .checkbox-input-container,
+.modal-window .radio-input-container {
+    display: block !important;
 }
 
 @media only screen and (min-width: 600px) {
@@ -5227,7 +5232,7 @@ nav.nav .image-container img {
     transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 1.25s;
     overflow: hidden;
     transform-origin: 50% 100%;
-    z-index: 1001;
+    z-index: 100001;
 }
 
 .notification.visible {
@@ -5794,7 +5799,7 @@ a.primary-button.disabled:hover:before {
   background-color: var(--theme-color-1);
   box-shadow: 0 0 10px 5px var(--box-shadow);
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.6rem;
   z-index: 1000;
 }
 
@@ -7131,6 +7136,7 @@ div.chosen-filters {
     height: auto;
     border-radius: 50%;
     transform: scale(1.06);
+    display: block;
 }
 
 .user-profile p {

@@ -10,35 +10,15 @@
         $entity = "Eintrag";
     }
 
-    if ($actions == "true") {
-        $actions = true;
-    } else {
-        $actions = false;
-    }
+    $actions = $actions === "true";
 
-    if ($filter == "true") {
-        $filter = true;
-    } else {
-        $filter = false;
-    }
+    $filter = $filter === "true";
 
-    if ($editable == "true") {
-        $editable = true;
-    } else {
-        $editable = false;
-    }
+    $editable = $editable === "true";
 
-    if ($deletable == "true") {
-        $deletable = true;
-    } else {
-        $deletable = false;
-    }
+    $deletable = $deletable === "true";
 
-    if ($selectable == "true") {
-        $selectable = true;
-    } else {
-        $selectable = false;
-    }
+    $selectable = $selectable === "true";
 
 @endphp
 
@@ -48,7 +28,7 @@
 
 @if($actions)
     <div data-table="{{ $id }}" class="table-actions clearfix">
-        <x-primary-button class="add-entity" text="{{ $entity }} hinzufügen" icon-name="add"></x-primary-button>
+        <x-primary-button class="add-entity" text="{{ $entity }} hinzufügen" icon-name="add" href="{{ $addEntityUrl }}" data-follow-url="{{ $followUrl ?? false }}"></x-primary-button>
         <x-primary-button class="print" text="Drucken" icon-name="print"></x-primary-button>
     </div>
 @endif
@@ -66,7 +46,11 @@
     </div>
 @endif
 
-<table {{ $attributes->merge(["class" => "table space-after"]) }} id="{{ $id }}">
+@if(\Illuminate\Support\Facades\Auth::user()->smartphone_optimized_tables)
+    <table {{ $attributes->merge(["class" => "table smartphone-optimized"]) }} id="{{ $id }}" data-select-limit="{{ $selectLimit ?? 0 }}">
+@else
+    <table {{ $attributes->merge(["class" => "table"]) }} id="{{ $id }}" data-select-limit="{{ $selectLimit ?? 0 }}">
+@endif
     <thead>
         <tr>
             @if($selectable)
@@ -105,16 +89,22 @@
                         </label>
                     </td>
                 @endif
-                @foreach($row as $cell)
-                    <td data-column="{{ $columns[$loop->index]["heading"] }}">{{ $cell }}</td>
+                @foreach($row["data"] as $cell)
+                    <td data-column="{{ $columns[$loop->index]["heading"] }}">{!! $cell !!}</td>
                 @endforeach
                 @if($editable || $deletable)
                     <td class="row-actions" data-column="Aktionen">
                         @if($editable)
-                            <x-primary-button class="edit" icon-name="create" text="Bearbeiten"></x-primary-button>
+                            @php
+                                $editUrl = $row["editUrl"]
+                            @endphp
+                            <x-primary-button href="{{ $editUrl }}" class="edit" icon-name="create" text="Bearbeiten"></x-primary-button>
                         @endif
                         @if($deletable)
-                            <x-primary-button class="delete warning" icon-name="delete" text="Löschen"></x-primary-button>
+                            @php
+                                $deleteUrl = $row["deleteUrl"]
+                            @endphp
+                            <x-primary-button href="{{ $deleteUrl }}" class="delete warning" icon-name="delete" text="Löschen"></x-primary-button>
                         @endif
                     </td>
                 @endif

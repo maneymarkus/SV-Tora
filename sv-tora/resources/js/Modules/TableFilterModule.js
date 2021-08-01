@@ -5,6 +5,7 @@
 import * as GeneralModule from "./GeneralModule";
 import { createInput } from "./MaterialInputsModule";
 import * as ModalModule from "./ModalModule";
+import { checkForm } from "./FormModule";
 import { createTag } from "./TagModule";
 import { getTableObject } from "./TableModule";
 
@@ -83,7 +84,7 @@ let Filter = function (key, value, table, filterContainerObject) {
     this.updateFilter = function (newValue) {
         This.value = newValue;
         This.filterElement.querySelector(".tag-value").innerHTML = newValue;
-        This.filterContainerElement.updateAppliedFilters();
+        This.filterContainerObject.updateAppliedFilters();
     }
 
 }
@@ -121,7 +122,8 @@ let TableFilterContainer = function(tableFilterContainer) {
     this.addFilterButton.addEventListener("click", function () {
         let keys = Object.keys(This.connectedTableObject.possibleFilters);
         let keySelect = createInput(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-column", "required"], undefined, "filter-column", "Spalte", undefined, undefined, keys);
-        let valueSelect = createInput(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-value", "disabled", "required"], undefined, "filter-value", "Wert", undefined, undefined, undefined);
+        let valueSelect = createInput(GeneralModule.generalVariables.inputTypes.SELECT, ["filter-value", "required"], undefined, "filter-value", "Wert", undefined, undefined, undefined);
+        valueSelect.disable();
         let container = GeneralModule.generateElement("div");
         container.appendChild(keySelect.inputContainer);
         container.appendChild(valueSelect.inputContainer);
@@ -130,14 +132,16 @@ let TableFilterContainer = function(tableFilterContainer) {
         });
         ModalModule.confirmModal("Neuen Filter wählen", container, function () {
             This.handleChosenFilter(keySelect, valueSelect);
-        }, undefined, undefined);
+        }, undefined, function () {
+            return checkForm(container, true);
+        });
     });
 
     /**
      * This function enables the second select input element when choosing a new filter (choose the filter value for the filter key)
      */
     this.updateFilterValueSelect = function (filterKey, valueSelect) {
-        valueSelect.inputContainer.classList.remove("disabled");
+        valueSelect.enable();
         let possibleFilterValues = This.possibleFilters[filterKey];
         valueSelect.updateOptions(possibleFilterValues);
     }
@@ -171,6 +175,8 @@ let TableFilterContainer = function(tableFilterContainer) {
             }
         });
         This.connectedTableObject.updateVisibleRows();
+        this.possibleFilters = this.connectedTableObject.possibleFilters;
+        this.appliedFilters = this.connectedTableObject.appliedFilters;
     }
 
     /**
@@ -196,6 +202,22 @@ let tableFilterContainerElements = document.querySelectorAll("div.filter-contain
 tableFilterContainerElements.forEach((tFC) => {
     tableFilterContainers.push(new TableFilterContainer(tFC));
 });
+
+/**
+ * This block checks if there are filter set via cookies and applies them
+ */
+let filterCookie;
+if (filterCookie = GeneralModule.getCookie("tableFilters")) {
+    let filterJSON = JSON.parse(filterCookie);
+    for (let key in filterJSON) {
+        if (filterJSON.hasOwnProperty(key)) {
+            let value = filterJSON[key];
+            tableFilterContainers[0].activeFilterObjects.push(new Filter(key, value, tableFilterContainers[0].connectedTableObject, tableFilterContainers[0]));
+            tableFilterContainers[0].updateAppliedFilters();
+        }
+    }
+    GeneralModule.deleteCookie("tableFilters");
+}
 
 /**
  * API:

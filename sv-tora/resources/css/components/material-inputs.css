@@ -2,7 +2,7 @@
     ERROR MESSAGE (Applies to almost all input-containers
  */
 
-span.error {
+span.input-error {
     position: absolute;
     left: 0;
     top: 100%;
@@ -16,14 +16,14 @@ span.error {
     text-align: left;
 }
 
-span.error i {
+span.input-error i {
     font-size: 2em;
     color: var(--error-dark);
     vertical-align: middle;
     margin: 0 0.25em 0.1em 0;
 }
 
-span.error .message {
+span.input-error .message {
     vertical-align: middle;
     font-size: 1.25em;
     line-height: 1.75;
@@ -578,7 +578,7 @@ input.time-input {
     top: 100%;
     right: 0;
     height: auto;
-    max-height: calc(5 * (1em + 0.6em));
+    max-height: calc(3 * 2.15em);
     overflow-y: auto;
     transition: 0.5s ease;
     opacity: 0;

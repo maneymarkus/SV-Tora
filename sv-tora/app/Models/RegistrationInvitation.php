@@ -18,13 +18,21 @@ class RegistrationInvitation extends Model
     protected $primaryKey = "email";
 
     /**
+     * The models ID should not be auto-incrementing (as there is no integer ID)
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
         "email",
-        "token"
+        "token",
+        "role_id"
     ];
 
 }

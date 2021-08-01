@@ -13,41 +13,61 @@ import { addBigLoader, removeBigLoader } from "./LoaderModule";
 let requests = generalVariables.requests;
 
 /**
+ * This function simply sends a GET request to the specified url and returns the retrieved data
+ * @param url
+ * @param callback
+ */
+function getData(url, callback) {
+    fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if (callback && typeof callback == "function") {
+                callback(data);
+            }
+        });
+}
+
+/**
  * This function sends a HTTP Request to the desired url
  * @param method {string} The desired method to use for the request
  * @param url {string} The destination the request should be sent to
- * @param successCallback {function} An function reference to call when the request returns a successful response
- * @param failureCallback {function} An optional function reference to call when the request returns a failure response
+ * @param callback {function} A function reference to call when the request returns a response
  * @param content {object} The content of the request (body)
  * @param loader {boolean} Determines if a loader animation should be used on the whole page
  */
-function sendRequest(method, url, successCallback, failureCallback, content, loader = false) {
+function sendRequest(method, url, callback, content, loader = false) {
     switch(method) {
         case generalVariables.requests.GET:
-            getRequest(url, successCallback, failureCallback, loader);
+            getRequest(url, callback, loader);
             break;
 
         case generalVariables.requests.POST:
-            postRequest(url, successCallback, failureCallback, content, loader);
+        case generalVariables.requests.DELETE:
+        case generalVariables.requests.PUT:
+            postRequest(method, url, callback, content, loader);
             break;
     }
 }
 
-function getRequest(url, successCallback, failureCallback, loader) {
+function getRequest(url, callback, loader) {
     if (loader) {
         addBigLoader();
     }
     fetch(url)
-        .then(response => response.json())
-        .then(json => {
+        .then(response => {
             if (loader) {
                 removeBigLoader();
             }
-            handleJsonResponse(json, successCallback, failureCallback);
+            return response.json()
+        })
+        .then(json => {
+            handleJsonResponse(json, callback);
         });
 }
 
-function postRequest(url, successCallback, failureCallback, content, loader) {
+function postRequest(method, url, callback, content, loader) {
     let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
     if (loader) {
@@ -55,44 +75,44 @@ function postRequest(url, successCallback, failureCallback, content, loader) {
     }
 
     fetch(url, {
-        method: generalVariables.requests.POST,
+        method: method,
         body: JSON.stringify(content),
         headers: {
             "content-type": "application/json; charset=UTF-8",
             "X-CSRF-TOKEN": csrfToken,
         }
     })
-        .then(response => response.json())
-        .then(json => {
+        .then(response => {
             if (loader) {
                 removeBigLoader();
             }
-            handleJsonResponse(json, successCallback, failureCallback);
+            return response.json()
+        })
+        .then(json => {
+            handleJsonResponse(json, callback);
         });
 }
 
-function handleJsonResponse(json, successCallback, failureCallback) {
-    //TODO: remove!
+function handleJsonResponse(json, callback) {
+    //TODO: remove console.log!
     console.log(json);
-    if ("type" in json) {
+    let error = false;
+    if (typeof json["type"] !== "undefined") {
         switch (json["type"]) {
             case "error":
+                error = true;
                 createNotification(generalVariables.notificationTypes.ERROR, json["message"], json["timestamp"], json["sender"]);
-                if (failureCallback) {
-                    failureCallback(json);
-                }
                 break;
             case "success":
                 createNotification(generalVariables.notificationTypes.SUCCESS, json["message"], json["timestamp"], json["sender"]);
-                if (successCallback) {
-                    successCallback(json);
-                }
                 break;
         }
-    } else {
-        if (successCallback) {
-            successCallback(json);
-        }
+    }
+    if (typeof json["redirectUrl"] !== "undefined") {
+        window.location.href = json["redirectUrl"];
+    }
+    if (!error && callback && typeof callback == "function") {
+        callback(json);
     }
 }
 
@@ -100,5 +120,6 @@ function handleJsonResponse(json, successCallback, failureCallback) {
  * API:
  */
 export {
-    sendRequest
+    sendRequest,
+    getData
 }

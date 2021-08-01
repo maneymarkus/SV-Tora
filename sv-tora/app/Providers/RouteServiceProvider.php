@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Person;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -35,6 +36,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        Route::model("coach", Person::class);
+        Route::model("referee", Person::class);
+        Route::model("helper", Person::class);
+
         $this->configureRateLimiting();
 
         $this->routes(function () {

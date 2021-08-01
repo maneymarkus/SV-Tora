@@ -89,7 +89,7 @@ main.blur {
     top: 100%;
     left: 0;
     width: 100%;
-    height: 5rem;
+    height: 3rem;
     visibility: hidden;
 }
 
@@ -120,7 +120,7 @@ a.primary-button.close-modal i {
     box-shadow: none;
 }
 
-.modal-window .mw-header{
+.modal-window .mw-header {
     height: 0;
     overflow: hidden;
     margin: 0.75em 0 1em 0;
@@ -141,11 +141,14 @@ a.primary-button.close-modal i {
     color: var(--text-color);
 }
 
+.modal-window .mw-body {
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
 .modal-window .mw-content {
     font-size: 1.25em;
     padding: 0.5em 1em 1.5em;
-    overflow-y: auto;
-    max-height: 45vh;
     word-wrap: break-word;
 }
 
@@ -164,6 +167,10 @@ a.primary-button.close-modal i {
 
 .mw-content .select-input-container {
     margin-bottom: 1em;
+}
+
+.mw-content :first-child {
+    margin-top: 0 !important;
 }
 
 .modal-window .mw-footer {
@@ -209,6 +216,16 @@ a.primary-button.close-modal i {
 .custom-modal-window a.primary-button.close-modal {
     top: -0.5em;
     right: -0.5em;
+}
+
+/*
+    SPECIFIC COMPONENT STYLES INSIDE MODAL WINDOW
+
+ */
+
+.modal-window .checkbox-input-container,
+.modal-window .radio-input-container {
+    display: block !important;
 }
 
 @media only screen and (min-width: 600px) {

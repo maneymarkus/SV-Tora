@@ -6,6 +6,7 @@ import * as GeneralModule from "./GeneralModule";
 import { createInput } from "./MaterialInputsModule";
 import * as ModalModule from "./ModalModule";
 import { checkInput } from "./FormModule";
+import { sendRequest } from "./SendRequestModule";
 
 /**
  * Module contains code concerning admin table
@@ -75,10 +76,10 @@ let AdminTable = function(table) {
                     if (switchToInputs) {
                         if (td.classList.contains("privileged")) {
                             td.innerHTML = "";
-                            td.appendChild(createSwitch(true))
+                            td.appendChild(createSwitch(true, td.getAttribute("data-privilege")))
                         } else {
                             td.innerHTML = "";
-                            td.appendChild(createSwitch(false));
+                            td.appendChild(createSwitch(false, td.getAttribute("data-privilege")));
                         }
                         td.classList.remove("privileged");
                     } else {
@@ -110,24 +111,9 @@ let AdminTable = function(table) {
             });
         }
 
-        function createSwitch(checked) {
-            // TODO: Use InputsModule.Api
-            // InputsModule.createInputFactory(inputTypes.SWITCH, [""], undefined, undefined, undefined, checked, undefined, undefined);
-            let switchId = Math.random().toString(16).substr(2, 10);
-            let switchContainer = GeneralModule.generateElement("label", ["switch-container", "input-container"]);
-            switchContainer.setAttribute("for", switchId);
-            let input = GeneralModule.generateElement("input", ["switch-input"]);
-            input.setAttribute("type", "checkbox");
-            input.setAttribute("id", switchId);
-            if (name) {
-                input.setAttribute("name", name);
-            }
-            if (checked) {
-                input.setAttribute("checked", "checked");
-            }
-            switchContainer.appendChild(input);
-            switchContainer.appendChild(GeneralModule.generateElement("span", ["switch"]));
-            return switchContainer;
+        function createSwitch(checked, privilegeName) {
+            let switchInput = createInput(GeneralModule.generalVariables.inputTypes.SWITCH, [], undefined, privilegeName, undefined, privilegeName, checked, undefined);
+            return switchInput.inputContainer;
         }
 
         function createIcon(hasRight) {
@@ -249,10 +235,13 @@ let AdminTable = function(table) {
      */
     this.addingEntity = function () {
         let mailInput = createInput(GeneralModule.generalVariables.inputTypes.TEXT, ["mail", "required"], undefined, "new-admin-mail", "E-Mail-Adresse", undefined, undefined, undefined);
-        ModalModule.confirmModal("Neuen Administrator hinzufügen (einladen)", mailInput.inputContainer, function () {
-            ModalModule.infoModal("Neuer Administrator!" ,"Der (möglicherweise) neue Administrator wird nun per E-Mail benachrichtigt, dass er sich ab sofort in diesem Tool registrieren kann.", undefined);
-        }, undefined, function () {
-            return checkInput(mailInput.inputContainer, true);
+        let ModalWindow = ModalModule.confirmModal("Neuen Administrator hinzufügen (einladen)", mailInput.inputContainer, undefined, undefined, function () {
+            if (!checkInput(mailInput.inputContainer, true)) {
+                return false;
+            } else {
+                let data = {email: mailInput.getValue()};
+                sendRequest(GeneralModule.generalVariables.requests.POST, "/admin/registration/invitation", () => {ModalWindow.closeModal()}, data, true);
+            }
         });
     }
 

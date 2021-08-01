@@ -6,6 +6,11 @@
     <meta name="keywords" content="{{ $keywords ?? "default" }}" />
     <meta name="description" content="{{ $description ?? "default" }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    @can("admin")
+        <meta name="is-admin" content="1" />
+    @else
+        <meta name="is-admin" content="0" />
+    @endcan
 
     <title>SV Tora Berlin e.V. - {{ $title ?? "Wettkampfmanagementsystem" }}</title>
 
@@ -42,7 +47,11 @@
     -->
 
 </head>
-<body class="darkmode">
+@if(\Illuminate\Support\Facades\Auth::user() === null || \Illuminate\Support\Facades\Auth::user()->dark_mode)
+    <body class="darkmode">
+@else
+    <body>
+@endif
 
     @yield("body-content")
 

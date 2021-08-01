@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Helper\Roles;
 use App\Notifications\ResetPassword;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +27,11 @@ class User extends Authenticatable
         "username",
         'email',
         'password',
+        "role_id",
+        "club_id",
+        "profile_picture",
+        "dark_mode",
+        "smartphone_optimized_tables",
     ];
 
     /**
@@ -57,6 +64,72 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification($token) {
         $this->notify(new ResetPassword($token));
+    }
+
+    public function role() {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function club() {
+        return $this->belongsTo(Club::class);
+    }
+
+    public function isAdmin() {
+        return $this->role->name === Roles::ADMIN;
+    }
+
+    public function permissions() {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public function allowTo($permissions) {
+        if (is_array($permissions)) {
+            foreach ($permissions as $permission) {
+                $this->permissions()->save($permission);
+            }
+            return true;
+        } else {
+            return $this->permissions()->save($permissions);
+        }
+    }
+
+    public function denyTo($permissions) {
+        if (is_array($permissions)) {
+            foreach ($permissions as $permission) {
+                $this->permissions()->detach($permission);
+            }
+            return true;
+        } else {
+            return $this->permissions()->detach($permissions);
+        }
+    }
+
+    public static function tableHeadings() {
+        return [
+            ["heading" => "Nr.", "sortable" => true],
+            ["heading" => "Name", "sortable" => true],
+            ["heading" => "Nutzername", "sortable" => true],
+            ["heading" => "E-Mail", "sortable" => true],
+            ["heading" => "Rolle", "sortable" => true],
+            ["heading" => "Verein", "sortable" => true],
+        ];
+    }
+
+    public function tableProperties($counter) {
+        $club = "";
+        if ($this->club !== null) {
+            $club = $this->club->name;
+        } else {
+            $club = "<span class='error'>Keinem Verein zugeordnet!</span>";
+        }
+        return [
+            $counter,
+            $this->name,
+            $this->username,
+            $this->email,
+            $this->role->name,
+            $club
+        ];
     }
 
 }

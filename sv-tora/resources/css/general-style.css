@@ -188,18 +188,6 @@ table, .table, th, td {
     height: auto;
 }
 
-/* This is a class to insert some space after elements that exceed the width of the window */
-.space-after:after {
-    content: '';
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    height: 100%;
-    margin-right: 2rem;
-    width: 2rem;
-}
-
 .faded-out {
     visibility: hidden !important;
     opacity: 0 !important;

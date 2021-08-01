@@ -12,8 +12,11 @@
     let greeting = document.getElementsByClassName("greeting")[0];
 
     if (App.GeneralModule.getCookie("visitedDashboard") !== "") {
-        main.classList.add("welcome-done");
+        main.classList.add("welcome-done", "greet");
     } else {
+
+        App.GeneralModule.setCookie("visitedDashboard", true);
+
         greeting.innerHTML = "";
         greeting.classList.add("greet");
         main.classList.add("greet");
@@ -40,7 +43,31 @@
                 }, 2000);
             });
 
-        App.GeneralModule.setCookie("visitedDashboard", true);
     }
+
+    let inviteButton = main.querySelector(".primary-button.invite");
+
+    inviteButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        let emailInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.TEXT, ["required", "email"], undefined, "email", "E-Mail-Adresse", undefined, undefined, undefined);
+        let content = App.GeneralModule.generateElement("div");
+        content.appendChild(emailInput.inputContainer);
+        if (App.GeneralModule.isAdmin()) {
+            let clubSelect = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.SELECT, ["required", "club"], undefined, "club", "Zugeordnet zu Verein: ", undefined, undefined, ["Verein 1", "Verein 2", "Verein 3"]);
+            content.appendChild(clubSelect.inputContainer);
+        }
+        let ModalWindow = App.ModalModule.confirmModal("Neuen User einladen", content, undefined, undefined, function () {
+            if (!App.FormModule.checkForm(content, true)) {
+                return false;
+            } else {
+                let data = {email: emailInput.getValue()}
+                if (App.GeneralModule.isAdmin()) {
+                    data["club"] = clubSelect.getValue();
+                }
+
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, "/registration/invitation", () => {ModalWindow.closeModal()}, data, true);
+            }
+        });
+    });
 
 })(window, document);

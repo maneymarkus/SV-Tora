@@ -4,6 +4,7 @@
 
 import { getTableObject } from "./TableModule";
 import { getAdminTableObject } from "./AdministrationModule";
+import { infoModal } from "./ModalModule";
 
 /**
  * This Module contains code responsible for managing actions related to tables as e.g. adding an element/entity to a table
@@ -40,13 +41,17 @@ let TableActionsContainer = function(tableActionsContainer) {
     /**
      * This functions listens for clicks on the add entity button and triggers the modal window that requires the necessary input from the user and then adds the newly configured element to the table
      */
-    this.addEntityButton.addEventListener("click", function () {
-        This.connectedTableObject.addingEntity();
+    this.addEntityButton.addEventListener("click", function (e) {
+        if (This.addEntityButton.getAttribute("data-follow-url") == false) {
+            e.preventDefault();
+            let entity = This.addEntityButton.querySelector("p").innerText.split(" ")[0];
+            This.connectedTableObject.addingEntity(entity, This.addEntityButton.getAttribute("href"));
+        }
     });
 
     if (this.printButton) {
         this.printButton.addEventListener("click", function () {
-            ModalModule.infoModalApi("Drucken!", "Ich drucke die Tabelle jetzt aus! (Vielleicht...)", undefined);
+            infoModal("Drucken!", "Ich drucke die Tabelle jetzt aus! (Vielleicht...)", undefined);
         });
     }
 

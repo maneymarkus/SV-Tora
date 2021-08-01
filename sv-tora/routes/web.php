@@ -1,6 +1,20 @@
 <?php
 
+use App\Http\Controllers\ClubController;
+use App\Http\Controllers\CoachController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\FighterController;
+use App\Http\Controllers\GlobalSettingController;
+use App\Http\Controllers\HelperController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\PersonController;
+use App\Http\Controllers\RefereeController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +28,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/mailable", function () {
-    return new \App\Mail\InvitationMail(\App\Helper\GeneralHelper::generateRandomToken(), "sldfgh@lsdhg.de");
+    return new \App\Mail\GenericMail("Betreff", ["kajsdhf@sdfh.de"], "Inhalt");
 });
 
 Route::get("/test", function () {
-    return view("test");
+    $key = "fight_time_in_seconds";
+    return json_encode(\App\Models\GlobalSetting::getSetting($key));
 });
+
+
+/**************************************************************
+ *      Entry Point / Welcome Page                            *
+ **************************************************************/
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+
+/**************************************************************
+ *      Authentication Routes                                 *
+ **************************************************************/
 
 Route::get("/login", [\App\Http\Controllers\AuthenticationController::class, "showLogin"])->name("login");
 
@@ -31,9 +56,27 @@ Route::post("/login", [\App\Http\Controllers\AuthenticationController::class, "l
 
 Route::post("/logout", [\App\Http\Controllers\AuthenticationController::class, "logout"])->name("logout");
 
-Route::get("/registration/{token}", [\App\Http\Controllers\RegistrationController::class, "showRegistration"])->name("registration");
 
-Route::post("/registration", [\App\Http\Controllers\RegistrationController::class, "register"]);
+/**************************************************************
+ *      Registration Routes                                   *
+ **************************************************************/
+
+Route::get("/registration/{token}", [RegistrationController::class, "showRegistration"])->name("registration");
+
+Route::post("/registration", [RegistrationController::class, "register"]);
+
+Route::prefix("admin")->group(function () {
+
+    Route::get("/registration/{token}", [RegistrationController::class, "showRegistrationAdmin"])->name("registration");
+
+    Route::post("/registration", [RegistrationController::class, "registerAdmin"]);
+
+});
+
+
+/**************************************************************
+ *      Password Routes                                       *
+ **************************************************************/
 
 Route::post("/password/email", [\App\Http\Controllers\PasswordController::class, "sendResetLink"])->name("password.email");
 
@@ -41,39 +84,27 @@ Route::get("/password/reset/{token}", [\App\Http\Controllers\PasswordController:
 
 Route::post("/password/reset", [\App\Http\Controllers\PasswordController::class, "reset"]);
 
-Route::post("/invitation", [\App\Http\Controllers\RegistrationController::class, "invite"]);
 
-/* For the following routes authentication is required */
+/**************************************************************
+ *      Error Routes                                          *
+ **************************************************************/
 
-Route::middleware(["auth:web"])->group(function () {
+Route::post("/inform-admins-about-no-club", [\App\Http\Controllers\ErrorController::class, "informAdminsAboutNoClub"]);
+
+
+/**************************************************************
+ *      Authenticated Routes                                  *
+ **************************************************************/
+
+Route::middleware(["auth:web", "hasClub"])->group(function () {
 
     Route::get("/dashboard", function () {
-        return view("Dashboard.dashboard");
+        return view("dashboard");
     })->name("dashboard");
 
-    Route::get("/mail", function () {
-        return view("mail");
-    });
-
-    Route::get("/documents", function () {
-        return view("documents");
-    });
-
-    Route::get("/messages", function () {
-        return view("messages");
-    });
-
-    Route::get("/settings", function () {
-        return view("settings");
-    });
-
-    Route::get("/admin-registration", function () {
-        return view("admin-registration");
-    });
-
-    Route::get("/club-acceptance", function () {
-        return view("club-acceptance");
-    });
+    Route::get("/no-club", function () {
+        return view("no-club");
+    })->withoutMiddleware("hasClub");
 
 
     /**************************************************************
@@ -82,27 +113,14 @@ Route::middleware(["auth:web"])->group(function () {
 
     Route::get("/user/settings", function () {
         return view("User.settings");
-    });
-
-
-    /**************************************************************
-     *      Global Settings Routes                                *
-     **************************************************************/
-
-    Route::get("/settings/tournaments", function () {
-        return view("Settings.tournaments");
-    });
-
-    Route::get("/settings/categories", function () {
-        return view("Settings.categories");
-    });
+    })->withoutMiddleware("hasClub");
 
 
     /**************************************************************
      *      Registration Invitation Route                         *
      **************************************************************/
 
-    Route::post("/registration/invitation", [\App\Http\Controllers\RegistrationController::class, "invite"]);
+    Route::post("/registration/invitation", [RegistrationController::class, "invite"]);
 
 
     /**************************************************************
@@ -113,33 +131,27 @@ Route::middleware(["auth:web"])->group(function () {
         return view("Entities.persons");
     });
 
-    Route::get("/entities/fighters", function () {
-        return view("Entities.fighters");
-    });
+    Route::resource("/entities/fighters", FighterController::class)->except(["create", "show"]);
 
-    Route::get("/entities/coaches", function () {
-        return view("Entities.coaches");
-    });
+    Route::resource("/entities/coaches", CoachController::class)->except(["create", "show"]);
 
-    Route::get("/entities/referees", function () {
-        return view("Entities.referees");
-    });
+    Route::resource("/entities/referees", RefereeController::class)->except(["create", "show"]);
 
-    Route::get("/entities/helpers", function () {
-        return view("Entities.helpers");
-    });
+    Route::resource("/entities/helpers", HelperController::class)->except(["create", "show"]);
 
-    Route::get("/entities/teams", function () {
-        return view("Entities.teams");
-    });
+    Route::resource("/entities/teams", TeamController::class)->except(["create", "show"]);
 
-    Route::get("/entities/clubs", function () {
-        return view("Entities.clubs");
-    });
+    Route::get("/entities/teams/{team}/fighters", [TeamController::class, "showFighters"]);
 
-    Route::get("/entities/admins", function () {
-        return view("Entities.admins");
-    });
+    Route::get("/entities/teams/{team}/fighters/add", [TeamController::class, "selectFighters"]);
+
+    Route::post("/entities/teams/{team}/fighters", [TeamController::class, "addFighters"]);
+
+    Route::delete("/entities/teams/{team}/fighters/{fighter}", [TeamController::class, "removeFighter"]);
+
+    Route::get("/entities/clubs/{club}/fighters", [ClubController::class, "showFighters"]);
+
+    Route::get("/entities/clubs/{club}/teams", [ClubController::class, "showTeams"]);
 
 
     /**************************************************************
@@ -154,26 +166,6 @@ Route::middleware(["auth:web"])->group(function () {
         return view("Tournament.tournament-dashboard");
     });
 
-    Route::get("/tournament/competition-mode", function () {
-        return view("Tournament.competition-mode");
-    });
-
-    Route::get("/tournament/fight-place-administration", function () {
-        return view("Tournament.fight-place-administration");
-    });
-
-    Route::get("/tournament/category-fighting-systems", function () {
-        return view("Tournament.category-fighting-systems");
-    });
-
-    Route::get("/tournament/category-administration", function () {
-        return view("Tournament.category-administration");
-    });
-
-    Route::get("/tournament/time-schedule", function () {
-        return view("Tournament.time-schedule");
-    });
-
     Route::get("/tournament/enroll-entities", function () {
         return view("Tournament.enroll-entities");
     });
@@ -182,12 +174,118 @@ Route::middleware(["auth:web"])->group(function () {
         return view("Tournament.fighter-tournament-configuration");
     });
 
-    Route::get("/tournament/category/id/split-category", function () {
-        return view("Tournament.split-category");
-    });
 
-    Route::get("/tournament/category/id/fighting-system", function () {
-        return view("Tournament.fighting-system-map");
+    /**************************************************************
+     *      Admin Only Routes                                     *
+     **************************************************************/
+
+    Route::middleware("can:admin")->group(function() {
+
+
+        /**************************************************************
+         *      Mail Routes                                           *
+         **************************************************************/
+
+        Route::get("/mail", function () {
+            return view("mail");
+        });
+
+        Route::get("/mail/user-mails/all", [UserController::class, "getMailsFromUsersFromAllClubs"]);
+
+        Route::get("/mail/user-mails/enrolled", [UserController::class, "getMailsFromUsersFromEnrolledClubs"]);
+
+        Route::post("/mail/user-mails/selected", [UserController::class, "getMailsFromUsersFromSelectedClubs"]);
+
+        Route::get("/mail/user-mails/{club}", [UserController::class, "getMailsFromUsersOfClub"]);
+
+        Route::post("/mail", [MailController::class, "sendMail"]);
+
+
+        /**************************************************************
+         *      Document Routes                                       *
+         **************************************************************/
+
+        Route::resource("/documents", DocumentController::class)->except(["create", "show", "edit"]);
+
+        Route::get("/documents/{document}/download", [DocumentController::class, "download"]);
+
+
+        /**************************************************************
+         *      Message Routes                                        *
+         **************************************************************/
+
+        Route::get("/messages", function () {
+            return view("messages");
+        });
+
+
+        /**************************************************************
+         *      Registration Invitation Route                         *
+         **************************************************************/
+
+        Route::post("/admin/registration/invitation", [RegistrationController::class, "inviteAdmin", [true]]);
+
+
+        /**************************************************************
+         *      Global Settings Routes                                *
+         **************************************************************/
+
+        Route::resource("/settings", GlobalSettingController::class)->except(["create", "store", "show", "edit", "destroy"]);
+
+        Route::get("/settings/tournaments", function () {
+            return view("Settings.tournament-templates");
+        });
+
+        Route::get("/settings/categories", function () {
+            return view("Settings.categories");
+        });
+
+
+        /**************************************************************
+         *      Entity Routes                                         *
+         **************************************************************/
+
+        Route::resource("/entities/clubs", ClubController::class)->except(["create"]);
+
+        Route::resource("/entities/users", UserController::class)->except(["create", "store"]);
+
+        Route::get("/entities/admins", function () {
+            return view("Entities.admins");
+        });
+
+
+        /**************************************************************
+         *      Tournament Routes                                     *
+         **************************************************************/
+
+        Route::get("/tournament/competition-mode", function () {
+            return view("Tournament.competition-mode");
+        });
+
+        Route::get("/tournament/fight-place-administration", function () {
+            return view("Tournament.fight-place-administration");
+        });
+
+        Route::get("/tournament/category-fighting-systems", function () {
+            return view("Tournament.category-fighting-systems");
+        });
+
+        Route::get("/tournament/category-administration", function () {
+            return view("Tournament.category-administration");
+        });
+
+        Route::get("/tournament/time-schedule", function () {
+            return view("Tournament.time-schedule");
+        });
+
+        Route::get("/tournament/category/{id}/split-category", function () {
+            return view("Tournament.split-category");
+        });
+
+        Route::get("/tournament/category/{id}/fighting-system", function () {
+            return view("Tournament.fighting-system-map");
+        });
+
     });
 
 });

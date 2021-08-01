@@ -2,11 +2,14 @@
  * DEPENDENCIES
  */
 
-import { generateElement } from "./GeneralModule";
+import { generateElement, generalVariables, isAdmin } from "./GeneralModule";
 import { createPrimaryButton } from "./PrimaryButtonModule";
 import * as ModalModule from "./ModalModule";
 import { checkForm } from "./FormModule";
 import * as TranslationModule from "./TranslationModule";
+import { sendRequest, getData } from "./SendRequestModule";
+import { createInput } from "./MaterialInputsModule";
+import {SendRequestModule} from "../app";
 
 /**
  * This Module contains code responsible for managing application specific tables
@@ -160,8 +163,8 @@ let Table = function(table) {
     this.dataColumns = [];
     let ths = this.tableHeader.querySelectorAll("th");
     ths.forEach((th) => {
-        if (th.querySelector("span.column-header")) {
-            let dataColumn = th.querySelector("span.column-header").innerText;
+        if (th.querySelector("span.column-heading")) {
+            let dataColumn = th.querySelector("span.column-heading").innerText;
             this.dataColumns.push(dataColumn);
         }
     });
@@ -188,6 +191,9 @@ let Table = function(table) {
 
     // Contains all the selected row objects
     this.selectedRows = [];
+
+    // Contains the maximum amount of selectable entries
+    this.selectLimit = parseInt(This.tableElement.getAttribute("data-select-limit"));
 
     // Iterate over all available rows in table body and read them into objects
     this.trs.forEach((tr) => {
@@ -247,17 +253,19 @@ let Table = function(table) {
 
         // Edit a table row
         if (target.classList.contains("edit")) {
+            e.preventDefault();
             let rowObject = This.getRowObject(clickedRow);
-            This.editRow(rowObject);
+            getData(target.getAttribute("href") + "/edit", (data) => {
+                This.editRow(rowObject, data);
+            });
             return;
         }
 
         // Delete a table row
         if (target.classList.contains("delete")) {
+            e.preventDefault();
             let rowObject = This.getRowObject(clickedRow);
-            ModalModule.deleteModal("Eintrag löschen", "Willst du diesen Eintrag wirklich löschen?", function () {
-                This.deleteRow(clickedRow, rowObject);
-            });
+            This.deleteRow(clickedRow, rowObject);
             return;
         }
 
@@ -281,29 +289,37 @@ let Table = function(table) {
                 This.selectedRows.splice(This.selectedRows.indexOf(rowObject), 1);
             }
         } else {
-            checkBox.checked = true;
-            rowObject.tr.classList.add("selected");
-            if (!This.selectedRows.includes(rowObject)) {
-                This.selectedRows.push(rowObject);
+            // check if it is allowed to add more items
+            if (This.selectedRows.length === This.selectLimit) {
+                ModalModule.infoModal("Maximale Anzahl", "Die maximale Anzahl an auswählbaren Einträgen beträgt " + This.selectLimit + ". Das kann sich zum Beispiel auf die maximale Anzahl an Teammitgliedern beziehen.");
+                return;
+            } else {
+                checkBox.checked = true;
+                rowObject.tr.classList.add("selected");
+                if (!This.selectedRows.includes(rowObject)) {
+                    This.selectedRows.push(rowObject);
+                }
             }
         }
         checkBox.dispatchEvent(new Event("change", {bubbles: true, cancelable: true}));
     }
 
     /**
-     * This function initializes the addition of a new entity/element to the table. This sets up a modal window that asks the user for the required input and calls the addElement method afterwards
+     * This function initializes the addition of a new entity/element to the table. This sets up a modal window that asks the user for the required input and calls the addEntity method afterwards
      */
-    this.addingEntity = function () {
+    this.addingEntity = function (entity, url) {
         // clone the array not just store the reference!
         let keys = This.dataColumns.slice();
 
         let object = TranslationModule.translateRowToObject(keys, undefined);
         let container = TranslationModule.translateObjectToInputs(object, true);
-        ModalModule.confirmModal("Neuen Kämpfer anlegen", container, function () {
-            let userInputObject = TranslationModule.translateInputsToObject(container);
-            This.addEntity(userInputObject);
-        }, undefined, function () {
-            return checkForm(container, true);
+        let ModalWindow = ModalModule.confirmModal(entity + " erstellen", container, undefined, undefined, function () {
+            if (!checkForm(container, true)) {
+                return false;
+            } else {
+                let data = TranslationModule.translateInputsToObject(container);
+                sendRequest(generalVariables.requests.POST, url, () => {ModalWindow.closeModal(); This.addEntity()}, data, true);
+            }
         });
     }
 
@@ -311,12 +327,10 @@ let Table = function(table) {
      * This function adds a new element as a row element to the table
      * @param userInputObject {object} The object containing the translated user input from the input elements regarding the creation of a new element
      */
-    this.addEntity = function (userInputObject) {
-        let newTr = Row.createRow(userInputObject, this.dataColumns, this.rows.length + 1);
-        This.tableBody.appendChild(newTr);
-        this.trs = this.tableBody.querySelectorAll("tr");
-        this.rows.push(new Row(newTr, this));
-        this.updateVisibleRows();
+    this.addEntity = function () {
+        window.setTimeout(function () {
+            window.location.reload(true);
+        }, 5000);
     }.bind(this);
 
     /**
@@ -340,10 +354,17 @@ let Table = function(table) {
      * @param rowObject {object} The responsible row object
      */
     this.deleteRow = function (tr, rowObject) {
-        This.rows.splice(This.rows.indexOf(rowObject), 1);
-        tr.remove();
-        This.recolorRows();
-        This.renumberRows();
+        let url = tr.querySelector("a.primary-button.delete").getAttribute("href");
+        let object = TranslationModule.translateToJson(Object.getOwnPropertyNames(rowObject.values), rowObject.values);
+
+        let ModalWindow = ModalModule.deleteModal("Eintrag löschen?", "Willst du den Eintrag Nr. <span class='highlighted-span'>" + tr.querySelector("td").innerText + "</span> wirklich löschen?", function () {
+            sendRequest(generalVariables.requests.DELETE, url, () => {
+                This.rows.splice(This.rows.indexOf(rowObject), 1);
+                tr.remove();
+                This.recolorRows();
+                This.renumberRows();
+            }, object, true);
+        }, undefined, undefined);
     }
 
     /**
@@ -359,12 +380,21 @@ let Table = function(table) {
     /**
      * This function initializes the editing of a given (/chosen) table row
      * @param row {object} The desired updated table row object
+     * @param data {object} Contains the data from the backend concerning the entity to be edited
      */
-    this.editRow = function (row) {
-        let object = TranslationModule.translateRowToObject(Object.getOwnPropertyNames(row.values), row.values);
-        let container = TranslationModule.translateObjectToInputs(object);
-        ModalModule.confirmModal("Tabelleneintrag bearbeiten", container, function () {
-            This.updateRow(row, container);
+    this.editRow = function (row, data) {
+        let url = row.tr.querySelector("a.primary-button.edit").getAttribute("href");
+        let container = TranslationModule.translateObjectToInputs(data, true);
+        let ModalWindow = ModalModule.confirmModal("Eintrag bearbeiten", container, undefined, undefined, function () {
+            if (!checkForm(container, true)) {
+                return false;
+            } else {
+                let data = TranslationModule.translateInputsToObject(container);
+                sendRequest(generalVariables.requests.PUT, url, () => {
+                    ModalWindow.closeModal();
+                    This.updateRow(row, container);
+                }, data, true);
+            }
         });
     }
 
@@ -472,7 +502,7 @@ let Table = function(table) {
         let rows = This.tableBody.querySelectorAll("tr");
         rowCounter = 0;
         rows.forEach((row) => {
-            if (!row.classList.contains("hidden")) {
+            if (!row.classList.contains("no-display")) {
                 row.classList.remove("even", "odd");
                 if (rowCounter % 2) {
                     row.classList.add("even");

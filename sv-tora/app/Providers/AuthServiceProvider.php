@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Fighter;
+use App\Models\Person;
+use App\Models\Team;
+use App\Models\User;
+use App\Policies\CoachPolicy;
+use App\Policies\FighterPolicy;
+use App\Policies\PersonPolicy;
+use App\Policies\TeamPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +21,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Person::class => PersonPolicy::class,
+        Fighter::class => FighterPolicy::class,
+        Team::class => TeamPolicy::class,
     ];
 
     /**
@@ -25,6 +35,23 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        /**
+         * This gate quickly checks if the currently authenticated user is an admin
+         */
+        Gate::define("admin", function (User $user) {
+            return $user->isAdmin();
+        });
+
+        /**
+         * This gate quickly checks
+         */
+        Gate::define("has-permission", function (User $user, String $permission) {
+            if (!Gate::forUser($user)->allows("admin")) {
+                // Users that are no admins automatically don't have any additional permissions
+                return false;
+            }
+            return $user->permissions->flatten()->pluck("name")->unique()->contains($permission);
+        });
+
     }
 }

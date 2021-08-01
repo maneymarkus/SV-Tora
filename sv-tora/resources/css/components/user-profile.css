@@ -87,6 +87,7 @@
     height: auto;
     border-radius: 50%;
     transform: scale(1.06);
+    display: block;
 }
 
 .user-profile p {

@@ -14,33 +14,35 @@
 
     <main class="limited">
         <h1>Dokumente</h1>
+        @isset ($error)
+            <p class="form-error">
+                {{ $error }}
+            </p>
+        @endisset
         <div class="document-reservoir">
-            <div class="document">
-                <i class="material-icons icon">description</i>
-                <p>Irgendeine Liste 1.pdf</p>
-            </div>
-            <div class="document">
-                <i class="material-icons icon">description</i>
-                <p>Irgendeine Liste 2.pdf</p>
-            </div>
-            <div class="document">
-                <i class="material-icons icon">description</i>
-                <p>Irgendeine Liste 3.pdf</p>
-            </div>
-            <div class="document">
-                <i class="material-icons icon">description</i>
-                <p>Irgendeine Liste 4.pdf</p>
-            </div>
-            <div class="document">
-                <i class="material-icons icon">description</i>
-                <p>Irgendwas Anderes.docx</p>
-            </div>
+            @if(sizeof($documents) > 0)
+                @foreach($documents as $document)
+                    <div class="document" id="{{ $document->id }}" data-url="{{ url("/documents") }}">
+                        <i class="material-icons icon">description</i>
+                        <p>{{ $document->name }}</p>
+                    </div>
+                @endforeach
+            @else
+                <h3 style="text-align: center">Aktuell gibt es noch keine Dokumente</h3>
+            @endif
         </div>
-        <label for="file-input" class="file-input-container">
-            <input type="file" name="file-input" value="value" id="file-input" multiple />
-            <i class="material-icons">publish</i>
-            <span class="file-name">Datei auswählen...</span>
-        </label>
+        <form class="document-upload" method="POST" action="{{ url("/documents") }}" enctype="multipart/form-data">
+            @csrf
+            <label for="document-input" class="file-input-container input-container">
+                <input type="file" name="document" id="document-input" multiple />
+                <i class="material-icons">publish</i>
+                <span class="file-name">Datei auswählen...</span>
+            </label>
+            <br />
+            <button type="submit" class="secondary-button disabled upload-button" >
+                <span class="text">Upload</span>
+            </button>
+        </form>
     </main>
 
     <i class="document-bg material-icons">description</i>
@@ -58,7 +60,7 @@
                 <p>Dokument löschen</p>
             </a>
         </div>
-        <a class="primary-button download" href="#">
+        <a class="primary-button download">
             <i class="material-icons">get_app</i>
             <p>Dokument runterladen</p>
         </a>

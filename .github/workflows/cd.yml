@@ -3,6 +3,7 @@ name: Continuous Deployment
 on:
   workflow_run:
     workflows: ["Continuous Integration - Laravel test"]
+    branches: [main]
     types:
       - completed
     
@@ -14,6 +15,7 @@ jobs:
     defaults:
       run:
         working-directory: ./sv-tora
+    if: ${{ github.event.workflow_run.conclusion == "success" }}
         
     steps:
       - uses: actions/checkout@v2

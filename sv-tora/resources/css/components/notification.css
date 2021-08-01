@@ -25,7 +25,7 @@
     transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 1.25s;
     overflow: hidden;
     transform-origin: 50% 100%;
-    z-index: 1001;
+    z-index: 100001;
 }
 
 .notification.visible {

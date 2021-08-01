@@ -49,7 +49,7 @@
                     <x-slot name="value">{{ old("username") }}</x-slot>
                 </x-inputs.text-input>
                 <x-inputs.text-input type="email" name="email" class="required" label="E-Mail">
-                    <x-slot name="value">{{ old("email") ?? $email }}</x-slot>
+                    <x-slot name="value">{{ old("email") ?? $email ?? "" }}</x-slot>
                 </x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password" class="password-check required {{ $confirm_id }}" label="Passwort"></x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password-confirmation" class="required confirm" data-confirm="{{ $confirm_id }}" label="Passwort wiederholen"></x-inputs.text-input>

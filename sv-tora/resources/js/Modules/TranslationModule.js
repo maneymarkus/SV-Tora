@@ -1,7 +1,7 @@
 /**
  * DEPENDENCIES
  */
-import { generateElement, generalVariables } from "./GeneralModule";
+import { generateElement, calculateAge, generalVariables } from "./GeneralModule";
 import * as MaterialInputsModule from "./MaterialInputsModule";
 
 /**
@@ -15,24 +15,7 @@ let inputTypes = generalVariables.inputTypes;
  * This variable holds a map which maps keys (e.g. column (headers) to input types in conventional tables (!)
  * @type {Map<string, any>}
  */
-let keyToInput = new Map([
-    ["name", inputTypes.TEXT],
-    ["vorname", inputTypes.TEXT],
-    ["alter", inputTypes.DATE],
-    ["geschlecht", inputTypes.RADIO],
-    ["graduierung", inputTypes.SELECT],
-    ["kategorie", inputTypes.SELECT],
-    ["verein", inputTypes.SELECT],
-    ["mitglieder", "custom"],
-    ["teams", inputTypes.SWITCH],
-    ["kihon", inputTypes.SWITCH],
-    ["wettkampf", inputTypes.SELECT],
-    ["datum", inputTypes.DATE],
-    ["uhrzeit", inputTypes.TIME],
-    ["startdatum", inputTypes.DATE],
-    ["enddatum", inputTypes.DATE],
-    ["ort", inputTypes.TEXT],
-]);
+let keyToInput = generalVariables.keyToInput;
 
 /**
  * This function generates an input element (or multiple in case of checkboxes and radio buttons) out of a given object
@@ -82,7 +65,10 @@ function translateKeyToInput(object, required) {
                         selected = item["value"];
                     }
                 });
-                inputObject = MaterialInputsModule.createInput(inputType, [requiredClass], undefined, key, selected, undefined, undefined, options);
+                inputObject = MaterialInputsModule.createInput(inputType, [requiredClass], undefined, key, key, undefined, undefined, options);
+                if (selected) {
+                    inputObject.setValue(selected);
+                }
                 break;
         }
     } else {
@@ -93,7 +79,7 @@ function translateKeyToInput(object, required) {
 
 /**
  * This functions creates a container element containing input elements according to the given object.
- * @param object {object} The property name is the key and determines the value of the name attribute. Each property (key) has either just a string value or is an array of objects (in case of checkBoxes or radioButtons or Selects). These objects have two properties: "value" is a string containing the value and "selected" is a boolean determining whether this option should be preselected.
+ * @param object {object} The property name is the key and determines the value of the name attribute. Each property (key) has either just a string value or is an array of objects (in case of checkBoxes or radioButtons or Selects). These objects have two properties: "value" is a string containing the value and "checked" is a boolean determining whether this option should be preselected.
  * @param required {boolean} States if all the inputs to be generated should be required
  * @return {HTMLElement}
  */
@@ -120,6 +106,10 @@ function translateInputToObject(inputContainer) {
     let inputObject = MaterialInputsModule.getInputObject(inputContainer);
     let key = inputObject.name;
     let value = inputObject.getValue();
+    if (key === "Geburtsdatum") {
+        key = "Alter";
+        value = calculateAge(value);
+    }
     return {
         "key" : key, "value" : value,
     }
@@ -146,7 +136,7 @@ function translateInputsToObject(container) {
 }
 
 /**
- * This function turns a table row containing values into an object
+ * This function turns a table row containing values into an object (that can be converted into matching inputs)
  * @param keys {string[]} Contains the different table column headers (data-columns)
  * @param values {object} Optional - contains possible set values
  */
@@ -159,6 +149,10 @@ function translateRowToObject(keys, values) {
         }
     });
 
+    if (keys.indexOf("Alter") !== -1) {
+        keys[keys.indexOf("Alter")] = "Geburtsdatum";
+    }
+
 // initialize object properties
     let object = {};
     keys.forEach((key) => {
@@ -169,7 +163,7 @@ function translateRowToObject(keys, values) {
     keys.forEach((key) => {
         switch (key.toLowerCase()) {
             case "geschlecht":
-                let allSexes = GeneralModule.generalVariables.sex;
+                let allSexes = generalVariables.sex;
                 object[key] = [];
                 allSexes.forEach((sex) => {
                     object[key].push({
@@ -180,7 +174,7 @@ function translateRowToObject(keys, values) {
                 });
                 break;
             case "graduierung":
-                let allGraduations = GeneralModule.generalVariables.graduations;
+                let allGraduations = generalVariables.graduationsOrder;
                 object[key] = [];
                 allGraduations.forEach((grad) => {
                     object[key].push({
@@ -192,7 +186,7 @@ function translateRowToObject(keys, values) {
                 break;
             case "verein":
                 // TODO: get all clubs
-                let allClubs = GeneralModule.generalVariables.clubs;
+                let allClubs = generalVariables.clubs;
                 object[key] = [];
                 allClubs.forEach((club) => {
                     object[key].push({
@@ -212,14 +206,15 @@ function translateRowToObject(keys, values) {
                 switch (key.toLowerCase()) {
                     case "name":
                     case "vorname":
+                    case "nachname":
                         object[key] = values[key];
                         break;
-                    case "alter":
+                    case "geburtsdatum":
                         // TODO: get birth date of person not age!
                         object[key] = values[key];
                         break;
                     case "geschlecht":
-                        let allSexes = GeneralModule.generalVariables.sex;
+                        let allSexes = generalVariables.sex;
                         object[key] = [];
                         allSexes.forEach((sex) => {
                             let checked = false;
@@ -234,7 +229,7 @@ function translateRowToObject(keys, values) {
                         });
                         break;
                     case "graduierung":
-                        let allGraduations = GeneralModule.generalVariables.graduations;
+                        let allGraduations = generalVariables.graduationsOrder;
                         object[key] = [];
                         allGraduations.forEach((grad) => {
                             let checked = false;
@@ -272,10 +267,24 @@ function translateRowToObject(keys, values) {
 }
 
 /**
+ * This function translates given keys and values into a json object
+ * @param keys {string[]} Contains the different table column headers (data-columns)
+ * @param values {object} Optional - contains possible set values
+ */
+function translateToJson(keys, values) {
+    let json = {};
+    keys.forEach((key) => {
+        json[key] = values[key];
+    });
+    return json;
+}
+
+/**
  * API:
  */
 export {
     translateObjectToInputs,
     translateInputsToObject,
-    translateRowToObject
+    translateRowToObject,
+    translateToJson,
 }

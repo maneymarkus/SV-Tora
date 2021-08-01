@@ -11,41 +11,44 @@
     let h1 = document.querySelector("h1.greeting");
     let p = document.querySelector("p.introduction")
     let registrationContainer = document.querySelector(".registration-container");
-    let registerButton = registrationContainer.querySelector(".register-button");
 
-    let sentences = p.innerHTML.split(". ");
+    if (App.GeneralModule.getCookie("visitedAdminRegistration") !== "") {
 
-    let greeting = h1.innerHTML;
+        main.classList.add("welcome-done");
 
-    h1.innerHTML = "";
-    p.innerHTML = "";
-    registrationContainer.classList.add("hidden");
+    } else {
 
-    theater.addActor("h1", {accuracy: 1}, ".greeting").addActor("p", {accuracy: 1}, ".introduction");
+        App.GeneralModule.setCookie("visitedAdminRegistration", true);
 
-    theater
-        .addScene(1000, "h1:" + greeting)
-        .addScene(1000)
-        .addScene("p:")
-    sentences.forEach((sentence) => {
+        let sentences = p.innerHTML.split(". ");
+
+        let greeting = h1.innerHTML;
+
+        h1.innerHTML = "";
+        p.innerHTML = "";
+        registrationContainer.classList.add("hidden");
+
+        theater.addActor("h1", {accuracy: 1}, ".greeting").addActor("p", {accuracy: 1}, ".introduction");
+
         theater
-            .addScene(sentence + ". ")
-            .addScene(750);
-    });
-    theater
-        .addScene(500)
-        .addScene(function () {
-            registrationContainer.classList.remove("hidden");
-            window.setTimeout(function () {
-                main.classList.add("welcome-done");
-                p.classList.remove("is-typing");
-            }, 100);
+            .addScene(1000, "h1:" + greeting)
+            .addScene(1000)
+            .addScene("p:")
+        sentences.forEach((sentence) => {
+            theater
+                .addScene(sentence + ". ")
+                .addScene(750);
         });
+        theater
+            .addScene(500)
+            .addScene(function () {
+                registrationContainer.classList.remove("hidden");
+                window.setTimeout(function () {
+                    main.classList.add("welcome-done");
+                    p.classList.remove("is-typing");
+                }, 100);
+            });
 
-
-    App.LoginRegistrationModule.setRegistrationSubmitFormFunction(function () {
-        let form = registrationContainer.querySelector("form");
-        LoaderModule.addSmallLoaderApi(form);
-    });
+    }
 
 })(window, document);

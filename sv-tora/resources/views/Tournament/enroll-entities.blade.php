@@ -26,12 +26,12 @@ $rows = [
 
 @push("styles")
 <!-- Specific style -->
-<link rel="stylesheet" href="{{ asset("css/sites/enroll-entities.css") }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset("css/sites/select-entities.css") }}" type="text/css" />
 @endpush
 
 @push("scripts")
 <!-- Specific scripts -->
-<script src="{{ asset("js/sites/enroll-entities.js") }}" defer></script>
+<script src="{{ asset("js/sites/select-entities.js") }}" defer></script>
 @endpush
 
 @section("content")
@@ -49,8 +49,8 @@ $rows = [
         <x-primary-button class="cancel warning" text="Abbrechen" icon-name="close" href="/tournament/dashboard"></x-primary-button>
     </div>
 
-    <div class="primary-button-floating-container enroll-control">
-        <x-primary-button class="enroll" text="Ausgewählte anmelden" icon-name="add" href="#{{-- TODO --}}"></x-primary-button>
+    <div class="primary-button-floating-container confirm-control">
+        <x-primary-button class="confirm" text="Ausgewählte anmelden" icon-name="add" href="#{{-- TODO --}}"></x-primary-button>
     </div>
 
 @endsection

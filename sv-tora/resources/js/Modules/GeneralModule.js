@@ -419,6 +419,7 @@ const fightingSystemTypes = {
 let keyToInput = new Map([
     ["name", inputTypes.TEXT],
     ["vorname", inputTypes.TEXT],
+    ["nachname", inputTypes.TEXT],
     ["alter", inputTypes.DATE],
     ["geschlecht", inputTypes.RADIO],
     ["graduierung", inputTypes.SELECT],
@@ -427,47 +428,29 @@ let keyToInput = new Map([
     ["mitglieder", "custom"],
     ["teams", inputTypes.SWITCH],
     ["kihon", inputTypes.SWITCH],
+    ["wettkampf", inputTypes.SELECT],
+    ["datum", inputTypes.DATE],
+    ["geburtsdatum", inputTypes.DATE],
+    ["uhrzeit", inputTypes.TIME],
+    ["startdatum", inputTypes.DATE],
+    ["enddatum", inputTypes.DATE],
+    ["ort", inputTypes.TEXT],
 ]);
 
 /**
  * This constant contains all available genders
  * @type {string[]}
  */
-const sex = ["m", "w"];
+const sex = ["m", "w", "d"];
 
-/*
- * TODO: Get all clubs (maybe shift this to another module)
- */
-const clubs = ["SV Tora", "SV Tora 2", "SV Tora 3", "SV Tora 4", "SV Tora 5", "SV Tora 6", "SV Tora 7", "SV Tora 8", "SV Tora 9", "Anderer Verein", "Noch was anderes"];
-
-// TODO: Get all club mails
-const clubMails = {
-    "SV Tora" : "sv-tora@verein.de",
-    "SV Tora 2" : "sv-tora2@verein.de",
-    "SV Tora 3" : "sv-tora3@verein.de",
-    "SV Tora 4" : "sv-tora4@verein.de",
-    "SV Tora 5" : "sv-tora5@verein.de",
-    "SV Tora 6" : "sv-tora6@verein.de",
-    "SV Tora 7" : "sv-tora7@verein.de",
-    "SV Tora 8" : "sv-tora8@verein.de",
-    "SV Tora 9" : "sv-tora9@verein.de",
-}
-
-/*
- * TODO: Get enrolled clubs (maybe shift this to another module)
- */
-const enrolledClubs = ["SV Tora", "SV Tora 3", "SV Tora 4", "SV Tora 7", "Anderer Verein"];
-
-/*
- * TODO: Get all excluded clubs from a tournament (if there's a tournament)
- */
-const excludedClubs = ["SV Tora 5", "Noch was anderes"];
 
 /**
  * This constant contains the amount of rem a single minute represents in timing schedules throughout the application
  * @type {number}
  */
 const ONE_MINUTE_LENGTH = 0.1;
+
+const MAX_TEAM_MEMBERS = 4;
 
 
 /*
@@ -484,7 +467,7 @@ const ONE_MINUTE_LENGTH = 0.1;
  * @param attributes {object} An object containing of key-value-pairs (strings). The key determines which attribute should be set and the value determines the value of the attribute
  * @return {HTMLElement}
  */
-function generateElement(element, classNames = undefined, value = undefined, attributes) {
+function generateElement(element, classNames = undefined, value = undefined, attributes = undefined) {
     let el = document.createElement(element.toUpperCase());
     if (classNames && classNames.constructor === Array) {
         classNames.forEach(function (className) {
@@ -558,6 +541,10 @@ function setCookie(key, value, expiration= 365) {
     document.cookie = key + "=" + value + ";" + expires + ";path=/";
 }
 
+function deleteCookie(key) {
+    setCookie(key, getCookie(key), -365);
+}
+
 /**
  * This function returns the value of a set cookie
  * @param key {string}
@@ -574,8 +561,32 @@ function getCookie(key) {
         if (cookie.indexOf(key) === 0) {
             value = cookie.substring(key.length, cookie.length);
         }
+        value = value.replace("=", "");
     });
     return value;
+}
+
+/**
+ * This function checks if the user is an admin and returns true if it is the case (necessary for some modal window/dynamic contents) (checks for a set meta tag)
+ */
+function isAdmin() {
+    return document.querySelector('meta[name="is-admin"]').content == 1;
+}
+
+/**
+ * This function calculates the age of a given date string in the format of dd.mm.yyyy
+ * @param dateString
+ * @returns {number}
+ */
+function calculateAge(dateString) {
+    let thisYear = new Date();
+    let dateArray = dateString.split(".");
+    let birthDate = new Date(dateArray[2], dateArray[1] - 1, dateArray[0], 0, 0, 0, 0);
+    let age = thisYear.getFullYear() - birthDate.getFullYear();
+    if (thisYear < new Date(birthDate.setFullYear(thisYear.getFullYear()))) {
+        age = age - 1;
+    }
+    return age;
 }
 
 /**
@@ -594,18 +605,15 @@ let generalVariables = {
     tournaments,
     keyToInput,
     sex,
-    clubs,
-    enrolledClubs,
     progressSteps,
-    clubMails,
-    excludedClubs,
     tournamentStatuusOrder,
     tournamentSelectableStatuusOrder,
     categoryStatuusOrder,
     categoryStatuus,
     personTypes,
     fightingSystemTypes,
-    ONE_MINUTE_LENGTH
+    ONE_MINUTE_LENGTH,
+    MAX_TEAM_MEMBERS,
 };
 
 /**
@@ -617,5 +625,8 @@ export {
     createUniqueRandomIdentifier,
     getCookie,
     setCookie,
+    deleteCookie,
+    isAdmin,
+    calculateAge,
     generalVariables
 }

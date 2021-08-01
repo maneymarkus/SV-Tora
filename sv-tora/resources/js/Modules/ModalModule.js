@@ -4,6 +4,7 @@
 
 import { generateElement, generalVariables } from "./GeneralModule";
 import { createSecondaryButton } from "./SecondaryButtonModule";
+import {registerTiltElement} from "./TiltModule";
 
 /**
  * This Module contains code responsible for managing modal windows
@@ -14,7 +15,7 @@ let modalTypes = generalVariables.modalTypes;
 let body = document.querySelector("body");
 let main = document.querySelector("main");
 
-let overlay = undefined;
+let modalWindows = [];
 
 /**
  * This custom event fires when a modal is opened
@@ -34,77 +35,151 @@ let closeModalEvent = new CustomEvent("closeModal", {
     cancelable: true,
 });
 
-/**
- * This event listener is registered to detect the resize of the window
- */
-window.addEventListener("resize", resizeHeaders);
+let ModalWindow = function (modalType, header, content, confirmationCallback, abortionCallback, confirmationCheck) {
+    let This = this;
+    this.modalType = modalType;
+    this.overlay = ModalWindow.createModalWindow(modalType, header, content);
+    this.modalWindowElement = this.overlay.querySelector("div.modal-window");
+    this.mwHeader = this.modalWindowElement.querySelector(".mw-header");
+    this.confirmationCallbackButton = this.modalWindowElement.querySelector(".secondary-button.confirmation-callback-button");
+    this.abortionCallbackButton = this.modalWindowElement.querySelector(".secondary-button.abortion-callback-button");
+    this.closeButton = this.modalWindowElement.querySelector(".primary-button.close-modal");
+
+    this.closeButton.addEventListener("click", function () {
+        if (This.modalType === modalTypes.INFO) {
+            This.confirm();
+        } else {
+            This.abort();
+        }
+    });
+
+    if (this.confirmationCallbackButton) {
+        this.confirmationCallbackButton.addEventListener("click", function () {
+            This.confirm();
+        });
+    }
+
+    if (this.abortionCallbackButton) {
+        this.abortionCallbackButton.addEventListener("click", function () {
+            This.abort();
+        });
+    }
+
+    /**
+     * This function closes a modal window
+     */
+    this.closeModal = function () {
+        if (This.mwHeader) {
+            This.mwHeader.style.removeProperty("height");
+        }
+        This.modalWindowElement.dispatchEvent(closeModalEvent);
+        This.overlay.classList.remove("open");
+        if (main) {
+            main.classList.remove("blur");
+        }
+
+        window.setTimeout(function() {
+            This.overlay.remove();
+            removeModal(This);
+        }, 1000);
+    }
+
+    /**
+     * This function opens a modal window
+     */
+    this.showModal = function () {
+        if (main) {
+            main.classList.add("blur");
+        }
+        body.appendChild(This.overlay);
+        This.modalWindowElement.dispatchEvent(openModalEvent);
+
+        // the document needs this little time offset to apply animations
+        window.setTimeout(function () {
+            This.overlay.classList.add("open");
+        }, 5);
+
+        //after opening the modal window wait 1s to resize the header
+        window.setTimeout(function () {
+            This.resizeHeader();
+        },1000);
+    }
+    this.showModal();
+
+    /**
+     * This function resizes the header of a modal window
+     */
+    this.resizeHeader = function () {
+        let h2 = This.mwHeader.querySelector("h2");
+        let headerHeight = h2.offsetHeight;
+        This.mwHeader.style.height = headerHeight + "px";
+    }
+
+    this.confirm = function () {
+        if (confirmationCheck && typeof confirmationCheck === "function") {
+            if (confirmationCheck()) {
+                This.closeModal();
+                if (confirmationCallback && typeof confirmationCallback === "function") {
+                    confirmationCallback();
+                }
+            }
+        } else {
+            This.closeModal();
+            if (confirmationCallback && typeof confirmationCallback === "function") {
+                confirmationCallback();
+            }
+        }
+    }
+
+    this.abort = function () {
+        This.closeModal();
+        if (abortionCallback && typeof abortionCallback === "function") {
+            abortionCallback();
+        }
+    }
+
+}
 
 /**
  * This function creates a modal window element
  * @param modalType {string} Determines which modal window should be created
  * @param header {string} Sets the heading of the modal window
  * @param content {string || HTMLElement} Sets the content of the element which is either plain text or an HTML element for more complex usages
- * @param yesCallback {function} An optional function reference called when the modal window is "successfully" closed (e.g. delete modal was closed by clicking on "delete")
- * @param noCallback {function} An optional function reference called when the modal window is "unsuccessfully" closed (e.g. delete modal was closed by clicking on "cancel")
- * @param confirmationCheck {function} An optional function reference called when the modal window is tried to be closed "successfully" and checks if the modal window is allowed to close "successfully" (e.g. check if all inputs are filled)
  */
-function createModalFactory(modalType, header, content, yesCallback, noCallback, confirmationCheck) {
+ModalWindow.createModalWindow = function(modalType, header, content) {
     let overlay = generateElement("div", ["overlay"]);
     let baseModal;
     switch (modalType) {
 
         case modalTypes.DELETE:
-            baseModal = createBaseModal(overlay, header, content, noCallback);
+            baseModal = createBaseModal(overlay, header, content);
             let deleteModalFooter = generateElement("div", ["mw-footer"]);
-            let abortDeletionBtn = createSecondaryButton(["abort"], undefined, "Abbrechen");
+            let abortDeletionBtn = createSecondaryButton(["abort", "abortion-callback-button"], undefined, "Abbrechen");
             deleteModalFooter.appendChild(abortDeletionBtn);
-            abortDeletionBtn.addEventListener("click", function () {
-                abortion(overlay, noCallback);
-            });
-            let deleteBtn = createSecondaryButton(["delete"], undefined, "Löschen");
+            let deleteBtn = createSecondaryButton(["delete", "confirmation-callback-button"], undefined, "Löschen");
             deleteModalFooter.appendChild(deleteBtn);
-            deleteBtn.addEventListener("click", function () {
-                confirmation(overlay, yesCallback, confirmationCheck);
-            });
-            baseModal.appendChild(deleteModalFooter);
+            baseModal.querySelector(".mw-body").appendChild(deleteModalFooter);
             overlay.appendChild(baseModal);
             break;
 
         case modalTypes.CONFIRM:
-            baseModal = createBaseModal(overlay, header, content, noCallback);
+            baseModal = createBaseModal(overlay, header, content);
             let confirmModalFooter = generateElement("div", ["mw-footer"]);
-            let abortConfirmationBtn = createSecondaryButton(["abort", "accent-1"], undefined, "Abbrechen");
+            let abortConfirmationBtn = createSecondaryButton(["abort", "accent-1", "abortion-callback-button"], undefined, "Abbrechen");
             confirmModalFooter.appendChild(abortConfirmationBtn);
-            abortConfirmationBtn.addEventListener("click", function () {
-                abortion(overlay, noCallback);
-            });
-            let confirmBtn = createSecondaryButton(["confirm"], undefined, "OK");
+            let confirmBtn = createSecondaryButton(["confirm", "confirmation-callback-button"], undefined, "OK");
             confirmModalFooter.appendChild(confirmBtn);
-            confirmBtn.addEventListener("click", function () {
-                confirmation(overlay, yesCallback, confirmationCheck);
-            });
-            baseModal.appendChild(confirmModalFooter);
+            baseModal.querySelector(".mw-body").appendChild(confirmModalFooter);
             overlay.appendChild(baseModal);
             break;
 
         case modalTypes.INFO:
-            baseModal = createBaseModal(overlay, header, content, noCallback);
+            baseModal = createBaseModal(overlay, header, content);
             overlay.appendChild(baseModal);
             let infoModalFooter = generateElement("div", ["mw-footer"]);
-            let infoModalBtn = createSecondaryButton(["confirm"], undefined, "OK");
+            let infoModalBtn = createSecondaryButton(["confirm", "confirmation-callback-button"], undefined, "OK");
             infoModalFooter.appendChild(infoModalBtn);
-            infoModalBtn.addEventListener("click", function () {
-                if (yesCallback) {
-                    yesCallback();
-                }
-                closeModalWindow(overlay);
-            });
-            baseModal.querySelector("a.close").addEventListener("click", function () {
-                if (yesCallback) {
-                    yesCallback();
-                }
-            });
-            baseModal.appendChild(infoModalFooter);
+            baseModal.querySelector(".mw-body").appendChild(infoModalFooter);
             break;
 
         case modalTypes.CUSTOM:
@@ -113,42 +188,43 @@ function createModalFactory(modalType, header, content, yesCallback, noCallback,
             let closeBtn = generateElement("a", ["primary-button", "close-modal", "close", "red"]);
             closeBtn.appendChild(generateElement("i", ["material-icons"], "close"));
             closeBtn.appendChild(generateElement("p", [], "Schließen"));
-            baseModal.appendChild(closeBtn);
-            closeBtn.addEventListener("click", function () {
-                abortion(overlay, noCallback);
-            });
-
+            baseModal.querySelector(".mw-body").appendChild(closeBtn);
 
             if (content) {
                 baseModal.appendChild(content);
             }
 
             break;
-
     }
-    showModalWindow(overlay);
+    return overlay;
 }
+
+/**
+ * This event listener is registered to detect the resize of the window
+ */
+window.addEventListener("resize", function () {
+    modalWindows.forEach((modal) => {
+        modal.resizeHeader();
+    });
+});
 
 /**
  * This function creates the base modal same for all types of modals (header, close button, content container)
  * @param overlay {HTMLElement} The overlay to which the modal window should be appended
  * @param header {string} The heading of the modal window
  * @param content {string || HTMLElement} Sets the content of the element which is either plain text or an HTML element for more complex usages
- * @param noCallback {function} An optional function reference called when the modal window is "unsuccessfully closed" (e.g. delete modal was closed by clicking on "cancel")
  * @return {HTMLElement}
  */
-function createBaseModal(overlay, header, content, noCallback) {
+function createBaseModal(overlay, header, content) {
     let modal = generateElement("div", ["modal-window"]);
     let closeBtn = generateElement("a", ["primary-button", "close-modal", "close", "red"]);
     closeBtn.appendChild(generateElement("i", ["material-icons"], "close"));
     closeBtn.appendChild(generateElement("p", [], "Schließen"));
     modal.appendChild(closeBtn);
-    closeBtn.addEventListener("click", function () {
-        abortion(overlay, noCallback);
-    });
     let modalHeader = generateElement("div", ["mw-header"]);
     modalHeader.appendChild(generateElement("h2", [], header));
     modal.appendChild(modalHeader);
+    let modalBody = generateElement("div", ["mw-body"]);
     let modalContent = generateElement("div", ["mw-content"]);
     if (isElement(content)) {
         modalContent.appendChild(content);
@@ -159,7 +235,8 @@ function createBaseModal(overlay, header, content, noCallback) {
     } else {
         modalContent.appendChild(generateElement("p", [], content));
     }
-    modal.appendChild(modalContent);
+    modalBody.appendChild(modalContent);
+    modal.appendChild(modalBody);
     return modal;
 }
 
@@ -168,92 +245,7 @@ function isElement(o){
     return (typeof HTMLElement === "object" ? o instanceof HTMLElement : o && typeof o === "object" && true && o.nodeType === 1 && typeof o.nodeName==="string");
 }
 
-/**
- * This function aborts a modal window (modal window is now closed "unsuccessfully")
- * @param overlay {HTMLElement} The respective overlay (parent) element of the modal which should be closed
- * @param noCallback {function} An optional function reference called when the modal window is "unsuccessfully closed" (e.g. delete modal was closed by clicking on "cancel")
- */
-function abortion(overlay, noCallback) {
-    closeModalWindow(overlay);
-    if (noCallback) {
-        noCallback();
-    }
-}
-
-/**
- * This function closes a modal window "successfully" (e.g. clicking on "delete")
- * @param overlay {HTMLElement} The respective overlay (parent) element of the modal which should be closed
- * @param yesCallback {function} An optional function reference called when the modal window is "successfully" closed (e.g. delete modal was closed by clicking on "delete")
- * @param confirmationCheck {function} An optional function reference called when the modal window is tried to be closed "successfully" and checks if the modal window is allowed to close "successfully" (e.g. check if all inputs are filled)
- */
-function confirmation(overlay, yesCallback, confirmationCheck) {
-    if (confirmationCheck && typeof confirmationCheck === "function") {
-        if (confirmationCheck()) {
-            closeModalWindow(overlay);
-            yesCallback();
-        }
-    } else {
-        closeModalWindow(overlay);
-        yesCallback();
-    }
-}
-
-/**
- * This function universally closes a modal window
- * @param overlay {HTMLElement} The respective overlay (parent) element of the modal which should be closed
- */
-function closeModalWindow(overlay) {
-    if (overlay.querySelector(".mw-header")) {
-        let mwHeader = overlay.querySelector(".mw-header");
-        mwHeader.style.removeProperty("height");
-    }
-    overlay.querySelector("div.modal-window").dispatchEvent(closeModalEvent);
-    overlay.classList.remove("open");
-    if (main) {
-        main.classList.remove("blur");
-    }
-
-    window.setTimeout(function() {
-        overlay.remove();
-    }, 1000);
-}
-
-/**
- * This function shows a modal window
- * @param overlay {HTMLElement} The respective overlay (parent) element of the modal which should be closed
- */
-function showModalWindow(overlay) {
-    if (main) {
-        main.classList.add("blur");
-    }
-    body.appendChild(overlay);
-    overlay.querySelector("div.modal-window").dispatchEvent(openModalEvent);
-
-    // the document needs this little time offset to apply animations
-    window.setTimeout(function () {
-        overlay.classList.add("open");
-    }, 5);
-
-    //after opening the modal window wait 1s to resize the header
-    window.setTimeout(function () {
-        resizeHeaders(overlay);
-    },1000);
-}
-
-/**
- * This function handles the resize of the window to resize all the headers of the modal windows currently active
- */
-function resizeHeaders() {
-    let overlays = document.querySelectorAll(".overlay");
-    overlays.forEach((overlay) => {
-        if (overlay.querySelector(".mw-header")) {
-            let mwHeader = overlay.querySelector(".mw-header");
-            let h2 = overlay.querySelector(".mw-header h2");
-            let headerHeight = h2.offsetHeight;
-            mwHeader.style.height = headerHeight + "px";
-        }
-    });
-}
+let overlay = undefined;
 
 /**
  * This function appends a generic overlay to the body element
@@ -279,6 +271,15 @@ function removeOverlay() {
     }, 1000);
 }
 
+
+/**
+ * This function removes a modal from the modalWindows array
+ */
+function removeModal(removeModal) {
+    modalWindows.splice(modalWindows.indexOf(removeModal), 1);
+    removeModal = undefined;
+}
+
 /**
  * This function creates and shows a delete modal window
  * @param header {string} Sets the heading of the modal window
@@ -288,7 +289,9 @@ function removeOverlay() {
  * @param confirmationCheck {function} An optional function reference called when the modal window is tried to be closed "successfully" and checks if the modal window is allowed to close "successfully" (e.g. check if all inputs are filled)
  */
 function deleteModal(header, content, deleteCallback, abortCallback, confirmationCheck) {
-    createModalFactory(modalTypes.DELETE, header, content, deleteCallback, abortCallback, confirmationCheck);
+    let newModal = new ModalWindow(modalTypes.DELETE, header, content, deleteCallback, abortCallback, confirmationCheck);
+    modalWindows.push(newModal);
+    return newModal;
 }
 
 /**
@@ -300,7 +303,9 @@ function deleteModal(header, content, deleteCallback, abortCallback, confirmatio
  * @param confirmationCheck {function} An optional function reference called when the modal window is tried to be closed "successfully" and checks if the modal window is allowed to close "successfully" (e.g. check if all inputs are filled)
  */
 function confirmModal(header, content, confirmCallback, abortCallback, confirmationCheck) {
-    createModalFactory(modalTypes.CONFIRM, header, content, confirmCallback, abortCallback, confirmationCheck);
+    let newModal = new ModalWindow(modalTypes.CONFIRM, header, content, confirmCallback, abortCallback, confirmationCheck);
+    modalWindows.push(newModal);
+    return newModal;
 }
 
 /**
@@ -310,7 +315,9 @@ function confirmModal(header, content, confirmCallback, abortCallback, confirmat
  * @param callback {function} An optional function reference called when the modal window is "successfully" closed (the user clicked on "OK")
  */
 function infoModal(header, content, callback) {
-    createModalFactory(modalTypes.INFO, header, content, callback, undefined, undefined);
+    let newModal = new ModalWindow(modalTypes.INFO, header, content, callback, undefined, undefined);
+    modalWindows.push(newModal);
+    return newModal;
 }
 
 /**
@@ -319,7 +326,9 @@ function infoModal(header, content, callback) {
  * @param abortCallback {function} An optional function reference called when the modal window is "unsuccessfully" closed (in this case the user clicked on the modal window close button)
  */
 function customModal(content, abortCallback) {
-    createModalFactory(modalTypes.CUSTOM, undefined, content, undefined, abortCallback, undefined);
+    let newModal = new ModalWindow(modalTypes.CUSTOM, undefined, content, undefined, abortCallback, undefined);
+    modalWindows.push(newModal);
+    return newModal;
 }
 
 /**
@@ -332,5 +341,4 @@ export {
     customModal,
     appendOverlay,
     removeOverlay,
-    closeModalWindow
 }

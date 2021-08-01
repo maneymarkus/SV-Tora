@@ -24,15 +24,24 @@
             </a>
             <span class="bg"></span>
         </li>
-        <li>
-            <a href="/entities/clubs">
-                <span class="text">Vereine</span>
-            </a>
-            <span class="bg"></span>
-        </li>
+        @can("admin")
+            <li>
+                <a href="/entities/clubs">
+                    <span class="text">Vereine</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+        @else
+            <li>
+                <a href="{{ url("/entities/clubs/" . auth()->user()->club->id) }}">
+                    <span class="text">Verein</span>
+                </a>
+                <span class="bg"></span>
+            </li>
+        @endcan
         <li>
             <a href="/tournament/dashboard">
-                <span class="text">Wettkampf</span>
+                <span class="text">Wettkampf-Dashboard</span>
             </a>
             <span class="bg"></span>
         </li>

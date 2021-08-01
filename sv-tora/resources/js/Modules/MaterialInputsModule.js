@@ -57,7 +57,7 @@ let Error = function (errorType, errorMessage) {
             classes.push("customError");
     }
 
-    let errorSpan = GeneralModule.generateElement("SPAN", ["error"].concat(classes));
+    let errorSpan = GeneralModule.generateElement("SPAN", ["input-error"].concat(classes));
     errorSpan.appendChild(GeneralModule.generateElement("I", ["material-icons"], "error_outline"));
     errorSpan.appendChild(GeneralModule.generateElement("SPAN", ["message"], this.errorMessage));
     this.errorElement = errorSpan;
@@ -224,7 +224,7 @@ class Input {
     revokeInputError(errorType) {
         this.errors.forEach((error) => {
             if (error.errorType === errorType) {
-                this.inputContainer.querySelector(".error").remove();
+                this.inputContainer.querySelector(".input-error").remove();
                 this.errors[this.errors.indexOf(error)] = undefined;
             }
         });
@@ -430,7 +430,7 @@ class Select extends Input {
      *
      * @param classNames {string[]} Contains classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
      * @param name {string} Sets the name attribute on the input element for identification in general
-     * @param placeholder {string} Either sets the placeholder value for almost all input types or sets the text which accompanies the switch, checkbox or radio button
+     * @param placeholder {string} This is the original placeholder value
      * @param options {string[] || object} This should be an array of strings to determine the different options for the select or this is an array of objects with the properties "text", "value", "checked" for the different options of checkboxes and radio buttons
      * @returns {object}
      */
@@ -1110,7 +1110,7 @@ class RadioButtons extends Input {
             input.setAttribute("type", "radio");
             input.setAttribute("value", option["value"]);
             input.setAttribute("name", name);
-            if (option.hasOwnProperty("disabled") && option["checked"]) {
+            if (option.hasOwnProperty("checked") && option["checked"]) {
                 input.setAttribute("checked", "checked");
             }
             if (option.hasOwnProperty("disabled") && option["disabled"]) {
@@ -1194,7 +1194,7 @@ class Checkboxes extends Input {
             input.setAttribute("type", "checkbox");
             input.setAttribute("value", option["value"]);
             input.setAttribute("name", name);
-            if (option.hasOwnProperty("disabled") && option["checked"]) {
+            if (option.hasOwnProperty("checked") && option["checked"]) {
                 input.setAttribute("checked", "checked");
             }
             if (option.hasOwnProperty("disabled") && option["disabled"]) {
@@ -1400,12 +1400,13 @@ class Switch extends Input {
      * @param classNames {string[]} Contains classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
      * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)
      * @param name {string} Sets the name attribute on the input element for identification in general
+     * @param text {string} Is the accompanying descriptive text
      * @param value {string} Sets the value attribute
      * @param checked {boolean} Optional: Determines if switch to be checked
      * @returns {object}
      */
     static createInput(classNames, inputId, name, text, value, checked) {
-        if (!value) {
+        if (!value && text !== undefined) {
             value = text;
         }
 
@@ -1423,7 +1424,9 @@ class Switch extends Input {
         }
         switchContainer.appendChild(input);
         switchContainer.appendChild(GeneralModule.generateElement("span", ["switch"]));
-        switchContainer.appendChild(GeneralModule.generateElement("span", ["text"], text));
+        if (text !== undefined) {
+            switchContainer.appendChild(GeneralModule.generateElement("span", ["text"], text));
+        }
 
         let newSwitch = new Switch(switchContainer);
         inputs.push(newSwitch);
@@ -1462,6 +1465,10 @@ class FileInput extends Input {
         if (!this.hasUserInput()) {
             this.userInput = true;
         }
+    }
+
+    getValue() {
+        return this.inputElement.value;
     }
 
     /**
@@ -1585,7 +1592,8 @@ class RangeInput extends Input {
 
     setValue(newValue) {
         if (newValue && newValue >= this.getMin() && newValue <= this.getMax()) {
-            this.input.value = newValue + "";
+            this.input.value = newValue;
+            this.rangeValueSpan.innerHTML = newValue + "";
         }
     }
 
@@ -1622,7 +1630,7 @@ class RangeInput extends Input {
      * @return {RangeInput}
      */
     static createInput(classes, id, name, text, initialValue) {
-        let container = GeneralModule.generateElement("div", ["range-input-container"].concat(classes));
+        let container = GeneralModule.generateElement("div", ["range-input-container", "input-container"].concat(classes));
         let label = GeneralModule.generateElement("label", ["range-label"], text + " ", {"for":id})
         label.appendChild(GeneralModule.generateElement("span", ["range-value"], (initialValue) ? initialValue + "" : "0"));
         container.appendChild(label);
@@ -1748,7 +1756,7 @@ function terminateQuickInput(callback, inputValidation) {
 }
 
 /**
- * This function creates an input element and the responsible object and returns the object@param inputType {string} Enum which determines the input to be created
+ * This function creates an input element and the responsible object and returns the object
  * @param inputType {string} The inputType that should be created
  * @param classNames {string[]} Contains classes to be applied to the container element (these classes also control input validation for text input fields. See concrete text input creation function for further details)
  * @param inputId {string} Optional: Sets the id for the input (if none set then a random id is generated to make the labels work)

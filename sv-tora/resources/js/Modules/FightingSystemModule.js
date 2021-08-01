@@ -33,6 +33,14 @@ function customChangeFightingSystemModal (heading, content, abortCallback, confi
     container.appendChild(content);
 
     let abortButton = createPrimaryButton(["close"], undefined, "close", "Abbrechen");
+
+    let confirmButton = createPrimaryButton(["apply-changes"], undefined, "done", "Änderungen anwenden");
+
+    container.appendChild(abortButton);
+    container.appendChild(confirmButton);
+
+    let ModalWindow = ModalModule.customModal(container, abortCallback);
+
     abortButton.addEventListener("click", function () {
         if (abortCallback) {
             abortCallback();
@@ -41,9 +49,9 @@ function customChangeFightingSystemModal (heading, content, abortCallback, confi
         while (overlay.nodeName !== "BODY" && !overlay.classList.contains("overlay")) {
             overlay = overlay.parentElement;
         }
-        ModalModule.closeModalWindow(overlay);
+        ModalWindow.closeModal();
     });
-    let confirmButton = createPrimaryButton(["apply-changes"], undefined, "done", "Änderungen anwenden");
+
     confirmButton.addEventListener("click", function () {
         if (confirmCallback) {
             confirmCallback();
@@ -52,13 +60,9 @@ function customChangeFightingSystemModal (heading, content, abortCallback, confi
         while (overlay.nodeName !== "BODY" && !overlay.classList.contains("overlay")) {
             overlay = overlay.parentElement;
         }
-        ModalModule.closeModalWindow(overlay);
+        ModalWindow.closeModal();
     });
 
-    container.appendChild(abortButton);
-    container.appendChild(confirmButton);
-
-    ModalModule.customModal(container, abortCallback);
 }
 
 /**

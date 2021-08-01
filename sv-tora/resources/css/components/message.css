@@ -78,6 +78,7 @@
     right: unset;
     bottom: unset;
     animation: none !important;
+    z-index: 10 !important;
 }
 
 .darkmode .message .notification {
@@ -153,7 +154,7 @@
 .message .notification p {
     display: inline-block;
     width: calc(100% - 4em);
-    opacity: 1;
+    opacity: 1 !important;
     max-height: unset;
     padding-left: unset;
     padding-right: unset;
