@@ -11,6 +11,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RefereeController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TournamentTemplateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +33,7 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $key = "fight_time_in_seconds";
-    return json_encode(\App\Models\GlobalSetting::getSetting($key));
+    return view("test");
 });
 
 
@@ -131,21 +131,25 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         return view("Entities.persons");
     });
 
-    Route::resource("/entities/fighters", FighterController::class)->except(["create", "show"]);
+    Route::resource("/entities/users", UserController::class)->except(["create", "store", "edit"]);
 
-    Route::resource("/entities/coaches", CoachController::class)->except(["create", "show"]);
+    Route::resource("/entities/fighters", FighterController::class)->except(["show"]);
 
-    Route::resource("/entities/referees", RefereeController::class)->except(["create", "show"]);
+    Route::resource("/entities/coaches", CoachController::class)->except(["show"]);
 
-    Route::resource("/entities/helpers", HelperController::class)->except(["create", "show"]);
+    Route::resource("/entities/referees", RefereeController::class)->except(["show"]);
 
-    Route::resource("/entities/teams", TeamController::class)->except(["create", "show"]);
+    Route::resource("/entities/helpers", HelperController::class)->except(["show"]);
+
+    Route::resource("/entities/teams", TeamController::class)->except(["show"]);
 
     Route::get("/entities/teams/{team}/fighters", [TeamController::class, "showFighters"]);
 
-    Route::get("/entities/teams/{team}/fighters/add", [TeamController::class, "selectFighters"]);
+    Route::get("/entities/teams/{team}/fighters/create", [TeamController::class, "addFighters"]);
 
-    Route::post("/entities/teams/{team}/fighters", [TeamController::class, "addFighters"]);
+    Route::get("/entities/teams/{team}/fighters/select", [TeamController::class, "selectFighters"]);
+
+    Route::post("/entities/teams/{team}/fighters", [TeamController::class, "addFightersToTeam"]);
 
     Route::delete("/entities/teams/{team}/fighters/{fighter}", [TeamController::class, "removeFighter"]);
 
@@ -232,9 +236,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
 
         Route::resource("/settings", GlobalSettingController::class)->except(["create", "store", "show", "edit", "destroy"]);
 
-        Route::get("/settings/tournaments", function () {
-            return view("Settings.tournament-templates");
-        });
+        Route::resource("/settings/tournament-templates", TournamentTemplateController::class)->except(["show"]);
 
         Route::get("/settings/categories", function () {
             return view("Settings.categories");
@@ -245,9 +247,11 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          *      Entity Routes                                         *
          **************************************************************/
 
-        Route::resource("/entities/clubs", ClubController::class)->except(["create"]);
+        Route::resource("/entities/clubs", ClubController::class);
 
-        Route::resource("/entities/users", UserController::class)->except(["create", "store"]);
+        Route::get("/entities/users/{user}/admin/edit", [UserController::class, "editByAdmin"]);
+
+        Route::put("/entities/users/{user}/admin", [UserController::class, "updateByAdmin"]);
 
         Route::get("/entities/admins", function () {
             return view("Entities.admins");

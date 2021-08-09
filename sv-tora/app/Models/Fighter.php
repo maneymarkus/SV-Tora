@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Helper\GeneralHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Fighter extends Model
 {
@@ -30,6 +32,23 @@ class Fighter extends Model
 
     public function teams() {
         return $this->belongsToMany(Team::class);
+    }
+
+    public static function editableProperties(Fighter $fighter = null) {
+        $editableProperties = Person::editableProperties($fighter?->person);
+
+        $editableProperties = array_merge($editableProperties, [
+            "Alter" => $fighter?->birthdate,
+            "Geschlecht" => GeneralHelper::addOtherChoosableOptions("sex", $fighter?->sex),
+            "Graduierung" => GeneralHelper::addOtherChoosableOptions("graduations", $fighter?->graduation),
+        ]);
+
+        if (Auth::user()->isAdmin()) {
+            unset($editableProperties["Verein"]);
+            $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $fighter?->club->name)]);
+        }
+
+        return $editableProperties;
     }
 
     public static function tableHeadings() {

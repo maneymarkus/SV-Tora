@@ -10,6 +10,7 @@ use App\Policies\CoachPolicy;
 use App\Policies\FighterPolicy;
 use App\Policies\PersonPolicy;
 use App\Policies\TeamPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -24,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         Person::class => PersonPolicy::class,
         Fighter::class => FighterPolicy::class,
         Team::class => TeamPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

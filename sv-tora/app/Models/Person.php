@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Helper\GeneralHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Person extends Model
 {
@@ -25,6 +27,19 @@ class Person extends Model
 
     public function club() {
         return $this->belongsTo(Club::class);
+    }
+
+    public static function editableProperties(Person $person = null) {
+        $editableProperties = [
+            "Vorname" => $person?->first_name,
+            "Nachname" => $person?->last_name,
+        ];
+
+        if (Auth::user()->isAdmin()) {
+            $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $person?->club->name)]);
+        }
+
+        return $editableProperties;
     }
 
     public static function tableHeadings() {

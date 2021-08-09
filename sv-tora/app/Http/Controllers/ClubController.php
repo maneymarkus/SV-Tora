@@ -44,6 +44,16 @@ class ClubController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return json_encode(Club::editableProperties());
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -80,10 +90,7 @@ class ClubController extends Controller
      */
     public function edit(Club $club)
     {
-        $editableProperties = [
-            "Name" => $club->name,
-        ];
-        return json_encode($editableProperties);
+        return json_encode(Club::editableProperties($club));
     }
 
     /**
@@ -109,7 +116,7 @@ class ClubController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Club $club)
+    public function destroy(Club $club)
     {
         if ($club === null) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Dieser Verein existiert nicht in der Datenbank.");

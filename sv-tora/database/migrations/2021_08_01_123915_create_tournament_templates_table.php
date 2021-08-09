@@ -15,6 +15,14 @@ class CreateTournamentTemplatesTable extends Migration
     {
         Schema::create('tournament_templates', function (Blueprint $table) {
             $table->id();
+            $table->string("tournament_name")->unique();
+            $table->unsignedInteger("age_min");
+            $table->unsignedInteger("age_max");
+            $table->enum("graduation_min", config("global.graduations"));
+            $table->enum("graduation_max", config("global.graduations"));
+            $table->boolean("teams")->default("false");
+            $table->boolean("kihon")->default("false");
+
             $table->timestamps();
         });
     }

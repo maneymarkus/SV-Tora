@@ -1,4 +1,4 @@
-@extends("layouts.layout", ["title" => "Test"])
+@extends("layouts.base-template", ["title" => "Test"])
 
 @push("styles")
     <!-- Specific style -->
@@ -38,23 +38,29 @@ $columns = [
 
 $rows = [
     [
-        "Wert 1",
-        "Wert 2"
+        "data" => [
+            "Wert 1",
+            "Wert 2"
+        ]
     ],
     [
-        "Wert 3",
-        "Wert 4"
+        "data" => [
+            "Wert 3",
+            "Wert 4"
+        ]
     ],
     [
-        "Wert 5",
-        "Wert 6"
+        "data" => [
+            "Wert 5",
+            "Wert 6"
+        ]
     ],
 ];
 
 
 @endphp
 
-@section("content")
+@section("body-content")
 
     <x-card class="some-card" title="Karte" number="1" href="#"></x-card>
 
@@ -109,7 +115,13 @@ $rows = [
 
     <x-inputs.time-input name="Zeit"></x-inputs.time-input>
 
-    <x-table class="smartphone-optimized" :columns="$columns" :rows="$rows" actions="true" filter="true" editable="false" deletable="true" selectable="false">
+    <x-table :columns="$columns" :rows="$rows" actions="false" filter="true" editable="false" deletable="false" selectable="false">
     </x-table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            App.NotificationModule.createNotification(App.GeneralModule.generalVariables.notificationTypes.INFO, "Wichtige Info sdjfhsakjdhfkls kja sdhfs dhakjla sdhfklj  asdkjlhaskljdf hashdfhsadkjl hklja dskjhsadkjfhsjalk kjsahd fkjhasdkjfhalskjdhfoiahglkjsdfdhgoiawhegl.nsyboieraglkawenr goihaöl gsafgv,.m fnveroigjalekgnoyhfvl nal gsklfjb öarnr gnaöobhaölgnrkljfsdbv nakg nöoa naös nhgoiöarng lkjjnbdsofiöjaelögh agn aoiöreg  gag oiöaergölg naerklgvnhaoergnlkjöynfb lökna laenrlkr lr geraölg neragh iö hnöalönrgölianerg lijdsfb ne eri ernhg öoaerh");
+        });
+    </script>
 
 @endsection

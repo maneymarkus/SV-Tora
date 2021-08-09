@@ -482,6 +482,18 @@ body {
     --theme-color-4: #9D9D9D;
     --theme-color-5: #4D4D4D;
 
+    --theme-color-1-light: #E5E5E5;
+    --theme-color-2-light: #FFFFFF;
+    --theme-color-3-light: #C8C8C8;
+    --theme-color-4-light: #9D9D9D;
+    --theme-color-5-light: #4D4D4D;
+
+    --theme-color-1-dark: #171717;
+    --theme-color-2-dark: #222222;
+    --theme-color-3-dark: #303030;
+    --theme-color-4-dark: #4a4a4a;
+    --theme-color-5-dark: #9b9b9b;
+
     --disabled-light: #A0A0A0;
     --disabled-dark: #727272;
 
@@ -571,7 +583,7 @@ body.darkmode:before {
 }
 
 main {
-    padding: 7.5rem 1.5rem 7rem;
+    padding: 7.5rem 1.5rem 7rem 3rem;
     position: relative;
     width: 100%;
     height: 100%;
@@ -838,7 +850,7 @@ a.go-back i {
     }
 
     main {
-        padding: 7.5rem 2rem 7rem;
+        padding: 7.5rem 2rem 7rem 4rem;
     }
 
     .oversize-container {
@@ -2358,7 +2370,7 @@ header:before {
     left: 0;
     width: 100%;
     height: 150%;
-    background-color: var(--theme-color-1);
+    background-color: var(--theme-color-1-dark);
     z-index: -1;
     border-radius: 0 0 50% 50%/0 0 75% 75%;
     box-shadow: 0 0 10px 3px var(--box-shadow);
@@ -2367,16 +2379,12 @@ header:before {
 
 header div.logo {
     position: relative;
-    background-image: url("/images/Logo_dark.png");
+    background-image: url("/images/Logo_light.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     height: 25px;
     transition: 0.5s ease;
-}
-
-.darkmode header div.logo {
-    background-image: url("/images/Logo_light.png");
 }
 
 header > a {
@@ -2385,15 +2393,15 @@ header > a {
     border-radius: 10%;
     width: 5rem;
     height: 5rem;
-    background-color: var(--theme-color-1);
+    background-color: var(--theme-color-1-dark);
     text-align: center;
     top: -0.5rem;
-    box-shadow: 0 0 10px 3px var(--box-shadow);
+    box-shadow: 0 0 10px 3px black;
     transition: 0.5s ease;
     cursor: pointer;
     z-index: 2;
     text-decoration: none;
-    color: var(--text-color);
+    color: white;
 }
 
 header > a:hover,
@@ -2421,7 +2429,7 @@ header .profile {
 
 .header > a:hover i,
 .header > a:focus i {
-    color: var(--text-color);
+    color: white;
 }
 
 @media only screen and (min-width: 600px) {
@@ -3083,6 +3091,11 @@ header .profile {
 
 }
 
+h3.input-heading {
+    margin-bottom: 0.25em;
+}
+
+
 /*
     ERROR MESSAGE (Applies to almost all input-containers
  */
@@ -3162,11 +3175,6 @@ span.input-error .message {
 
 .switch-container input:checked + .switch {
     background-color: var(--accent-color-1-dark);
-}
-
-.switch-container input:focus + .switch:before  {
-    background-color: var(--theme-color-4);
-    box-shadow: 0 0 5px 0 var(--box-shadow);
 }
 
 .switch-container:hover .switch,
@@ -4626,6 +4634,7 @@ textarea.incorrect {
     bottom: unset;
     -webkit-animation: none !important;
             animation: none !important;
+    z-index: 10 !important;
 }
 
 .darkmode .message .notification {
@@ -4701,7 +4710,7 @@ textarea.incorrect {
 .message .notification p {
     display: inline-block;
     width: calc(100% - 4em);
-    opacity: 1;
+    opacity: 1 !important;
     max-height: unset;
     padding-left: unset;
     padding-right: unset;
@@ -5025,24 +5034,14 @@ nav.nav {
     visibility: hidden;
     opacity: 0;
     background:
-        radial-gradient(white 15%, transparent 16%) 0 0,
-        radial-gradient(white 15%, transparent 16%) 10px 10px,
-        radial-gradient(rgba(0,0,0,.1) 15%, transparent 20%) 0 1px,
-        radial-gradient(rgba(0,0,0,.1) 15%, transparent 20%) 10px 11px;
-    background-color: rgba(225, 225, 225, 0.9);
-    background-size: 20px 20px;
-    -webkit-backdrop-filter: blur(5px);
-            backdrop-filter: blur(5px);
-}
-
-.darkmode nav.nav {
-    background:
         radial-gradient(black 15%, transparent 16%) 0 0,
         radial-gradient(black 15%, transparent 16%) 10px 10px,
         radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
         radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 10px 11px;
     background-color: rgba(30, 30, 30, 0.9);
     background-size: 20px 20px;
+    -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
 }
 
 nav.nav.open {
@@ -5098,7 +5097,7 @@ nav.nav ul a {
     position: relative;
     display: block;
     text-decoration: none;
-    color: var(--text-color);
+    color: white;
     font-size: 3rem;
     width: 100%;
     height: 100%;
@@ -5224,19 +5223,19 @@ nav.nav .image-container img {
 
 .notification {
     position: fixed;
-    height: 4.5em;
-    width: 4.5em;
-    right: -6em;
-    bottom: 2em;
-    padding: 0.5em;
-    transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 1.25s;
+    height: 4.5rem;
+    width: 4.5rem;
+    right: -6rem;
+    bottom: 2rem;
+    padding: 0.5rem;
+    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 1.25s, height 0.5s ease;
     overflow: hidden;
     transform-origin: 50% 100%;
     z-index: 100001;
 }
 
 .notification.visible {
-    transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 0s;
+    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 0s;
     right: 2em;
 }
 
@@ -5244,15 +5243,14 @@ nav.nav .image-container img {
 .notification.visible.success:hover,
 .notification.visible.error,
 .notification.visible.error:hover {
-    height: 5em;
     width: calc(100% - 4rem);
 }
 
 .notification.visible:hover {
-    height: 7em;
     width: calc(100% - 4rem);
+    height: auto;
     background: rgba(61, 118, 225, 0.9);
-    transition: width 0.75s ease 0s, height 0.5s ease 0.75s;
+    transition: width 0.75s ease 0s;
     -webkit-animation-play-state: paused;
             animation-play-state: paused;
 }
@@ -5352,7 +5350,7 @@ nav.nav .image-container img {
 .notification .symbol {
     position: absolute;
     top: 50%;
-    left: 0.25em;
+    left: 1rem;
     transform: translateY(-50%);
     font-size: 2.5em;
 }
@@ -6482,6 +6480,10 @@ h2.table-heading {
     font-size: 0.5em;
 }
 
+.table td .error {
+    padding: 0;
+}
+
 @media only screen and (min-width: 600px) {
 
 }
@@ -7001,34 +7003,35 @@ div.chosen-filters {
 
 
 .tt-trigger {
-  color: var(--accent-color-1-dark);
-  cursor: pointer;
-  vertical-align: middle;
+    color: var(--accent-color-1-dark);
+    cursor: pointer;
+    display: inline-block;
 }
 
 .tt-trigger i {
-  font-size: 3rem;
-  transition: 0.2s ease;
+    vertical-align: sub;
+    font-size: 2em;
+    transition: 0.2s ease;
 }
 
 .tt-trigger:hover i {
-  color: var(--accent-color-1-light);
-  transform: scale(1.2);
+    color: var(--accent-color-1-light);
+    transform: scale(1.2);
 }
 
 .tippy-box[data-theme~='svtora'] {
-  font-size: 1.3rem;
-  background-color: var(--theme-color-1);
-  padding: 0.2rem 0.4rem;
-  color: var(--text-color);
-  text-shadow: 1px 1px 2px var(--text-shadow);
-  box-shadow: 0 2px 10px 3px var(--box-shadow), 0 0 0 2px var(--accent-color-1-light) inset;
-  word-wrap: break-word;
+    font-size: 1rem;
+    background-color: var(--theme-color-1);
+    padding: 0.2rem;
+    color: var(--text-color);
+    text-shadow: 1px 1px 2px var(--text-shadow);
+    box-shadow: 0 2px 10px 3px var(--box-shadow), 0 0 0 2px var(--accent-color-1-light) inset;
+    word-wrap: break-word;
 }
 
 .tippy-box[data-theme~='svtora'] > .tippy-svg-arrow {
-  fill: var(--accent-color-1-light);
-  transform: scale(1.5);
+    fill: var(--accent-color-1-light);
+    transform: scale(1.5);
 }
 
 @media only screen and (min-width: 600px) {

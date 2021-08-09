@@ -307,18 +307,14 @@ let Table = function(table) {
     /**
      * This function initializes the addition of a new entity/element to the table. This sets up a modal window that asks the user for the required input and calls the addEntity method afterwards
      */
-    this.addingEntity = function (entity, url) {
-        // clone the array not just store the reference!
-        let keys = This.dataColumns.slice();
-
-        let object = TranslationModule.translateRowToObject(keys, undefined);
-        let container = TranslationModule.translateObjectToInputs(object, true);
+    this.addingEntity = function (inputData, entity, url) {
+        let container = TranslationModule.translateObjectToInputs(inputData, true);
         let ModalWindow = ModalModule.confirmModal(entity + " erstellen", container, undefined, undefined, function () {
             if (!checkForm(container, true)) {
                 return false;
             } else {
                 let data = TranslationModule.translateInputsToObject(container);
-                sendRequest(generalVariables.requests.POST, url, () => {ModalWindow.closeModal(); This.addEntity()}, data, true);
+                sendRequest(generalVariables.requests.POST, url, () => { ModalWindow.closeModal(); This.addEntity() }, data, true);
             }
         });
     }

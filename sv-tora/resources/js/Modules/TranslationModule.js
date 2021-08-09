@@ -30,7 +30,9 @@ function translateKeyToInput(object, required) {
     if (required) {
         requiredClass = "required";
     }
+    let container = generateElement("div");
     let inputObject = undefined;
+    let heading = undefined;
     if (keyToInput.has(key.toLowerCase())) {
         let inputType = keyToInput.get(key.toLowerCase());
         switch (inputType) {
@@ -39,24 +41,31 @@ function translateKeyToInput(object, required) {
                 if (value) {
                     inputObject.setValue(value);
                 }
+                container.appendChild(inputObject.inputContainer);
                 break;
             case inputTypes.RADIO:
             case inputTypes.CHECKBOX:
+                heading = generateElement("h3", ["input-heading"], key);
                 inputObject = MaterialInputsModule.createInput(inputType, [requiredClass], undefined, key, undefined, undefined, undefined, value);
+                container.appendChild(heading);
+                container.appendChild(inputObject.inputContainer);
                 break;
             case inputTypes.DATE:
                 inputObject = MaterialInputsModule.createInput(inputType, [requiredClass], undefined, key, key, undefined, undefined, undefined)
                 if (value) {
                     inputObject.setValue(value);
                 }
+                container.appendChild(inputObject.inputContainer);
                 break;
             case inputTypes.TIME:
                 inputObject = MaterialInputsModule.createInput(inputType, [requiredClass], undefined, key, key, undefined, undefined, undefined)
                 if (value) {
                     inputObject.setValue(value);
                 }
+                container.appendChild(inputObject.inputContainer);
                 break;
             case inputTypes.SELECT:
+                heading = generateElement("h3", ["input-heading"], key);
                 let options = [];
                 let selected = undefined;
                 value.forEach((item) => {
@@ -67,14 +76,19 @@ function translateKeyToInput(object, required) {
                 });
                 inputObject = MaterialInputsModule.createInput(inputType, [requiredClass], undefined, key, key, undefined, undefined, options);
                 if (selected) {
-                    inputObject.setValue(selected);
+                    inputObject.setValue(selected + "");
                 }
+                container.appendChild(heading);
+                container.appendChild(inputObject.inputContainer);
                 break;
+            case inputTypes.SWITCH:
+                inputObject = MaterialInputsModule.createInput(inputType, [requiredClass], undefined, key, key, key, value, undefined);
+                container.appendChild(inputObject.inputContainer);
         }
     } else {
         console.log("This key: " + key + " is not known!");
     }
-    return inputObject;
+    return container;
 }
 
 /**
@@ -88,9 +102,9 @@ function translateObjectToInputs(object, required) {
     for (let key in object) {
         if (object.hasOwnProperty(key)) {
             let value = object[key];
-            let inputObject = translateKeyToInput({"key" : key, "value" : value}, required);
-            if (inputObject) {
-                container.appendChild(inputObject.inputContainer);
+            let subContainer = translateKeyToInput({"key" : key, "value" : value}, required);
+            if (subContainer) {
+                container.appendChild(subContainer);
             }
         }
     }
@@ -136,137 +150,6 @@ function translateInputsToObject(container) {
 }
 
 /**
- * This function turns a table row containing values into an object (that can be converted into matching inputs)
- * @param keys {string[]} Contains the different table column headers (data-columns)
- * @param values {object} Optional - contains possible set values
- */
-function translateRowToObject(keys, values) {
-//filter some unnecessary keys out
-    let omitKeys = ["Nr."];
-    omitKeys.forEach((omitKey) => {
-        if (keys.indexOf(omitKey) !== -1) {
-            keys.splice(keys.indexOf(omitKey), 1);
-        }
-    });
-
-    if (keys.indexOf("Alter") !== -1) {
-        keys[keys.indexOf("Alter")] = "Geburtsdatum";
-    }
-
-// initialize object properties
-    let object = {};
-    keys.forEach((key) => {
-        object[key] = undefined;
-    });
-
-// set general values for option inputs
-    keys.forEach((key) => {
-        switch (key.toLowerCase()) {
-            case "geschlecht":
-                let allSexes = generalVariables.sex;
-                object[key] = [];
-                allSexes.forEach((sex) => {
-                    object[key].push({
-                        "text" : sex,
-                        "value" : sex,
-                        "checked" : false,
-                    });
-                });
-                break;
-            case "graduierung":
-                let allGraduations = generalVariables.graduationsOrder;
-                object[key] = [];
-                allGraduations.forEach((grad) => {
-                    object[key].push({
-                        "text" : grad,
-                        "value" : grad,
-                        "checked" : false,
-                    });
-                });
-                break;
-            case "verein":
-                // TODO: get all clubs
-                let allClubs = generalVariables.clubs;
-                object[key] = [];
-                allClubs.forEach((club) => {
-                    object[key].push({
-                        "text" : club,
-                        "value" : club,
-                        "checked" : false,
-                    });
-                });
-                break;
-        }
-    });
-
-// if values are given set some values
-    if (values) {
-        for (let key in values) {
-            if (values.hasOwnProperty(key) && object.hasOwnProperty(key)) {
-                switch (key.toLowerCase()) {
-                    case "name":
-                    case "vorname":
-                    case "nachname":
-                        object[key] = values[key];
-                        break;
-                    case "geburtsdatum":
-                        // TODO: get birth date of person not age!
-                        object[key] = values[key];
-                        break;
-                    case "geschlecht":
-                        let allSexes = generalVariables.sex;
-                        object[key] = [];
-                        allSexes.forEach((sex) => {
-                            let checked = false;
-                            if (sex === values[key]) {
-                                checked = true;
-                            }
-                            object[key].push({
-                                "text" : sex,
-                                "value" : sex,
-                                "checked" : checked,
-                            });
-                        });
-                        break;
-                    case "graduierung":
-                        let allGraduations = generalVariables.graduationsOrder;
-                        object[key] = [];
-                        allGraduations.forEach((grad) => {
-                            let checked = false;
-                            if (grad === values[key]) {
-                                checked = true;
-                            }
-                            object[key].push({
-                                "text" : grad,
-                                "value" : grad,
-                                "checked" : checked,
-                            });
-                        });
-                        break;
-                    case "verein":
-                        // TODO: get all clubs
-                        let allClubs = ["SV Tora", "Nicht SV Tora"];
-                        object[key] = [];
-                        allClubs.forEach((club) => {
-                            let checked = false;
-                            if (club === values[key]) {
-                                checked = true;
-                            }
-                            object[key].push({
-                                "text" : club,
-                                "value" : club,
-                                "checked" : checked,
-                            });
-                        });
-                        break;
-                }
-            }
-        }
-    }
-    return object;
-}
-
-/**
  * This function translates given keys and values into a json object
  * @param keys {string[]} Contains the different table column headers (data-columns)
  * @param values {object} Optional - contains possible set values
@@ -285,6 +168,5 @@ function translateToJson(keys, values) {
 export {
     translateObjectToInputs,
     translateInputsToObject,
-    translateRowToObject,
     translateToJson,
 }

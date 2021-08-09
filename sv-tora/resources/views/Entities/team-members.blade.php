@@ -8,7 +8,6 @@
             <x-slot name="heading">Kämpfer des Teams <span class="highlighted-span">{{ $teamName }}</span></x-slot>
             <x-slot name="entity">Kämpfer</x-slot>
             <x-slot name="addEntityUrl">{{ $addEntityUrl }}</x-slot>
-            <x-slot name="followUrl">true</x-slot>
         </x-table>
 
     </main>

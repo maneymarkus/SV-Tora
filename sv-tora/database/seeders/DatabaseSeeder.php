@@ -84,6 +84,7 @@ class DatabaseSeeder extends Seeder
             PersonSeeder::class,
             FighterSeeder::class,
             GlobalSettingSeeder::class,
+            TournamentTemplateSeeder::class,
         ]);
 
         $teams = Team::all();

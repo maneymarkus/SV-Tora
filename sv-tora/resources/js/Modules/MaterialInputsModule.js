@@ -290,6 +290,7 @@ class Input {
         }
         switch (inputType) {
             case inputTypes.TEXT:
+            case inputTypes.PASSWORD:
                 return TextInput.createInput(classNames, inputId, name, placeholder, value);
             case inputTypes.SWITCH:
                 return Switch.createInput(classNames, inputId, name, placeholder, value, checked);

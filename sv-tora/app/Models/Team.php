@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Helper\GeneralHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class Team extends Model
@@ -28,6 +30,18 @@ class Team extends Model
 
     public function fighters() {
         return $this->belongsToMany(Fighter::class);
+    }
+
+    public static function editableProperties(Team $team = null) {
+        $editableProperties = [
+            "Name" => $team?->name,
+        ];
+
+        if (Auth::user()->isAdmin()) {
+            $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $team?->club->name)]);
+        }
+
+        return $editableProperties;
     }
 
     public static function tableHeadings() {

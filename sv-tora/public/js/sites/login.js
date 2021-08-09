@@ -46,8 +46,6 @@
     let loginButton = loginContainer.querySelector(".secondary-button.login-button");
     let passwordForgottenButton = loginContainer.querySelector(".link.password-forgotten");
 
-    App.SecondaryButtonModule.disableSecondaryButton(loginButton);
-
     loginButton.addEventListener("click", function (e) {
         e.preventDefault();
         if (App.FormModule.checkForm(form, true)) {

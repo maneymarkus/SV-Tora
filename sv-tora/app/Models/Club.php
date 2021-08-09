@@ -38,6 +38,14 @@ class Club extends Model
         return $this->hasManyThrough(Fighter::class, Person::class);
     }
 
+    public static function editableProperties(Club $club = null) {
+        $editableProperties = [
+            "Name" => $club?->name,
+        ];
+
+        return $editableProperties;
+    }
+
     public static function tableHeadings() {
         return [
             ["heading" => "Nr.", "sortable" => true],

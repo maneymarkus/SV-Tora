@@ -21,7 +21,7 @@
             <a class="link" href="/settings/categories">Anzeigen</a>
 
             <h3>Wettkämpfe</h3>
-            <a class="link" href="/settings/tournaments">Bearbeiten</a>
+            <a class="link" href="/settings/tournament-templates">Bearbeiten</a>
 
             <h3>Rechteverwaltung (Auch: Administrator hinzufügen)</h3>
             <a class="link" href="/entities/admins">Bearbeiten</a>

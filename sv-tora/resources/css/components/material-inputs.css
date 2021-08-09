@@ -1,3 +1,8 @@
+h3.input-heading {
+    margin-bottom: 0.25em;
+}
+
+
 /*
     ERROR MESSAGE (Applies to almost all input-containers
  */
@@ -79,11 +84,6 @@ span.input-error .message {
 
 .switch-container input:checked + .switch {
     background-color: var(--accent-color-1-dark);
-}
-
-.switch-container input:focus + .switch:before  {
-    background-color: var(--theme-color-4);
-    box-shadow: 0 0 5px 0 var(--box-shadow);
 }
 
 .switch-container:hover .switch,

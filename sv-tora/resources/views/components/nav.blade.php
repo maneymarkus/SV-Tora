@@ -7,31 +7,31 @@
     </p>
     <ul>
         <li>
-            <a href="/dashboard">
+            <a href="{{ url("/dashboard") }}">
                 <span class="text">Dashboard</span>
             </a>
             <span class="bg"></span>
         </li>
         <li>
-            <a href="/entities/persons">
+            <a href="{{ url("/entities/persons") }}">
                 <span class="text">Personen</span>
             </a>
             <span class="bg"></span>
         </li>
         <li>
-            <a href="/entities/teams">
+            <a href="{{ url("/entities/teams") }}">
                 <span class="text">Teams</span>
             </a>
             <span class="bg"></span>
         </li>
         @can("admin")
             <li>
-                <a href="/entities/clubs">
+                <a href="{{ url("/entities/clubs") }}">
                     <span class="text">Vereine</span>
                 </a>
                 <span class="bg"></span>
             </li>
-        @else
+        @elseif(auth()->user())
             <li>
                 <a href="{{ url("/entities/clubs/" . auth()->user()->club->id) }}">
                     <span class="text">Verein</span>
@@ -40,7 +40,7 @@
             </li>
         @endcan
         <li>
-            <a href="/tournament/dashboard">
+            <a href="{{ url("/tournament/dashboard") }}">
                 <span class="text">Wettkampf-Dashboard</span>
             </a>
             <span class="bg"></span>

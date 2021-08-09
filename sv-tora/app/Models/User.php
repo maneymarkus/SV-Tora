@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Helper\GeneralHelper;
 use App\Helper\Roles;
 use App\Notifications\ResetPassword;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -102,6 +104,23 @@ class User extends Authenticatable
         } else {
             return $this->permissions()->detach($permissions);
         }
+    }
+
+    public static function editableProperties(User $user) {
+        $editableProperties = [
+            "Name" => $user->name,
+        ];
+
+        return $editableProperties;
+    }
+
+    public static function adminEditableProperties(User $user) {
+        $editableProperties = [
+            "Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $user->club?->name),
+            "Rolle" => GeneralHelper::addOtherChoosableOptions("role", $user->role->name),
+        ];
+
+        return $editableProperties;
     }
 
     public static function tableHeadings() {

@@ -60,6 +60,16 @@ class TeamController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return json_encode(Team::editableProperties());
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -99,13 +109,7 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        $editableProperties = [
-            "Name" => $team->name,
-        ];
-        if (Auth::user()->isAdmin()) {
-            $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $team->club->name)]);
-        }
-        return json_encode($editableProperties);
+        return json_encode(Team::editableProperties($team));
     }
 
     /**
@@ -166,7 +170,16 @@ class TeamController extends Controller
             array_push($rows, $row);
         }
 
-        return view("Entities.team-members", ["teamName" => $team->name, "columns" => Fighter::tableHeadings(), "rows" => $rows, "addEntityUrl" => url("/entities/teams/" . $team->id . "/fighters/add")]);
+        return view("Entities.team-members", ["teamName" => $team->name, "columns" => Fighter::tableHeadings(), "rows" => $rows, "addEntityUrl" => url("/entities/teams/" . $team->id . "/fighters")]);
+    }
+
+    public function addFighters(Team $team) {
+
+        if (sizeof($team->fighters) >= config("global.MAX_TEAM_MEMBERS")) {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das Team besteht schon aus der maximalen Anzahl an Teammitgliedern. Bitte entferne erst Teammitglieder, um neue hinzuzufügen.");
+        }
+
+        return json_encode(["redirectUrl" => url("/entities/teams/" . $team->id . "/fighters/select")]);
     }
 
     /**
@@ -178,11 +191,14 @@ class TeamController extends Controller
     public function selectFighters(Team $team) {
 
         if (sizeof($team->fighters) >= config("global.MAX_TEAM_MEMBERS")) {
-            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das Team besteht schon aus der maximalen Anzahl an Teammitgliedern. Bitte entferne erst Teammitglieder, um neue hinzuzufügen.");
+            return $this->showFighters($team);
         }
 
         $club = Club::where("id", "=", $team->club->id)->first();
         $fighters = app(FighterController::class)->getFightersFromClub($club);
+        $fighters = $fighters->reject(function ($fighter) use ($team) {
+            return $team->fighters->contains($fighter);
+        });
         $selectLimit = config("global.MAX_TEAM_MEMBERS") - sizeof($team->fighters);
         $rows = [];
         $counter = 1;
@@ -196,19 +212,24 @@ class TeamController extends Controller
         return view("Entities.select-entities", ["entities" => "Kämpfer", "addTo" => $team->name, "columns" => Fighter::tableHeadings(), "rows" => $rows, "addUrl" => url("/entities/teams/" . $team->id . "/fighters"), "backUrl" => url("/entities/teams/" . $team->id . "/fighters"), "selectLimit" => $selectLimit]);
     }
 
-    public function addFighters(Request $request, Team $team) {
-        $fighters = Fighter::join("people", "fighters.person_id", "=", "people.id")->join("clubs", "people.club_id", "=", "clubs.id")->select("fighters.*", "people.*","clubs.name as club_name")->get();
+    public function addFightersToTeam(Request $request, Team $team) {
+        $fighters = Fighter::join("people", "fighters.person_id", "=", "people.id")->join("clubs", "people.club_id", "=", "clubs.id")->select("fighters.*", "people.first_name", "people.last_name", "clubs.name as club_name")->get();
         foreach ($request["fighters"] as $fighterData) {
             $fighter = $fighters->where("first_name", "=", $fighterData["Vorname"])->where("last_name", "=", $fighterData["Nachname"])->where("sex", "=", $fighterData["Geschlecht"])->where("club_name", "=", $fighterData["Verein"])->where("graduation", "=", $fighterData["Graduierung"])->first();
-            $fighter->team_id = $team->id;
+
+            if ($team->fighters->contains($fighter)) {
+                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der/die Kämpfer*in \"" . $fighter->first_name . " " . $fighter->last_name . "\" existiert schon in diesem Team und kann daher nicht hinzugefügt werden.");
+            }
+
             $team->fighters()->attach($fighter);
         }
-        return json_encode(["redirectUrl" => url("/entities/teams/" . $team->id)]);
+        return json_encode(["redirectUrl" => url("/entities/teams/" . $team->id . "/fighters")]);
     }
 
     public function removeFighter(Team $team, Fighter $fighter) {
+        $fighterName = $fighter->person->first_name . " " . $fighter->person->last_name;
         $team->fighters()->detach($fighter);
-        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer \"" . $fighter->first_name . " " . $fighter->last_name . "\" wurde erfolgreich aus dem Team \"" . $team->name . "\" entfernt.");
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der/die Kämpfer*in \"" . $fighterName . "\" wurde erfolgreich aus dem Team \"" . $team->name . "\" entfernt.");
     }
 
 }

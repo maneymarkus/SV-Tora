@@ -17,19 +17,19 @@
 
 .notification {
     position: fixed;
-    height: 4.5em;
-    width: 4.5em;
-    right: -6em;
-    bottom: 2em;
-    padding: 0.5em;
-    transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 1.25s;
+    height: 4.5rem;
+    width: 4.5rem;
+    right: -6rem;
+    bottom: 2rem;
+    padding: 0.5rem;
+    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 1.25s, height 0.5s ease;
     overflow: hidden;
     transform-origin: 50% 100%;
     z-index: 100001;
 }
 
 .notification.visible {
-    transition: width 0.75s ease 0.5s, height 0.5s ease 0s, background-color 1.25s ease, right 0.5s ease 0s;
+    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 0s;
     right: 2em;
 }
 
@@ -37,15 +37,14 @@
 .notification.visible.success:hover,
 .notification.visible.error,
 .notification.visible.error:hover {
-    height: 5em;
     width: calc(100% - 4rem);
 }
 
 .notification.visible:hover {
-    height: 7em;
     width: calc(100% - 4rem);
+    height: auto;
     background: rgba(61, 118, 225, 0.9);
-    transition: width 0.75s ease 0s, height 0.5s ease 0.75s;
+    transition: width 0.75s ease 0s;
     animation-play-state: paused;
 }
 
@@ -100,7 +99,7 @@
 .notification .symbol {
     position: absolute;
     top: 50%;
-    left: 0.25em;
+    left: 1rem;
     transform: translateY(-50%);
     font-size: 2.5em;
 }

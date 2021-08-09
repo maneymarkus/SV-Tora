@@ -55,6 +55,16 @@ class PersonController extends Controller
         return view("Entities.entity-overview", ["entities" => $entities, "entity" => $entity, "columns" => Person::tableHeadings(), "rows" => $rows, "addEntityUrl" => url($addUrl)]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return json_encode(Person::editableProperties());
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -92,15 +102,7 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-        $editableProperties = [
-            "Vorname" => $person->first_name,
-            "Nachname" => $person->last_name,
-        ];
-        Log::info($person);
-        if (Auth::user()->isAdmin()) {
-            $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $person->club->name)]);
-        }
-        return json_encode($editableProperties);
+        return json_encode(Person::editableProperties($person));
     }
 
 

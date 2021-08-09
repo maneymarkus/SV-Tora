@@ -52,7 +52,7 @@ header:before {
     left: 0;
     width: 100%;
     height: 150%;
-    background-color: var(--theme-color-1);
+    background-color: var(--theme-color-1-dark);
     z-index: -1;
     border-radius: 0 0 50% 50%/0 0 75% 75%;
     box-shadow: 0 0 10px 3px var(--box-shadow);
@@ -61,16 +61,12 @@ header:before {
 
 header div.logo {
     position: relative;
-    background-image: url("/images/Logo_dark.png");
+    background-image: url("/images/Logo_light.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     height: 25px;
     transition: 0.5s ease;
-}
-
-.darkmode header div.logo {
-    background-image: url("/images/Logo_light.png");
 }
 
 header > a {
@@ -79,15 +75,15 @@ header > a {
     border-radius: 10%;
     width: 5rem;
     height: 5rem;
-    background-color: var(--theme-color-1);
+    background-color: var(--theme-color-1-dark);
     text-align: center;
     top: -0.5rem;
-    box-shadow: 0 0 10px 3px var(--box-shadow);
+    box-shadow: 0 0 10px 3px black;
     transition: 0.5s ease;
     cursor: pointer;
     z-index: 2;
     text-decoration: none;
-    color: var(--text-color);
+    color: white;
 }
 
 header > a:hover,
@@ -115,7 +111,7 @@ header .profile {
 
 .header > a:hover i,
 .header > a:focus i {
-    color: var(--text-color);
+    color: white;
 }
 
 @media only screen and (min-width: 600px) {

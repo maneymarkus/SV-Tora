@@ -2,9 +2,11 @@
  * DEPENDENCIES
  */
 
+import * as GeneralModule from "./GeneralModule";
 import { getTableObject } from "./TableModule";
 import { getAdminTableObject } from "./AdministrationModule";
 import { infoModal } from "./ModalModule";
+import { sendRequest } from "./SendRequestModule";
 
 /**
  * This Module contains code responsible for managing actions related to tables as e.g. adding an element/entity to a table
@@ -42,11 +44,12 @@ let TableActionsContainer = function(tableActionsContainer) {
      * This functions listens for clicks on the add entity button and triggers the modal window that requires the necessary input from the user and then adds the newly configured element to the table
      */
     this.addEntityButton.addEventListener("click", function (e) {
-        if (This.addEntityButton.getAttribute("data-follow-url") == false) {
-            e.preventDefault();
+        e.preventDefault();
+        let url = This.addEntityButton.getAttribute("href");
+        sendRequest(GeneralModule.generalVariables.requests.GET, url + "/create", (data) => {
             let entity = This.addEntityButton.querySelector("p").innerText.split(" ")[0];
-            This.connectedTableObject.addingEntity(entity, This.addEntityButton.getAttribute("href"));
-        }
+            This.connectedTableObject.addingEntity(data, entity, url);
+        }, undefined, true);
     });
 
     if (this.printButton) {

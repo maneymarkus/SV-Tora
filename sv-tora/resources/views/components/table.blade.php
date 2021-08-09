@@ -28,7 +28,7 @@
 
 @if($actions)
     <div data-table="{{ $id }}" class="table-actions clearfix">
-        <x-primary-button class="add-entity" text="{{ $entity }} hinzufügen" icon-name="add" href="{{ $addEntityUrl }}" data-follow-url="{{ $followUrl ?? false }}"></x-primary-button>
+        <x-primary-button class="add-entity" text="{{ $entity }} hinzufügen" icon-name="add" href="{{ $addEntityUrl }}"></x-primary-button>
         <x-primary-button class="print" text="Drucken" icon-name="print"></x-primary-button>
     </div>
 @endif
@@ -46,7 +46,7 @@
     </div>
 @endif
 
-@if(\Illuminate\Support\Facades\Auth::user()->smartphone_optimized_tables)
+@if(\Illuminate\Support\Facades\Auth::user() && \Illuminate\Support\Facades\Auth::user()->smartphone_optimized_tables)
     <table {{ $attributes->merge(["class" => "table smartphone-optimized"]) }} id="{{ $id }}" data-select-limit="{{ $selectLimit ?? 0 }}">
 @else
     <table {{ $attributes->merge(["class" => "table"]) }} id="{{ $id }}" data-select-limit="{{ $selectLimit ?? 0 }}">

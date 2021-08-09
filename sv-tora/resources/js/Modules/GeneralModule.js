@@ -388,13 +388,6 @@ const categoryReference = {
     "Weihnachtsturnier" : regularCategoryReference,
 }
 
-/**
- * This constant contains the different tournaments
- * @type {string[]}
- * TODO: tournaments can be changed dynamically
- */
-const tournaments = ["Nachwuchsturnier", "Tora-Pokal", "Weihnachtsturnier"];
-
 const personTypes = {
     FIGHTER: "Starter",
     COACH: "Coach",
@@ -435,6 +428,12 @@ let keyToInput = new Map([
     ["startdatum", inputTypes.DATE],
     ["enddatum", inputTypes.DATE],
     ["ort", inputTypes.TEXT],
+    ["wettkampf-name", inputTypes.TEXT],
+    ["rolle", inputTypes.SELECT],
+    ["mindestalter", inputTypes.SELECT],
+    ["maximalalter", inputTypes.SELECT],
+    ["mindest-graduierung", inputTypes.SELECT],
+    ["maximal-graduierung", inputTypes.SELECT],
 ]);
 
 /**
@@ -602,7 +601,6 @@ let generalVariables = {
     graduationsOrder,
     examinationTypes,
     categoryReference,
-    tournaments,
     keyToInput,
     sex,
     progressSteps,
