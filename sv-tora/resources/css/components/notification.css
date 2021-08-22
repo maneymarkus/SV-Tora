@@ -17,12 +17,11 @@
 
 .notification {
     position: fixed;
-    height: 4.5rem;
     width: 4.5rem;
     right: -6rem;
     bottom: 2rem;
     padding: 0.5rem;
-    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 1.25s, height 0.5s ease;
+    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 1.25s;
     overflow: hidden;
     transform-origin: 50% 100%;
     z-index: 100001;
@@ -108,7 +107,6 @@
     position: relative;
     width: 100%;
     height: auto;
-    max-height: 4em;
     float: right;
     margin: 0.5em 0;
     font-size: 1em;

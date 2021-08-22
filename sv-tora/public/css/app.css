@@ -659,7 +659,7 @@ table, .table, th, td {
     width: calc(100% + 3rem);
     overflow-x: auto;
     padding: 2rem 3rem 3rem;
-    margin-left: -1.5rem;
+    margin-left: -3rem;
     height: auto;
 }
 
@@ -855,7 +855,7 @@ a.go-back i {
 
     .oversize-container {
         width: calc(100% + 4rem);
-        margin-left: -2rem;
+        margin-left: -4rem;
     }
 
     .space-after:after {
@@ -3152,8 +3152,9 @@ span.input-error .message {
 }
 
 .switch-container .switch {
-    position: absolute;
+    position: relative;
     cursor: pointer;
+    display: block;
     width: 4em;
     height: 2em;
     background-color: #9B9B9B;
@@ -5223,12 +5224,11 @@ nav.nav .image-container img {
 
 .notification {
     position: fixed;
-    height: 4.5rem;
     width: 4.5rem;
     right: -6rem;
     bottom: 2rem;
     padding: 0.5rem;
-    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 1.25s, height 0.5s ease;
+    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 1.25s;
     overflow: hidden;
     transform-origin: 50% 100%;
     z-index: 100001;
@@ -5359,7 +5359,6 @@ nav.nav .image-container img {
     position: relative;
     width: 100%;
     height: auto;
-    max-height: 4em;
     float: right;
     margin: 0.5em 0;
     font-size: 1em;
@@ -7006,11 +7005,12 @@ div.chosen-filters {
     color: var(--accent-color-1-dark);
     cursor: pointer;
     display: inline-block;
+    font-size: 2rem;
+    vertical-align: middle;
 }
 
 .tt-trigger i {
-    vertical-align: sub;
-    font-size: 2em;
+    font-size: inherit;
     transition: 0.2s ease;
 }
 
@@ -7120,26 +7120,6 @@ div.chosen-filters {
     opacity: 0.5;
     z-index: -1;
     box-shadow: 0 0 50px 10px var(--box-shadow) inset, 0 0 5px 5px var(--box-shadow);
-}
-
-.user-profile .pic-container {
-    position: relative;
-    top: 2em;
-    margin: 0 auto;
-    max-width: 8em;
-    width: 350%;
-    height: auto;
-    border-radius: 50%;
-    box-shadow: 2px 2px 4px var(--box-shadow);
-    overflow: hidden;
-}
-
-.user-profile .pic-container img {
-    width: 100%;
-    height: auto;
-    border-radius: 50%;
-    transform: scale(1.06);
-    display: block;
 }
 
 .user-profile p {

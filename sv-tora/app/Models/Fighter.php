@@ -36,16 +36,20 @@ class Fighter extends Model
 
     public static function editableProperties(Fighter $fighter = null) {
         $editableProperties = Person::editableProperties($fighter?->person);
+        $birthdate = null;
+        if ($fighter !== null) {
+            $birthdate = Carbon::parse($fighter->birthdate)->format("d.m.Y");
+        }
 
         $editableProperties = array_merge($editableProperties, [
-            "Alter" => $fighter?->birthdate,
+            "Alter" => $birthdate,
             "Geschlecht" => GeneralHelper::addOtherChoosableOptions("sex", $fighter?->sex),
             "Graduierung" => GeneralHelper::addOtherChoosableOptions("graduations", $fighter?->graduation),
         ]);
 
         if (Auth::user()->isAdmin()) {
             unset($editableProperties["Verein"]);
-            $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $fighter?->club->name)]);
+            $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $fighter?->person->club->name)]);
         }
 
         return $editableProperties;

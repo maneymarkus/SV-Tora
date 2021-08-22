@@ -28,7 +28,7 @@
         <div class="setting">
             <label for="darkmode" class="switch-container input-container darkmode-switch">
                 <span class="text">Dunkler Modus</span>
-                <span class="tt-trigger darkmode"><i class="material-icons">help_outline</i></span>
+                <x-tooltip class="darkmode"></x-tooltip>
                 @if(\Illuminate\Support\Facades\Auth::user()->dark_mode)
                     <input type="checkbox" id="darkmode" name="dark_mode" checked="">
                 @else
@@ -40,7 +40,7 @@
         <div class="setting">
             <label for="table-optimization" class="switch-container input-container table-optimization-switch">
                 <span class="text">Smartphone-optimierte Tabellen Darstellung</span>
-                <span class="tt-trigger table-optimization"><i class="material-icons">help_outline</i></span>
+                <x-tooltip class="table-optimization"></x-tooltip>
                 @if(\Illuminate\Support\Facades\Auth::user()->smartphone_optimized_tables)
                     <input type="checkbox" id="table-optimization" name="smartphone_optimized_tables" checked="">
                 @else

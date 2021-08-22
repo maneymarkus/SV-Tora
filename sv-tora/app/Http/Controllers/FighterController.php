@@ -142,18 +142,7 @@ class FighterController extends Controller
      */
     public function edit(Fighter $fighter)
     {
-        $birthdate = Carbon::parse($fighter->birthdate);
-        $editableProperties = [
-            "Vorname" => $fighter->person->first_name,
-            "Nachname" => $fighter->person->last_name,
-            "Geburtsdatum" => $birthdate->day . "." . $birthdate->month . "." . $birthdate->year,
-            "Geschlecht" => GeneralHelper::addOtherChoosableOptions("sex", $fighter->sex),
-            "Graduierung" => GeneralHelper::addOtherChoosableOptions("graduations", $fighter->graduation),
-        ];
-        if (Auth::user()->isAdmin()) {
-            $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $fighter->person->club->name)]);
-        }
-        return json_encode($editableProperties);
+        return json_encode(Fighter::editableProperties($fighter));
     }
 
     /**

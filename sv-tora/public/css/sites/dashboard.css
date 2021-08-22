@@ -51,7 +51,8 @@ h1.greeting.greet {
     margin-bottom: 2rem;
 }
 
-.tournaments {
+.tournaments,
+div.no-tournament {
     text-align: center;
     position: relative;
     display: inline-block;
@@ -114,6 +115,21 @@ h1.greeting.greet {
     z-index: 1;
 }
 
+.tournaments.no-tournament h3 {
+    position: absolute;
+    display: inline-block;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--accent-color-1-dark);
+    margin: 0 auto;
+    transition: 0.5s ease;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px var(--text-shadow);
+    padding-left: 0;
+    font-size: 2.5rem;
+}
+
 .tournaments span {
     position: absolute;
     display: inline-block;
@@ -128,10 +144,11 @@ h1.greeting.greet {
     text-shadow: 2px 2px 5px var(--text-shadow);
 }
 
-.tournaments:hover span {
+.tournaments:hover span,
+.tournaments.no-tournament:hover h3 {
     color: var(--accent-color-1-light);
     text-shadow: 3px 3px 10px var(--text-shadow);
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-50%, -50%) scale(1.1);
 }
 
 .tournaments p {
@@ -140,6 +157,19 @@ h1.greeting.greet {
     font-size: 1.25rem;
     text-align: center;
     bottom: 1rem;
+}
+
+div.no-tournament {
+    color: var(--theme-color-5);
+    background-color: var(--theme-color-3);
+}
+
+div.no-tournament h3 {
+    font-size: 2rem;
+}
+
+div.no-tournament p {
+    font-size: 1.25rem;
 }
 
 .actions {

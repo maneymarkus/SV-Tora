@@ -21,38 +21,39 @@
         <div class="fade-wrapper">
             <div class="clearfix">
                 <div class="container-medium">
-                    <a class="tournaments" href="/tournament/dashboard">
-                        <h3 class="heading">Wettkampf</h3>
-                        <span class="tournament-name">Tora-Pokal</span>
-                        <p class="subheading">Zum Wettkampf-Dashboard</p>
-                    </a>
+                    @if(\App\Models\Tournament::latest()->first()?->active)
+                        <a class="tournaments" href="{{ url("/tournaments/dashboard") }}">
+                            <h3 class="heading">Wettkampf</h3>
+                            <span class="tournament-name">{{ \App\Models\Tournament::latest()->first()?->tournament_template->name }}</span>
+                            <p class="subheading">Zum Wettkampf-Dashboard</p>
+                        </a>
+                    @else
+                        @if(\Illuminate\Support\Facades\Gate::allows("admin"))
+                            <a class="tournaments no-tournament" href="{{ url("/tournaments/dashboard") }}">
+                                <h3 class="heading">Zum Wettkampf Dashboard</h3>
+                                <p class="subheading">{{ \App\Models\Tournament::all()->count() }} erfolgreich veranstaltete Wettkämpfe</p>
+                            </a>
+                        @else
+                            <div class="no-tournament">
+                                <h3 class="heading">Wettkampf</h3>
+                                <p>Zur Zeit findet kein Wettkampf statt</span>
+                            </div>
+                        @endif
+                    @endif
                 </div>
 
+                @php
+                    $personCount = \App\Models\Person::all()->count();
+                    $teamCount = \App\Models\Team::all()->count();
+                    $clubCount = \App\Models\Club::all()->count();
+                @endphp
+
                 <div class="container-medium">
-                    <a data-bg="Personen" class="horizontal-card" href="/entities/persons">
-                        <h3 class="district">
-                            Personen
-                        </h3>
-                        <span class="count">
-                        513
-                        </span>
-                    </a>
-                    <a data-bg="Teams" class="horizontal-card" href="/entities/teams">
-                        <h3 class="district">
-                            Teams
-                        </h3>
-                        <span class="count">
-                        107
-                        </span>
-                    </a>
-                    <a data-bg="Vereine" class="horizontal-card" href="/entities/clubs">
-                        <h3 class="district">
-                            Vereine
-                        </h3>
-                        <span class="count">
-                        29
-                        </span>
-                    </a>
+                    <x-horizontal-card title="Personen" href="/entities/persons" number="{{ $personCount }}"></x-horizontal-card>
+                    <x-horizontal-card title="Teams" href="/entities/teams" number="{{ $teamCount }}"></x-horizontal-card>
+                    @can("admin")
+                        <x-horizontal-card title="Vereine" href="/entities/clubs" number="{{ $clubCount }}"></x-horizontal-card>
+                    @endcan
                 </div>
             </div>
 
@@ -69,7 +70,7 @@
 
         </div>
 
-        <a class="creator-button" href="/creator">?</a>
+        <a class="creator-button" href="{{ url("/creator") }}">?</a>
 
     </main>
 

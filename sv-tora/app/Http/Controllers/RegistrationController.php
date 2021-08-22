@@ -7,6 +7,7 @@ use App\Helper\NotificationTypes;
 use App\Helper\Roles;
 use App\Mail\AdminInvitationMail;
 use App\Mail\InvitationMail;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\RegistrationInvitation;
@@ -219,6 +220,8 @@ class RegistrationController extends Controller
             "password" => Hash::make($request->input("password")),
             "role_id" => Role::getRoleId(Roles::ADMIN),
         ]);
+
+        $newAdmin->permissions->sync(Permission::all()->pluck("id"));
 
         $invitation->delete();
 

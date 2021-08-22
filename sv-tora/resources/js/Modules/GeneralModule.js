@@ -505,11 +505,11 @@ let uniqueRandomIdentifiers = [];
  * This function creates a unique random identifier, saves it to an array and returns it
  * @param length {number}
  */
-function createUniqueRandomIdentifier(length= 8) {
+function createUniqueRandomIdentifier(length = 8) {
     let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     function generateRandomString(length) {
-        let randomString = "";
+        let randomString = "id-";
         for (let i = 0; i < length; i++) {
             randomString += chars.charAt(Math.floor(Math.random() * chars.length));
         }

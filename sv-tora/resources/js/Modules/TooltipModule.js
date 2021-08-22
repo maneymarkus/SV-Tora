@@ -2,7 +2,7 @@
  * DEPENDENCIES
  */
 
-import tippy from "tippy.js";
+import tippy, {roundArrow} from "tippy.js";
 
 /**
  * This Module contains code responsible for managing tooltips
@@ -17,7 +17,7 @@ function createTooltip(triggerElementQuerySelector, content) {
     tippy(triggerElementQuerySelector, {
         content: content,
         offset: [0, 20],
-        arrow: tippy.roundArrow,
+        arrow: roundArrow,
         theme: "svtora",
     });
 }

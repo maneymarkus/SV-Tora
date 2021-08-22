@@ -16,11 +16,12 @@
     color: var(--accent-color-1-dark);
     cursor: pointer;
     display: inline-block;
+    font-size: 2rem;
+    vertical-align: middle;
 }
 
 .tt-trigger i {
-    vertical-align: sub;
-    font-size: 2em;
+    font-size: inherit;
     transition: 0.2s ease;
 }
 

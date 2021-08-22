@@ -7,6 +7,8 @@ import { createInput } from "./MaterialInputsModule";
 import * as ModalModule from "./ModalModule";
 import { checkInput } from "./FormModule";
 import { sendRequest } from "./SendRequestModule";
+import * as TranslationModule from "./TranslationModule";
+import * as TooltipModule from "./TooltipModule";
 
 /**
  * Module contains code concerning admin table
@@ -30,6 +32,7 @@ let AdminTable = function(table) {
         this.containingTable = tableObject;
         this.tds = this.tr.querySelectorAll("td");
         this.editMode = false;
+        this.editUrl = (this.tr.querySelector("a.primary-button.edit")) ? this.tr.querySelector("a.primary-button.edit").getAttribute("href") : undefined;
 
         this.rights = {};
 
@@ -157,7 +160,10 @@ let AdminTable = function(table) {
             }
             if (target.classList.contains("edit")) {
                 e.preventDefault();
-                endEditRow(true);
+                let data = TranslationModule.translateInputsToObject(This.tr);
+                sendRequest(GeneralModule.generalVariables.requests.PUT, This.editUrl, () => {
+                    endEditRow(true);
+                }, data, true);
                 return;
             }
             if (target.classList.contains("delete")) {
@@ -218,14 +224,12 @@ let AdminTable = function(table) {
 
         // Delete a table row
         if (target.classList.contains("delete")) {
+            let url = target.getAttribute("href");
             while (target.nodeName !== "TR") {
                 target = target.parentNode;
             }
             let row = This.getRowObject(target);
-            //TODO: Modal Window
-            if (window.confirm("Delete " + row + "?")) {
-                This.deleteRow(target, row);
-            }
+            This.deleteRow(target, row, url);
             return;
         }
     });
@@ -257,9 +261,14 @@ let AdminTable = function(table) {
     }
 
     // Delete a table row
-    this.deleteRow = function (tr, rowObject) {
-        This.rows.splice(This.rows.indexOf(rowObject), 1);
-        tr.remove();
+    this.deleteRow = function (tr, rowObject, url) {
+        let adminName = tr.querySelector("td:first-child").innerText;
+        let ModalWindow = App.ModalModule.deleteModal("Admin löschen", "Willst du den Admin " + adminName + " wirklich löschen?", function () {
+            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, url, () => {
+                This.rows.splice(This.rows.indexOf(rowObject), 1);
+                tr.remove();
+            }, undefined, true);
+        }, undefined, undefined);
     }
 
 }
@@ -268,6 +277,24 @@ let AdminTable = function(table) {
 if (document.querySelector("table.admin-table")) {
     let adminTableElement = document.querySelector("table.admin-table");
     adminTable = new AdminTable(adminTableElement);
+
+    // initialize the tooltips
+    let permissionDiv = document.querySelector("div.permissions");
+    let permissionSpans = permissionDiv.querySelectorAll("div.permission");
+    let ths = adminTable.tableHeader.querySelectorAll("th");
+    permissionSpans.forEach((permissionSpan) => {
+        let permissionName = permissionSpan.querySelector("span.name").innerText;
+        let permissionDescription = permissionSpan.querySelector("span.description").innerText;
+        ths.forEach((th) => {
+            if (th.innerText.includes(permissionName)) {
+                let ttTrigger = th.querySelector("span.tt-trigger");
+                let identifier = GeneralModule.createUniqueRandomIdentifier();
+                ttTrigger.classList.add(identifier);
+                TooltipModule.createTooltip("." + identifier, permissionDescription);
+            }
+        });
+    });
+
 }
 
 

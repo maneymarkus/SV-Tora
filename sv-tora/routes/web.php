@@ -11,6 +11,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RefereeController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TournamentTemplateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    return view("test");
+    return json_encode(\App\Models\Club::latest()->get());
 });
 
 
@@ -162,12 +163,12 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
      *      Tournament Routes                                     *
      **************************************************************/
 
+    Route::resource("/tournaments", TournamentController::class)->except(["index"]);
+
+    Route::get("/tournaments/dashboard", [TournamentController::class, "dashboard"]);
+
     Route::get("/tournament/enrollment", function () {
         return view("Tournament.enrollment");
-    });
-
-    Route::get("/tournament/dashboard", function () {
-        return view("Tournament.tournament-dashboard");
     });
 
     Route::get("/tournament/enroll-entities", function () {
@@ -253,9 +254,11 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
 
         Route::put("/entities/users/{user}/admin", [UserController::class, "updateByAdmin"]);
 
-        Route::get("/entities/admins", function () {
-            return view("Entities.admins");
-        });
+        Route::get("/entities/admins", [UserController::class, "indexAdmins"]);
+
+        Route::put("/entities/admins/{admin}/permissions", [UserController::class, "updateAdminPermissions"]);
+
+        Route::delete("/entities/admins/{admin}", [UserController::class, "destroyAdmin"]);
 
 
         /**************************************************************

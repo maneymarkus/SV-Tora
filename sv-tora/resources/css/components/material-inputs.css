@@ -59,8 +59,9 @@ span.input-error .message {
 }
 
 .switch-container .switch {
-    position: absolute;
+    position: relative;
     cursor: pointer;
+    display: block;
     width: 4em;
     height: 2em;
     background-color: #9B9B9B;

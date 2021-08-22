@@ -20,6 +20,10 @@ thead th {
     padding: 0.5em;
 }
 
+th .tt-trigger {
+    font-size: 1.5rem;
+}
+
 tbody tr {
     width: 100%;
     transition: 0.2s ease;
@@ -44,8 +48,7 @@ td {
 }
 
 td:first-child {
-    margin-top: 1em;
-    min-width: 300px;
+    min-width: 200px;
 }
 
 td:last-child {
@@ -53,7 +56,7 @@ td:last-child {
     position: relative;
     border: none;
     text-align: center;
-    min-width: 200px;
+    min-width: 150px;
 }
 
 td.privilege i {
@@ -79,27 +82,14 @@ td:last-child a.primary-button {
     font-size: 0.5em;
 }
 
-td .pic-container {
-    width: 50px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 1rem;
-}
-
-.pic-container img {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
 .admin {
     word-wrap: break-word;
     display: inline-block;
     vertical-align: middle;
 }
 
-td .switch-container .switch {
-    margin-top: -0.4em;
+td .switch-container {
+    margin: 0.3rem 0;
 }
 
 @media only screen and (min-width: 600px) {

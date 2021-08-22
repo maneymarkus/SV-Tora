@@ -2,10 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class TournamentPolicy
 {
     use HandlesAuthorization;
 
@@ -38,22 +39,21 @@ class UserPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Tournament  $tournament
      * @return mixed
      */
-    public function view(User $user, User $model)
+    public function view(User $user, Tournament $tournament)
     {
-        return $user->id === $model->id;
+        return $tournament->id === Tournament::latest()->first()->id;
     }
 
     /**
-     * Determine whether the user can update specific attributes of the model.
+     * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function editByAdmin(User $user, User $model)
+    public function create(User $user)
     {
         return false;
     }
@@ -62,26 +62,10 @@ class UserPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Tournament  $tournament
      * @return mixed
      */
-    public function update(User $user, User $model)
-    {
-        return $user->id === $model->id;
-    }
-
-    public function updateAdminPermissions(User $user, User $model) {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can update specific attributes of the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
-     * @return mixed
-     */
-    public function updateByAdmin(User $user, User $model)
+    public function update(User $user, Tournament $tournament)
     {
         return false;
     }
@@ -90,15 +74,11 @@ class UserPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Tournament  $tournament
      * @return mixed
      */
-    public function delete(User $user, User $model)
+    public function delete(User $user, Tournament $tournament)
     {
-        return $user->id === $model->id;
-    }
-
-    public function deleteAdmin(User $user, User $model) {
         return false;
     }
 
@@ -106,10 +86,10 @@ class UserPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Tournament  $tournament
      * @return mixed
      */
-    public function restore(User $user, User $model)
+    public function restore(User $user, Tournament $tournament)
     {
         return false;
     }
@@ -118,10 +98,10 @@ class UserPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Tournament  $tournament
      * @return mixed
      */
-    public function forceDelete(User $user, User $model)
+    public function forceDelete(User $user, Tournament $tournament)
     {
         return false;
     }

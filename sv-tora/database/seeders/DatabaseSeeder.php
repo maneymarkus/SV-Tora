@@ -7,6 +7,7 @@ use App\Helper\Roles;
 use App\Models\Club;
 use App\Models\Fighter;
 use App\Models\Permission;
+use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -43,7 +44,7 @@ class DatabaseSeeder extends Seeder
             "username" => "admin",
             "email" => "admin@admin.de",
             "password" => Hash::make("admin"),
-            "role_id" => 1,
+            "role_id" => Role::getRoleId(Roles::ADMIN),
             "club_id" => $svTora->id,
         ]);
 
@@ -52,7 +53,7 @@ class DatabaseSeeder extends Seeder
             "username" => "sucram",
             "email" => "sucram@homo.de",
             "password" => Hash::make("sucram"),
-            "role_id" => 2,
+            "role_id" => Role::getRoleId(Roles::REGULAR),
             "club_id" => $svTora->id,
         ]);
 
@@ -61,7 +62,7 @@ class DatabaseSeeder extends Seeder
             "username" => "vinz",
             "email" => "vinz@host.com",
             "password" => Hash::make("passwort"),
-            "role_id" => 2,
+            "role_id" => Role::getRoleId(Roles::REGULAR),
         ]);
 
         foreach (Permissions::PERMISSIONS as $perm_name => $perm_def) {
@@ -71,9 +72,9 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $admin->allowTo([Permission::where("name", Permissions::INVITE_USER)->first(), Permission::where("name", Permissions::INVITE_ADMIN)->first()]);
+        $admin->allowTo([Permission::where("name", Permissions::INVITE_USERS)->first(), Permission::where("name", Permissions::INVITE_ADMINS)->first(), Permission::where("name", Permissions::DELETE_ADMINS)->first(), Permission::where("name", Permissions::UPDATE_ADMIN_PERMISSIONS)->first()]);
 
-        $marcus->allowTo(Permission::where("name", Permissions::INVITE_USER)->first());
+        $marcus->allowTo(Permission::where("name", Permissions::INVITE_USERS)->first());
 
         #$marcus->denyTo(Permission::where("name", Permissions::INVITE_USER)->first());
 
