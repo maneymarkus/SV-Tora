@@ -34,7 +34,8 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    return json_encode(\App\Models\Club::latest()->get());
+    return json_encode(config("tournament.tournament_statuus")[2]);
+    #return view("test");
 });
 
 
@@ -163,8 +164,6 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
      *      Tournament Routes                                     *
      **************************************************************/
 
-    Route::resource("/tournaments", TournamentController::class)->except(["index"]);
-
     Route::get("/tournaments/dashboard", [TournamentController::class, "dashboard"]);
 
     Route::get("/tournament/enrollment", function () {
@@ -191,11 +190,15 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          *      Mail Routes                                           *
          **************************************************************/
 
-        Route::get("/mail", function () {
-            return view("mail");
-        });
+        Route::get("/mail", [MailController::class, "createMail"]);
+
+        Route::get("/mail/tournament-cancellation-information", [MailController::class, "informClubsAboutTournamentCancellation"]);
+
+        Route::get("/mail/tournament-change-information/{tournament}", [MailController::class, "informClubsAboutTournamentChange"]);
 
         Route::get("/mail/user-mails/all", [UserController::class, "getMailsFromUsersFromAllClubs"]);
+
+        Route::get("/mail/user-mails/invited", [UserController::class, "getMailsFromUsersFromInvitedClubs"]);
 
         Route::get("/mail/user-mails/enrolled", [UserController::class, "getMailsFromUsersFromEnrolledClubs"]);
 
@@ -264,6 +267,14 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         /**************************************************************
          *      Tournament Routes                                     *
          **************************************************************/
+
+        Route::post("/tournaments/{tournament}/finish", [TournamentController::class, "finishTournament"]);
+
+        Route::get("/tournaments/{tournament}/status", [TournamentController::class, "editTournamentStatus"]);
+
+        Route::post("/tournaments/{tournament}/status", [TournamentController::class, "updateTournamentStatus"]);
+
+        Route::resource("/tournaments", TournamentController::class)->except(["index", "show"]);
 
         Route::get("/tournament/competition-mode", function () {
             return view("Tournament.competition-mode");

@@ -120,12 +120,9 @@ function translateInputToObject(inputContainer) {
     let inputObject = MaterialInputsModule.getInputObject(inputContainer);
     let key = inputObject.name;
     let value = inputObject.getValue();
-    if (key === "Geburtsdatum") {
-        key = "Alter";
-        value = calculateAge(value);
-    }
     return {
-        "key" : key, "value" : value,
+        "key" : key,
+        "value" : value,
     }
 }
 

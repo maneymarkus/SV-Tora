@@ -23,9 +23,7 @@ function getData(url, callback) {
             return response.json();
         })
         .then(data => {
-            if (callback && typeof callback == "function") {
-                callback(data);
-            }
+            handleJsonResponse(data, callback);
         });
 }
 

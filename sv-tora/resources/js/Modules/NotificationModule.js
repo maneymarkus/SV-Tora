@@ -20,7 +20,7 @@ let notificationTypes = GeneralModule.generalVariables.notificationTypes;
  * @return {HTMLElement}
  */
 function notificationFactory(type, content) {
-    let notification = GeneralModule.generateElement("div", ["notification", "clearfix"]);
+    let notification = GeneralModule.generateElement("div", ["notification"]);
     switch (type) {
         case notificationTypes.INFO:
             notification.classList.add("info");

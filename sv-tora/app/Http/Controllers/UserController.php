@@ -173,7 +173,6 @@ class UserController extends Controller
     }
 
 
-
     public function destroyAdmin(User $admin) {
         if (Gate::allows("has-permission", Permissions::DELETE_ADMINS)) {
             $adminName = $admin->name;
@@ -199,6 +198,7 @@ class UserController extends Controller
         return $userMails;
     }
 
+
     public function getMailsFromUsersFromAllClubs() {
         $clubs = Club::all()->reject(function ($club) {
             return $club->name === "SV Tora";
@@ -212,10 +212,18 @@ class UserController extends Controller
         return $userMails;
     }
 
+
+    public function getMailsFromUsersFromInvitedClubs() {
+        // TODO
+        return [];
+    }
+
+
     public function getMailsFromUsersFromEnrolledClubs() {
         //TODO
         return [];
     }
+
 
     public function getMailsFromUsersFromSelectedClubs(Request $request) {
         $receivers = $request->input("receivers");

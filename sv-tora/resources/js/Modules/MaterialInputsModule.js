@@ -3,6 +3,7 @@
  */
 
 import * as GeneralModule from "./GeneralModule";
+import {MaterialInputsModule} from "../app";
 
 /**
  * This "Module" contains code responsible for the dynamic behaviour of all the different input elements
@@ -338,7 +339,7 @@ class Select extends Input {
             this.options.push(op.innerText);
         });
 
-        this.inputContainer.addEventListener("click", this.handleCLick.bind(this));
+        this.inputContainer.addEventListener("click", this.handleClick.bind(this));
 
         this.inputContainer.addEventListener("changeSelect", this.handleChangeInput.bind(this));
 
@@ -357,7 +358,7 @@ class Select extends Input {
         }
     }
 
-    handleCLick(e) {
+    handleClick(e) {
         if (this.isDisabled()) {
             return;
         }
@@ -492,11 +493,19 @@ class DateInput extends Input {
             document.querySelector("body").appendChild(DateInput.datePickerElement);
         }
 
-        this.day = new Date().getDate();
-        this.month = new Date().getMonth();
-        this.year = new Date().getFullYear();
-        this.previousMonth = DateInput.datePickerElement.querySelector(".date-header .previous-month");
-        this.nextMonth = DateInput.datePickerElement.querySelector(".date-header .next-month");
+        if (this.inputElement.value !== "") {
+            let date = this.inputElement.value;
+            this.day = parseInt(date.substr(0, 2));
+            this.month = parseInt(date.substr(3, 2)) - 1;
+            this.year = parseInt(date.substr(6));
+        } else {
+            this.day = new Date().getDate();
+            this.month = new Date().getMonth();
+            this.year = new Date().getFullYear();
+        }
+
+        this.previousMonthBtn = DateInput.datePickerElement.querySelector(".date-header .previous-month");
+        this.nextMonthBtn = DateInput.datePickerElement.querySelector(".date-header .next-month");
         this.monthElement = DateInput.datePickerElement.querySelector(".date-header .month");
         this.yearElement = DateInput.datePickerElement.querySelector(".date-header .year");
 
@@ -511,6 +520,9 @@ class DateInput extends Input {
 
     setValue(newInput) {
         this.inputElement.value = newInput;
+        this.day = parseInt(newInput.substr(0, 2));
+        this.month = parseInt(newInput.substr(3, 2)) - 1;
+        this.year = parseInt(newInput.substr(6));
         this.inputElement.dispatchEvent(new Event("change", {bubbles: true}));
     }
 
@@ -545,7 +557,7 @@ class DateInput extends Input {
     }
 
     setYear(year) {
-        this.year = year;
+        this.year = parseInt(year);
         this.yearElement.innerHTML = year;
     }
 
@@ -557,9 +569,11 @@ class DateInput extends Input {
     handleDatePickerClick(e) {
         let target = e.target;
 
-// choose picked date
+        // choose picked date
         if (target.classList.contains("pick")) {
-            this.setValue(this.day + "." + (this.month + 1) + "." + this.year);
+            let day = (this.day < 10) ? "0" + this.day : this.day;
+            let month = (this.month < 10) ? "0" + (this.month + 1) : (this.month + 1);
+            this.setValue(day + "." + month + "." + this.year);
             if (!this.hasUserInput) {
                 this.userInput = true;
             }
@@ -568,7 +582,7 @@ class DateInput extends Input {
             return;
         }
 
-// cancel choosing a date
+        // cancel choosing a date
         if (target.classList.contains("cancel")) {
             this.hide();
             return;
@@ -576,15 +590,12 @@ class DateInput extends Input {
 
 
         if (target.classList.contains("selectable")) {
-            if (DateInput.datePickerElement.querySelector(".selected")) {
-                DateInput.datePickerElement.querySelector(".selected").classList.remove("selected")
-            }
-            target.classList.add("selected");
-            this.day = target.innerHTML;
+            let day = target.innerText;
+            this.chooseDay(day);
             return;
         }
 
-// show previous month
+        // show previous month
         if (target.classList.contains("previous-month") || target.parentNode.classList.contains("previous-month")) {
             if (this.month === 0) {
                 this.updateCalendar(11, this.year - 1);
@@ -594,7 +605,7 @@ class DateInput extends Input {
             return;
         }
 
-// show next month
+        // show next month
         if (target.classList.contains("next-month") || target.parentNode.classList.contains("next-month")) {
             if (this.month === 11) {
                 this.updateCalendar(0, this.year + 1);
@@ -602,6 +613,32 @@ class DateInput extends Input {
                 this.updateCalendar(this.month + 1, this.year);
             }
             return;
+        }
+
+        // change year manually
+        if (target.classList.contains("year")) {
+            let nextChild = DateInput.datePickerElement.querySelector("a.next-month");
+            target.classList.add("no-display");
+            createQuickTextInput(target.offsetWidth + 20, target.innerText, function (newYear) {
+                target.innerHTML = newYear;
+                target.classList.remove("no-display");
+                this.updateCalendar(this.month, newYear);
+            }.bind(this), nextChild, function (value) {
+                return !isNaN(value) && !isNaN(parseInt(value));
+            });
+            return;
+        }
+
+    }
+
+    chooseDay(day) {
+        if (!isNaN(parseInt(day))) {
+            if (DateInput.datePickerElement.querySelector(".selected")) {
+                DateInput.datePickerElement.querySelector(".selected").classList.remove("selected")
+            }
+            let dayElement = DateInput.datePickerElement.querySelector(".calender").querySelector(".day" + day);
+            dayElement.classList.add("selected");
+            this.day = day;
         }
     }
 
@@ -623,9 +660,9 @@ class DateInput extends Input {
                 } else {
                     if (dayCounter <= numberDays) {
                         if (dayCounter == this.day) {
-                            td = GeneralModule.generateElement("TD", ["selectable", "selected"], dayCounter++);
+                            td = GeneralModule.generateElement("TD", ["selectable", "selected", "day" + dayCounter], dayCounter++);
                         } else {
-                            td = GeneralModule.generateElement("TD", ["selectable"], dayCounter++);
+                            td = GeneralModule.generateElement("TD", ["selectable", "day" + dayCounter], dayCounter++);
                         }
                     } else {
                         td = GeneralModule.generateElement("TD");
@@ -639,7 +676,7 @@ class DateInput extends Input {
 
 
     /**
-     * This function compares to dates and returns true if the first date is smaller (=earlier) than the second one
+     * This function compares two dates and returns true if the first date is smaller (=earlier) than the second one
      * @param date1 {string} Format: "dd.mm.yyyy"
      * @param date2 {string} Format: "dd.mm.yyyy"
      * @return {boolean}
@@ -1745,7 +1782,7 @@ function terminateQuickInput(callback, inputValidation) {
             globalQuickInput.focus();
             return;
         }
-        if (inputValidation && !inputValidation(value)) {
+        if (inputValidation && typeof inputValidation == "function" && !inputValidation(value)) {
             globalQuickInput.focus();
             return;
         }

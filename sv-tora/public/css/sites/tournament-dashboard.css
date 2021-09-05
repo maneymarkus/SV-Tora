@@ -16,11 +16,13 @@ main.no-tournament {
 .no-tournament .host-tournament {
     border-radius: 10px;
     border: 3px dashed var(--theme-color-5);
+    color: inherit;
     padding: 3rem 0 2rem;
     width: 50%;
     position: relative;
     display: block;
     margin: 0 auto;
+    text-decoration: none;
     transition: 0.2s ease;
     transform-style: preserve-3d;
     cursor: pointer;
@@ -268,7 +270,7 @@ main h1 {
     color: var(--accent-color-1-light);
 }
 
-.container {
+.dashboard-container {
     display: block;
     margin-bottom: 2rem;
     break-inside: avoid-column;
@@ -307,25 +309,17 @@ main h1 {
     box-shadow: 0 10px 15px -10px var(--box-shadow);
 }
 
-.info p:before {
-    content: '';
-    position: absolute;
-    width: 1em;
-    height: 0.2em;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: var(--theme-color-5);
-}
-
 .info p span {
-    text-align: center;
-    display: inline-block;
+    display: block;
     width: 100%;
 }
 
-.info p span:first-child {
-    margin-bottom: 1.5em;
+.info p span.left {
+    text-align: left;
+}
+
+.info p span.right {
+    text-align: right;
 }
 
 .actions {
@@ -700,7 +694,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
     border: 5px solid var(--accent-color-1-dark);
     transition: 0.5s ease;
     font-size: 1rem;
-    margin-top: 7rem;
+    margin-top: 7rem !important;
 }
 
 .darkmode .teams-container {
@@ -883,24 +877,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 @media only screen and (min-width: 768px) {
-    .info p span {
-        display: inline;
-        width: auto;
-    }
 
-    .info p .left {
-        float: left;
-        padding-left: 5%;
-    }
-
-    .info p .right {
-        float: right;
-        padding-right: 5%;
-    }
-
-    .info p span:first-child {
-        margin-bottom: 0;
-    }
 }
 
 @media only screen and (min-width: 992px) {
@@ -914,7 +891,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
         margin: 0 auto 2rem;
     }
 
-    .container {
+    .dashboard-container {
         width: calc(49.5% - 2rem);
         display: inline-block;
         margin: 0 1rem 2rem;

@@ -18,9 +18,12 @@ class CreateTournamentsTable extends Migration
 
             $table->unsignedBigInteger("tournament_template_id")->index();
             $table->date("date");
+            $table->time("time");
+            $table->string("place");
             $table->date("enrollment_start");
             $table->date("enrollment_end");
             $table->boolean("active")->default("true");
+            $table->enum("status", array_keys(config("tournament.tournament_statuus")))->default(0);
 
             $table->foreign("tournament_template_id")->references("id")->on("tournament_templates")->onDelete("cascade");
             $table->timestamps();

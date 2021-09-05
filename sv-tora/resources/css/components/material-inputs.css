@@ -641,18 +641,21 @@ input.time-input {
 }
 
 .datepicker {
-    width: 20em;
+    position: absolute;
+    width: 22rem;
     cursor: auto;
     font-size: 1em;
-    margin: 6em auto;
     box-shadow: 1px 2px 4px 1px var(--box-shadow), 1px 2px 4px 1px transparent;
     background-color: var(--theme-color-4);
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .datepicker .date-header {
     text-align: center;
     background-color: var(--accent-color-1-light);
-    color: #fff;
+    color: var(--theme-color-1-dark);
     padding: 1em 0;
 }
 
@@ -662,7 +665,7 @@ input.time-input {
 
 .datepicker .date-header a {
     position: relative;
-    color: white;
+    color: var(--theme-color-1-dark);
     z-index: 1;
     cursor: pointer;
 }
@@ -677,7 +680,7 @@ input.time-input {
     position: absolute;
     opacity: 0;
     transition: 0.2s ease;
-    background-color: white;
+    background-color: var(--theme-color-1-dark);
     z-index: -1;
 }
 
@@ -710,6 +713,15 @@ input.time-input {
     font-size: 1.75em;
     left: 0.25em;
     top: 0.1em;
+}
+
+.datepicker .date-header .year {
+    font-weight: bold;
+}
+
+.datepicker .date-header .year:hover {
+    color: white;
+    cursor: pointer;
 }
 
 .datepicker .footer {
@@ -774,6 +786,7 @@ input.time-input {
     border-radius: 50%;
     transform: translate(-50%,-50%);
     background-color: rgba(0,0,0,0.25);
+    z-index: -1;
 }
 
 .calender tbody td.selectable {
@@ -791,7 +804,6 @@ input.time-input {
 .calender tbody .selected:after, .calender tbody td:active:after {
     visibility: visible;
     background-color: var(--accent-color-1-light);
-    z-index: -1;
 }
 
 /*
@@ -888,12 +900,15 @@ input.time-input {
 }
 
 .timepicker {
+    position: absolute;
     width: 20em;
     cursor: auto;
     font-size: 1em;
-    margin: 6em auto;
     box-shadow: 1px 2px 4px 1px var(--box-shadow), 1px 2px 4px 1px transparent;
     background-color: var(--theme-color-4);
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .timepicker .time-header {

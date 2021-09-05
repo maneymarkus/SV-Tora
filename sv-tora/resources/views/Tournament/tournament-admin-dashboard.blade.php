@@ -1,0 +1,181 @@
+@extends("layouts.layout", ["title" => "Wettkampf Dashboard"])
+
+@push("styles")
+<!-- Specific style -->
+<link rel="stylesheet" href="{{ asset("css/sites/tournament-dashboard.css") }}" type="text/css" />
+@endpush
+
+@push("scripts")
+<!-- Specific scripts -->
+<script src="{{ asset("js/sites/tournament-dashboard.js") }}" defer></script>
+@endpush
+
+@section("content")
+
+    <main class="tournament clearfix">
+        <h1>Wettkampf-Dashboard</h1>
+
+        <div data-progress="{{ $progressStep }}" class="status-container">
+            <h3 class="heading">Status: <span class="status">{{ config("tournament.tournament_statuus")[$tournament->status] }}</span></h3>
+            <div class="step-container">
+                @foreach(config("tournament.tournament_statuus") as $tournamentStatus)
+                    <p class="step">{{ $tournamentStatus }}</p>
+                @endforeach
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+                <div class="progress"></div>
+                <span class="handle"></span>
+            </div>
+        </div>
+
+        <div class="tournament-container">
+            <h3 data-name="Wettkampf-Vorlage" class="tournament-name">{{ $tournament->tournamentTemplate->tournament_name }}</h3>
+            <p>am <span data-name="Datum" class="tournament-date">{{ \Carbon\Carbon::parse($tournament->date)->format("d.m.Y") }}</span> um <span data-name="Uhrzeit" class="tournament-time">{{ \Carbon\Carbon::parse($tournament->time)->format("H:i") }}</span> Uhr</p>
+            <p class="more-spacing">Anmeldezeitraum:</p>
+            <p><span data-name="Anmeldezeitraum Start" class="enrollment-start">{{ \Carbon\Carbon::parse($tournament->enrollment_start)->format("d.m.Y") }}</span> - <span data-name="Anmeldezeitraum Ende" class="enrollment-end">{{ \Carbon\Carbon::parse($tournament->enrollment_end)->format("d.m.Y") }}</span></p>
+            <p class="more-spacing">Ort:</p>
+            <p><span data-name="Ort" class="tournament-place">{{ $tournament->place }}</span></p>
+        </div>
+
+        <div class="column-container clearfix">
+
+            <a class="category-administration topic-container dashboard-container" href="/tournament/category-administration">
+                <h3>Kategorien</h3>
+                <p><span class="count-exams">2</span> Prüfungsformen</p>
+                <p><span class="count-kata-categories">6</span> Kata Kategorien</p>
+                <p><span class="count-kumite-categories">4</span> Kumite Kategorien</p>
+            </a>
+
+            <a class="fighting-systems topic-container dashboard-container" href="/tournament/category-fighting-systems">
+                <h3>Kampfsysteme</h3>
+                <p><span class="count-prepared">2</span> Kampfsysteme zugeordnet</p>
+                <p><span class="count-not-prepared">8</span> verbleibend</p>
+            </a>
+
+            <a class="excluded-clubs topic-container dashboard-container">
+                <h3>Ausgeschlossene Vereine</h3>
+                <p><span class="count-excluded">2</span> Vereine ausgeschlossen ausgeschlossen</p>
+            </a>
+
+            <a class="fight-places topic-container dashboard-container" href="/tournament/fight-place-administration">
+                <h3>Pools</h3>
+                <p><span class="count-places">4</span> aktive Pools</p>
+            </a>
+
+            <a class="schedule topic-container dashboard-container" href="/tournament/time-schedule">
+                <h3>Zeitplan</h3>
+                <p><span class="duration duration-place-1">3:25h</span> auf Wettkampffläche Wettkampffläche 1</p>
+                <p><span class="duration duration-place-2">3:05h</span> auf Pool 2</p>
+                <p><span class="duration duration-place-3">1:45h</span> auf Pool 3</p>
+                <p><span class="duration duration-place-4">0:00h</span> auf Pool 4</p>
+            </a>
+
+            <div class="info dashboard-container">
+                <h3>Info</h3>
+                <p class="clearfix"><span class="left">Graduierungen</span><span class="right">{{ $tournament->tournamentTemplate->graduation_min . " - " . $tournament->tournamentTemplate->graduation_max }}</span></p>
+            </div>
+
+            <div class="actions clearfix dashboard-container">
+                <div class="change-actions">
+                    <x-primary-button class="change-status" href="{{ $changeTournamentStatusUrl }}" text="Status ändern" icon-name="build"></x-primary-button>
+                    <x-primary-button class="change-tournament" href="{{ $changeTournamentUrl }}" text="Wettkampf ändern" icon-name="settings"></x-primary-button>
+                    <x-primary-button class="change-category" href="{{ $changeCategoriesUrl }}" text="Kategorien administrieren" icon-name="group"></x-primary-button>
+                    <x-primary-button class="change-fight-system" href="{{ $changeFightingSystemsUrl }}" text="Kampfsysteme wählen" icon-name="view_carousel"></x-primary-button>
+                    <x-primary-button class="exclude-clubs" text="Verein ausschließen" icon-name="block"></x-primary-button>
+                    <x-primary-button class="change-places" href="{{ $changeFightingPlacesUrl }}"  text="Pools verwalten" icon-name="space_bar"></x-primary-button>
+                    <x-primary-button class="change-schedule" href="{{ $changeScheduleUrl }}"  text="Zeitplan managen" icon-name="schedule"></x-primary-button>
+                </div>
+                @if($progressStep == 4)
+                    <x-primary-button class="complete-tournament accent-1" href="{{ $completeTournamentUrl }}" text="Wettkampf abschließen" icon-name="done"></x-primary-button>
+                @else
+                    <x-primary-button class="warning cancel-tournament" href="{{ $deleteTournamentUrl }}" text="Wettkampf absagen" icon-name="close"></x-primary-button>
+                @endif
+            </div>
+
+            <div class="persons-container dashboard-container">
+                <h3>Personen Anmeldungen</h3>
+                <div class="grid-container">
+                    <a class="starter group" href="#">
+                        <p class="text">Starter</p>
+                        <span class="circle">
+                            <span class="number">117</span>
+                        </span>
+                    </a>
+                    <a class="referees group" href="#">
+                        <p class="text">Kampf&shy;richter</p>
+                        <span class="circle">
+                            <span class="number">3</span>
+                        </span>
+                    </a>
+                    <a class="coaches group" href="#">
+                        <p class="text">Coaches</p>
+                        <span class="circle">
+                            <span class="number">5</span>
+                        </span>
+                    </a>
+                    <a class="helper group" href="#">
+                        <p class="text">Helfer</p>
+                        <span class="circle">
+                            <span class="number">2</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="teams-container dashboard-container">
+                <h3>Team Anmeldungen</h3>
+                <a class="teams" href="#">
+                    <span class="circle">
+                        <span class="number">13</span>
+                    </span>
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <div class="primary-button-floating-container mode-control">
+        <a class="primary-button fight-mode" href="#">
+            <i class="material-icons">whatshot</i>
+            <p>Wettkampf-Modus</p>
+        </a>
+    </div>
+
+    <div class="exclude-clubs-modal clearfix">
+        <a class="primary-button close">
+            <i class="material-icons">close</i>
+            <p>Schließen</p>
+        </a>
+        <h3>Vereine ausschließen</h3>
+
+        <div class="exclude-container">
+            <h4>Ausgeschlossene Vereine</h4>
+            <div class="excluded-clubs">
+                <span class="no-exclusion">Keiner</span>
+            </div>
+        </div>
+
+        <hr class="separator" />
+
+        <div class="exclude-container clearfix">
+            <h4>Weitere Vereine ausschließen</h4>
+            <span class="text-input-container input-container">
+                <label class="icon" for="exclude-entity"><i class="material-icons">person</i></label>
+                <input name="exclude-entity" class="text-input" type="text" id="exclude-entity"/>
+                <label class="text" for="exclude-entity">Suche/Freitexteingabe</label>
+                <span class="underline"></span>
+            </span>
+            <div class="club-selection">
+
+            </div>
+            <a class="secondary-button accent-1 exclude">
+                <span class="text">
+                    Ausschließen
+                </span>
+            </a>
+        </div>
+    </div>
+
+@endsection

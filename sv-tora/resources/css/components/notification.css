@@ -17,6 +17,7 @@
 
 .notification {
     position: fixed;
+    height: 4.5rem;
     width: 4.5rem;
     right: -6rem;
     bottom: 2rem;
@@ -28,7 +29,7 @@
 }
 
 .notification.visible {
-    transition: width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 0s;
+    transition: height 0.5s ease 0s, width 0.75s ease 0.5s, background-color 1.25s ease, right 0.5s ease 0s;
     right: 2em;
 }
 
@@ -41,9 +42,9 @@
 
 .notification.visible:hover {
     width: calc(100% - 4rem);
-    height: auto;
+    height: 8rem;
     background: rgba(61, 118, 225, 0.9);
-    transition: width 0.75s ease 0s;
+    transition: height 0.5s ease 0.75s, width 0.75s ease 0s;
     animation-play-state: paused;
 }
 
@@ -105,13 +106,12 @@
 
 .notification p {
     position: relative;
-    width: 100%;
-    height: auto;
-    float: right;
-    margin: 0.5em 0;
+    width: calc(100% - 2rem);
+    height: 100%;
+    margin: 0;
     font-size: 1em;
     padding-left: 4em;
-    padding-right: 2em;
+    padding-right: 1em;
     transition: 0.2s ease;
     transition-delay: 0s;
     line-height: 1.3;

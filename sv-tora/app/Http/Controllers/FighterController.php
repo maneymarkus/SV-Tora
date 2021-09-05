@@ -114,9 +114,10 @@ class FighterController extends Controller
             "last_name" => $request->input("Nachname"),
             "club_id" => $club->id,
         ]);
+        $birthdate = Carbon::parse($request->input("Geburtsdatum"));
         $newFighter = Fighter::create([
             "person_id" => $newPerson->id,
-            "birthdate" => $request->input("Alter"),
+            "birthdate" => $birthdate->format("Y-m-d"),
             "sex" => $request->input("Geschlecht"),
             "graduation" => $request->input("Graduierung"),
         ]);
@@ -168,8 +169,7 @@ class FighterController extends Controller
         $person->save();
 
         $birthdate = Carbon::parse($request->input("Geburtsdatum"));
-        $birthdate = $birthdate->year . "-" . $birthdate->month . "-" . $birthdate->day;
-        $fighter->birthdate = $birthdate;
+        $fighter->birthdate = $birthdate->format("Y-m-d");
         $fighter->sex = $request->input("Geschlecht");
         $fighter->graduation = $request->input("Graduierung");
         $fighter->save();

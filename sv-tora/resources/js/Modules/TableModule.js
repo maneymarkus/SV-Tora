@@ -2,7 +2,7 @@
  * DEPENDENCIES
  */
 
-import { generateElement, generalVariables, isAdmin } from "./GeneralModule";
+import {generateElement, generalVariables, isAdmin, calculateAge} from "./GeneralModule";
 import { createPrimaryButton } from "./PrimaryButtonModule";
 import * as ModalModule from "./ModalModule";
 import { checkForm } from "./FormModule";
@@ -388,7 +388,7 @@ let Table = function(table) {
                 let data = TranslationModule.translateInputsToObject(container);
                 sendRequest(generalVariables.requests.PUT, url, () => {
                     ModalWindow.closeModal();
-                    This.updateRow(row, container);
+                    This.updateRow(row, data);
                 }, data, true);
             }
         });
@@ -397,13 +397,16 @@ let Table = function(table) {
     /**
      * This function updates a row with given user input
      * @param row {object} The row object that should be updated
-     * @param container {HTMLElement} The container element that contains the new user chosen values
+     * @param data {object} The new data for the row. Each key should correspond to an existing table column heading
      */
-    this.updateRow = function (row, container) {
-        let userInputObject = TranslationModule.translateInputsToObject(container);
-        for (let key in userInputObject) {
-            if (userInputObject.hasOwnProperty(key)) {
-                row.updateValue(key, userInputObject[key]);
+    this.updateRow = function (row, data) {
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                if (key === "Geburtsdatum") {
+                    key = "Alter";
+                    data[key] = String(calculateAge(data["Geburtsdatum"]));
+                }
+                row.updateValue(key, data[key]);
             }
         }
     }

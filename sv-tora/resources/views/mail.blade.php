@@ -51,17 +51,31 @@
                 </a>
                 <div class="chosen-receivers">
                     <span class="to">An:</span>
+                    @isset($emails)
+                        @foreach($emails as $email)
+                            <x-tag class="receiver">
+                                @isset($email["name"])
+                                    <x-slot name="key">{{ $email["name"] }}</x-slot>
+                                @endisset
+                                <x-slot name="value">{{ $email["mail"] }}</x-slot>
+                            </x-tag>
+                        @endforeach
+                    @endisset
                 </div>
             </div>
             <h3>Worum geht's?</h3>
             <span class="text-input-container input-container subject required">
                 <label class="icon" for="subject"><i class="material-icons">person</i></label>
-                <input class="text-input" type="text" id="subject" name="subject" />
+                @isset($subject)
+                    <input class="text-input" type="text" id="subject" name="subject" value="{{ $subject }}" />
+                @else
+                    <input class="text-input" type="text" id="subject" name="subject" />
+                @endisset
                 <label class="text" for="subject">Betreff</label>
                 <span class="underline"></span>
             </span>
             <h3>Was willst du genau mitteilen?</h3>
-            <textarea class="textarea input-container required" name="content" placeholder="Deine Nachricht..."></textarea>
+            <textarea class="textarea input-container required" name="content" placeholder="Deine Nachricht...">@isset($content){{ $content }}@endisset</textarea>
             <h3>Senden?</h3>
             <a class="primary-button send" href="{{ url("/mail") }}">
                 <i class="material-icons">mail</i>

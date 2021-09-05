@@ -24,6 +24,17 @@ class TournamentPolicy
         }
     }
 
+
+    /**
+     * This function is used for the various api endpoints to prevent regular users to be able to use them
+     *
+     * @param User $user
+     * @return false
+     */
+    public function onlyAdmin(User $user) {
+        return false;
+    }
+
     /**
      * Determine whether the user can view any models.
      *

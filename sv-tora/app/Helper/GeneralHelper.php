@@ -4,6 +4,7 @@ namespace App\Helper;
 
 use App\Models\Club;
 use App\Models\Role;
+use App\Models\TournamentTemplate;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -118,19 +119,16 @@ class GeneralHelper
      */
     public static function addOtherChoosableOptions(string $key, string $selectedValue = null) {
         $encodedOptions = [];
-        switch ($key) {
-            case "clubs":
-                $allOptions = Club::all()->pluck("name");
-                break;
-            case "role":
-                $allOptions = Role::all()->pluck("name");
-                break;
-            case "age":
-                $allOptions = range(3, 70);
-                break;
-            default:
-                $allOptions = config("global." . $key);
-        }
+        $allOptions = match ($key) {
+            "clubs" => Club::all()->pluck("name"),
+            "role" => Role::all()->pluck("name"),
+            "age" => range(3, 70),
+            "tournament_templates" => TournamentTemplate::all()->pluck("tournament_name"),
+            "tournament_status" => array_map(function($statusCode) {
+                return config("tournament.tournament_statuus")[$statusCode];
+            }, config("tournament.tournament_alterable_statuus")),
+            default => config("global." . $key),
+        };
         foreach ($allOptions as $option) {
             $encodedOption = [
                 "value" => $option,

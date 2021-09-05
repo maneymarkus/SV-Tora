@@ -12,7 +12,7 @@
         <meta name="is-admin" content="0" />
     @endcan
 
-    <title>SV Tora Berlin e.V. - {{ $title ?? "Wettkampfmanagementsystem" }}</title>
+    <title>{{ $title ?? "Wettkampfmanagementsystem" }} - SV Tora Berlin e.V.</title>
 
     <!-- STYLES -->
 

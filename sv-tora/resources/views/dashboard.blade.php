@@ -24,7 +24,7 @@
                     @if(\App\Models\Tournament::latest()->first()?->active)
                         <a class="tournaments" href="{{ url("/tournaments/dashboard") }}">
                             <h3 class="heading">Wettkampf</h3>
-                            <span class="tournament-name">{{ \App\Models\Tournament::latest()->first()?->tournament_template->name }}</span>
+                            <span class="tournament-name">{{ \App\Models\Tournament::latest()->first()?->tournamentTemplate->tournament_name }}</span>
                             <p class="subheading">Zum Wettkampf-Dashboard</p>
                         </a>
                     @else

@@ -42,7 +42,7 @@ class Fighter extends Model
         }
 
         $editableProperties = array_merge($editableProperties, [
-            "Alter" => $birthdate,
+            "Geburtsdatum" => $birthdate,
             "Geschlecht" => GeneralHelper::addOtherChoosableOptions("sex", $fighter?->sex),
             "Graduierung" => GeneralHelper::addOtherChoosableOptions("graduations", $fighter?->graduation),
         ]);
