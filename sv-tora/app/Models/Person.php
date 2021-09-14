@@ -29,6 +29,14 @@ class Person extends Model
         return $this->belongsTo(Club::class);
     }
 
+    public function fighter() {
+        return $this->hasOne(Fighter::class);
+    }
+
+    public function enrolledPerson() {
+        return $this->hasOne(EnrolledPerson::class);
+    }
+
     public static function editableProperties(Person $person = null) {
         $editableProperties = [
             "Vorname" => $person?->first_name,

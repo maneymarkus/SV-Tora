@@ -4,6 +4,7 @@ use App\Http\Controllers\ClubController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FighterController;
+use App\Http\Controllers\FightPlaceController;
 use App\Http\Controllers\GlobalSettingController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\MailController;
@@ -34,7 +35,9 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    return json_encode(config("tournament.tournament_statuus")[2]);
+    $time = \Carbon\Carbon::parse("12:01");
+
+    return json_encode(intval($time->format("i")) === 0);
     #return view("test");
 });
 
@@ -280,9 +283,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
             return view("Tournament.competition-mode");
         });
 
-        Route::get("/tournament/fight-place-administration", function () {
-            return view("Tournament.fight-place-administration");
-        });
+        Route::resource("/tournaments/{tournament}/fight-places", FightPlaceController::class);
 
         Route::get("/tournament/category-fighting-systems", function () {
             return view("Tournament.category-fighting-systems");

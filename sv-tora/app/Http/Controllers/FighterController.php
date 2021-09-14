@@ -88,11 +88,11 @@ class FighterController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create()
     {
-        return json_encode(Fighter::editableProperties());
+        return response()->json(Fighter::editableProperties());
     }
 
     /**
@@ -139,11 +139,11 @@ class FighterController extends Controller
      * Return the editable data of the specified resource.
      *
      * @param  \App\Models\Fighter  $fighter
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Fighter $fighter)
     {
-        return json_encode(Fighter::editableProperties($fighter));
+        return response()->json(Fighter::editableProperties($fighter));
     }
 
     /**

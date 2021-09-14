@@ -33,6 +33,14 @@ class Tournament extends Model
         return $this->belongsTo(TournamentTemplate::class);
     }
 
+    public function enrolledPeople() {
+        return $this->hasMany(EnrolledPerson::class);
+    }
+
+    public function fightPlaces() {
+        return $this->hasMany(FightPlace::class);
+    }
+
     public static function editableProperties(Tournament $tournament = null) {
         $date = $tournament !== null ? Carbon::parse($tournament->date)->format("d.m.Y") : null;
         $time = $tournament !== null ? Carbon::parse($tournament->time)->format("H:i") : null;

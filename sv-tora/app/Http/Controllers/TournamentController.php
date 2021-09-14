@@ -44,9 +44,10 @@ class TournamentController extends Controller
                     "changeTournamentUrl" => url("/tournaments/" . $tournament->id),
                     "changeCategoriesUrl" => url("/tournaments/" . $tournament->id . "/edit"),
                     "changeFightingSystemsUrl" => url("/tournaments/" . $tournament->id . "/edit"),
-                    "changeFightingPlacesUrl" => url("/tournaments/" . $tournament->id . "/edit"),
+                    "changeFightingPlacesUrl" => url("/tournaments/" . $tournament->id . "/fight-places"),
                     "changeScheduleUrl" => url("/tournaments/" . $tournament->id . "/edit"),
                     "completeTournamentUrl" => url("/tournaments/" . $tournament->id . "/finish"),
+                    "excludeClubsUrl" => url("/tournaments/" . $tournament->id . "/finish"),
                 ]);
             } else {
                 return response()->view("Tournament.tournament-dashboard", ["tournament" => $tournament, "progressStep" => $progressStep]);
@@ -69,7 +70,7 @@ class TournamentController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create()
     {
@@ -110,6 +111,12 @@ class TournamentController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Anmeldezeitraum muss vor dem eigentlichen Wettkampf-Tag beendet sein.");
         }
 
+        $mins = intval($tournamentTime->format("i"));
+
+        if ($mins !== 0 && $mins !== 15 && $mins !== 30 && $mins !== 45) {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Bitte wähle eine andere Startzeit. Gültige Uhrzeiten sind glatte Stunden oder viertelstündliche Intervalle (also zum Beispiel 12:00, 12:15, 12:30 und 12:45).");
+        }
+
         $newTournament = Tournament::create([
             "tournament_template_id" => $tournamentTemplate->id,
             "date" => $tournamentDate->format("Y-m-d"),
@@ -143,7 +150,7 @@ class TournamentController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Tournament  $tournament
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Tournament $tournament)
     {
@@ -207,6 +214,12 @@ class TournamentController extends Controller
 
         if ($enrollmentEnd >= $tournamentDate) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Anmeldezeitraum muss vor dem eigentlichen Wettkampf-Tag beendet sein.");
+        }
+
+        $mins = intval($tournamentTime->format("i"));
+
+        if ($mins !== 0 && $mins !== 15 && $mins !== 30 && $mins !== 45) {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Bitte wähle eine andere Startzeit. Gültige Uhrzeiten sind glatte Stunden oder viertelstündliche Intervalle (also zum Beispiel 12:00, 12:15, 12:30 und 12:45).");
         }
 
         $tournament->date = $tournamentDate->format("Y-m-d");

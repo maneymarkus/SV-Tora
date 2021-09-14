@@ -1,6 +1,7 @@
 /*
     Encapsulate (not anywhere else needed) code in anonymous function
  */
+
 (function(window, document, undefined) {
 
     let dependencies = ["PrimaryButtonModule", "MaterialInputsModule", "ModalModule"];
@@ -9,31 +10,27 @@
     let fightPlacesContainer = document.querySelector("div.fight-places-container");
     let addButton = document.querySelector("a.primary-button.add");
 
-    addButton.addEventListener("click", function () {
-
+    addButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        let url = addButton.getAttribute("href");
         let counter = document.querySelectorAll("div.fight-place").length + 1;
         let name = "Pool " + counter;
-        let input = App.MaterialInputsModule.createInput(GeneralModule.generalVariables.inputTypes.TEXT, undefined, undefined, "fight-place-name", "Bezeichnung", name, undefined, undefined);
-        App.ModalModule.confirmModal("Pool hinzufügen", input.inputContainer, function () {
-            let value = input.getValue();
-            let fightPlace = createFightPlace(value)
-            fightPlacesContainer.appendChild(fightPlace);
-        }, undefined, undefined);
+        let input = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.TEXT, undefined, undefined, "fight-place-name", "Bezeichnung", name, undefined, undefined);
+        let ModalWindow = App.ModalModule.confirmModal("Pool hinzufügen", input.inputContainer, undefined, undefined, function () {
+            if (!App.FormModule.checkInput(input.inputContainer, true)) {
+                return false;
+            } else {
+                let data = {"Name": input.getValue()}
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, () => {
+                    ModalWindow.closeModal();
+                    window.setTimeout(() => {
+                        window.location.reload();
+                    }, 5000);
+                }, data, true);
+            }
+        });
 
     });
-
-    function createFightPlace(name) {
-        let fightPlace = App.GeneralModule.generateElement("div", ["fight-place"]);
-        fightPlace.appendChild(App.GeneralModule.generateElement("h2", ["fight-place-name"], name));
-        fightPlace.appendChild(App.PrimaryButtonModule.createPrimaryButton(["rename"], undefined, "edit", "Namen ändern"));
-        fightPlace.appendChild(App.PrimaryButtonModule.createPrimaryButton(["delete"], undefined, "delete", "Pool löschen"));
-        let fightsP = App.GeneralModule.generateElement("p", ["fights"]);
-        fightsP.appendChild(App.GeneralModule.generateElement("span", ["count-fights"], "0"));
-        fightsP.appendChild(document.createTextNode(" Kämpfe"));
-        fightPlace.appendChild(fightsP);
-
-        return fightPlace;
-    }
 
     let renameH2 = undefined;
 
@@ -44,6 +41,7 @@
     });
 
     fightPlacesContainer.addEventListener("click", function (e) {
+        e.preventDefault();
         let target = e.target;
         while (target.nodeName !== "BODY" && !target.classList.contains("primary-button")) {
             target = target.parentElement;
@@ -57,18 +55,20 @@
 
         // rename fight place
         if (target.classList.contains("rename")) {
+            let url = target.getAttribute("href");
             let h2 = fightPlace.querySelector("h2.fight-place-name");
             renameH2 = h2;
             let width = h2.offsetWidth - 40;
             h2.classList.add("no-display");
             let value = h2.innerText;
             let nextSibling = fightPlace.querySelector(".primary-button.rename");
-            App.MaterialInputsModule.createQuickTextInput(width, value, endInput, nextSibling, quickInputValidation);
+            App.MaterialInputsModule.createQuickTextInput(width, value, endInput.bind(url), nextSibling, quickInputValidation);
             return;
         }
 
         // delete fight place
         if (target.classList.contains("delete")) {
+            let url = target.getAttribute("href");
             let countFightPlaces = document.querySelectorAll("div.fight-place").length;
             let countFights = parseInt(fightPlace.querySelector("span.count-fights").innerText);
             let fightPlaceName = fightPlace.querySelector("h2").innerText;
@@ -77,19 +77,30 @@
             } else {
                 if (countFights > 0) {
                     App.ModalModule.confirmModal("Wettkampffläche löschen", "Willst du \"" + fightPlaceName + "\" wirklich löschen? Alle schon zugeordneten Kämpfe werden damit gelöscht. Dies kann nicht rückgängig gemacht werden.", function () {
-                        fightPlace.remove();
+                        deletePool(url, fightPlace);
                     });
                 } else {
-                    fightPlace.remove();
+                    deletePool(url, fightPlace);
                 }
             }
         }
     });
 
+    function deletePool(url, fightPlace) {
+        App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, url, () => {
+            fightPlace.remove();
+        }, undefined, true);
+    }
+
     function endInput(value) {
-            renameH2.innerHTML = value;
-            renameH2.classList.remove("no-display");
-            renameH2 = undefined;
+        // this should be set to url due to bind hack
+        if (value !== renameH2.innerText) {
+            let data = {"Name": value};
+            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.PUT, this, () => {
+                renameH2.innerHTML = value;
+            }, data, true);
+        }
+        renameH2.classList.remove("no-display");
     }
 
     let errorShown = false;

@@ -46,11 +46,11 @@ class ClubController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create()
     {
-        return json_encode(Club::editableProperties());
+        return response()->json(Club::editableProperties());
     }
 
     /**
@@ -86,11 +86,11 @@ class ClubController extends Controller
      * Return the editable data of the specified resource.
      *
      * @param  \App\Models\Club $club
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Club $club)
     {
-        return json_encode(Club::editableProperties($club));
+        return response()->json(Club::editableProperties($club));
     }
 
     /**

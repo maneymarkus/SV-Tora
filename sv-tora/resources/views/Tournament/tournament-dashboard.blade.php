@@ -57,7 +57,7 @@
 
             <div class="fight-places topic-container dashboard-container">
                 <h3>Pools</h3>
-                <p><span class="count-places">4</span> aktive Pools</p>
+                <p><span class="count-places">{{ $tournament->fightPlaces->count() }}</span> aktive Pools</p>
             </div>
 
             <div class="schedule topic-container dashboard-container">

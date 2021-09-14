@@ -73,7 +73,7 @@ class UserController extends Controller
     public function editByAdmin(User $user)
     {
         $this->authorize("editByAdmin", $user);
-        return json_encode(User::adminEditableProperties($user));
+        return response()->json(User::adminEditableProperties($user));
     }
 
     /**

@@ -58,11 +58,11 @@ class PersonController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create()
     {
-        return json_encode(Person::editableProperties());
+        return response()->json(Person::editableProperties());
     }
 
 
@@ -98,11 +98,11 @@ class PersonController extends Controller
      * Return the editable data of the specified resource.
      *
      * @param  \App\Models\Person $person
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Person $person)
     {
-        return json_encode(Person::editableProperties($person));
+        return response()->json(Person::editableProperties($person));
     }
 
 

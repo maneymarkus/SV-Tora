@@ -40,30 +40,30 @@
 
         <div class="column-container clearfix">
 
-            <a class="category-administration topic-container dashboard-container" href="/tournament/category-administration">
+            <a class="category-administration topic-container dashboard-container" href="{{ $changeCategoriesUrl }}">
                 <h3>Kategorien</h3>
                 <p><span class="count-exams">2</span> Prüfungsformen</p>
                 <p><span class="count-kata-categories">6</span> Kata Kategorien</p>
                 <p><span class="count-kumite-categories">4</span> Kumite Kategorien</p>
             </a>
 
-            <a class="fighting-systems topic-container dashboard-container" href="/tournament/category-fighting-systems">
+            <a class="fighting-systems topic-container dashboard-container" href="{{ $changeFightingSystemsUrl }}">
                 <h3>Kampfsysteme</h3>
                 <p><span class="count-prepared">2</span> Kampfsysteme zugeordnet</p>
                 <p><span class="count-not-prepared">8</span> verbleibend</p>
             </a>
 
-            <a class="excluded-clubs topic-container dashboard-container">
+            <a class="excluded-clubs topic-container dashboard-container" href="{{ $excludeClubsUrl }}">
                 <h3>Ausgeschlossene Vereine</h3>
                 <p><span class="count-excluded">2</span> Vereine ausgeschlossen ausgeschlossen</p>
             </a>
 
-            <a class="fight-places topic-container dashboard-container" href="/tournament/fight-place-administration">
+            <a class="fight-places topic-container dashboard-container" href="{{ $changeFightingPlacesUrl }}">
                 <h3>Pools</h3>
-                <p><span class="count-places">4</span> aktive Pools</p>
+                <p><span class="count-places">{{ $tournament->fightPlaces->count() }}</span> aktive Pools</p>
             </a>
 
-            <a class="schedule topic-container dashboard-container" href="/tournament/time-schedule">
+            <a class="schedule topic-container dashboard-container" href="{{ $changeScheduleUrl }}">
                 <h3>Zeitplan</h3>
                 <p><span class="duration duration-place-1">3:25h</span> auf Wettkampffläche Wettkampffläche 1</p>
                 <p><span class="duration duration-place-2">3:05h</span> auf Pool 2</p>
@@ -82,7 +82,7 @@
                     <x-primary-button class="change-tournament" href="{{ $changeTournamentUrl }}" text="Wettkampf ändern" icon-name="settings"></x-primary-button>
                     <x-primary-button class="change-category" href="{{ $changeCategoriesUrl }}" text="Kategorien administrieren" icon-name="group"></x-primary-button>
                     <x-primary-button class="change-fight-system" href="{{ $changeFightingSystemsUrl }}" text="Kampfsysteme wählen" icon-name="view_carousel"></x-primary-button>
-                    <x-primary-button class="exclude-clubs" text="Verein ausschließen" icon-name="block"></x-primary-button>
+                    <x-primary-button class="exclude-clubs" href="{{ $excludeClubsUrl }}" text="Verein ausschließen" icon-name="block"></x-primary-button>
                     <x-primary-button class="change-places" href="{{ $changeFightingPlacesUrl }}"  text="Pools verwalten" icon-name="space_bar"></x-primary-button>
                     <x-primary-button class="change-schedule" href="{{ $changeScheduleUrl }}"  text="Zeitplan managen" icon-name="schedule"></x-primary-button>
                 </div>

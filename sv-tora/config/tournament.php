@@ -72,6 +72,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Kumite Categories
+    |--------------------------------------------------------------------------
+    |
+    | This variable contains the Kumite categories that a fighter might have the choice on
+    |
+    */
+    "kumite_categories" => [
+        "Kihon_Ippon_Kumite",
+        "Jiyu_Ippon_Kumite",
+        "Shobu_Ippon_Kumite",
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Regular Category Reference
     |--------------------------------------------------------------------------
     |

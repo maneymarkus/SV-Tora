@@ -572,7 +572,8 @@ class DateInput extends Input {
         // choose picked date
         if (target.classList.contains("pick")) {
             let day = (this.day < 10) ? "0" + this.day : this.day;
-            let month = (this.month < 10) ? "0" + (this.month + 1) : (this.month + 1);
+            // since Javascript months start at 0 check if it is smaller than 9 instead of 10
+            let month = (this.month < 9) ? "0" + (this.month + 1) : (this.month + 1);
             this.setValue(day + "." + month + "." + this.year);
             if (!this.hasUserInput) {
                 this.userInput = true;
