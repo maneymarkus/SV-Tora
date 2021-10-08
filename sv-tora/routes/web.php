@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\DocumentController;
@@ -167,7 +168,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
      *      Tournament Routes                                     *
      **************************************************************/
 
-    Route::get("/tournaments/dashboard", [TournamentController::class, "dashboard"]);
+    Route::get("/tournament/dashboard", [TournamentController::class, "dashboard"]);
 
     Route::get("/tournament/enrollment", function () {
         return view("Tournament.enrollment");
@@ -254,6 +255,8 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          *      Entity Routes                                         *
          **************************************************************/
 
+        Route::get("/entities/clubs/names", [ClubController::class, "getClubNames"]);
+
         Route::resource("/entities/clubs", ClubController::class);
 
         Route::get("/entities/users/{user}/admin/edit", [UserController::class, "editByAdmin"]);
@@ -272,36 +275,42 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          **************************************************************/
 
         Route::post("/tournaments/{tournament}/finish", [TournamentController::class, "finishTournament"]);
-
         Route::get("/tournaments/{tournament}/status", [TournamentController::class, "editTournamentStatus"]);
-
         Route::post("/tournaments/{tournament}/status", [TournamentController::class, "updateTournamentStatus"]);
-
+        Route::get("/tournaments/{tournament}/clubs/enrolled", [TournamentController::class, "getEnrolledClubs"]);
+        Route::get("/tournaments/{tournament}/clubs/excluded", [TournamentController::class, "getExcludedClubs"]);
+        Route::post("/tournaments/{tournament}/clubs/exclude", [TournamentController::class, "excludeClub"]);
+        Route::post("/tournaments/{tournament}/clubs/include", [TournamentController::class, "includeClub"]);
         Route::resource("/tournaments", TournamentController::class)->except(["index", "show"]);
 
-        Route::get("/tournament/competition-mode", function () {
+        Route::get("/tournaments/competition-mode", function () {
             return view("Tournament.competition-mode");
         });
 
         Route::resource("/tournaments/{tournament}/fight-places", FightPlaceController::class);
 
-        Route::get("/tournament/category-fighting-systems", function () {
+        Route::post("/tournaments/{tournament}/clubs/include", [TournamentController::class, "includeClub"]);
+
+        Route::get("/tournaments/{tournament}/category/{category}/split", function () {
+            return view("Tournament.split-category");
+        });
+        Route::post("/tournaments/{tournament}/categories/{category}/name", [CategoryController::class, "updateName"]);
+        Route::get("/tournaments/{tournament}/categories/{category}/print", [CategoryController::class, "printCategory"]);
+        Route::post("/tournaments/{tournament}/categories/{category}/split", [CategoryController::class, "updateName"]);
+        Route::post("/tournaments/{tournament}/categories/{category}/merge", [CategoryController::class, "updateName"]);
+        Route::get("/tournaments/{tournament}/categories/{category}/fighters/add", [CategoryController::class, "updateName"]);
+        Route::delete("/tournaments/{tournament}/categories/{category}/fighters/{fighter}", [CategoryController::class, "updateName"]);
+        Route::resource("/tournaments/{tournament}/categories", CategoryController::class)->except(["show", "edit", "update"]);
+
+        Route::get("/tournaments/category-fighting-systems", function () {
             return view("Tournament.category-fighting-systems");
         });
 
-        Route::get("/tournament/category-administration", function () {
-            return view("Tournament.category-administration");
-        });
-
-        Route::get("/tournament/time-schedule", function () {
+        Route::get("/tournaments/time-schedule", function () {
             return view("Tournament.time-schedule");
         });
 
-        Route::get("/tournament/category/{id}/split-category", function () {
-            return view("Tournament.split-category");
-        });
-
-        Route::get("/tournament/category/{id}/fighting-system", function () {
+        Route::get("/tournaments/category/{id}/fighting-system", function () {
             return view("Tournament.fighting-system-map");
         });
 

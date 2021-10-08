@@ -37,8 +37,16 @@ class Tournament extends Model
         return $this->hasMany(EnrolledPerson::class);
     }
 
+    public function categories() {
+        return $this->hasMany(Category::class);
+    }
+
     public function fightPlaces() {
         return $this->hasMany(FightPlace::class);
+    }
+
+    public function excludedClubs() {
+        return $this->belongsToMany(Club::class, "excluded_clubs");
     }
 
     public static function editableProperties(Tournament $tournament = null) {

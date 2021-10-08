@@ -38,6 +38,10 @@ class Club extends Model
         return $this->hasManyThrough(Fighter::class, Person::class);
     }
 
+    public function blockedTournaments() {
+        return $this->belongsToMany(Tournament::class, "excluded_clubs");
+    }
+
     public static function editableProperties(Club $club = null) {
         $editableProperties = [
             "Name" => $club?->name,

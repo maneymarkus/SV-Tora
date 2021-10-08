@@ -435,6 +435,7 @@ let keyToInput = new Map([
     ["maximalalter", inputTypes.SELECT],
     ["mindest-graduierung", inputTypes.SELECT],
     ["maximal-graduierung", inputTypes.SELECT],
+    ["prüfungsform", inputTypes.SELECT],
 ]);
 
 /**

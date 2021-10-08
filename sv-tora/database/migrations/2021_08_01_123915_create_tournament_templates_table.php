@@ -22,6 +22,7 @@ class CreateTournamentTemplatesTable extends Migration
             $table->enum("graduation_max", config("global.graduations"));
             $table->boolean("teams")->default("false");
             $table->boolean("kihon")->default("false");
+            $table->string("examination_types")->default("Kata;Kumite");
 
             $table->timestamps();
         });

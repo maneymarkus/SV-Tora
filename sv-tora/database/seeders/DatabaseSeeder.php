@@ -9,6 +9,7 @@ use App\Models\Fighter;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Team;
+use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -98,6 +99,15 @@ class DatabaseSeeder extends Seeder
                 $team->fighters()->attach($fighter);
             }
         }
+
+        Tournament::create([
+            "tournament_template_id" => 2,
+            "date" => "2021-12-04",
+            "time" => "12:00",
+            "place" => "Vor Ort",
+            "enrollment_start" => "2021-11-01",
+            "enrollment_end" => "2021-11-30",
+        ]);
 
     }
 }

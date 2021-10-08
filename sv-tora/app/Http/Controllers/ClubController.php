@@ -156,4 +156,12 @@ class ClubController extends Controller
         return $view;
     }
 
+
+    /**
+     * This function returns the names of all clubs
+     */
+    public function getClubNames() {
+        return response()->json(Club::all()->pluck("name"));
+    }
+
 }

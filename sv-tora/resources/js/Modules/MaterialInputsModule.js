@@ -1366,7 +1366,7 @@ class TextInput extends Input {
         } else if (classNames.includes("password")) {
             icon.appendChild(GeneralModule.generateElement("i", ["material-icons"], "lock"));
         } else {
-            icon.appendChild(GeneralModule.generateElement("i", ["material-icons"], "person"));
+            icon.appendChild(GeneralModule.generateElement("i", ["material-icons"], "edit"));
         }
 
         inputContainer.appendChild(icon);

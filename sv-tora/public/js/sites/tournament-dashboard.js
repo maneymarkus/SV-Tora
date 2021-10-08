@@ -67,6 +67,8 @@
     let fightingSystemsContainer = document.querySelector("a.fighting-systems");
 
     fightModeButton.addEventListener("click", function (e) {
+        ModalModule.infoModal("Wettkamf-Modus", "Leider ist der Wettkampf-Modus noch nicht implementiert und steht demnach (noch) nicht zur Verfügung.");
+        /*
         if (checkPreparation()) {
             if (checkDate()) {
                 // everything is fine so just do nothing and follow the link :)
@@ -82,6 +84,7 @@
             e.preventDefault();
             ModalModule.infoModal("Wettkampf Vorbereitung nicht ausreichend.", "Du kannst noch nicht in den Wettkampf-Modus wechseln, da die Vorbereitung noch nicht abgeschlossen ist. Das Mindeste ist, dass jede Kategorie ein Kampfsystem zugewiesen bekommt.");
         }
+         */
     });
 
     function checkDate() {
@@ -261,21 +264,28 @@
 
     SecondaryButtonModule.disableSecondaryButton(excludeButton);
 
+    let allClubsUrl = "/entities/clubs/names";
     let allClubs = [];
+    let baseUrl = excludedClubsCard.getAttribute("href");
+    let enrolledClubsUrl = baseUrl + "/clubs/enrolled";
     let enrolledClubs = [];
+    let excludedClubsUrl = baseUrl + "/clubs/excluded";
     let excludedClubs = [];
+    let excludeClubUrl = baseUrl + "/clubs/exclude";
+    let includeClubUrl = baseUrl + "/clubs/include";
 
     /**
      * A click on the excluded club card in the dashboard should open the exclusion modal
      */
-    excludedClubsCard.addEventListener("click", function () {
+    excludedClubsCard.addEventListener("click", function (e) {
+        e.preventDefault();
         openExclusionModal();
     });
 
     /**
      * A click on the exclude action button in the dashboard should open the exclusion modal
      */
-    closeExclusionModalButton.addEventListener("click", function () {
+    closeExclusionModalButton.addEventListener("click", function (e) {
         closeExclusionModal();
     });
 
@@ -297,15 +307,12 @@
     }
 
     /**
-     * A click on the exclude button triggers the exclusion of selected/typed-in entities
+     * A click on the exclude button triggers the exclusion of selected entities
      */
     excludeButton.addEventListener("click", function () {
-        let value = excludeInputObject.getValue();
         let selection = checkboxesObject.getValue();
         if (selection.length > 0) {
             excludeEntities(selection);
-        } else {
-            excludeEntity(value);
         }
         SecondaryButtonModule.disableSecondaryButton(excludeButton);
     });
@@ -323,14 +330,19 @@
             while (!clubTag.classList.contains("excluded-club")) {
                 clubTag = clubTag.parentElement;
             }
-            let representedClub = clubTag.querySelector(".tag-key").innerText;
-            excludedClubs.splice(excludedClubs.indexOf(representedClub), 1);
-            clubTag.remove();
-            updateCountExcludedClubs();
-            insertClubCheckboxes();
-            if (excludedClubs.length === 0 && !excludedContainer.querySelector(".no-exclusion")) {
-                excludedContainer.appendChild(GeneralModule.generateElement("span", ["no-exclusion"], "Keiner"));
-            }
+            let representedClub = clubTag.querySelector(".tag-value").innerText;
+            App.ModalModule.confirmModal("Verein nicht mehr ausschließen?", "Möchtest du " + representedClub + " nicht mehr ausschließen? User, die diesem Verein angehören, sehen den Wettkampf dann wieder im Dashboard, bekommen Informationen (via E-Mail) und können Personen anmelden.", function () {
+                let data = {"club": representedClub}
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, includeClubUrl, () => {
+                    excludedClubs.splice(excludedClubs.indexOf(representedClub), 1);
+                    clubTag.remove();
+                    updateCountExcludedClubs();
+                    insertClubCheckboxes();
+                    if (excludedClubs.length === 0 && !excludedContainer.querySelector(".no-exclusion")) {
+                        excludedContainer.appendChild(GeneralModule.generateElement("span", ["no-exclusion"], "Keiner"));
+                    }
+                }, data, true);
+            });
         }
     });
 
@@ -366,14 +378,16 @@
             }
         }
         function exclude() {
-            // TODO: exclude entity in backend too (and maybe remove it from enrolled clubs too)
-            if (enrolledClubs.includes(entity)) {
-                enrolledClubs.splice(enrolledClubs.indexOf(entity), 1);
-            }
-            createAndAppendExclusionTag(entity);
-            excludedClubs.push(entity);
-            insertClubCheckboxes();
-            updateCountExcludedClubs();
+            let data = {"club": entity};
+            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, excludeClubUrl, () => {
+                if (enrolledClubs.includes(entity)) {
+                    enrolledClubs.splice(enrolledClubs.indexOf(entity), 1);
+                }
+                createAndAppendExclusionTag(entity);
+                excludedClubs.push(entity);
+                insertClubCheckboxes();
+                updateCountExcludedClubs();
+            }, data, true);
         }
     }
 
@@ -449,12 +463,20 @@
     function openExclusionModal() {
         ModalModule.appendOverlay();
         exclusionModal.classList.add("open");
-        // TODO: get all clubs and enrolled clubs and excluded clubs from backend
-        /*
-            excludedClubs.forEach((excludedClub) => {
-                createAndAppendExclusionTag(excludedClub);
+        App.LoaderModule.addBigLoader();
+        App.SendRequestModule.getData(allClubsUrl, (data) => {
+            // remove "SV Tora" as this can't be excluded from the tournament
+            data.splice(data.indexOf("SV Tora"), 1);
+            allClubs = data;
+            App.SendRequestModule.getData(enrolledClubsUrl, (data) => {
+                enrolledClubs = data;
             });
-         */
+            App.SendRequestModule.getData(excludedClubsUrl, (data) => {
+                excludedClubs = data;
+                App.LoaderModule.removeBigLoader();
+                insertClubCheckboxes();
+            });
+        });
     }
 
     /**
@@ -463,7 +485,6 @@
     function closeExclusionModal() {
         ModalModule.removeOverlay();
         exclusionModal.classList.remove("open");
-        insertClubCheckboxes();
         excludeInputObject.setValue("");
     }
 

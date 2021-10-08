@@ -13,6 +13,7 @@
 @section("content")
 
     <main class="limited clearfix">
+        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
         <h1>Kategorie <span class="old-category-name">5</span> Teilen</h1>
 
         <div class="left-category category-container">

@@ -55,7 +55,7 @@ class TournamentPolicy
      */
     public function view(User $user, Tournament $tournament)
     {
-        return $tournament->id === Tournament::latest()->first()->id;
+        return $tournament->id === Tournament::latest()->first()->id && !$tournament->excludedClubs->contains($user->club);
     }
 
     /**

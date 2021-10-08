@@ -13,6 +13,7 @@
 @section("content")
 
     <main class="limited">
+        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
         <h1>Wettkampf Zeitplan</h1>
         <p>Falls du Parameter bezüglich der Wettkämpfe (z.B. die Standardlänge eines einzelnen Kampfes) einstellen willst, dann findest du das in den <a class="link" href="/settings">Einstellungen</a>.</p>
 

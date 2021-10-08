@@ -55,7 +55,7 @@
 
             <a class="excluded-clubs topic-container dashboard-container" href="{{ $excludeClubsUrl }}">
                 <h3>Ausgeschlossene Vereine</h3>
-                <p><span class="count-excluded">2</span> Vereine ausgeschlossen ausgeschlossen</p>
+                <p><span class="count-excluded">{{ $tournament->excludedClubs->count() }}</span> Vereine ausgeschlossen</p>
             </a>
 
             <a class="fight-places topic-container dashboard-container" href="{{ $changeFightingPlacesUrl }}">
@@ -137,7 +137,7 @@
     </main>
 
     <div class="primary-button-floating-container mode-control">
-        <a class="primary-button fight-mode" href="#">
+        <a class="primary-button fight-mode">
             <i class="material-icons">whatshot</i>
             <p>Wettkampf-Modus</p>
         </a>
@@ -152,8 +152,15 @@
 
         <div class="exclude-container">
             <h4>Ausgeschlossene Vereine</h4>
+            <p>Ausgeschlossene Vereine dürfen sich nicht zu diesem Wettkampf anmelden. Vereine, die von euch ausgeschlossen wurden, bekommen erstens keine Informationen (via E-Mail) zum aktuellen Wettkampf und zweitens sehen sie diesen nicht im Dashboard.</p>
             <div class="excluded-clubs">
-                <span class="no-exclusion">Keiner</span>
+                @if($tournament->excludedClubs->count() > 0)
+                    @foreach($tournament->excludedClubs as $excludedClub)
+                        <x-tag class="excluded-club" value="{{ $excludedClub->name }}"></x-tag>
+                    @endforeach
+                @else
+                    <span class="no-exclusion">Keiner</span>
+                @endif
             </div>
         </div>
 
@@ -164,7 +171,7 @@
             <span class="text-input-container input-container">
                 <label class="icon" for="exclude-entity"><i class="material-icons">person</i></label>
                 <input name="exclude-entity" class="text-input" type="text" id="exclude-entity"/>
-                <label class="text" for="exclude-entity">Suche/Freitexteingabe</label>
+                <label class="text" for="exclude-entity">Suche</label>
                 <span class="underline"></span>
             </span>
             <div class="club-selection">

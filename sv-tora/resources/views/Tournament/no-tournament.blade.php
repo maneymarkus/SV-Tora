@@ -13,6 +13,7 @@
 @section("content")
 
     <main class="no-tournament">
+        <a class="link" href="{{ url()->previous() }}">zurück</a>
         <h1>Zur Zeit findet kein Wettkampf statt.</h1>
         <a class="host-tournament tilt" href="{{ url("/tournaments") }}">
             <i class="material-icons">add</i>

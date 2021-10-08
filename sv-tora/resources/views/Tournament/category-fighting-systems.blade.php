@@ -31,6 +31,7 @@
 @section("content")
 
     <main class="limited">
+        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
 
         <h1>Kampfsysteme der Kategorie</h1>
 

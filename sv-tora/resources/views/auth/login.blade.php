@@ -37,6 +37,7 @@
                 <x-inputs.text-input type="default" name="user_identifier" class="required" label="Benutzername/E-Mail">
                     <x-slot name="icon">person</x-slot>
                     <x-slot name="value">{{ old("username") }}</x-slot>
+                    <x-slot name="autofocus">autofocus</x-slot>
                 </x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password" class="required" label="Passwort"></x-inputs.text-input>
                 <x-inputs.check-boxes name="remember" :options="$checkboxOptions"></x-inputs.check-boxes>

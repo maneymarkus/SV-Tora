@@ -23,7 +23,7 @@
 
 <span {{ $attributes->merge(["class" => "text-input-container input-container " . $type]) }}>
     <label class="icon" for="{{ $id }}"><i class="material-icons">{{ $icon }}</i></label>
-    <input name="{{ $name }}" class="text-input" type="{{ $type }}" id="{{ $id }}" value="{{ $value ?? "" }}"/>
+    <input name="{{ $name }}" class="text-input" type="{{ $type }}" id="{{ $id }}" value="{{ $value ?? "" }}" {{ $autofocus ?? "" }}/>
     <label class="text" for="{{ $id }}">{{ $label }}</label>
     <span class="underline"></span>
 </span>

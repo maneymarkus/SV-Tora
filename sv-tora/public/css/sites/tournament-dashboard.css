@@ -834,7 +834,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
     padding: 1rem;
     border-radius: 3px;
     box-shadow: 0 0 8px 2px var(--box-shadow) inset;
-    max-height: 10rem;
+    max-height: 15rem;
     overflow-x: auto;
 }
 
@@ -881,10 +881,6 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 @media only screen and (min-width: 992px) {
-    html {
-        font-size: 1.2rem;
-    }
-
     .status-container,
     .tournament-container {
         width: calc(100% - 2rem);

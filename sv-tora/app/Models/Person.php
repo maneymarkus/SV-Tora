@@ -25,6 +25,10 @@ class Person extends Model
         "club_id"
     ];
 
+    public function fullName() {
+        return $this->first_name . " " . $this->last_name;
+    }
+
     public function club() {
         return $this->belongsTo(Club::class);
     }

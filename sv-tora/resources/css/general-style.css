@@ -395,9 +395,6 @@ a.go-back i {
 }
 
 @media only screen and (min-width: 1200px) {
-    html {
-        font-size: 1.3rem;
-    }
 
     main.limited {
         max-width: 1500px;

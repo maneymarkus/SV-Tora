@@ -65,6 +65,16 @@ class TournamentTemplateController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Du musst eine höchste Graduierung angeben.");
         }
 
+        $examinationTypes = array("Kata", "Kumite");
+
+        if ($kihon) {
+            array_push($examinationTypes, "Kihon");
+        }
+
+        if ($teams) {
+            array_push($examinationTypes, "Teams");
+        }
+
         TournamentTemplate::create([
             "tournament_name" => $tournamentName,
             "age_min" => $minAge,
@@ -73,6 +83,7 @@ class TournamentTemplateController extends Controller
             "graduation_max" => $maxGraduation,
             "teams" => $teams,
             "kihon" => $kihon,
+            "examination_types" => $examinationTypes,
         ]);
 
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die neue Wettkampf-Vorlage \"" . $tournamentName . "\" wurde erfolgreich erstellt. Die Seite lädt in 5 Sekunden neu, um die neue Wettkampf-Vorlage in dieser Übersicht anzuzeigen.");
@@ -125,6 +136,16 @@ class TournamentTemplateController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Du musst eine höchste Graduierung angeben.");
         }
 
+        $examinationTypes = array("Kata", "Kumite");
+
+        if ($kihon) {
+            array_push($examinationTypes, "Kihon");
+        }
+
+        if ($teams) {
+            array_push($examinationTypes, "Teams");
+        }
+
         $tournamentTemplate->tournament_name = $tournamentName;
         $tournamentTemplate->age_min = $minAge;
         $tournamentTemplate->age_max = $maxAge;
@@ -132,6 +153,7 @@ class TournamentTemplateController extends Controller
         $tournamentTemplate->graduation_max = $maxGraduation;
         $tournamentTemplate->teams = $teams;
         $tournamentTemplate->kihon = $kihon;
+        $tournamentTemplate->examination_types = $examinationTypes;
         $tournamentTemplate->save();
 
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Wettkampf-Vorlage \"" . $tournamentTemplate->tournament_name . "\" wurde erfolgreich geändert!");

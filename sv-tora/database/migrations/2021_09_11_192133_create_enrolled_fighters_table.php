@@ -19,7 +19,7 @@ class CreateEnrolledFightersTable extends Migration
             $table->unsignedBigInteger("enrolled_person_id")->index();
             $table->boolean("kata");
             $table->boolean("kumite");
-            $table->enum("kumite_category", config("tournament.kumite_categories"));
+            $table->enum("kumite_category", config("tournament.kumite_categories"))->nullable();
 
             $table->foreign("enrolled_person_id")->references("id")->on("enrolled_people")->onDelete("cascade");
             $table->timestamps();

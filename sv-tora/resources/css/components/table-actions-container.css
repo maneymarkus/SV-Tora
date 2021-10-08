@@ -43,7 +43,7 @@
   z-index: -1;
 }
 
-a.primary-button.print {
+.table-actions a.primary-button.print {
   float: right;
 }
 

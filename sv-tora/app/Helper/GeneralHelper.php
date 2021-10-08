@@ -127,6 +127,7 @@ class GeneralHelper
             "tournament_status" => array_map(function($statusCode) {
                 return config("tournament.tournament_statuus")[$statusCode];
             }, config("tournament.tournament_alterable_statuus")),
+            "examination_type" => config("tournament.examination_types"),
             default => config("global." . $key),
         };
         foreach ($allOptions as $option) {

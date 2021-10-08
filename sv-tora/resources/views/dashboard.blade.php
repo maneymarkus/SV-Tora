@@ -21,25 +21,34 @@
         <div class="fade-wrapper">
             <div class="clearfix">
                 <div class="container-medium">
-                    @if(\App\Models\Tournament::latest()->first()?->active)
-                        <a class="tournaments" href="{{ url("/tournaments/dashboard") }}">
-                            <h3 class="heading">Wettkampf</h3>
-                            <span class="tournament-name">{{ \App\Models\Tournament::latest()->first()?->tournamentTemplate->tournament_name }}</span>
-                            <p class="subheading">Zum Wettkampf-Dashboard</p>
-                        </a>
-                    @else
-                        @if(\Illuminate\Support\Facades\Gate::allows("admin"))
-                            <a class="tournaments no-tournament" href="{{ url("/tournaments/dashboard") }}">
+                    @if(\Illuminate\Support\Facades\Gate::allows("admin"))
+                        @if(\App\Models\Tournament::latest()->first()?->active)
+                            <a class="tournaments" href="{{ url("/tournament/dashboard") }}">
+                                <h3 class="heading">Wettkampf</h3>
+                                <span class="tournament-name">{{ \App\Models\Tournament::latest()->first()?->tournamentTemplate->tournament_name }}</span>
+                                <p class="subheading">Zum Wettkampf-Dashboard</p>
+                            </a>
+                        @else
+                            <a class="tournaments no-tournament" href="{{ url("/tournament/dashboard") }}">
                                 <h3 class="heading">Zum Wettkampf Dashboard</h3>
                                 <p class="subheading">{{ \App\Models\Tournament::all()->count() }} erfolgreich veranstaltete Wettkämpfe</p>
+                            </a>
+                        @endif
+                    @else
+                        @if(\App\Models\Tournament::latest()->first()?->active && !\App\Models\Tournament::latest()->first()?->excludedClubs->contains(\Illuminate\Support\Facades\Auth::user()->club))
+                            <a class="tournaments" href="{{ url("/tournament/dashboard") }}">
+                                <h3 class="heading">Wettkampf</h3>
+                                <span class="tournament-name">{{ \App\Models\Tournament::latest()->first()?->tournamentTemplate->tournament_name }}</span>
+                                <p class="subheading">Zum Wettkampf-Dashboard</p>
                             </a>
                         @else
                             <div class="no-tournament">
                                 <h3 class="heading">Wettkampf</h3>
-                                <p>Zur Zeit findet kein Wettkampf statt</span>
+                                <p>Zur Zeit findet kein Wettkampf statt</p>
                             </div>
                         @endif
                     @endif
+
                 </div>
 
                 @php

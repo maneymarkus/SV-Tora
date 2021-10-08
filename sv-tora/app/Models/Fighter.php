@@ -26,6 +26,10 @@ class Fighter extends Model
         "person_id",
     ];
 
+    public function age() {
+        return Carbon::parse($this->birthdate)->age;
+    }
+
     public function person() {
         return $this->belongsTo(Person::class);
     }
@@ -68,7 +72,7 @@ class Fighter extends Model
     }
 
     public function tableProperties($counter) {
-        $age = Carbon::parse($this->birthdate)->age;
+        $age = $this->age();
         return [
             $counter,
             $this->person->first_name,

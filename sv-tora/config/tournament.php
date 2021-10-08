@@ -64,9 +64,7 @@ return [
     "examination_types" => [
         "Kihon",
         "Kata",
-        "Kihon_Ippon_Kumite",
-        "Jiyu_Ippon_Kumite",
-        "Shobu_Ippon_Kumite",
+        "Kumite",
         "Team",
     ],
 

@@ -27,7 +27,7 @@ function createLoader(bigLoader) {
     let loaderDiv = generateElement("div", ["loader"]);
     let fighterDiv = generateElement("div", ["fighter"]);
     let image = generateElement("img");
-    image.setAttribute("src", "../images/fighter-symbol-white.png");
+    image.setAttribute("src", "/images/fighter-symbol-white.png");
     image.setAttribute("alt", "fighter");
     fighterDiv.appendChild(image);
     loaderDiv.appendChild(fighterDiv);

@@ -41,7 +41,7 @@
         @endcan
         @if(\App\Models\Tournament::latest()->first()?->active || \Illuminate\Support\Facades\Gate::allows("admin"))
             <li>
-                <a href="{{ url("/tournaments/dashboard") }}">
+                <a href="{{ url("/tournament/dashboard") }}">
                     <span class="text">Wettkampf-Dashboard</span>
                 </a>
                 <span class="bg"></span>

@@ -22,6 +22,7 @@ class TournamentTemplateSeeder extends Seeder
             "graduation_max" => "6. Dan",
             "teams" => true,
             "kihon" => false,
+            "examination_types" => "Kata;Kumite;Teams",
         ]);
 
         TournamentTemplate::create([
@@ -32,6 +33,7 @@ class TournamentTemplateSeeder extends Seeder
             "graduation_max" => "6. Dan",
             "teams" => true,
             "kihon" => false,
+            "examination_types" => "Kata;Kumite;Teams",
         ]);
 
         TournamentTemplate::create([
@@ -42,6 +44,7 @@ class TournamentTemplateSeeder extends Seeder
             "graduation_max" => "8. Kyu",
             "teams" => false,
             "kihon" => true,
+            "examination_types" => "Kihon;Kata;Kumite",
         ]);
 
     }

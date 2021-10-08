@@ -25,6 +25,7 @@ class TournamentTemplate extends Model
         "graduation_max",
         "teams",
         "kihon",
+        "examination_types",
     ];
 
     public static function editableProperties(TournamentTemplate $tournamentTemplate = null) {

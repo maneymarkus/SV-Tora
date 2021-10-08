@@ -11,13 +11,13 @@ class Card extends Component
      * The displayed title of the card
      * @var string
      */
-    public $title;
+    public string $title;
 
     /**
      * The number this card should display
      * @var string
      */
-    public $number;
+    public string $number;
 
     /**
      * Create a new component instance.

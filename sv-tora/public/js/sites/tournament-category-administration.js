@@ -211,4 +211,28 @@
         categoryAccordions.push(new CategoryAccordion(accordion));
     });
 
+    let addCategoryBtns = document.querySelectorAll(".primary-button.add-category");
+    addCategoryBtns.forEach((addCategoryBtn) => {
+        let url = addCategoryBtn.getAttribute("href");
+        addCategoryBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            App.SendRequestModule.getData(url + "/create", function (data) {
+                let container = App.TranslationModule.translateObjectToInputs(data, true);
+                let modalWindow = App.ModalModule.confirmModal("Kategorie hinzufügen", container, undefined, undefined, function () {
+                    if (!App.FormModule.checkForm(container, true)) {
+                        return false;
+                    } else {
+                        let data = App.TranslationModule.translateInputsToObject(container);
+                        App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, () => {
+                            modalWindow.closeModal();
+                            window.setTimeout(function () {
+                                window.location.reload();
+                            }, 5000);
+                        }, data, true);
+                    }
+                });
+            });
+        });
+    });
+
 })(window, document);
