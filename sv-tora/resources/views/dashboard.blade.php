@@ -58,7 +58,7 @@
                 @endphp
 
                 <div class="container-medium">
-                    <x-horizontal-card title="Personen" href="/entities/persons" number="{{ $personCount }}"></x-horizontal-card>
+                    <x-horizontal-card title="Personen" href="/entities/people" number="{{ $personCount }}"></x-horizontal-card>
                     <x-horizontal-card title="Teams" href="/entities/teams" number="{{ $teamCount }}"></x-horizontal-card>
                     @can("admin")
                         <x-horizontal-card title="Vereine" href="/entities/clubs" number="{{ $clubCount }}"></x-horizontal-card>

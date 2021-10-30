@@ -50,6 +50,12 @@
     font-style: italic;
 }
 
+.bar-content .delete-fighter {
+    font-size: 0.5rem;
+    margin: 0.25rem;
+    z-index: 1;
+}
+
 .primary-button.add-category {
     display: block;
     margin-left: auto;

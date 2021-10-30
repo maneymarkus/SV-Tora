@@ -214,7 +214,7 @@ class TeamController extends Controller
 
     public function addFightersToTeam(Request $request, Team $team) {
         $fighters = Fighter::join("people", "fighters.person_id", "=", "people.id")->join("clubs", "people.club_id", "=", "clubs.id")->select("fighters.*", "people.first_name", "people.last_name", "clubs.name as club_name")->get();
-        foreach ($request["fighters"] as $fighterData) {
+        foreach ($request["selected_entities"] as $fighterData) {
             $fighter = $fighters->where("first_name", "=", $fighterData["Vorname"])->where("last_name", "=", $fighterData["Nachname"])->where("sex", "=", $fighterData["Geschlecht"])->where("club_name", "=", $fighterData["Verein"])->where("graduation", "=", $fighterData["Graduierung"])->first();
 
             if ($team->fighters->contains($fighter)) {

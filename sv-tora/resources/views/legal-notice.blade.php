@@ -3,7 +3,7 @@
 @section("body-content")
 
     <header class="header">
-        <div class="logo"></div>
+        <a class="logo"></a>
     </header>
 
     {{-- TODO: Link back to site previously visited --}}

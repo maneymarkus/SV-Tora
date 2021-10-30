@@ -17,18 +17,20 @@ class EnrolledFighter extends Model
      * @var array
      */
     protected $fillable = [
-        "enrolled_person_id",
-        "kumite",
-        "kata",
-        "kumite_category",
+        "fighter_id",
+        "category_id",
     ];
 
-    public function enrolledPerson() {
-        return $this->belongsTo(Person::class);
+    public function tournament() {
+        return $this->belongsTo(Tournament::class);
     }
 
-    public function categories() {
-        return $this->belongsToMany(Category::class, "categories_enrolled_fighters");
+    public function fighter() {
+        return $this->belongsTo(Fighter::class);
+    }
+
+    public function category() {
+        return $this->belongsTo(Category::class);
     }
 
 }

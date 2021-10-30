@@ -1,7 +1,7 @@
 <header class="header">
-    <a class="menu"><i class="material-icons">menu</i></a>
-    <div class="logo"></div>
-    <a class="profile"><i class="material-icons">person</i></a>
+    <a class="menu header-button"><i class="material-icons">menu</i></a>
+    <a class="logo" href="{{ url("/dashboard") }}"></a>
+    <a class="profile header-button"><i class="material-icons">person</i></a>
     <div class="user-profile">
         <div class="user-wrapper">
             <p class="username">{{ auth()->user()->name }}</p>
@@ -10,6 +10,6 @@
         </div>
     </div>
 </header>
-<form id="logout-form" action="{{ route("logout") }}" method="POST" style="display: none;">
+<form class="no-display" id="logout-form" action="{{ route("logout") }}" method="POST">
     @csrf
 </form>

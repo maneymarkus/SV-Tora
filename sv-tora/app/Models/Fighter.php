@@ -38,6 +38,10 @@ class Fighter extends Model
         return $this->belongsToMany(Team::class);
     }
 
+    public function enrolledConfigurations() {
+        return $this->hasMany(EnrolledFighter::class);
+    }
+
     public static function editableProperties(Fighter $fighter = null) {
         $editableProperties = Person::editableProperties($fighter?->person);
         $birthdate = null;

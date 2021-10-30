@@ -12,7 +12,7 @@
 
 @section("body-content")
 
-    <a class="go-back" href="/tournament/competition-mode">
+    <a class="go-back" href="{{ url()->previous("/tournament/dashboard") }}">
         <i class="material-icons">arrow_back</i>
     </a>
 

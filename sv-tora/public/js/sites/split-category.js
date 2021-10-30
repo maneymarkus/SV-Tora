@@ -14,10 +14,10 @@
         let toRightBtn = divisionCommands.querySelector("a.to-right");
         let leftCategoryContainer = document.querySelector("div.left-category");
         let rightCategoryContainer = document.querySelector("div.right-category");
-        let divideBtn = document.querySelector("a.divide");
+        let splitBtn = document.querySelector("a.split");
         let cancelBtn = document.querySelector("a.cancel");
 
-        App.PrimaryButtonModule.disablePrimaryButton(divideBtn);
+        App.PrimaryButtonModule.disablePrimaryButton(splitBtn);
         App.ModalModule.appendOverlay();
 
         let allCards = [];
@@ -162,6 +162,10 @@
 
         if (unassignedCards[0]) {
             activateAssigning();
+        } else {
+            App.ModalModule.infoModal("Keine Kämpfer vorhanden", "In dieser Kategorie sind (noch) keine Kämpfer. Füge erst Kämpfer hinzu, um die Kategorie dann zu teilen.", function () {
+                window.location.href = cancelBtn.getAttribute("href");
+            });
         }
 
         function assignCard(left) {
@@ -204,13 +208,29 @@
             App.ModalModule.appendOverlay();
             unassignedCards[0].becomesCurrentCard();
             divisionCommands.classList.add("active");
-            App.PrimaryButtonModule.disablePrimaryButton(divideBtn);
+            App.PrimaryButtonModule.disablePrimaryButton(splitBtn);
         }
 
         function deactivateAssigning() {
             App.ModalModule.removeOverlay();
             divisionCommands.classList.remove("active");
-            App.PrimaryButtonModule.enablePrimaryButton(divideBtn);
+            App.PrimaryButtonModule.enablePrimaryButton(splitBtn);
+        }
+
+        function getCategoriesFighters(categoryContainer) {
+            if (categoryContainer.classList.contains("category-container")) {
+                let categoryFighters = [];
+                let fighterCards = categoryContainer.querySelectorAll("div.fighter-card");
+                fighterCards.forEach((fighterCard) => {
+                    let fighter = {
+                        "id" : fighterCard.querySelector(".fighter-id").innerText,
+                    }
+                    categoryFighters.push(fighter);
+                });
+                return categoryFighters;
+            } else {
+                return false;
+            }
         }
 
         toLeftBtn.addEventListener("click", function () {
@@ -221,27 +241,39 @@
             assignCard(false);
         });
 
-        divideBtn.addEventListener("click", function (e) {
+        splitBtn.addEventListener("click", function (e) {
             e.preventDefault();
-            if (divideBtn.classList.contains("disabled")) {
+            if (unassignedCards.length > 0) {
+                App.ModalModule.infoModal("Kategorie teilen nicht möglich", "Da noch nicht alle Kämpfer aufgeteilt wurden, kannst du aktuell die Kategorie noch nicht teilen. Bitte ordne erst alle Kämpfer einer Kategorie zu und teile die alte Kategorie dann.");
                 return;
-            } else {
-                // TODO: Divide category!
             }
+            let url = splitBtn.getAttribute("href");
+            let leftCategoryName = leftCategoryContainer.querySelector(".category-name").innerText;
+            let rightCategoryName = rightCategoryContainer.querySelector(".category-name").innerText;
+            let data = {
+                "categories": {
+                    leftCategoryName:  getCategoriesFighters(leftCategoryContainer),
+                    rightCategoryName: getCategoriesFighters(rightCategoryContainer),
+                },
+            };
+            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, () => {
+                window.setTimeout(function () {
+                    window.location.href = cancelBtn.getAttribute("href");
+                }, 5000);
+            }, data, true);
         });
 
         cancelBtn.addEventListener("click", function (e) {
             e.preventDefault();
+            let url = cancelBtn.getAttribute("href");
             if (allCards.length === unassignedCards.length) {
-                // TODO: Just leave page
+                window.location.href = url;
             } else {
-                // TODO: Call Confirm Modal to ask if really want to leave page (function leavePage is positiveCallback)
+                App.ModalModule.confirmModal("Seite verlassen", "Willst du die Seite wirklich verlassen?", function () {
+                    window.location.href = url;
+                });
             }
         });
-
-        function leavePage() {
-            // TODO:
-        }
 
     }
 

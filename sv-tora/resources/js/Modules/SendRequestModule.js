@@ -65,7 +65,7 @@ function getRequest(url, callback, loader) {
         });
 }
 
-function postRequest(method, url, callback, content, loader) {
+async function postRequest(method, url, callback, content, loader) {
     let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
     if (loader) {

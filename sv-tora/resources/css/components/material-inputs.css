@@ -579,7 +579,7 @@ input.time-input {
     top: 100%;
     right: 0;
     height: auto;
-    max-height: calc(3 * 2.15em);
+    max-height: calc(4 * 2.15em);
     overflow-y: auto;
     transition: 0.5s ease;
     opacity: 0;

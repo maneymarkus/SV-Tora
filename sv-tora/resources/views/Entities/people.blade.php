@@ -4,6 +4,7 @@
 
     <main>
 
+        <a class="link" href="{{ url()->previous("/dashboard") }}">zurück</a>
         <h1>Registrierte Personen</h1>
 
         @can("admin")

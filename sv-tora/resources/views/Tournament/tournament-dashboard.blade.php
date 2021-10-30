@@ -13,6 +13,7 @@
 @section("content")
 
     <main class="tournament clearfix">
+        <a class="link" href="{{ url()->previous("/dashboard") }}">zurück</a>
         <h1>Wettkampf-Dashboard</h1>
 
         <div data-progress="1" class="status-container">
@@ -41,32 +42,6 @@
         </div>
 
         <div class="column-container">
-
-            <div class="category-administration topic-container dashboard-container">
-                <h3>Kategorien</h3>
-                <p><span class="count-exams">2</span> Prüfungsformen</p>
-                <p><span class="count-kata-categories">6</span> Kata Kategorien</p>
-                <p><span class="count-kumite-categories">4</span> Kumite Kategorien</p>
-            </div>
-
-            <div class="fighting-systems topic-container dashboard-container">
-                <h3>Kampfsysteme</h3>
-                <p><span class="count-prepared">2</span> Kampfsysteme zugeordnet</p>
-                <p><span class="count-not-prepared">8</span> verbleibend</p>
-            </div>
-
-            <div class="fight-places topic-container dashboard-container">
-                <h3>Pools</h3>
-                <p><span class="count-places">{{ $tournament->fightPlaces->count() }}</span> aktive Pools</p>
-            </div>
-
-            <div class="schedule topic-container dashboard-container">
-                <h3>Zeitplan</h3>
-                <p><span class="duration duration-place-1">3:25h</span> auf Wettkampffläche 1</p>
-                <p><span class="duration duration-place-2">3:05h</span> auf Pool 2</p>
-                <p><span class="duration duration-place-3">1:45h</span> auf Pool 3</p>
-                <p><span class="duration duration-place-4">0:00h</span> auf Pool 4</p>
-            </div>
 
             <div class="info dashboard-container">
                 <h3>Info</h3>

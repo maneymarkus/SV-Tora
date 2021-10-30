@@ -2374,7 +2374,8 @@ header:before {
     opacity: 0.95;
 }
 
-header div.logo {
+header a.logo {
+    display: block;
     position: relative;
     background-image: url("/images/Logo_light.png");
     background-size: contain;
@@ -2384,7 +2385,7 @@ header div.logo {
     transition: 0.5s ease;
 }
 
-header > a {
+header .header-button {
     display: block;
     position: absolute;
     border-radius: 10%;
@@ -2401,8 +2402,8 @@ header > a {
     color: white;
 }
 
-header > a:hover,
-header > a:focus {
+header .header-button:hover,
+header .header-button:focus {
     background-color: var(--accent-color-1-light);
 
 }
@@ -2417,15 +2418,15 @@ header .profile {
     transform: rotate(5deg);
 }
 
-.header > a i {
+.header .header-button i {
     font-size: 2rem;
     line-height: 3;
     color: var(--accent-color-1-dark);
     transition: 0.2s ease;
 }
 
-.header > a:hover i,
-.header > a:focus i {
+.header .header-button:hover i,
+.header .header-button:focus i {
     color: white;
 }
 
@@ -2444,16 +2445,16 @@ header .profile {
         padding-top: 0;
     }
 
-    header div.logo {
+    header a.logo {
         height: 40px;
     }
 
-    header:hover div.logo,
-    header.open-menu div.logo {
+    header:hover a.logo,
+    header.open-menu a.logo {
         height: 55px;
     }
 
-    header > a {
+    header .header-button {
         width: 6rem;
         height: 6rem;
         top: -2rem;
@@ -2481,7 +2482,7 @@ header .profile {
         transform: rotate(5deg);
     }
 
-    .header > a i {
+    .header .header-button i {
         line-height: 3.5;
     }
 }
@@ -3663,7 +3664,7 @@ input.time-input {
     top: 100%;
     right: 0;
     height: auto;
-    max-height: calc(3 * 2.15em);
+    max-height: calc(4 * 2.15em);
     overflow-y: auto;
     transition: 0.5s ease;
     opacity: 0;

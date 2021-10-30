@@ -3,11 +3,11 @@
 @section("body-content")
 
     <header class="header">
-        <div class="logo"></div>
+        <a class="logo"></a>
     </header>
 
     {{-- TODO: Link back to site previously visited --}}
-    <a class="go-back" href="/dashboard">
+    <a class="go-back" href="{{ url()->previous("/dashboard") }}">
         <i class="material-icons">arrow_back</i>
     </a>
 

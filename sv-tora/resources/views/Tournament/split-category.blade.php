@@ -13,59 +13,46 @@
 @section("content")
 
     <main class="limited clearfix">
-        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
-        <h1>Kategorie <span class="old-category-name">5</span> Teilen</h1>
+        <h1>Kategorie <span class="old-category-name">{{ $category->name }}</span> Teilen</h1>
 
         <div class="left-category category-container">
-            <span class="left-category-name category-name">5a</span>
+            <span class="left-category-name category-name">{{ $category->name . "a" }}</span>
         </div>
 
         <div class="right-category category-container">
-            <span class="right-category-name category-name">5b</span>
+            <span class="right-category-name category-name">{{ $category->name . "b" }}</span>
         </div>
 
         <div class="commands clearfix">
 
-            <x-primary-button class="divide" text="Kategorie teilen!" icon-name="done"></x-primary-button>
+            @php
+                $splitUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/split");
+                $cancelUrl = url()->previous("/tournaments/" . $tournament->id . "/categories");
+                if ($cancelUrl === url()->current()) {
+                    $cancelUrl = url("/tournaments/" . $tournament->id . "/categories");
+                }
+            @endphp
 
-            <x-primary-button class="cancel warning" text="Abbrechen" icon-name="close"></x-primary-button>
+            <x-primary-button href="{{ $splitUrl }}" class="split" text="Kategorie teilen!" icon-name="done"></x-primary-button>
+
+            <x-primary-button href="{{ $cancelUrl }}" class="cancel warning" text="Abbrechen" icon-name="close"></x-primary-button>
 
         </div>
 
     </main>
 
-    <div class="fighter-card">
-        <h2 class="fighter-name">Marcus Popopov</h2>
-        <p class="clearfix">Alter: <span class="age">21</span></p>
-        <p class="clearfix">Geschlecht: <span class="sex">Männlich</span></p>
-        <p class="clearfix">Kategorie: <span class="category">5</span></p>
-        <p class="clearfix">Graduierung: <span class="graduation">Obermeister</span></p>
-        <p class="clearfix">Verein: <span class="club">SV Tora</span></p>
-    </div>
-    <div class="fighter-card">
-        <h2 class="fighter-name">Florian Reichbürger</h2>
-        <p class="clearfix">Alter: <span class="age">21 Jahre</span></p>
-        <p class="clearfix">Geschlecht: <span class="sex">Männlich</span></p>
-        <p class="clearfix">Kategorie: <span class="category">5</span></p>
-        <p class="clearfix">Graduierung: <span class="graduation">Meister</span></p>
-        <p class="clearfix">Verein: <span class="club">SV Tora</span></p>
-    </div>
-    <div class="fighter-card">
-        <h2 class="fighter-name">Markus The Strong Städler</h2>
-        <p class="clearfix">Alter: <span class="age">22 Jahre</span></p>
-        <p class="clearfix">Geschlecht: <span class="sex">Super Männlich</span></p>
-        <p class="clearfix">Kategorie: <span class="category">8</span></p>
-        <p class="clearfix">Graduierung: <span class="graduation">Powerlifter</span></p>
-        <p class="clearfix">Verein: <span class="club">Mein Verein e. V. </span></p>
-    </div>
-    <div class="fighter-card">
-        <h2 class="fighter-name">Irgendein Anderer</h2>
-        <p class="clearfix">Alter: <span class="age">20 Jahre</span></p>
-        <p class="clearfix">Geschlecht: <span class="sex">Weiblich</span></p>
-        <p class="clearfix">Kategorie: <span class="category">6</span></p>
-        <p class="clearfix">Graduierung: <span class="graduation">Leutnant</span></p>
-        <p class="clearfix">Verein: <span class="club">SV Tora</span></p>
-    </div>
+    @if($category->fighter !== null && $category->fighter->count() > 0)
+        @foreach($category->fighter as $enrolledFighter)
+            <div class="fighter-card">
+                <h2 class="fighter-name">{{ $enrolledFighter->fighter->person->fullName() }}</h2>
+                <p class="clearfix">Alter: <span class="age">{{ $enrolledFighter->fighter->age() }}</span></p>
+                <p class="clearfix">Geschlecht: <span class="sex">{{ $enrolledFighter->fighter->sex }}</span></p>
+                <p class="clearfix">Graduierung: <span class="graduation">{{ $enrolledFighter->fighter->graduation }}</span></p>
+                <p class="clearfix">Verein: <span class="club">{{ $enrolledFighter->fighter->person->club }}</span></p>
+                <p class="no-display fighter_id">{{ $enrolledFighter->fighter->id }}</p>
+            </div>
+        @endforeach
+    @endif
 
     <div class="assigning-commands active">
         <a class="to-left">

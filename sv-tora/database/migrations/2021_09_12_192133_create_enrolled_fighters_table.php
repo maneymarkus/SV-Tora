@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriesEnrolledFightersTable extends Migration
+class CreateEnrolledFightersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateCategoriesEnrolledFightersTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories_enrolled_fighters', function (Blueprint $table) {
+        Schema::create('enrolled_fighters', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger("category_id");
-            $table->unsignedBigInteger("enrolled_fighter_id")->index();
+            $table->unsignedBigInteger("fighter_id")->index();
+            $table->unsignedBigInteger("category_id")->index();
 
+            $table->foreign("fighter_id")->references("id")->on("fighters")->onDelete("cascade");
             $table->foreign("category_id")->references("id")->on("categories")->onDelete("cascade");
-            $table->foreign("enrolled_fighter_id")->references("id")->on("enrolled_fighters")->onDelete("cascade");
-
-            $table->unique(["category_id", "enrolled_fighter_id"]);
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateCategoriesEnrolledFightersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories_enrolled_fighters');
+        Schema::dropIfExists('enrolled_fighters');
     }
 }

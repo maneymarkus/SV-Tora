@@ -13,10 +13,11 @@
 @section("content")
 
     <main>
+        <a class="link" href="{{ url()->previous("/dashboard") }}">zurück</a>
 
         <x-table class="smartphone-optimized" :columns="$columns" :rows="$rows" actions="false" filter="true" editable="false" deletable="false" selectable="true">
             <x-slot name="heading">{{ $entities }} auswählen und <span class="highlighted-span">{{ $addTo }}</span> hinzufügen</x-slot>
-            <x-slot name="selectLimit">{{ $selectLimit }}</x-slot>
+            <x-slot name="selectLimit">{{ $selectLimit ?? null }}</x-slot>
         </x-table>
 
         <div class="primary-button-floating-container cancel-control">

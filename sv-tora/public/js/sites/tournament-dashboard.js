@@ -67,7 +67,7 @@
     let fightingSystemsContainer = document.querySelector("a.fighting-systems");
 
     fightModeButton.addEventListener("click", function (e) {
-        ModalModule.infoModal("Wettkamf-Modus", "Leider ist der Wettkampf-Modus noch nicht implementiert und steht demnach (noch) nicht zur Verfügung.");
+        ModalModule.infoModal("Wettkamf-Modus", "Leider ist der Wettkampf-Modus noch nicht implementiert und steht demnach leider nicht zur Verfügung.");
         /*
         if (checkPreparation()) {
             if (checkDate()) {

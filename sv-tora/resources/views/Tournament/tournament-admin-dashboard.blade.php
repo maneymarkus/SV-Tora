@@ -13,6 +13,7 @@
 @section("content")
 
     <main class="tournament clearfix">
+        <a class="link" href="{{ url()->previous("/dashboard") }}">zurück</a>
         <h1>Wettkampf-Dashboard</h1>
 
         <div data-progress="{{ $progressStep }}" class="status-container">
@@ -42,9 +43,15 @@
 
             <a class="category-administration topic-container dashboard-container" href="{{ $changeCategoriesUrl }}">
                 <h3>Kategorien</h3>
-                <p><span class="count-exams">2</span> Prüfungsformen</p>
-                <p><span class="count-kata-categories">6</span> Kata Kategorien</p>
-                <p><span class="count-kumite-categories">4</span> Kumite Kategorien</p>
+                <p><span class="count-exams">{{ count(explode(";", $tournament->tournamentTemplate->examination_types)) }}</span> Prüfungsformen</p>
+                @if($tournament->tournamentTemplate->kihon)
+                    <p><span class="count-kihon-categories">{{ $tournament->categories()->where("examination_type", "=", "Kihon")->get()->count() }}</span> Kihon Kategorie(n)</p>
+                @endif
+                <p><span class="count-kata-categories">{{ $tournament->categories()->where("examination_type", "=", "Kata")->get()->count() }}</span> Kata Kategorie(n)</p>
+                <p><span class="count-kumite-categories">{{ $tournament->categories()->where("examination_type", "=", "Kumite")->get()->count() }}</span> Kumite Kategorie(n)</p>
+                @if($tournament->tournamentTemplate->teams)
+                    <p><span class="count-team-categories">{{ $tournament->categories()->where("examination_type", "=", "Team")->get()->count() }}</span> Team Kategorie(n)</p>
+                @endif
             </a>
 
             <a class="fighting-systems topic-container dashboard-container" href="{{ $changeFightingSystemsUrl }}">

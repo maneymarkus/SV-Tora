@@ -120,6 +120,7 @@ a.cancel {
     float: right;
     margin-right: 10%;
     font-size: 0.8rem;
+    z-index: 10005;
 }
 
 .fighter-card {
@@ -232,10 +233,6 @@ a.cancel {
 
     .division-commands {
         justify-content: space-around;
-    }
-
-    a.primary-button {
-        font-size: 1rem;
     }
 
     a.divide {

@@ -22,52 +22,28 @@
             this.categoryNames.push(bar.querySelector("span.category-name").innerText.trim());
         });
 
-        this.addCategoryAccordionBar = function (nextBarSibling, categoryName, graduation, ageRange, sex, memberCount, content) {
-            let categoryHeader = App.GeneralModule.generateElement("H4", ["heading"], "Kategorie: ");
-            categoryHeader.appendChild(App.GeneralModule.generateElement("SPAN", ["category-name"], categoryName));
-            categoryHeader.appendChild(document.createTextNode(" ("));
-            categoryHeader.appendChild(App.GeneralModule.generateElement("SPAN", ["category-graduation"], graduation));
-            categoryHeader.appendChild(document.createTextNode(" / "));
-            categoryHeader.appendChild(App.GeneralModule.generateElement("SPAN", ["category-age"], ageRange));
-            categoryHeader.appendChild(document.createTextNode(" / "));
-            categoryHeader.appendChild(App.GeneralModule.generateElement("SPAN", ["category-sex"], sex));
-            categoryHeader.appendChild(document.createTextNode(" / "));
-            categoryHeader.appendChild(App.GeneralModule.generateElement("SPAN", ["count-members"], memberCount));
-            categoryHeader.appendChild(document.createTextNode(")"));
-
-            let newBar = This.inheritance.addAccordionBar(nextBarSibling, categoryHeader, content);
-
-            //Create <div class="tools">...</div>
-            let tools = App.GeneralModule.generateElement("DIV", ["tools"]);
-            let print = App.GeneralModule.generateElement("A", ["primary-button tool print"]);
-            print.appendChild(App.GeneralModule.generateElement("I", ["material-icons"], "print"));
-            print.appendChild(App.GeneralModule.generateElement("P", [], "Drucken"));
-            tools.appendChild(print);
-            let edit = App.GeneralModule.generateElement("A", ["primary-button tool edit"]);
-            edit.appendChild(App.GeneralModule.generateElement("I", ["material-icons"], "create"));
-            edit.appendChild(App.GeneralModule.generateElement("P", [], "Umbenennen"));
-            tools.appendChild(edit);
-            let split = App.GeneralModule.generateElement("A", ["primary-button tool split"]);
-            split.appendChild(App.GeneralModule.generateElement("I", ["material-icons"], "call_split"));
-            split.appendChild(App.GeneralModule.generateElement("P", [], "Splitten"));
-            tools.appendChild(split);
-            let merge = App.GeneralModule.generateElement("A", ["primary-button tool merge"]);
-            merge.appendChild(App.GeneralModule.generateElement("I", ["material-icons"], "merge_type"));
-            merge.appendChild(App.GeneralModule.generateElement("P", [], "Mergen"));
-            tools.appendChild(merge);
-
-            newBar.querySelector("div.bar-header").appendChild(tools);
-        }
-
         this.accordionElement.addEventListener("click", function (e) {
             let target = e.target;
             e.preventDefault();
-            while (target.nodeName !== "BODY" && !target.classList.contains("tool")) {
-                target = target.parentNode;
+            while (target.nodeName !== "BODY" && !target.classList.contains("tool") && !target.classList.contains("delete-fighter")) {
+                target = target.parentElement;
             }
             if (target.classList.contains("tool")) {
                 This.inheritance.stayOpen = true;
                 This.handleToolClick(target);
+                return;
+            }
+            if (target.classList.contains("delete-fighter")) {
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, target.getAttribute("href"), () => {
+                    while (target.nodeName !== "TR" && target.nodeName !== "BODY") {
+                        target = target.parentElement;
+                    }
+                    if (target.nodeName === "TR") {
+                        let bar = target.parentElement.parentElement.parentElement.parentElement;
+                        bar.querySelector(".count-members").innerHTML = (parseInt(bar.querySelector(".count-members").innerText) - 1) + "";
+                        target.remove();
+                    }
+                }, undefined, true);
                 return;
             }
         });
@@ -85,36 +61,55 @@
 
             //Print category
             if (target.classList.contains("print")) {
-                App.ModalModule.infoModal("DRUCKEN!", "DruckenDruckenDruckenDruckenDruckenDruckenDruckenDruckenDruckenDruckenDruckenDruckenDruckenDruckenDrucken");
+                let url = target.getAttribute("href");
+                App.ModalModule.infoModal("Kategorie drucken", "Leider wird drucken noch nicht vollständig unterstützt.");
                 return;
             }
 
             // Change category name
             if (target.classList.contains("edit")) {
-                This.renameCategory(barHeader, categoryName);
+                let url = target.getAttribute("href");
+                This.renameCategory(barHeader, categoryName, url);
                 return;
             }
 
             // split category
             if (target.classList.contains("split")) {
-                // TODO: Go to splitting page
+                window.location.href = target.getAttribute("href");
                 return;
             }
 
             // Merge two categories into single one
             if (target.classList.contains("merge")) {
                 if (This.accordionBars.length > 1) {
+                    let url = target.getAttribute("href");
                     let accordion = target;
                     while (accordion.nodeName !== "BODY" && !accordion.classList.contains("accordion")) {
                         accordion = accordion.parentElement;
                     }
-                    This.initiateMerging(accordion, barHeader, categoryName, categoryGraduation, categoryAge, categorySex, categoryMemberCount);
+                    This.initiateMerging(accordion, url, barHeader, categoryName, categoryGraduation, categoryAge, categorySex, categoryMemberCount);
+                } else {
+                    App.ModalModule.infoModal("Kategorien zusammenführen", "Zur Zeit kannst du diese Kategorie nicht mit einer anderen Kategorie zusammenführen, da diese Kategorie die einzige in dieser Prüfungsform ist.");
                 }
+                return;
+            }
+
+            // add fighter
+            if (target.classList.contains("add")) {
+                window.location.href = target.getAttribute("href");
+                return;
+            }
+
+            // delete category
+            if (target.classList.contains("delete")) {
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, target.getAttribute("href"), () => {
+                    barHeader.parentElement.remove();
+                }, undefined, true);
                 return;
             }
         }
 
-        this.initiateMerging = function (accordion, mergeInitiatorBarHeader, categoryName, categoryGraduation, categoryAge, categorySex, categoryMemberCount) {
+        this.initiateMerging = function (accordion, url, mergeInitiatorBarHeader, categoryName, categoryGraduation, categoryAge, categorySex, categoryMemberCount) {
             let otherCategories = [];
             let bars = accordion.querySelectorAll("div.bar-header");
             bars.forEach((bar) => {
@@ -127,48 +122,45 @@
                     otherCategories.push(object);
                 }
             });
-            let radioInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.RADIO, undefined, undefined, "mergeTarget", undefined, undefined, undefined, otherCategories);
+            let radioInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.RADIO, ["required"], undefined, "merge_target", undefined, undefined, undefined, otherCategories);
             let categoryToBeMerged = categoryName + " (" + categoryGraduation + "/" + categoryAge + "/" + categorySex + "/" + categoryMemberCount + ")";
-            App.ModalModule.confirmModal("Kategorie " + categoryToBeMerged + " vereinen mit:", radioInput.inputContainer, function () {
-                //TODO: call this after backend responded successfully
-                This.mergeCategories(radioInput.inputContainer, mergeInitiatorBarHeader);
+            let modalWindow = App.ModalModule.confirmModal("Kategorie " + categoryToBeMerged + " vereinen mit:", radioInput.inputContainer, function () {
+                window.setTimeout(function () {
+                    window.location.reload();
+                }, 5000);
+            }, undefined, function () {
+                if (!App.FormModule.checkInput(radioInput.inputContainer, true)) {
+                    return false;
+                } else {
+                    let data = App.TranslationModule.translateInputsToObject(radioInput.inputContainer);
+                    App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, () => {
+                        modalWindow.closeModal();
+                        window.setTimeout(function () {
+                            window.location.reload();
+                        }, 5000);
+                    }, data, true);
+                }
             });
         }
 
-        this.mergeCategories = function (inputContainer, mergeInitiatorBarHeader) {
-            let translatedInput = App.TranslationModule.translateInputsToObject(inputContainer);
-            let mergeTargetCategoryName = translatedInput["mergeTarget"];
-            if (mergeInitiatorBarHeader.nextElementSibling) {
-                let rows = mergeInitiatorBarHeader.nextElementSibling.querySelectorAll("tr");
-                let mergeTarget = This.getAccordionBarByCategoryName(mergeTargetCategoryName);
-                let mergeTargetTable = mergeTarget.querySelector("table");
-                rows.forEach((row) => {
-                    mergeTargetTable.appendChild(row);
-                });
-                This.inheritance.deleteAccordionBar(mergeInitiatorBarHeader.parentElement);
-                This.renumberContent(mergeTargetTable);
-            }
-        }
-
-        this.renumberContent = function (table) {
-            let rows = table.querySelectorAll("tr");
-            let counter = 1;
-            rows.forEach((row) => {
-                row.querySelector("td.number").innerHTML = "" + counter++;
-            });
-        }
-
-        this.renameCategory = function (barHeader, categoryName) {
+        this.renameCategory = function (barHeader, categoryName, url) {
             let categoryNameSpan = barHeader.querySelector("span.category-name");
             let graduationSpan = barHeader.querySelector("span.graduation");
             categoryNameSpan.classList.add("no-display");
             let width = categoryNameSpan.offsetWidth;
+            let oldValue = categoryNameSpan.innerText;
 
             // this variable keeps track if the error that a category name has to be unique has already been shown
             let errorShown = false;
 
             function endInput(value) {
-                categoryNameSpan.innerHTML = value;
+                let data = {"Name": value};
+                categoryNameSpan.innerHTML = oldValue;
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, () => {
+                    categoryNameSpan.innerHTML = value;
+                    This.categoryNames.slice(This.categoryNames.indexOf(oldValue), 1);
+                    This.categoryNames.push(value);
+                }, data, true);
                 categoryNameSpan.classList.remove("no-display");
                 This.inheritance.stayOpen = false;
                 errorShown = false;

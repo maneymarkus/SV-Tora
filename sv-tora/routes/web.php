@@ -36,9 +36,8 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $time = \Carbon\Carbon::parse("12:01");
-
-    return json_encode(intval($time->format("i")) === 0);
+    $models = \App\Models\Fighter::join("people", "people.id", "=", "fighters.person_id")->get();
+    return $models;
     #return view("test");
 });
 
@@ -133,34 +132,20 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
      *      Entity Routes                                         *
      **************************************************************/
 
-    Route::get("/entities/persons", function () {
-        return view("Entities.persons");
+    Route::get("/entities/people", function () {
+        return view("Entities.people");
     });
-
-    Route::resource("/entities/users", UserController::class)->except(["create", "store", "edit"]);
-
     Route::resource("/entities/fighters", FighterController::class)->except(["show"]);
-
     Route::resource("/entities/coaches", CoachController::class)->except(["show"]);
-
     Route::resource("/entities/referees", RefereeController::class)->except(["show"]);
-
     Route::resource("/entities/helpers", HelperController::class)->except(["show"]);
-
     Route::resource("/entities/teams", TeamController::class)->except(["show"]);
-
     Route::get("/entities/teams/{team}/fighters", [TeamController::class, "showFighters"]);
-
     Route::get("/entities/teams/{team}/fighters/create", [TeamController::class, "addFighters"]);
-
     Route::get("/entities/teams/{team}/fighters/select", [TeamController::class, "selectFighters"]);
-
     Route::post("/entities/teams/{team}/fighters", [TeamController::class, "addFightersToTeam"]);
-
     Route::delete("/entities/teams/{team}/fighters/{fighter}", [TeamController::class, "removeFighter"]);
-
     Route::get("/entities/clubs/{club}/fighters", [ClubController::class, "showFighters"]);
-
     Route::get("/entities/clubs/{club}/teams", [ClubController::class, "showTeams"]);
 
 
@@ -195,21 +180,13 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          **************************************************************/
 
         Route::get("/mail", [MailController::class, "createMail"]);
-
         Route::get("/mail/tournament-cancellation-information", [MailController::class, "informClubsAboutTournamentCancellation"]);
-
         Route::get("/mail/tournament-change-information/{tournament}", [MailController::class, "informClubsAboutTournamentChange"]);
-
         Route::get("/mail/user-mails/all", [UserController::class, "getMailsFromUsersFromAllClubs"]);
-
         Route::get("/mail/user-mails/invited", [UserController::class, "getMailsFromUsersFromInvitedClubs"]);
-
         Route::get("/mail/user-mails/enrolled", [UserController::class, "getMailsFromUsersFromEnrolledClubs"]);
-
         Route::post("/mail/user-mails/selected", [UserController::class, "getMailsFromUsersFromSelectedClubs"]);
-
         Route::get("/mail/user-mails/{club}", [UserController::class, "getMailsFromUsersOfClub"]);
-
         Route::post("/mail", [MailController::class, "sendMail"]);
 
 
@@ -218,7 +195,6 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          **************************************************************/
 
         Route::resource("/documents", DocumentController::class)->except(["create", "show", "edit"]);
-
         Route::get("/documents/{document}/download", [DocumentController::class, "download"]);
 
 
@@ -255,18 +231,13 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          *      Entity Routes                                         *
          **************************************************************/
 
+        Route::resource("/entities/users", UserController::class)->except(["create", "store", "edit"]);
         Route::get("/entities/clubs/names", [ClubController::class, "getClubNames"]);
-
         Route::resource("/entities/clubs", ClubController::class);
-
         Route::get("/entities/users/{user}/admin/edit", [UserController::class, "editByAdmin"]);
-
         Route::put("/entities/users/{user}/admin", [UserController::class, "updateByAdmin"]);
-
         Route::get("/entities/admins", [UserController::class, "indexAdmins"]);
-
         Route::put("/entities/admins/{admin}/permissions", [UserController::class, "updateAdminPermissions"]);
-
         Route::delete("/entities/admins/{admin}", [UserController::class, "destroyAdmin"]);
 
 
@@ -287,7 +258,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
             return view("Tournament.competition-mode");
         });
 
-        Route::resource("/tournaments/{tournament}/fight-places", FightPlaceController::class);
+        Route::resource("/tournaments/{tournament}/fight-places", FightPlaceController::class)->except(["show"]);
 
         Route::post("/tournaments/{tournament}/clubs/include", [TournamentController::class, "includeClub"]);
 
@@ -296,10 +267,12 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         });
         Route::post("/tournaments/{tournament}/categories/{category}/name", [CategoryController::class, "updateName"]);
         Route::get("/tournaments/{tournament}/categories/{category}/print", [CategoryController::class, "printCategory"]);
-        Route::post("/tournaments/{tournament}/categories/{category}/split", [CategoryController::class, "updateName"]);
-        Route::post("/tournaments/{tournament}/categories/{category}/merge", [CategoryController::class, "updateName"]);
-        Route::get("/tournaments/{tournament}/categories/{category}/fighters/add", [CategoryController::class, "updateName"]);
-        Route::delete("/tournaments/{tournament}/categories/{category}/fighters/{fighter}", [CategoryController::class, "updateName"]);
+        Route::get("/tournaments/{tournament}/categories/{category}/split", [CategoryController::class, "prepareSplittingCategory"]);
+        Route::post("/tournaments/{tournament}/categories/{category}/split", [CategoryController::class, "splitCategory"]);
+        Route::post("/tournaments/{tournament}/categories/{category}/merge", [CategoryController::class, "mergeCategories"]);
+        Route::get("/tournaments/{tournament}/categories/{category}/fighters/add", [CategoryController::class, "selectFighters"]);
+        Route::post("/tournaments/{tournament}/categories/{category}/fighters", [CategoryController::class, "addFighters"]);
+        Route::delete("/tournaments/{tournament}/categories/{category}/fighters/{enrolledFighter}", [CategoryController::class, "removeFighter"]);
         Route::resource("/tournaments/{tournament}/categories", CategoryController::class)->except(["show", "edit", "update"]);
 
         Route::get("/tournaments/category-fighting-systems", function () {

@@ -193,7 +193,11 @@ let Table = function(table) {
     this.selectedRows = [];
 
     // Contains the maximum amount of selectable entries
-    this.selectLimit = parseInt(This.tableElement.getAttribute("data-select-limit"));
+    if (Number.isFinite(parseInt(This.tableElement.getAttribute("data-select-limit")))) {
+        this.selectLimit = parseInt(This.tableElement.getAttribute("data-select-limit"));
+    } else {
+        this.selectLimit = undefined;
+    }
 
     // Iterate over all available rows in table body and read them into objects
     this.trs.forEach((tr) => {
@@ -290,7 +294,7 @@ let Table = function(table) {
             }
         } else {
             // check if it is allowed to add more items
-            if (This.selectedRows.length === This.selectLimit) {
+            if (typeof This.selectLimit !== "undefined" && This.selectedRows.length === This.selectLimit) {
                 ModalModule.infoModal("Maximale Anzahl", "Die maximale Anzahl an auswählbaren Einträgen beträgt " + This.selectLimit + ". Das kann sich zum Beispiel auf die maximale Anzahl an Teammitgliedern beziehen.");
                 return;
             } else {

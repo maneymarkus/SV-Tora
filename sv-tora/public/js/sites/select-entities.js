@@ -18,10 +18,10 @@
     confirmButton.addEventListener("click", function (e) {
         e.preventDefault();
         let requestUrl = confirmButton.getAttribute("href");
-        let data = {fighters: []};
+        let data = {"selected_entities": []};
         tableObject.selectedRows.forEach((row) => {
             let object = App.TranslationModule.translateToJson(Object.getOwnPropertyNames(row.values), row.values);
-            data["fighters"].push(object);
+            data["selected_entities"].push(object);
         });
         App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, requestUrl, undefined, data, true);
     });
@@ -36,11 +36,7 @@
     tableBody.addEventListener("change", function () {
         let selectedRows = tableObject.selectedRows;
         if (selectedRows.length > 0) {
-            if (selectedRows.length > App.GeneralModule.generalVariables.MAX_TEAM_MEMBERS) {
-                App.PrimaryButtonModule.disablePrimaryButton(confirmButton);
-            } else {
-                App.PrimaryButtonModule.enablePrimaryButton(confirmButton);
-            }
+            App.PrimaryButtonModule.enablePrimaryButton(confirmButton);
         } else {
             App.PrimaryButtonModule.disablePrimaryButton(confirmButton);
         }

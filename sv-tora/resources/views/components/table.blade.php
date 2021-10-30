@@ -47,9 +47,9 @@
 @endif
 
 @if(\Illuminate\Support\Facades\Auth::user() && \Illuminate\Support\Facades\Auth::user()->smartphone_optimized_tables)
-    <table {{ $attributes->merge(["class" => "table smartphone-optimized"]) }} id="{{ $id }}" data-select-limit="{{ $selectLimit ?? 0 }}">
+    <table {{ $attributes->merge(["class" => "table smartphone-optimized"]) }} id="{{ $id }}" data-select-limit="{{ $selectLimit ?? null }}">
 @else
-    <table {{ $attributes->merge(["class" => "table"]) }} id="{{ $id }}" data-select-limit="{{ $selectLimit ?? 0 }}">
+    <table {{ $attributes->merge(["class" => "table"]) }} id="{{ $id }}" data-select-limit="{{ $selectLimit ?? null }}">
 @endif
     <thead>
         <tr>

@@ -1,4 +1,4 @@
-@extends("layouts.layout", ["title" => "Creator"])
+@extends("layouts.base-template", ["title" => "Creator"])
 
 @push("styles")
 <!-- Specific style -->
@@ -10,9 +10,15 @@
     <script src="{{ asset("js/sites/creator.js") }}" defer></script>
 @endpush
 
-@section("content")
+@section("body-content")
 
-    <a class="go-back" href="{{ back() }}"></a>
+    <header class="header">
+        <a class="logo"></a>
+    </header>
+
+    <a class="go-back" href="{{ url()->previous("/dashboard") }}">
+        <i class="material-icons">arrow_back</i>
+    </a>
 
     <main>
         <h1 class="heading">C<span>r</span>e<span>a</span>t<span>o</span>r</h1>
