@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\EnrolledPerson;
 use App\Models\Person;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -40,6 +41,9 @@ class RouteServiceProvider extends ServiceProvider
         Route::model("coach", Person::class);
         Route::model("referee", Person::class);
         Route::model("helper", Person::class);
+        Route::model("enrolled_coach", EnrolledPerson::class);
+        Route::model("enrolled_referee", EnrolledPerson::class);
+        Route::model("enrolled_helper", EnrolledPerson::class);
 
         $this->configureRateLimiting();
 

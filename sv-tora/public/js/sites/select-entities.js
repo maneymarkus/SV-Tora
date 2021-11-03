@@ -23,7 +23,11 @@
             let object = App.TranslationModule.translateToJson(Object.getOwnPropertyNames(row.values), row.values);
             data["selected_entities"].push(object);
         });
-        App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, requestUrl, undefined, data, true);
+        App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, requestUrl, () => {
+            window.setTimeout(function () {
+                window.location.href = cancelButton.getAttribute("href");
+            }, 3000);
+        }, data, true);
     });
 
     cancelButton.addEventListener("click", function (e) {

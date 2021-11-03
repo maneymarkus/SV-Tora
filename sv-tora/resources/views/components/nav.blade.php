@@ -13,7 +13,7 @@
             <span class="bg"></span>
         </li>
         <li>
-            <a href="{{ url("/entities/persons") }}">
+            <a href="{{ url("/entities/people") }}">
                 <span class="text">Personen</span>
             </a>
             <span class="bg"></span>

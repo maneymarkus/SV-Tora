@@ -76,8 +76,8 @@ class PersonController extends Controller
     public function store(Request $request, String $type)
     {
         $club = Club::getClub($request->input("Verein", null));
-        $first_name = $request->input("first_name");
-        $last_name = $request->input("last_name");
+        $first_name = $request->input("Vorname");
+        $last_name = $request->input("Nachname");
         if (Person::where("type", "=", $type)
                 ->where("first_name", "=", $first_name)
                 ->where("last_name", "=", $last_name)
@@ -141,9 +141,9 @@ class PersonController extends Controller
         }
         $personName = $person->first_name . " " . $person->last_name;
         if ($person->delete()) {
-            return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer mit dem Namen \"" . $personName . "\" wurde erfolgreich gelöscht.");
+            return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Person mit dem Namen \"" . $personName . "\" wurde erfolgreich gelöscht.");
         } else {
-            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte der Kämpfer mit dem Namen \"" . $personName . "\" nicht gelöscht werden.");
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte die Person mit dem Namen \"" . $personName . "\" nicht gelöscht werden.");
         }
     }
 

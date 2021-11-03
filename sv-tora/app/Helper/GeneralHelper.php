@@ -3,6 +3,7 @@
 namespace App\Helper;
 
 use App\Models\Club;
+use App\Models\Fighter;
 use App\Models\Role;
 use App\Models\TournamentTemplate;
 use Exception;
@@ -140,6 +141,74 @@ class GeneralHelper
             array_push($encodedOptions, $encodedOption);
         }
         return $encodedOptions;
+    }
+
+
+    /**
+     * This function determines the category for the given fighter and discipline (/examination type) on the basis of the category reference in the tournament config
+     * This function then returns the matching category or categories if the fighter might have a choice
+     *
+     * @param Fighter $fighter
+     * @param string $discipline
+     * @return string|array
+     * @throws Exception
+     */
+    public static function determineCategoryOfFighter(Fighter $fighter, string $discipline) {
+        if (!in_array($discipline, config("tournament.examination_types"))) {
+            throw new Exception("Diese Disziplin \"" . $discipline . "\" existiert nicht.");
+        }
+        $categoryReference = config("tournament.category_reference");
+        $graduation = str_replace(" ", "", $fighter->graduation);
+        $age = $fighter->age();
+        $sex = $fighter->sex;
+
+        # find matching graduationKey
+        $requiredGraduations = array_keys($categoryReference[$discipline]);
+        $graduationKey = null;
+        foreach ($requiredGraduations as $requiredGraduation) {
+            $graduationList = str_replace(" ", "", config("global.graduations"));
+            if (strpos($requiredGraduation, "-")) {
+                $graduationLimits = explode("-", str_replace(" ", "", $requiredGraduation));
+                $graduationNumber = array_search($graduation, $graduationList);
+                $graduationLowerLimit = array_search($graduationLimits[0], $graduationList);
+                $graduationUpperLimit = array_search($graduationLimits[1], $graduationList);
+                if ($graduationNumber >= $graduationLowerLimit && $graduationNumber <= $graduationUpperLimit) {
+                    $graduationKey = $requiredGraduation;
+                }
+            } else {
+                if ($graduation === str_replace(" ", "", $requiredGraduation)) {
+                    $graduationKey = $requiredGraduation;
+                }
+            }
+        }
+        if ($graduationKey === null) {
+            throw new Exception("Die Graduierung des Kämpfers ist in dieser Disziplin nicht erlaubt.");
+        }
+
+        # find matching ageKey
+        $requiredAges = array_keys($categoryReference[$discipline][$graduationKey]);
+        $ageKey = null;
+        foreach ($requiredAges as $requiredAge) {
+            if (strpos($requiredAge, "-")) {
+                $ageLimits = explode("-", str_replace(" ", "" , $requiredAge));
+                $ageLowerLimit = intval($ageLimits[0]);
+                $ageUpperLimit = intval($ageLimits[1]);
+                if ($age >= $ageLowerLimit && $age <= $ageUpperLimit) {
+                    $ageKey = $requiredAge;
+                }
+            } else {
+                if ($age === intval($requiredAge)) {
+                    $ageKey = $requiredAge;
+                }
+            }
+        }
+        if ($ageKey === null) {
+            throw new Exception("Das Alter des Kämpfers ist in dieser Disziplin mit der erreichten Graduierung nicht erlaubt.");
+        }
+
+        # find matching sexKey
+        $categories = $categoryReference[$discipline][$graduationKey][$ageKey][$sex];
+        return $categories;
     }
 
 }

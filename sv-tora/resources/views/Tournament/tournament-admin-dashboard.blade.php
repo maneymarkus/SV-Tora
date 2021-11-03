@@ -100,31 +100,35 @@
                 @endif
             </div>
 
+            @php
+                $enrolledPersons = \App\Models\EnrolledPerson::join("people", "people.id", "=", "enrolled_people.person_id")
+                    ->select("enrolled_people.*", "people.type as type", "people.id as person_id");
+            @endphp
             <div class="persons-container dashboard-container">
                 <h3>Personen Anmeldungen</h3>
                 <div class="grid-container">
-                    <a class="starter group" href="#">
+                    <a class="starter group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighter") }}">
                         <p class="text">Starter</p>
                         <span class="circle">
                             <span class="number">117</span>
                         </span>
                     </a>
-                    <a class="referees group" href="#">
+                    <a class="referees group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/referees") }}">
                         <p class="text">Kampf&shy;richter</p>
                         <span class="circle">
-                            <span class="number">3</span>
+                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::REFEREE)->get()->count() }}</span>
                         </span>
                     </a>
-                    <a class="coaches group" href="#">
+                    <a class="coaches group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/coaches") }}">
                         <p class="text">Coaches</p>
                         <span class="circle">
-                            <span class="number">5</span>
+                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::COACH)->get()->count() }}</span>
                         </span>
                     </a>
-                    <a class="helper group" href="#">
+                    <a class="helper group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/helper") }}">
                         <p class="text">Helfer</p>
                         <span class="circle">
-                            <span class="number">2</span>
+                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::HELPER)->get()->count() }}</span>
                         </span>
                     </a>
                 </div>
@@ -132,7 +136,7 @@
 
             <div class="teams-container dashboard-container">
                 <h3>Team Anmeldungen</h3>
-                <a class="teams" href="#">
+                <a class="teams" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
                     <span class="circle">
                         <span class="number">13</span>
                     </span>

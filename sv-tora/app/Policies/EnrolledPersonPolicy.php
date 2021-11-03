@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\EnrolledPerson;
+use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -11,14 +12,28 @@ class EnrolledPersonPolicy
     use HandlesAuthorization;
 
     /**
+     * Perform pre-authorization checks.
+     *
+     * @param  \App\Models\User  $user
+     * @param  string  $ability
+     * @return void|bool
+     */
+    public function before(User $user, $ability)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view any models.
      *
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Tournament $tournament)
     {
-        //
+        return !$tournament->excludedClubs->contains($user->club);
     }
 
     /**
@@ -28,9 +43,9 @@ class EnrolledPersonPolicy
      * @param  \App\Models\EnrolledPerson  $enrolledPerson
      * @return mixed
      */
-    public function view(User $user, EnrolledPerson $enrolledPerson)
+    public function view(User $user, Tournament $tournament, EnrolledPerson $enrolledPerson)
     {
-        //
+        return !$tournament->excludedClubs->contains($user->club);
     }
 
     /**
@@ -39,21 +54,20 @@ class EnrolledPersonPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function add(User $user, Tournament $tournament)
     {
-        //
+        return !$tournament->excludedClubs->contains($user->club);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\EnrolledPerson  $enrolledPerson
      * @return mixed
      */
-    public function update(User $user, EnrolledPerson $enrolledPerson)
+    public function enroll(User $user, Tournament $tournament)
     {
-        //
+        return !$tournament->excludedClubs->contains($user->club);
     }
 
     /**
@@ -63,9 +77,9 @@ class EnrolledPersonPolicy
      * @param  \App\Models\EnrolledPerson  $enrolledPerson
      * @return mixed
      */
-    public function delete(User $user, EnrolledPerson $enrolledPerson)
+    public function delete(User $user, Tournament $tournament, EnrolledPerson $enrolledPerson)
     {
-        //
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledPerson->person->club === $user->club;
     }
 
     /**
@@ -75,9 +89,9 @@ class EnrolledPersonPolicy
      * @param  \App\Models\EnrolledPerson  $enrolledPerson
      * @return mixed
      */
-    public function restore(User $user, EnrolledPerson $enrolledPerson)
+    public function restore(User $user, Tournament $tournament, EnrolledPerson $enrolledPerson)
     {
-        //
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledPerson->person->club === $user->club;
     }
 
     /**
@@ -87,8 +101,8 @@ class EnrolledPersonPolicy
      * @param  \App\Models\EnrolledPerson  $enrolledPerson
      * @return mixed
      */
-    public function forceDelete(User $user, EnrolledPerson $enrolledPerson)
+    public function forceDelete(User $user, Tournament $tournament, EnrolledPerson $enrolledPerson)
     {
-        //
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledPerson->person->club === $user->club;
     }
 }

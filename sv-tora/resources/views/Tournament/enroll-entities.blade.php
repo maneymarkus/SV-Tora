@@ -1,28 +1,4 @@
-@php
-
-$columns = [
-    ["heading" => "Nr.", "sortable" => true],
-    ["heading" => "Name", "sortable" => true],
-    ["heading" => "Vorname", "sortable" => true],
-    ["heading" => "Alter", "sortable" => true],
-    ["heading" => "Geschlecht", "sortable" => true],
-    ["heading" => "Graduierung", "sortable" => true],
-    ["heading" => "Verein", "sortable" => true],
-];
-
-$rows = [
-    ["1", "Popov", "Marcus", "22", "m", "6. Dan.", "SV Tora"],
-    ["2", "Städler", "Markus", "22", "m", "7. Dan.", "Du denkst"],
-    ["3", "Reichenberg", "Florian", "21", "m", "4. Dan.", "SV Tora"],
-    ["4", "Dude", "Some other", "18", "m", "2. Dan.", "SV Tora"],
-    ["5", "Schildt", "Veronika", "17", "w", "5. Dan.", "SV Tora"],
-    ["6", "Meyer", "Franziska", "21", "w", "6. Dan.", "Nicht SV Tora"],
-];
-
-@endphp
-
-
-@extends("layouts.layout", ["title" => "Entitäten anmelden"])
+@extends("layouts.layout", ["title" => $entities . " anmelden"])
 
 @push("styles")
 <!-- Specific style -->
@@ -38,19 +14,23 @@ $rows = [
 
     <main>
 
-        <x-table class="smartphone-optimized" :columns="$columns" :rows="$rows" actions="true" filter="true" editable="true" deletable="true" selectable="true">
-            <x-slot name="heading">Starter zum <span class="tournament-name highlighted-span">Tora-Pokal</span> am <span class="tournament-date highlighted-span">21.04.2021</span> anmelden</x-slot>
-            <x-slot name="entity">Kämpfer</x-slot>
+        <x-table class="smartphone-optimized" :columns="$columns" :rows="$rows" actions="true" filter="true" editable="false" deletable="false" selectable="true">
+            <x-slot name="heading">{{ $entities }} zum <span class="tournament-name highlighted-span">{{ $tournament->tournamentTemplate->tournament_name }}</span> am <span class="tournament-date highlighted-span">{{ \Carbon\Carbon::parse($tournament->date)->format("d.m.Y") }}</span> anmelden</x-slot>
+            <x-slot name="entity">{{ $entity }}</x-slot>
+            <x-slot name="addEntityUrl">{{ $addEntityUrl }}</x-slot>
         </x-table>
 
     </main>
 
     <div class="primary-button-floating-container cancel-control">
-        <x-primary-button class="cancel warning" text="Abbrechen" icon-name="close" href="/tournament/dashboard"></x-primary-button>
+        @php
+            $backUrl = url()->previous("/tournament/dashboard");
+        @endphp
+        <x-primary-button class="cancel warning" text="Abbrechen" icon-name="close" href="{{ $backUrl }}"></x-primary-button>
     </div>
 
     <div class="primary-button-floating-container confirm-control">
-        <x-primary-button class="confirm" text="Ausgewählte anmelden" icon-name="add" href="#{{-- TODO --}}"></x-primary-button>
+        <x-primary-button class="confirm" text="Ausgewählte anmelden" icon-name="add" href="{{ $enrollUrl }}"></x-primary-button>
     </div>
 
 @endsection

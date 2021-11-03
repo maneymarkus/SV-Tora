@@ -84,252 +84,231 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Regular Category Reference
+    | Category Reference
     |--------------------------------------------------------------------------
     |
-    | This variable contains the regular category reference in a tournament context (e.g. Tora-Pokal)
+    | This variable contains the category reference in a tournament context.
+    | A category is being determined by discipline (/examination type), age, graduation and sex.
+    | Discipline -> graduation -> age -> sex -> determine category directly or at least category choices
     |
     */
-    "regular_category_reference" => [
-        "Kata" => [
-            "7-6.Kyu" => [
-                "8-10" => [
+    "category_reference" => [
+        "Kihon" => [
+            "9. Kyu" => [
+                "6-8" => [
                     "m" => "1",
                     "w" => "2",
                 ],
-                "11-12" => [
-                    "m" => "10",
-                    "w" => "11",
-                ],
-                "13-14" => [
-                    "m" => "31",
-                    "w" => "32",
-                ],
-            ],
-            "5.Kyu-6.Dan" => [
-                "8-10" => [
+                "9-10" => [
                     "m" => "3",
                     "w" => "4",
                 ],
+            ]
+        ],
+        "Kata" => [
+            "8. Kyu" => [
+                "6-8" => [
+                    "m" => "5",
+                    "w" => "6",
+                ],
+                "9-10" => [
+                    "m" => "7",
+                    "w" => "8",
+                ],
                 "11-12" => [
-                    "m" => "12",
-                    "w" => "13",
+                    "m" => "9",
+                    "w" => "10",
+                ],
+            ],
+            "7. Kyu - 6. Kyu" => [
+                "8-10" => [
+                    "m" => "13",
+                    "w" => "14",
+                ],
+                "11-12" => [
+                    "m" => "17",
+                    "w" => "18",
                 ],
                 "13-14" => [
+                    "m" => "21",
+                    "w" => "22",
+                ],
+            ],
+            "5. Kyu - 6. Dan" => [
+                "8-10" => [
+                    "m" => "15",
+                    "w" => "16",
+                ],
+                "11-12" => [
                     "m" => "19",
                     "w" => "20",
                 ],
-                "15-16" => [
+                "13-14" => [
+                    "m" => "23",
+                    "w" => "24",
+                ],
+                "15-17" => [
                     "m" => "25",
                     "w" => "26",
                 ]
             ]
         ],
         "Kumite" => [
-            "7.Kyu" => [
-                "8-10" => [
-                    "Kihon Ippon Kumite" => [
-                        "m" => "5",
-                        "w" => "5",
-                    ],
-                    "Jiyu Ippon Kumite" => [
-                        "m" => "6",
-                        "w" => "7",
-                    ],
-                    "Shobu Ippon Kumite" => [
-                        "m" => "8",
-                        "w" => "9",
-                    ],
+            "8. Kyu" => [
+                "6-8" => [
+                    "m" => "27",
+                    "w" => "28",
+                ],
+                "9-10" => [
+                    "m" => "29",
+                    "w" => "30",
                 ],
                 "11-12" => [
-                    "Kihon Ippon Kumite" => [
-                        "m" => "14",
-                        "w" => "14",
-                    ],
-                    "Jiyu Ippon Kumite" => [
-                        "m" => "15",
-                        "w" => "16",
-                    ],
-                    "Shobu Ippon Kumite" => [
-                        "m" => "17",
-                        "w" => "18",
-                    ],
+                    "m" => "31",
+                    "w" => "32",
                 ],
             ],
-            "6.Kyu" => [
-                "8-10" => [
-                    "Kihon Ippon Kumite" => [
-                        "m" => "5",
-                        "w" => "5",
+            "7. Kyu" => [
+                "9-10" => [
+                    "m" => "33",
+                    "w" => "33",
+                ],
+                "11-12" => [
+                    "m" => "38",
+                    "w" => "38",
+                ],
+            ],
+            "6. Kyu" => [
+                "9-10" => [
+                    "m" => [
+                        "Kihon Ippon Kumite" => "33",
+                        "Jiyu Ippon Kumite" => "34",
+                        "Shobu Ippon Kumite" => "36",
                     ],
-                    "Jiyu Ippon Kumite" => [
-                        "m" => "6",
-                        "w" => "7",
-                    ],
-                    "Shobu Ippon Kumite" => [
-                        "m" => "8",
-                        "w" => "9",
+                    "w" => [
+                        "Kihon Ippon Kumite" => "33",
+                        "Jiyu Ippon Kumite" => "35",
+                        "Shobu Ippon Kumite" => "37",
                     ],
                 ],
                 "11-12" => [
-                    "Kihon Ippon Kumite" => [
-                        "m" => "14",
-                        "w" => "14",
+                    "m" => [
+                        "Kihon Ippon Kumite" => "38",
+                        "Jiyu Ippon Kumite" => "39",
+                        "Shobu Ippon Kumite" => "41",
                     ],
-                    "Jiyu Ippon Kumite" => [
-                        "m" => "15",
-                        "w" => "16",
-                    ],
-                    "Shobu Ippon Kumite" => [
-                        "m" => "17",
-                        "w" => "18",
+                    "w" => [
+                        "Kihon Ippon Kumite" => "38",
+                        "Jiyu Ippon Kumite" => "40",
+                        "Shobu Ippon Kumite" => "42",
                     ],
                 ],
                 "13-14" => [
-                    "Jiyu Ippon Kumite" => [
-                        "m" => "21",
-                        "w" => "22",
+                    "m" => [
+                        "Jiyu Ippon Kumite" => "43",
+                        "Shobu Ippon Kumite" => "45",
                     ],
-                    "Shobu Ippon Kumite" => [
-                        "m" => "23",
-                        "w" => "24",
-                    ],
-                ],
-                "15-16" => [
-                    "Shobu Ippon Kumite" => [
-                        "m" => "27",
-                        "w" => "28",
+                    "w" => [
+                        "Jiyu Ippon Kumite" => "44",
+                        "Shobu Ippon Kumite" => "46",
                     ],
                 ],
-            ],
-            "5.Kyu-4.Kyu" => [
-                "8-10" => [
-                    "Jiyu Ippon Kumite" => [
-                        "m" => "6",
-                        "w" => "7",
+                "15-17" => [
+                    "m" => [
+                        "Shobu Ippon Kumite" => "47",
                     ],
-                    "Shobu Ippon Kumite" => [
-                        "m" => "8",
-                        "w" => "9",
-                    ],
-                ],
-                "11-12" => [
-                    "Jiyu Ippon Kumite" => [
-                        "m" => "15",
-                        "w" => "16",
-                    ],
-                    "Shobu Ippon Kumite" => [
-                        "m" => "17",
-                        "w" => "18",
-                    ],
-                ],
-                "13-14" => [
-                    "Jiyu Ippon Kumite" => [
-                        "m" => "21",
-                        "w" => "22",
-                    ],
-                    "Shobu Ippon Kumite" => [
-                        "m" => "23",
-                        "w" => "24",
-                    ],
-                ],
-                "15-16" => [
-                    "Shobu Ippon Kumite" => [
-                        "m" => "27",
-                        "w" => "28",
+                    "w" => [
+                        "Shobu Ippon Kumite" => "48",
                     ],
                 ],
             ],
-            "3.Kyu-6.Dan" => [
-                "8-10" => [
-                    "Shobu Ippon Kumite" => [
-                        "m" => "8",
-                        "w" => "9",
+            "5. Kyu - 4. Kyu" => [
+                "9-10" => [
+                    "m" => [
+                        "Jiyu Ippon Kumite" => "34",
+                        "Shobu Ippon Kumite" => "36",
+                    ],
+                    "w" => [
+                        "Jiyu Ippon Kumite" => "35",
+                        "Shobu Ippon Kumite" => "37",
                     ],
                 ],
                 "11-12" => [
-                    "Shobu Ippon Kumite" => [
-                        "m" => "17",
-                        "w" => "18",
+                    "m" => [
+                        "Jiyu Ippon Kumite" => "39",
+                        "Shobu Ippon Kumite" => "41",
+                    ],
+                    "w" => [
+                        "Jiyu Ippon Kumite" => "40",
+                        "Shobu Ippon Kumite" => "42",
                     ],
                 ],
                 "13-14" => [
-                    "Shobu Ippon Kumite" => [
-                        "m" => "23",
-                        "w" => "24",
+                    "m" => [
+                        "Jiyu Ippon Kumite" => "43",
+                        "Shobu Ippon Kumite" => "45",
+                    ],
+                    "w" => [
+                        "Jiyu Ippon Kumite" => "44",
+                        "Shobu Ippon Kumite" => "46",
                     ],
                 ],
-                "15-16" => [
-                    "Shobu Ippon Kumite" => [
-                        "m" => "27",
-                        "w" => "28",
+                "15-17" => [
+                    "m" => [
+                        "Shobu Ippon Kumite" => "47",
+                    ],
+                    "w" => [
+                        "Shobu Ippon Kumite" => "48",
+                    ],
+                ],
+            ],
+            "3. Kyu - 6. Dan" => [
+                "9-10" => [
+                    "m" => [
+                        "Shobu Ippon Kumite" => "36",
+                    ],
+                    "w" => [
+                        "Shobu Ippon Kumite" => "37",
+                    ],
+                ],
+                "11-12" => [
+                    "m" => [
+                        "Shobu Ippon Kumite" => "41",
+                    ],
+                    "w" => [
+                        "Shobu Ippon Kumite" => "42",
+                    ],
+                ],
+                "13-14" => [
+                    "m" => [
+                        "Shobu Ippon Kumite" => "45",
+                    ],
+                    "w" => [
+                        "Shobu Ippon Kumite" => "46",
+                    ],
+                ],
+                "15-17" => [
+                    "m" => [
+                        "Shobu Ippon Kumite" => "47",
+                    ],
+                    "w" => [
+                        "Shobu Ippon Kumite" => "48",
                     ],
                 ],
             ],
         ],
         "Team" => [
-            "8-11" => "29",
-            "12-16" => "30",
+            "9. Kyu - 6. Dan" => [
+                "8-11" => [
+                    "m" => "11",
+                    "w" => "11",
+                ],
+                "12-17" => [
+                    "m" => "12",
+                    "w" => "12",
+                ],
+            ]
         ]
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Category Reference
-    |--------------------------------------------------------------------------
-    |
-    | This variable contains the complete category reference for each tournament
-    |
-    */
-    "category_reference" => [
-        "Nachwuchsturnier" => [
-            "Kihon" => [
-                "9.Kyu" => [
-                    "6-8" => [
-                        "w" => "1",
-                        "m" => "2",
-                    ],
-                    "9-10" => [
-                        "w" => "3",
-                        "m" => "4",
-                    ],
-                ],
-            ],
-            "Kata" => [
-                "8.Kyu" => [
-                    "6-8" => [
-                        "w" => "5",
-                        "m" => "6",
-                    ],
-                    "9-10" => [
-                        "w" => "7",
-                        "m" => "8",
-                    ],
-                    "11-12" => [
-                        "w" => "9",
-                        "m" => "10",
-                    ],
-                ],
-            ],
-            "Kumite" => [
-                "8.Kyu" => [
-                    "6-8" => [
-                        "w" => "11",
-                        "m" => "12",
-                    ],
-                    "9-10" => [
-                        "w" => "13",
-                        "m" => "14",
-                    ],
-                    "11-12" => [
-                        "w" => "15",
-                        "m" => "16",
-                    ],
-                ],
-            ],
-        ],
-        "Tora-Pokal" => config("tournament.regular_category_reference"),
-        "Weihnachtsturnier" => config("tournament.regular_category_reference"),
     ],
 
 ];
