@@ -6,7 +6,7 @@
 
 @endphp
 
-@extends("layouts.base-template", ["title" => "Registrierung"])
+@extends("layouts.layout", ["title" => "Registrierung"])
 
 @push("styles")
 <!-- Specific style -->
@@ -18,11 +18,7 @@
 <script src="{{ asset("js/sites/registration.js") }}" defer></script>
 @endpush
 
-@section("body-content")
-
-    <header class="header">
-        <div class="logo"></div>
-    </header>
+@section("content")
 
     <main>
 

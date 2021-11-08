@@ -212,8 +212,8 @@
         <x-primary-button class="add-category" href="{{ $createCategoryUrl }}" icon-name="add" text="Kategorie hinzufügen"></x-primary-button>
 
 
-        @if($tournament->tournamentTemplate->teams)
-            <h3 class="subheading">Teams</h3>
+        @if($tournament->tournamentTemplate->team)
+            <h3 class="subheading">Team</h3>
             @php
                 # All the Teams categories
                 $teamCategories = $tournament->categories->where("examination_type", "=", "Team");

@@ -2,16 +2,20 @@
 
 @section("body-content")
 
-    <!-- Navigation component -->
-    <x-nav></x-nav>
+    @auth
+        <!-- Navigation component -->
+        <x-nav></x-nav>
+    @endauth
 
     <!-- Header component -->
     <x-header></x-header>
 
-    @can("admin")
-        <!-- Shortcuts component -->
-        <x-shortcuts></x-shortcuts>
-    @endcan
+    @auth
+        @can("admin")
+            <!-- Shortcuts component -->
+            <x-shortcuts></x-shortcuts>
+        @endcan
+    @endauth
 
     @yield("content")
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\ClubController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EnrolledCoachController;
+use App\Http\Controllers\EnrolledFighterController;
 use App\Http\Controllers\EnrolledHelperController;
 use App\Http\Controllers\EnrolledRefereeController;
 use App\Http\Controllers\FighterController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TournamentTemplateController;
 use App\Http\Controllers\UserController;
+use App\Models\Fighter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -39,9 +41,8 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $fighter = \App\Models\Fighter::find(32);
-    $category = \App\Helper\GeneralHelper::determineCategoryOfFighter($fighter, "Kumite");
-    return $category;
+    $fighters = Fighter::join("people", "people.id", "=", "fighters.person_id")->get();
+    return json_encode($fighters);
     #return view("test");
 });
 
@@ -154,6 +155,14 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         return view("Tournament.enrollment");
     });
 
+    Route::get("/tournaments/{tournament}/enrolled/fighters", [EnrolledFighterController::class, "index"]);
+    Route::get("/tournaments/{tournament}/enrolled/fighters/add", [EnrolledFighterController::class, "add"]);
+    Route::post("/tournaments/{tournament}/enrolled/fighters/prepare", [EnrolledFighterController::class, "prepare"]);
+    Route::get("/tournaments/{tournament}/enrolled/fighters/configure", [EnrolledFighterController::class, "configure"]);
+    Route::post("/tournaments/{tournament}/enrolled/fighters/{fighter}/enroll", [EnrolledFighterController::class, "enroll"]);
+    Route::get("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}/edit", [EnrolledFighterController::class, "edit"]);
+    Route::post("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}", [EnrolledFighterController::class, "update"]);
+    Route::delete("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}/category/{category}", [EnrolledFighterController::class, "destroy"]);
     Route::get("/tournaments/{tournament}/enrolled/coaches", [EnrolledCoachController::class, "index"]);
     Route::get("/tournaments/{tournament}/enrolled/coaches/add", [EnrolledCoachController::class, "add"]);
     Route::post("/tournaments/{tournament}/enrolled/coaches", [EnrolledCoachController::class, "enroll"]);

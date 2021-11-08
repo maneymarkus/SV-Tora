@@ -1,4 +1,4 @@
-@extends("layouts.base-template", ["title" => "Administrator-Registrierung"])
+@extends("layouts.layout", ["title" => "Administrator-Registrierung"])
 
 @push("styles")
 <!-- Specific style -->
@@ -10,11 +10,7 @@
 <script src="{{ asset("js/sites/admin-registration.js") }}" defer></script>
 @endpush
 
-@section("body-content")
-
-    <header class="header">
-        <div class="logo"></div>
-    </header>
+@section("content")
 
     <main class="limited">
 

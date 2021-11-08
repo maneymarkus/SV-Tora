@@ -95,6 +95,9 @@ class EnrolledPersonController extends Controller
     {
         foreach ($request["selected_entities"] as $selectedEntity) {
             $club = Club::firstWhere("name", "=", $selectedEntity["Verein"]);
+            if (!Gate::allows("admin") && $club !== Auth::user()->club) {
+                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Eine oder mehrere der ausgewählten Personen kannst du nicht hinzufügen.");
+            }
             $first_name = $selectedEntity["Vorname"];
             $last_name = $selectedEntity["Nachname"];
             $person = Person::where("type", "=", $type)

@@ -6,18 +6,14 @@
 
 @endphp
 
-@extends("layouts.base-template", ["title" => "Passwort zurücksetzen"])
+@extends("layouts.layout", ["title" => "Passwort zurücksetzen"])
 
 @push("styles")
 <!-- Specific style -->
 <link rel="stylesheet" href="{{ asset("css/sites/registration.css") }}" type="text/css" />
 @endpush
 
-@section("body-content")
-
-    <header class="header">
-        <div class="logo"></div>
-    </header>
+@section("content")
 
     <main class="limited">
 

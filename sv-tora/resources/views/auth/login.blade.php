@@ -1,4 +1,4 @@
-@extends("layouts.base-template", ["title" => "Login"])
+@extends("layouts.layout", ["title" => "Login"])
 
 @push("styles")
 <!-- Specific style -->
@@ -10,11 +10,7 @@
 <script src="{{ asset("js/sites/login.js") }}" defer></script>
 @endpush
 
-@section("body-content")
-
-    <header class="header">
-        <div class="logo"></div>
-    </header>
+@section("content")
 
     <img class="light-fighter" src="{{ asset("images/fighter-symbol-white.png") }}" alt="fighter image"/>
     <span class="shadow"></span>

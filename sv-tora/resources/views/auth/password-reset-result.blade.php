@@ -1,10 +1,6 @@
-@extends("layouts.base-template", ["title" => "Passwort"])
+@extends("layouts.layout", ["title" => "Passwort"])
 
-@section("body-content")
-
-    <header class="header">
-        <div class="logo"></div>
-    </header>
+@section("content")
 
     <main class="limited">
 

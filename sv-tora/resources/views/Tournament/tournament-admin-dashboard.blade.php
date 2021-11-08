@@ -49,7 +49,7 @@
                 @endif
                 <p><span class="count-kata-categories">{{ $tournament->categories()->where("examination_type", "=", "Kata")->get()->count() }}</span> Kata Kategorie(n)</p>
                 <p><span class="count-kumite-categories">{{ $tournament->categories()->where("examination_type", "=", "Kumite")->get()->count() }}</span> Kumite Kategorie(n)</p>
-                @if($tournament->tournamentTemplate->teams)
+                @if($tournament->tournamentTemplate->team)
                     <p><span class="count-team-categories">{{ $tournament->categories()->where("examination_type", "=", "Team")->get()->count() }}</span> Team Kategorie(n)</p>
                 @endif
             </a>
@@ -102,15 +102,16 @@
 
             @php
                 $enrolledPersons = \App\Models\EnrolledPerson::join("people", "people.id", "=", "enrolled_people.person_id")
-                    ->select("enrolled_people.*", "people.type as type", "people.id as person_id");
+                    ->select("enrolled_people.*", "people.type as type", "people.id as person_id")
+                    ->where("tournament_id", "=", $tournament->id);
             @endphp
             <div class="persons-container dashboard-container">
                 <h3>Personen Anmeldungen</h3>
                 <div class="grid-container">
-                    <a class="starter group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighter") }}">
+                    <a class="starter group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">
                         <p class="text">Starter</p>
                         <span class="circle">
-                            <span class="number">117</span>
+                            <span class="number">{{ \App\Models\EnrolledFighter::where("tournament_id", "=", $tournament->id)->get()->count() }}</span>
                         </span>
                     </a>
                     <a class="referees group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/referees") }}">
@@ -134,14 +135,16 @@
                 </div>
             </div>
 
-            <div class="teams-container dashboard-container">
-                <h3>Team Anmeldungen</h3>
-                <a class="teams" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
-                    <span class="circle">
-                        <span class="number">13</span>
-                    </span>
-                </a>
-            </div>
+            @if($tournament->tournamentTemplate->team)
+                <div class="teams-container dashboard-container">
+                    <h3>Team Anmeldungen</h3>
+                    <a class="teams" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
+                        <span class="circle">
+                            <span class="number">13</span>
+                        </span>
+                    </a>
+                </div>
+            @endif
 
         </div>
 

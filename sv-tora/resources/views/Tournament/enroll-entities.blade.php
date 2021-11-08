@@ -13,6 +13,7 @@
 @section("content")
 
     <main>
+        <a class="link cancel-configuration" href="{{ url()->previous("/tournament/dashboard") }}">zurück</a>
 
         <x-table class="smartphone-optimized" :columns="$columns" :rows="$rows" actions="true" filter="true" editable="false" deletable="false" selectable="true">
             <x-slot name="heading">{{ $entities }} zum <span class="tournament-name highlighted-span">{{ $tournament->tournamentTemplate->tournament_name }}</span> am <span class="tournament-date highlighted-span">{{ \Carbon\Carbon::parse($tournament->date)->format("d.m.Y") }}</span> anmelden</x-slot>

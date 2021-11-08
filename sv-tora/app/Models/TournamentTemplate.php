@@ -23,7 +23,7 @@ class TournamentTemplate extends Model
         "age_max",
         "graduation_min",
         "graduation_max",
-        "teams",
+        "team",
         "kihon",
         "examination_types",
     ];

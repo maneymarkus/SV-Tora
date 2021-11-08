@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Helper\Permissions;
 use App\Helper\Roles;
+use App\Models\Category;
 use App\Models\Club;
 use App\Models\Fighter;
 use App\Models\Permission;
@@ -100,13 +101,23 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        Tournament::create([
+        $tournament = Tournament::create([
             "tournament_template_id" => 2,
             "date" => "2021-12-04",
             "time" => "12:00",
             "place" => "Vor Ort",
             "enrollment_start" => "2021-11-01",
             "enrollment_end" => "2021-11-30",
+        ]);
+
+        Category::create([
+            "name" => 1,
+            "tournament_id" => $tournament->id,
+            "examination_type" => "Kata",
+            "graduation" => "7. Kyu",
+            "age_start" => 11,
+            "age_end" => 12,
+            "sex" => "m",
         ]);
 
     }

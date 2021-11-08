@@ -6,8 +6,20 @@
     let dependencies = ["PrimaryButtonModule", "MaterialInputsModule", "ModalModule", "FormModule"];
     App.GeneralModule.checkDependencies(dependencies);
 
+    let backButton = document.querySelector("a.link.cancel-configuration");
     let fighterCards = document.querySelectorAll("div.fighter-card");
     let availableFighterCards = [];
+
+    backButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (availableFighterCards.length > 0) {
+            App.ModalModule.confirmModal("Abbrechen", "Willst du die Konfigurierung der verbleibenden Kämpfer wirklich abbrechen?", function () {
+                window.location.href  = backButton.getAttribute("href");
+            });
+        } else {
+            window.location.href  = backButton.getAttribute("href");
+        }
+    });
 
     let counter = 0;
 
@@ -29,12 +41,30 @@
 
         App.PrimaryButtonModule.disablePrimaryButton(enrollButton);
 
-        configuration.addEventListener("input", function () {
+        configuration.addEventListener("input", function (e) {
             handleEnrollButton(configuration, enrollButton);
+            let target = e.target;
+            while (!target.classList.contains("exam-type-configuration") && target.parentElement) {
+                target = target.parentElement;
+            }
+            if (target.classList.contains("exam-type-configuration")) {
+                if (target.querySelector(".select-input-container")) {
+                    let enrollmentChoice = target.querySelector(".radio-group");
+                    let enrollmentChoiceObject = App.MaterialInputsModule.getInputObject(enrollmentChoice);
+                    let categorySelect = target.querySelector(".select-input-container");
+                    let categorySelectObject = App.MaterialInputsModule.getInputObject(categorySelect);
+                    if (enrollmentChoiceObject.getValue() === "1") {
+                        handleCategoryConfiguration(true, categorySelectObject, configuration, enrollButton);
+                    } else {
+                        handleCategoryConfiguration(false, categorySelectObject, configuration, enrollButton);
+                    }
+                }
+            }
         });
 
-        enrollButton.addEventListener("click", function () {
-            enrollFighter(fighterCard);
+        enrollButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            enrollFighter(enrollButton.getAttribute("href"), fighterCard);
         });
 
         cancelButton.addEventListener("click", function () {
@@ -45,25 +75,13 @@
             }
         });
 
-        if (fighterCard.querySelector("div.category-configuration")) {
-            let kumiteChoice = fighterCard.querySelector("div.kumite .radio-group");
-            let kumiteChoiceObject = App.MaterialInputsModule.getInputObject(kumiteChoice);
-            let categorySelect = fighterCard.querySelector("div.kumite .select-input-container");
-            let categorySelectObject = App.MaterialInputsModule.getInputObject(categorySelect);
-
-            kumiteChoice.addEventListener("input", function () {
-                if (kumiteChoiceObject.getValue() === "yes") {
-                    handleCategoryConfiguration(true, categorySelectObject, configuration, enrollButton);
-                } else {
-                    handleCategoryConfiguration(false, categorySelectObject, configuration, enrollButton);
-                }
-            });
-        }
-
     });
 
     let firstCard = availableFighterCards.shift();
     let lastCard = false;
+    if (availableFighterCards.length <= 0) {
+        lastCard = true;
+    }
     firstCard.classList.add("current");
 
     function checkConfiguration(configuration) {
@@ -74,7 +92,7 @@
         let atLeastOneParticipation = false;
         participationRadios.forEach((radioGroup) => {
             let radioObject = App.MaterialInputsModule.getInputObject(radioGroup);
-            if (!atLeastOneParticipation && radioObject.getValue().toLowerCase() === "yes") {
+            if (!atLeastOneParticipation && radioObject.getValue().toLowerCase() === "1") {
                 atLeastOneParticipation = true;
             }
         });
@@ -103,10 +121,20 @@
         handleEnrollButton(configuration, enrollButton);
     }
 
-    function enrollFighter(fighterCard) {
-        // TODO: enroll fighter to tournament in backend
-        fighterCard.classList.add("enrolled");
-        showNextCard(fighterCard);
+    function enrollFighter(url, fighterCard) {
+        let data = {};
+        fighterCard.querySelectorAll(".radio-group").forEach((inputContainer) => {
+            let inputObject = App.MaterialInputsModule.getInputObject(inputContainer);
+            data["Disziplin"][inputObject.name] = inputObject.getValue();
+        });
+        fighterCard.querySelectorAll(".select-input-container").forEach((inputContainer) => {
+            let inputObject = App.MaterialInputsModule.getInputObject(inputContainer);
+            data["Kategorie"][inputObject.name] = inputObject.getValue();
+        });
+        App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, function () {
+            fighterCard.classList.add("enrolled");
+            showNextCard(fighterCard);
+        }, data, true);
     }
 
     function dontEnrollFighter(fighterCard) {
@@ -135,9 +163,8 @@
         window.setTimeout(function () {
             lastCard.remove();
         }, 1000);
-        App.ModalModule.infoModal("Fertig", "Alle ausgwählten Kämpfer wurden konfiguriert und gegebenenfalls zum Wettkampf angemeldet. Du kommst jetzt zum Wettkampf Dashboard zurück.", function () {
-            // TODO: Switch back to Dashboard
-            window.location.href  = "#";
+        App.ModalModule.infoModal("Fertig", "Alle ausgwählten Kämpfer wurden konfiguriert und gegebenenfalls zum Wettkampf angemeldet.", function () {
+            window.location.href  = backButton.getAttribute("href");
         });
     }
 

@@ -20,9 +20,9 @@ class TournamentTemplateSeeder extends Seeder
             "age_max" => 16,
             "graduation_min" => "7. Kyu",
             "graduation_max" => "6. Dan",
-            "teams" => true,
+            "team" => true,
             "kihon" => false,
-            "examination_types" => "Kata;Kumite;Teams",
+            "examination_types" => "Kata;Kumite;Team",
         ]);
 
         TournamentTemplate::create([
@@ -31,9 +31,9 @@ class TournamentTemplateSeeder extends Seeder
             "age_max" => 16,
             "graduation_min" => "7. Kyu",
             "graduation_max" => "6. Dan",
-            "teams" => true,
+            "team" => true,
             "kihon" => false,
-            "examination_types" => "Kata;Kumite;Teams",
+            "examination_types" => "Kata;Kumite;Team",
         ]);
 
         TournamentTemplate::create([
@@ -42,7 +42,7 @@ class TournamentTemplateSeeder extends Seeder
             "age_max" => 12,
             "graduation_min" => "9. Kyu",
             "graduation_max" => "8. Kyu",
-            "teams" => false,
+            "team" => false,
             "kihon" => true,
             "examination_types" => "Kihon;Kata;Kumite",
         ]);

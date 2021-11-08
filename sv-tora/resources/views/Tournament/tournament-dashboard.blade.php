@@ -16,14 +16,12 @@
         <a class="link" href="{{ url()->previous("/dashboard") }}">zurück</a>
         <h1>Wettkampf-Dashboard</h1>
 
-        <div data-progress="1" class="status-container">
-            <h3 class="heading">Status: <span class="status">Anmeldung freigeschalten</span></h3>
+        <div data-progress="{{ $progressStep }}" class="status-container">
+            <h3 class="heading">Status: <span class="status">{{ config("tournament.tournament_statuus")[$tournament->status] }}</span></h3>
             <div class="step-container">
-                <p class="step selectable">Wettkampf erstellt</p>
-                <p class="step selectable">Anmeldung freigeschalten</p>
-                <p class="step selectable">Anmeldung geschlossen</p>
-                <p class="step">Wettkampftag</p>
-                <p class="step">Wettkampf abgeschlossen</p>
+                @foreach(config("tournament.tournament_statuus") as $tournamentStatus)
+                    <p class="step">{{ $tournamentStatus }}</p>
+                @endforeach
             </div>
             <div class="progress-container">
                 <div class="progress-bar"></div>
@@ -52,14 +50,17 @@
                 $enrolledPersons = \App\Models\EnrolledPerson::join("people", "people.id", "=", "enrolled_people.person_id")
                     ->select("enrolled_people.*", "people.type as type", "people.id as person_id", "people.club_id as club_id")
                     ->where("club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
+                $enrolledFighters = \App\Models\EnrolledFighter::join("fighters", "fighters.id", "=", "enrolled_fighters.fighter_id")
+                    ->join("people", "people.id", "=", "fighters.person_id")
+                    ->where("club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
             @endphp
-            <div class="persons-container dashboard-container">
+            <div class="persons-container dashboard-container" style="margin-top: 7rem !important;">
                 <h3>Personen Anmeldungen</h3>
                 <div class="grid-container">
-                    <a class="starter group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighter") }}">
+                    <a class="starter group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">
                         <p class="text">Starter</p>
                         <span class="circle">
-                            <span class="number">117</span>
+                            <span class="number">{{ $enrolledFighters->where("tournament_id", "=", $tournament->id)->get()->count() }}</span>
                         </span>
                     </a>
                     <a class="referees group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/referees") }}">
@@ -83,14 +84,16 @@
                 </div>
             </div>
 
-            <div class="teams-container dashboard-container">
-                <h3>Team Anmeldungen</h3>
-                <a class="teams" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
-                    <span class="circle">
-                        <span class="number">13</span>
-                    </span>
-                </a>
-            </div>
+            @if($tournament->tournamentTemplate->team)
+                <div class="teams-container dashboard-container">
+                    <h3>Team Anmeldungen</h3>
+                    <a class="teams" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
+                        <span class="circle">
+                            <span class="number">13</span>
+                        </span>
+                    </a>
+                </div>
+            @endif
 
         </div>
 

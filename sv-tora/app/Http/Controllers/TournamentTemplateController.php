@@ -81,7 +81,7 @@ class TournamentTemplateController extends Controller
             "age_max" => $maxAge,
             "graduation_min" => $minGraduation,
             "graduation_max" => $maxGraduation,
-            "teams" => $teams,
+            "team" => $teams,
             "kihon" => $kihon,
             "examination_types" => $examinationTypes,
         ]);
@@ -151,7 +151,7 @@ class TournamentTemplateController extends Controller
         $tournamentTemplate->age_max = $maxAge;
         $tournamentTemplate->graduation_min = $minGraduation;
         $tournamentTemplate->graduation_max = $maxGraduation;
-        $tournamentTemplate->teams = $teams;
+        $tournamentTemplate->team = $teams;
         $tournamentTemplate->kihon = $kihon;
         $tournamentTemplate->examination_types = $examinationTypes;
         $tournamentTemplate->save();

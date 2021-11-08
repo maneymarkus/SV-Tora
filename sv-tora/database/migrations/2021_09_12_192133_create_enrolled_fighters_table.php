@@ -17,10 +17,10 @@ class CreateEnrolledFightersTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger("fighter_id")->index();
-            $table->unsignedBigInteger("category_id")->index();
+            $table->unsignedBigInteger("tournament_id")->index();
 
             $table->foreign("fighter_id")->references("id")->on("fighters")->onDelete("cascade");
-            $table->foreign("category_id")->references("id")->on("categories")->onDelete("cascade");
+            $table->foreign("tournament_id")->references("id")->on("tournaments")->onDelete("cascade");
             $table->timestamps();
         });
     }

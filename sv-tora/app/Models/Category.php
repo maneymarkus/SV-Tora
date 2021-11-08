@@ -32,7 +32,7 @@ class Category extends Model
     }
 
     public function fighters() {
-        return $this->hasMany(EnrolledFighter::class);
+        return $this->belongsToMany(EnrolledFighter::class, "enrolled_fighter_category");
     }
 
     public static function editableProperties(Category $category = null) {
