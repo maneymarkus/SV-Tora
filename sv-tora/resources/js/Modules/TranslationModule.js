@@ -84,6 +84,14 @@ function translateKeyToInput(object, required) {
             case inputTypes.SWITCH:
                 inputObject = MaterialInputsModule.createInput(inputType, [requiredClass], undefined, key, key, key, value, undefined);
                 container.appendChild(inputObject.inputContainer);
+                break;
+            case inputTypes.TEXTAREA:
+                inputObject = MaterialInputsModule.createInput(inputType, [], undefined, key, key, value, undefined, undefined);
+                container.appendChild(inputObject.inputContainer);
+                break;
+            default:
+                console.log("Converting " + inputType + " is not implemented yet.");
+                break;
         }
     } else {
         console.log("This key: " + key + " is not known!");

@@ -1,3 +1,5 @@
+import "tilt.js";
+import "regenerator-runtime/runtime";
 import * as GeneralModule from "./Modules/GeneralModule.js";
 import * as SendRequestModule from "./Modules/SendRequestModule.js";
 import * as LoaderModule from "./Modules/LoaderModule.js";

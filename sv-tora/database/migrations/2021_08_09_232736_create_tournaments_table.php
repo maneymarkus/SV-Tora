@@ -24,6 +24,7 @@ class CreateTournamentsTable extends Migration
             $table->date("enrollment_end");
             $table->boolean("active")->default("true");
             $table->enum("status", array_keys(config("tournament.tournament_statuus")))->default(0);
+            $table->text("additional_information")->nullable();
 
             $table->foreign("tournament_template_id")->references("id")->on("tournament_templates")->onDelete("cascade");
             $table->timestamps();

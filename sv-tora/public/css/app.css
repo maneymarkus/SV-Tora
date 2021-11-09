@@ -1028,6 +1028,7 @@ a.go-back i {
 }
 
 .open .bar-header {
+    position: -webkit-sticky;
     position: sticky;
     top: 4em;
     left: 0;
@@ -6365,6 +6366,7 @@ h2.table-heading {
 
 .table thead th {
     display: table-cell;
+    position: -webkit-sticky;
     position: sticky;
     top: 4em; /* for position sticky */
     width: auto;

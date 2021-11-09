@@ -131,6 +131,7 @@ class TournamentController extends Controller
             "place" => $place,
             "enrollment_start" => $enrollmentStart->format("Y-m-d"),
             "enrollment_end" => $enrollmentEnd->format("Y-m-d"),
+            "additional_information" => $request->input("Zusätzliche Informationen"),
         ]);
 
         $fightPlace = $newTournament->fightPlaces()->create([
@@ -238,6 +239,7 @@ class TournamentController extends Controller
         $tournament->place = $place;
         $tournament->enrollment_start = $enrollmentStart->format("Y-m-d");
         $tournament->enrollment_end = $enrollmentEnd->format("Y-m-d");
+        $tournament->additional_information = $request->input("Zusätzliche Informationen");
         $tournament->save();
 
         // update tournament status

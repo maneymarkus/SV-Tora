@@ -40,6 +40,7 @@
     "dependencies": {
         "@popperjs/core": "^2.5.4",
         "jquery": "^3.6.0",
+        "regenerator-runtime": "^0.13.9",
         "theaterjs": "^3.2.0",
         "tilt.js": "^1.2.1",
         "tippy.js": "^6.3.5"

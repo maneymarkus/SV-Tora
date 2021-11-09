@@ -37,6 +37,10 @@
             <p><span data-name="Anmeldezeitraum Start" class="enrollment-start">{{ \Carbon\Carbon::parse($tournament->enrollment_start)->format("d.m.Y") }}</span> - <span data-name="Anmeldezeitraum Ende" class="enrollment-end">{{ \Carbon\Carbon::parse($tournament->enrollment_end)->format("d.m.Y") }}</span></p>
             <p class="more-spacing">Ort:</p>
             <p><span data-name="Ort" class="tournament-place">{{ $tournament->place }}</span></p>
+            @if($tournament->additional_information != "")
+                <p class="more-spacing">Zusätzliche Informationen:</p>
+                <p style="text-align: left; padding: 0 2rem"><span data-name="additional_information" class="tournament-additional-info">{{ $tournament->additional_information }}</span></p>
+            @endif
         </div>
 
         <div class="column-container clearfix">
@@ -56,8 +60,8 @@
 
             <a class="fighting-systems topic-container dashboard-container" href="{{ $changeFightingSystemsUrl }}">
                 <h3>Kampfsysteme</h3>
-                <p><span class="count-prepared">2</span> Kampfsysteme zugeordnet</p>
-                <p><span class="count-not-prepared">8</span> verbleibend</p>
+                <p><span class="count-prepared">0</span> Kampfsysteme zugeordnet</p>
+                <p><span class="count-not-prepared">0</span> verbleibend</p>
             </a>
 
             <a class="excluded-clubs topic-container dashboard-container" href="{{ $excludeClubsUrl }}">
@@ -72,10 +76,9 @@
 
             <a class="schedule topic-container dashboard-container" href="{{ $changeScheduleUrl }}">
                 <h3>Zeitplan</h3>
-                <p><span class="duration duration-place-1">3:25h</span> auf Wettkampffläche Wettkampffläche 1</p>
-                <p><span class="duration duration-place-2">3:05h</span> auf Pool 2</p>
-                <p><span class="duration duration-place-3">1:45h</span> auf Pool 3</p>
-                <p><span class="duration duration-place-4">0:00h</span> auf Pool 4</p>
+                <p><span class="duration duration-place-1">0:00h</span> auf Pool 1</p>
+                <p><span class="duration duration-place-2">0:00h</span> auf Pool 2</p>
+                <p><span class="duration duration-place-3">0:00h</span> auf Pool 3</p>
             </a>
 
             <div class="info dashboard-container">

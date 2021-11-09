@@ -150,7 +150,7 @@ const examinationTypes = {
  * This constant stores all the different categories (tournament,examinationType,graduation,age(-range),sex,(discipline/examination type) (in this order!) determine -> category)
  * @type {Object} (complicated)
  */
-const category_reference = {
+const categoryReference = {
     "Kihon": {
         "9. Kyu" : {
             "6-8": {
@@ -417,6 +417,7 @@ let keyToInput = new Map([
     ["mindest-graduierung", inputTypes.SELECT],
     ["maximal-graduierung", inputTypes.SELECT],
     ["prüfungsform", inputTypes.SELECT],
+    ["zusätzliche informationen", inputTypes.TEXTAREA],
 ]);
 
 /**

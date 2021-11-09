@@ -517,12 +517,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .persons-container h3 {
-    position: absolute;
     text-align: center;
-    max-width: 8em;
-    top: -3.75em;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 2em;
     color: var(--text-color);
     text-shadow: 2px 2px 8px var(--text-shadow);
@@ -691,7 +686,6 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 .teams-container {
     position: relative;
     width: 100%;
-    height: 15.5em;
     border-radius: 10px;
     box-shadow: 3px 3px 15px 5px var(--box-shadow), 0 0 15px var(--accent-color-1-dark) inset;
     background-color: rgba(232, 232, 232, 0.75);
@@ -699,7 +693,6 @@ a.fighting-systems.prepared:hover .count-not-prepared {
     border: 5px solid var(--accent-color-1-dark);
     transition: 0.5s ease;
     font-size: 1rem;
-    margin-top: 7rem !important;
 }
 
 .darkmode .teams-container {
@@ -716,13 +709,9 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .teams-container h3 {
-    position: absolute;
     text-align: center;
-    max-width: 8em;
-    top: -3.75em;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 2em;
+    margin-bottom: 0.5rem;
     color: var(--text-color);
     text-shadow: 2px 2px 8px var(--text-shadow);
     transition: 0.5s ease;
@@ -737,7 +726,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
     display: inline-block;
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 15.5em;
 }
 
 .teams-container .circle {
@@ -905,7 +894,6 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 
     .teams-container {
         float: right;
-        margin-top: 3rem;
     }
 
     .exclude-clubs-modal .exclude-container {

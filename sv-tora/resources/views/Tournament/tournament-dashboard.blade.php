@@ -37,6 +37,10 @@
             <p><span data-name="enrollment-start" class="enrollment-start">{{ \Carbon\Carbon::parse($tournament->enrollment_start)->format("d.m.Y") }}</span> - <span data-name="enrollment-end" class="enrollment-end">{{ \Carbon\Carbon::parse($tournament->enrollment_end)->format("d.m.Y") }}</span></p>
             <p class="more-spacing">Ort:</p>
             <p><span data-name="place" class="tournament-place">{{ $tournament->place }}</span></p>
+            @if($tournament->additional_information != "")
+                <p class="more-spacing">Zusätzliche Informationen:</p>
+                <p style="text-align: left; padding: 0 2rem"><span data-name="additional_information" class="tournament-additional-info">{{ $tournament->additional_information }}</span></p>
+            @endif
         </div>
 
         <div class="column-container">

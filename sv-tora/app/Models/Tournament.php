@@ -27,6 +27,7 @@ class Tournament extends Model
         "enrollment_end",
         "active",
         "status",
+        "additional_info",
     ];
 
     public function tournamentTemplate() {
@@ -62,6 +63,7 @@ class Tournament extends Model
             "Ort" => $tournament?->place,
             "Anmeldezeitraum Start" => $enrollmentStart,
             "Anmeldezeitraum Ende" => $enrollmentEnd,
+            "Zusätzliche Informationen" => $tournament?->additional_information,
         ];
 
         return $editableProperties;
