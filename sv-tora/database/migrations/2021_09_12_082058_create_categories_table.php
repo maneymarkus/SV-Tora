@@ -19,10 +19,11 @@ class CreateCategoriesTable extends Migration
             $table->string("name");
             $table->unsignedBigInteger("tournament_id")->index();
             $table->enum("examination_type", config("tournament.examination_types"));
-            $table->enum("graduation", config("global.graduations"));
+            $table->enum("graduation_min", config("global.graduations"));
+            $table->enum("graduation_max", config("global.graduations"));
             $table->enum("sex", config("global.sex"));
-            $table->unsignedInteger("age_start");
-            $table->unsignedInteger("age_end");
+            $table->unsignedInteger("age_min");
+            $table->unsignedInteger("age_max");
 
             $table->foreign("tournament_id")->references("id")->on("tournaments")->onDelete("cascade");
             $table->unique(["name", "tournament_id"]);

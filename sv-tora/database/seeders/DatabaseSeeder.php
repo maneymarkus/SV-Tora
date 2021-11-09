@@ -111,12 +111,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Category::create([
-            "name" => 1,
+            "name" => "Diese Kategorie",
             "tournament_id" => $tournament->id,
             "examination_type" => "Kata",
-            "graduation" => "7. Kyu",
-            "age_start" => 11,
-            "age_end" => 12,
+            "graduation_min" => "7. Kyu",
+            "graduation_max" => "7. Kyu",
+            "age_min" => 11,
+            "age_max" => 12,
             "sex" => "m",
         ]);
 

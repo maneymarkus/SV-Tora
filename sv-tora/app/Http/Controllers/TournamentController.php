@@ -36,6 +36,10 @@ class TournamentController extends Controller
         if (Tournament::latest()->first()?->active) {
             $tournament = Tournament::latest()->first();
             $progressStep = $tournament->status;
+            $enrollment = "disabled";
+            if (Carbon::today() >= Carbon::parse($tournament->enrollment_start) && Carbon::today() <= Carbon::parse($tournament->enrollment_end)) {
+                $enrollment = null;
+            }
             if (Gate::allows("admin")) {
                 // TODO: urls
                 return response()->view("Tournament.tournament-admin-dashboard", [
@@ -50,9 +54,10 @@ class TournamentController extends Controller
                     "changeScheduleUrl" => url("/tournaments/" . $tournament->id . "/edit"),
                     "completeTournamentUrl" => url("/tournaments/" . $tournament->id . "/finish"),
                     "excludeClubsUrl" => url("/tournaments/" . $tournament->id),
+                    "enrollment" => $enrollment,
                 ]);
             } else {
-                return response()->view("Tournament.tournament-dashboard", ["tournament" => $tournament, "progressStep" => $progressStep]);
+                return response()->view("Tournament.tournament-dashboard", ["tournament" => $tournament, "progressStep" => $progressStep, "enrollment" => $enrollment]);
             }
         } else {
             return response()->view("Tournament.no-tournament");

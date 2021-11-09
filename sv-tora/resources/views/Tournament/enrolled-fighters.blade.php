@@ -13,13 +13,13 @@
     </style>
 
     <main>
-        <a class="link" href="{{ url()->previous("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
 
         <x-table :columns="$columns" :rows="$rows" actions="false" filter="true" editable="true" deletable="true" selectable="false">
             <x-slot name="heading">
                 Angemeldete <span class="highlighted-span">{{ $entities }}</span> zum {{ $tournament->tournamentTemplate->tournament_name }}
                 <p style="font-size: 1.2rem; font-weight: normal;"><strong>Hinweis</strong>: Die Aktion "Löschen" löscht hier nicht die angelegten {{ $entities }} komplett, sondern entfernt sie nur von diesem Wettkampf.</p>
-                <p style="font-size: 1.2rem; font-weight: normal;">Bitte beachte außerdem, dass dir beim Hinzufügen von Startern/Kämpfern nur jene angezeigt werden, die den Kriterien des Wettkampfes entsprechen (Graduierung und Altersgrenzen).</p>
+                <p style="font-size: 1.2rem; font-weight: normal;">Bitte beachte außerdem, dass dir beim Hinzufügen von Startern/Kämpfern nur jene angezeigt werden, die den Kriterien des Wettkampfes entsprechen (in Bezug auf erlaubte Graduierungen und Altersgrenzen).</p>
             </x-slot>
             <x-slot name="entity">{{ $entity }}</x-slot>
             <x-slot name="addEntityUrl">{{ $addUrl ?? ""}}</x-slot>

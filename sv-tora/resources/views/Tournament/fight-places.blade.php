@@ -13,7 +13,7 @@
 @section("content")
 
     <main class="limited">
-        <a class="link" href="{{ url()->previous("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
         <h1>Pools</h1>
 
         <div class="fight-places-container">

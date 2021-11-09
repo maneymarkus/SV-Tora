@@ -13,7 +13,7 @@
 @section("content")
 
     <main>
-        <a class="link" href="{{ url()->previous("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
         <h1>Starter</h1>
 
         @php
@@ -43,7 +43,7 @@
                             <h4 class="heading">
                                 Kategorie:
                                 <span class="category-name">{{ $category->name }}</span>
-                                (<span class="graduation">{{ $category->graduation }}</span> / <span class="category-age">{{ $category->age_start . "-" . $category->age_end }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
+                                (<span class="graduation">{{ $category->graduation_min . "-" . $category->graduation_max }}</span> / <span class="category-age">{{ $category->age_min . "-" . $category->age_max }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
                             </h4>
                             <div class="tools">
                                 <x-primary-button class="tool print" href="{{ $printCategoryUrl }}" icon-name="print" text="Drucken"></x-primary-button>
@@ -108,7 +108,7 @@
                         <h4 class="heading">
                             Kategorie:
                             <span class="category-name">{{ $category->name }}</span>
-                            (<span class="graduation">{{ $category->graduation }}</span> / <span class="category-age">{{ $category->age_start . "-" . $category->age_end }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
+                            (<span class="graduation">{{ $category->graduation_min . "-" . $category->graduation_max }}</span> / <span class="category-age">{{ $category->age_min . "-" . $category->age_max }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
                         </h4>
                         <div class="tools">
                             <x-primary-button class="tool print" href="{{ $printCategoryUrl }}" icon-name="print" text="Drucken"></x-primary-button>
@@ -171,7 +171,7 @@
                         <h4 class="heading">
                             Kategorie:
                             <span class="category-name">{{ $category->name }}</span>
-                            (<span class="graduation">{{ $category->graduation }}</span> / <span class="category-age">{{ $category->age_start . "-" . $category->age_end }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
+                            (<span class="graduation">{{ $category->graduation_min . "-" . $category->graduation_max }}</span> / <span class="category-age">{{ $category->age_min . "-" . $category->age_max }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
                         </h4>
                         <div class="tools">
                             <x-primary-button class="tool print" href="{{ $printCategoryUrl }}" icon-name="print" text="Drucken"></x-primary-button>
@@ -235,7 +235,7 @@
                             <h4 class="heading">
                                 Kategorie:
                                 <span class="category-name">{{ $category->name }}</span>
-                                (<span class="graduation">{{ $category->graduation }}</span> / <span class="category-age">{{ $category->age_start . "-" . $category->age_end }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
+                                (<span class="graduation">{{ $category->graduation_min . "-" . $category->graduation_max }}</span> / <span class="category-age">{{ $category->age_min . "-" . $category->age_max }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
                             </h4>
                             <div class="tools">
                                 <x-primary-button class="tool print" href="{{ $printCategoryUrl }}" icon-name="print" text="Drucken"></x-primary-button>

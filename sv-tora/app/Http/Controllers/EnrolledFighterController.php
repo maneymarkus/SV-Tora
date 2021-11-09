@@ -2,19 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Categories;
 use App\Helper\GeneralHelper;
 use App\Helper\NotificationTypes;
 use App\Models\Category;
 use App\Models\Club;
 use App\Models\EnrolledFighter;
+use App\Models\EnrolledPerson;
 use App\Models\Fighter;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use PHPUnit\Exception;
 
 class EnrolledFighterController extends Controller
 {
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(EnrolledFighter::class, 'enrolled_fighter');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +37,7 @@ class EnrolledFighterController extends Controller
         session()->forget("configurableFighters");
         $user = Auth::user();
         $enrolledFighters = EnrolledFighter::join("fighters", "fighters.id", "=", "enrolled_fighters.fighter_id")
-            ->select("enrolled_fighters.*", "fighters.*", "fighters.id as fighter_id")
+            ->select("enrolled_fighters.*", "fighters.sex", "fighters.graduation", "fighters.id as fighter_id")
             ->where("tournament_id", "=", $tournament->id);
         if (Gate::allows("admin")) {
             $enrolledFighters = $enrolledFighters->get();
@@ -51,22 +63,21 @@ class EnrolledFighterController extends Controller
         $counter = 1;
 
         foreach ($enrolledFighters as $enrolledFighter) {
-            foreach ($enrolledFighter->categories as $category) {
-                $row = [
-                    "data" => [
-                        $counter++,
-                        $enrolledFighter->fighter->person->first_name,
-                        $enrolledFighter->fighter->person->last_name,
-                        $enrolledFighter->fighter->age(),
-                        $enrolledFighter->fighter->sex,
-                        $enrolledFighter->fighter->graduation,
-                        $category->name,
-                        $enrolledFighter->fighter->person->club->name,
-                    ],
-                    "deleteUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id . "/category/" . $category->id),
-                ];
-                array_push($rows, $row);
-            }
+            $row = [
+                "data" => [
+                    $counter++,
+                    $enrolledFighter->fighter->person->first_name,
+                    $enrolledFighter->fighter->person->last_name,
+                    $enrolledFighter->fighter->age(),
+                    $enrolledFighter->fighter->sex,
+                    $enrolledFighter->fighter->graduation,
+                    implode(", ", $enrolledFighter->categories->pluck("name")->toArray()),
+                    $enrolledFighter->fighter->person->club->name,
+                ],
+                "editUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id),
+                "deleteUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id),
+            ];
+            array_push($rows, $row);
         }
         return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/add"), "entities" => "Kämpfer", "entity" => "Kämpfer", "columns" => $columns, "rows" => $rows]);
     }
@@ -148,8 +159,47 @@ class EnrolledFighterController extends Controller
     }
 
 
-    public function configure(Request $request, Tournament $tournament) {
-        $fighters = session("configurableFighters");
+    public function configure(Tournament $tournament) {
+        $configurableFighters = session("configurableFighters");
+        if ($configurableFighters === null) {
+            return redirect("/tournaments/" . $tournament->id . "/enrolled/fighters/add");
+        }
+        $fighters = array();
+        foreach ($configurableFighters as $configurableFighter) {
+            $fighter = $configurableFighter;
+            $fighter->properties = [
+                "Alter" => $fighter->age(),
+                "Geschlecht" => $fighter->sex,
+                "Graduierung" => $fighter->graduation,
+                "Verein" => $fighter->person->club->name,
+            ];
+            $fighter->enrollUrl = url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $fighter->id . "/enroll");
+            $examinationTypes = [];
+            foreach(explode(";", $tournament->tournamentTemplate->examination_types) as $examinationType) {
+                if ($examinationType === "Team") {
+                    continue;
+                }
+                $examinationTypes[$examinationType] = [];
+                try {
+                    $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType);
+                } catch (\Exception $e) {
+                    $error = $e->getMessage();
+                    $examinationTypes[$examinationType]["error"] = $error;
+                    continue;
+                }
+                $participationRadioOptions = [
+                    ["text" => "Teilnehmen", "value" => "1", "checked" => false, "disabled" => false],
+                    ["text" => "Nicht Teilnehmen", "value" => "0", "checked" => false, "disabled" => false],
+                ];
+                $examinationTypes[$examinationType]["participationRadioOptions"] = $participationRadioOptions;
+                if (is_array($categories)) {
+                    $configurationSelectOptions = array_keys($categories);
+                    $examinationTypes[$examinationType]["configurationSelectOptions"] = $configurationSelectOptions;
+                }
+            }
+            $fighter->examinationTypes = $examinationTypes;
+            array_push($fighters, $fighter);
+        }
         return response()->view("Tournament.fighter-tournament-configuration", ["tournament" => $tournament,"fighters" => $fighters]);
     }
 
@@ -177,22 +227,23 @@ class EnrolledFighterController extends Controller
                 $atLeastOneParticipation = true;
                 $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType);
                 if (is_array($categories)) {
-                    $category = $categories[$request["Kategorie"][$examinationType . " Kategorie"]];
+                    $categoryName = $categories[$request["Kategorie"][$examinationType . " Kategorie"]];
                 } else {
-                    $category = $categories;
+                    $categoryName = $categories;
                 }
-                $categoryModel = Category::where("name", "=", $category)->first();
-                if ($categoryModel === null) {
-                    $categoryModel = Category::create([
-                        "name" => $category
-                    ]);
+                $category = Category::where("name", "=", $categoryName)->first();
+                if ($category === null) {
+                    $category = Category::createCategoryByName($categoryName, $tournament);
                 }
-                $categoryModel->fighters()->attach($enrolledFighter->id);
+                $category->fighters()->attach($enrolledFighter->id);
             }
         }
         if (!$atLeastOneParticipation) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "In mindestens einer Disziplin muss der Kämpfer teilnehmen!");
         }
+        $configurableFighters = session("configurableFighters");
+        array_splice($configurableFighters, array_search(collect($configurableFighters)->where("id", "=", $fighter->id)->first(), $configurableFighters), 1);
+        session(["configurableFighters" => $configurableFighters]);
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer \"" . $fighter->person->fullName() . "\" wurde erfolgreich zum Wettkampf angemeldet.");
     }
 
@@ -203,9 +254,63 @@ class EnrolledFighterController extends Controller
      * @param \App\Models\EnrolledFighter $enrolledFighter
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tournament $tournament, EnrolledFighter $enrolledFighter)
+    public function prepareEdit(Tournament $tournament, EnrolledFighter $enrolledFighter)
     {
-        //
+        return json_encode(["redirectUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id . "/configure")]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Tournament $tournament
+     * @param \App\Models\EnrolledFighter $enrolledFighter
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, Tournament $tournament, EnrolledFighter $enrolledFighter)
+    {
+        $fighter = $enrolledFighter->fighter;
+        $fighter->first_name = $fighter->person->first_name;
+        $fighter->last_name = $fighter->person->last_name;
+        $fighter->properties = [
+            "Alter" => $fighter->age(),
+            "Geschlecht" => $fighter->sex,
+            "Graduierung" => $fighter->graduation,
+            "Verein" => $fighter->person->club->name,
+        ];
+        $fighter->enrollUrl = url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id);
+        $fighter->unenrollUrl = url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id);
+        $examinationTypes = [];
+        foreach(explode(";", $tournament->tournamentTemplate->examination_types) as $examinationType) {
+            if ($examinationType === "Team") {
+                continue;
+            }
+            $examinationTypes[$examinationType] = [];
+            try {
+                $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType);
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $examinationTypes[$examinationType]["error"] = $error;
+                continue;
+            }
+            $participate = false;
+            foreach ($enrolledFighter->categories as $category) {
+                if (array_key_exists($category->name, Categories::CATEGORIES) && Categories::CATEGORIES[$category->name]["examination_type"] === $examinationType) {
+                    $participate = true;
+                    $examinationTypes[$examinationType]["enabled"] = true;
+                }
+            }
+            $participationRadioOptions = [
+                ["text" => "Teilnehmen", "value" => "1", "checked" => $participate, "disabled" => false],
+                ["text" => "Nicht Teilnehmen", "value" => "0", "checked" => !$participate, "disabled" => false],
+            ];
+            $examinationTypes[$examinationType]["participationRadioOptions"] = $participationRadioOptions;
+            if (is_array($categories)) {
+                $configurationSelectOptions = array_keys($categories);
+                $examinationTypes[$examinationType]["configurationSelectOptions"] = $configurationSelectOptions;
+            }
+        }
+        $fighter->examinationTypes = $examinationTypes;
+        return response()->view("Tournament.fighter-tournament-configuration", ["tournament" => $tournament,"fighters" => [$fighter]]);
     }
 
     /**
@@ -218,33 +323,47 @@ class EnrolledFighterController extends Controller
      */
     public function update(Request $request, Tournament $tournament, EnrolledFighter $enrolledFighter)
     {
-        //
+        $atLeastOneParticipation = false;
+        $enrolledFighter->categories()->sync([]);
+        foreach($request["Disziplin"] as $examinationType => $enrollmentChoice) {
+            if ($enrollmentChoice == "1") {
+                $atLeastOneParticipation = true;
+                $categories = GeneralHelper::determineCategoryOfFighter($enrolledFighter->fighter, $examinationType);
+                if (is_array($categories)) {
+                    $categoryName = $categories[$request["Kategorie"][$examinationType . " Kategorie"]];
+                } else {
+                    $categoryName = $categories;
+                }
+                $category = Category::where("name", "=", $categoryName)->first();
+                if ($category === null) {
+                    $category = Category::createCategoryByName($categoryName, $tournament);
+                }
+                $category->fighters()->attach($enrolledFighter->id);
+            }
+        }
+        if (!$atLeastOneParticipation) {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "In mindestens einer Disziplin muss der Kämpfer teilnehmen!");
+        }
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Teilnahme des Kämpfers \"" . $enrolledFighter->fighter->person->fullName() . "\" wurde erfolgreich geändert.");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\EnrolledFighter  $enrolledFighter
+     * @param Tournament $tournament
+     * @param \App\Models\EnrolledFighter $enrolledFighter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tournament $tournament, EnrolledFighter $enrolledFighter, Category $category)
+    public function destroy(Tournament $tournament, EnrolledFighter $enrolledFighter)
     {
         if ($enrolledFighter === null) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der gegebene Kämpfer existiert nicht und kann daher nicht vom Wettkampf entfernt werden.");
         }
-        if (!$enrolledFighter->categories->contains($category)) {
-            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Kämpfer ist in dieser Kategorie gar nicht angemeldet und kann daher von dieser gar nicht abgemeldet werden.");
-        }
         $personName = $enrolledFighter->fighter->person->fullName();
-        if ($enrolledFighter->categories->count() > 1) {
-            $enrolledFighter->categories()->detach($category->id);
-            return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer wurde erfolgreich von der Kategorie \"" . $category->name . "\" abgemeldet.");
+        if ($enrolledFighter->delete()) {
+            return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer mit dem Namen \"" . $personName . "\" wurde erfolgreich vom Wettkampf abgemeldet.");
         } else {
-            if ($enrolledFighter->delete()) {
-                return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer mit dem Namen \"" . $personName . "\" wurde erfolgreich vom Wettkampf abgemeldet.");
-            } else {
-                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte der Kämpfer mit dem Namen \"" . $personName . "\" nicht vom Wettkampf abgemeldet werden.");
-            }
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte der Kämpfer mit dem Namen \"" . $personName . "\" nicht vom Wettkampf abgemeldet werden.");
         }
     }
 }

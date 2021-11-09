@@ -20,6 +20,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TournamentTemplateController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
 use App\Models\Fighter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,8 +42,10 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $fighters = Fighter::join("people", "people.id", "=", "fighters.person_id")->get();
-    return json_encode($fighters);
+    $zeroCategories = Category::all()->reject(function ($category) {
+        return $category->fighters->count() > 0;
+    });
+    return json_encode($zeroCategories->pluck("name"));
     #return view("test");
 });
 
@@ -160,9 +163,10 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
     Route::post("/tournaments/{tournament}/enrolled/fighters/prepare", [EnrolledFighterController::class, "prepare"]);
     Route::get("/tournaments/{tournament}/enrolled/fighters/configure", [EnrolledFighterController::class, "configure"]);
     Route::post("/tournaments/{tournament}/enrolled/fighters/{fighter}/enroll", [EnrolledFighterController::class, "enroll"]);
-    Route::get("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}/edit", [EnrolledFighterController::class, "edit"]);
+    Route::get("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}/edit", [EnrolledFighterController::class, "prepareEdit"]);
+    Route::get("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}/configure", [EnrolledFighterController::class, "edit"]);
     Route::post("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}", [EnrolledFighterController::class, "update"]);
-    Route::delete("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}/category/{category}", [EnrolledFighterController::class, "destroy"]);
+    Route::delete("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}", [EnrolledFighterController::class, "destroy"]);
     Route::get("/tournaments/{tournament}/enrolled/coaches", [EnrolledCoachController::class, "index"]);
     Route::get("/tournaments/{tournament}/enrolled/coaches/add", [EnrolledCoachController::class, "add"]);
     Route::post("/tournaments/{tournament}/enrolled/coaches", [EnrolledCoachController::class, "enroll"]);
@@ -290,15 +294,15 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         Route::delete("/tournaments/{tournament}/categories/{category}/fighters/{enrolledFighter}", [CategoryController::class, "removeFighter"]);
         Route::resource("/tournaments/{tournament}/categories", CategoryController::class)->except(["show", "edit", "update"]);
 
-        Route::get("/tournaments/category-fighting-systems", function () {
+        Route::get("/tournaments/{tournament}/category-fighting-systems", function () {
             return view("Tournament.category-fighting-systems");
         });
 
-        Route::get("/tournaments/time-schedule", function () {
+        Route::get("/tournaments/{tournament}/time-schedule", function () {
             return view("Tournament.time-schedule");
         });
 
-        Route::get("/tournaments/category/{id}/fighting-system", function () {
+        Route::get("/tournaments/{tournament}/category/{id}/fighting-system", function () {
             return view("Tournament.fighting-system-map");
         });
 

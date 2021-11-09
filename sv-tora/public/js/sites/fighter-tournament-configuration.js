@@ -12,7 +12,7 @@
 
     backButton.addEventListener("click", function (e) {
         e.preventDefault();
-        if (availableFighterCards.length > 0) {
+        if (availableFighterCards.length > 0 || document.querySelector(".current")) {
             App.ModalModule.confirmModal("Abbrechen", "Willst du die Konfigurierung der verbleibenden Kämpfer wirklich abbrechen?", function () {
                 window.location.href  = backButton.getAttribute("href");
             });
@@ -67,11 +67,19 @@
             enrollFighter(enrollButton.getAttribute("href"), fighterCard);
         });
 
-        cancelButton.addEventListener("click", function () {
+        cancelButton.addEventListener("click", function (e) {
+            e.preventDefault();
             if (fighterCard.classList.contains("current")) {
-                App.ModalModule.confirmModal("Kämpfer nicht anmelden", "Willst du " + fighterName + " wirklich nicht anmelden?", function () {
-                    dontEnrollFighter(fighterCard);
-                });
+                let url = cancelButton.getAttribute("href");
+                if (url !== "#") {
+                    App.ModalModule.confirmModal("Kämpfer abmelden", "Willst du " + fighterName + " wirklich abmelden?", function () {
+                        dontEnrollFighter(fighterCard, url);
+                    });
+                } else {
+                    App.ModalModule.confirmModal("Kämpfer nicht anmelden", "Willst du " + fighterName + " wirklich nicht anmelden?", function () {
+                        dontEnrollFighter(fighterCard);
+                    });
+                }
             }
         });
 
@@ -122,7 +130,10 @@
     }
 
     function enrollFighter(url, fighterCard) {
-        let data = {};
+        let data = {
+            "Disziplin": {},
+            "Kategorie": {},
+        };
         fighterCard.querySelectorAll(".radio-group").forEach((inputContainer) => {
             let inputObject = App.MaterialInputsModule.getInputObject(inputContainer);
             data["Disziplin"][inputObject.name] = inputObject.getValue();
@@ -137,9 +148,18 @@
         }, data, true);
     }
 
-    function dontEnrollFighter(fighterCard) {
-        fighterCard.classList.add("not-enrolled");
-        showNextCard(fighterCard);
+    function dontEnrollFighter(fighterCard, url = undefined) {
+        function aux() {
+            fighterCard.classList.add("not-enrolled");
+            showNextCard(fighterCard);
+        }
+        if (typeof url !== "undefined") {
+            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, url, () => {
+                aux();
+            }, undefined, true);
+        } else {
+            aux();
+        }
     }
 
     function showNextCard(previousCard) {

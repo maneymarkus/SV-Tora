@@ -13,7 +13,7 @@
 @section("content")
 
     <main class="limited">
-        <a class="link cancel-configuration" href="{{ url()->previous("/tournament/dashboard") }}">zurück</a>
+        <a class="link cancel-configuration" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">zurück</a>
         <h1>Kämpfer für <span class="highlighted-span">{{ $tournament->tournamentTemplate->name }}</span> konfigurieren</h1>
 
         <div class="fighter-cards-container">
@@ -25,55 +25,44 @@
                     <h2 class="fighter-name"><span class="first-name">{{ $fighter->first_name }}</span> <span class="family-name">{{ $fighter->last_name }}</span></h2>
 
                     @php
-                        $properties = [
-                            "Alter" => $fighter->age(),
-                            "Geschlecht" => $fighter->sex,
-                            "Graduierung" => $fighter->graduation,
-                            "Verein" => $fighter->person->club->name,
-                        ];
+                        $properties = $fighter->properties;
                     @endphp
-
                     <x-property-information :properties="$properties"></x-property-information>
 
                     @php
-                        $enrolledFighter = $fighter->enrolledConfigurations()->where("tournament_id", "=", $tournament->id)->first();
+                        $enrolledFighter = $fighter["enrolledFighter"];
                     @endphp
 
                     <div class="configuration">
                         <h3>Optionen</h3>
-                        @foreach(explode(";", $tournament->tournamentTemplate->examination_types) as $examinationType)
-                            @if($examinationType === "Team")
-                                @continue
-                            @endif
-                            @php
-                                $participationRadioOptions = [
-                                    ["text" => "Teilnehmen", "value" => "1", "checked" => false, "disabled" => false],
-                                    ["text" => "Nicht Teilnehmen", "value" => "0", "checked" => false, "disabled" => false],
-                                ];
-                                $examinationTypeLowerCase = strtolower($examinationType);
-                            @endphp
+                        @foreach($fighter->examinationTypes as $examinationType => $options)
                             <div class="exam-type-container">
                                 <div class="exam-type">
                                     <h4>{{ $examinationType }}:</h4>
                                 </div>
-                                <div class="exam-type-configuration {{ $examinationTypeLowerCase }}">
-                                    <x-inputs.radio-buttons class="required" name="{{ $examinationType }}" :options="$participationRadioOptions"></x-inputs.radio-buttons>
-                                    @php
-                                    try {
-                                        $categories = \App\Helper\GeneralHelper::determineCategoryOfFighter($fighter, $examinationType);
-                                    } catch (Exception $e) {
-                                        $error = $e->getMessage();
-                                    }
-                                    if (is_array($categories)) {
-                                        $configurationSelectOptions = array_keys(\App\Helper\GeneralHelper::determineCategoryOfFighter($fighter, $examinationType));
-                                        $name = $examinationType . " Kategorie";
-                                    }
-                                    @endphp
+                                <div class="exam-type-configuration {{ strtolower($examinationType) }}">
 
-                                    @if(isset($error))
-                                        <p>{{ $error }}</p>
-                                    @elseif(is_array($categories))
-                                        <x-inputs.select-input class="disabled" name="{{ $name }}" :options="$configurationSelectOptions" placeholder="Kategorie auswählen"></x-inputs.select-input>
+                                    @if(isset($options["error"]))
+                                        <p>{{ $options["error"] }}</p>
+                                    @else
+                                        @php
+                                            $participationRadioOptions = $options["participationRadioOptions"];
+                                        @endphp
+                                        <x-inputs.radio-buttons class="required" name="{{ $examinationType }}" :options="$participationRadioOptions"></x-inputs.radio-buttons>
+                                        @if(isset($options["configurationSelectOptions"]))
+                                            @php
+                                                $configurationSelectOptions = $options["configurationSelectOptions"];
+                                                $name = $examinationType . " Kategorie";
+                                                if (isset($options["enabled"])) {
+                                                    $disabledClass = null;
+                                                } else {
+                                                    $disabledClass = "disabled";
+                                                }
+                                            @endphp
+                                            <x-inputs.select-input class="{{ $disabledClass }}" name="{{ $name }}" :options="$configurationSelectOptions">
+                                                <x-slot name="placeholder">Kategorie auswählen</x-slot>
+                                            </x-inputs.select-input>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -81,11 +70,19 @@
                     </div>
 
                     @php
-                        $enrollUrl = url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $fighter->id . "/enroll");
+                        $unenrollText = "Kämpfer nicht anmelden";
+                        $enrollText = "Kämpfer anmelden";
+                        $enrollUrl = $fighter["enrollUrl"];
+                        $unenrollUrl = "#";
+                        if(isset($fighter["unenrollUrl"])) {
+                            $unenrollUrl = $fighter["unenrollUrl"];
+                            $unenrollText = "Kämpfer abmelden";
+                            $enrollText = "Kämpfer ändern";
+                        }
                     @endphp
                     <div class="actions">
-                        <x-primary-button class="unenroll-fighter warning" text="Kämpfer nicht hinzufügen" icon-name="close"></x-primary-button>
-                        <x-primary-button href="{{ $enrollUrl }}" class="enroll-fighter" text="Kämpfer anmelden" icon-name="add"></x-primary-button>
+                        <x-primary-button href="{{ $unenrollUrl }}"  class="unenroll-fighter warning" text="{{ $unenrollText }}" icon-name="close"></x-primary-button>
+                        <x-primary-button href="{{ $enrollUrl }}" class="enroll-fighter" text="{{ $enrollText }}" icon-name="add"></x-primary-button>
                     </div>
 
                     <div class="progress-indicator"><span class="current">{{ $counter++ }}</span> von <span class="total">{{ count($fighters) }}</span></div>

@@ -64,10 +64,6 @@ main {
     border-bottom: 2px dashed var(--theme-color-4);
 }
 
-.configuration p {
-    padding-left: 2.25rem;
-}
-
 .configuration .exam-type-container {
     display: grid;
     grid-template-columns: 50% 50%;

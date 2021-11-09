@@ -12,7 +12,7 @@
 
 @section("body-content")
 
-    <a class="go-back" href="{{ url()->previous("/tournament/dashboard") }}">
+    <a class="go-back" href="{{ url("/tournaments/" . $tournament->id . "/category-fighting-systems") }}">
         <i class="material-icons">arrow_back</i>
     </a>
 

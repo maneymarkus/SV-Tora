@@ -13,7 +13,7 @@
     </style>
 
     <main>
-        <a class="link" href="{{ url()->previous("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
 
         <x-table :columns="$columns" :rows="$rows" actions="false" filter="true" editable="false" deletable="true" selectable="false">
             <x-slot name="heading">

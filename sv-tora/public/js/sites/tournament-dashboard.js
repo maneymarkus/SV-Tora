@@ -229,21 +229,13 @@
     /**
      * This function handles the chosen changes to the current tournament
      * @param content {HTMLElement} The content of the modal window with the chosen options
-     * @param reloadUrl {string} The url to be relocated to
+     * @param targetUrl {string}
      */
-    function handleChangedTournament(content, reloadUrl) {
-
-        let tournamentObject = App.TranslationModule.translateInputsToObject(content);
-        for (let property in tournamentObject) {
-            console.log(property);
-            if (tournamentObject.hasOwnProperty(property)) {
-                let respectiveElement = tournamentContainer.querySelector("[data-name='" + property + "']");
-                respectiveElement.innerHTML = tournamentObject[property];
-            }
-        }
-
+    function handleChangedTournament(content, targetUrl) {
         ModalModule.confirmModal("Wettkampf Änderungen", "Willst du die schon angemeldeten Vereine über die Änderungen informieren?", function () {
-            window.location.href = reloadUrl;
+            window.location.href = targetUrl;
+        }, function () {
+            window.location.reload();
         });
     }
 
@@ -487,5 +479,19 @@
         exclusionModal.classList.remove("open");
         excludeInputObject.setValue("");
     }
+
+
+    /**
+     * This block handles the enrollment of entities
+     */
+    let enrollmentLinks = document.querySelectorAll("a.enrollment");
+    enrollmentLinks.forEach((enrollmentLink) => {
+        enrollmentLink.addEventListener("click", function (e) {
+            if (enrollmentLink.classList.contains("disabled")) {
+                e.preventDefault();
+                App.ModalModule.infoModal("Nicht erlaubt", "Die Anmeldung bzw. Abmeldung von Personen, Kämpfern und Teams ist aktuell nicht möglich (siehe Anmeldezeitraum).");
+            }
+        })
+    });
 
 })(window, document);

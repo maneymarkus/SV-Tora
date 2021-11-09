@@ -21,7 +21,7 @@ class EnrolledPersonController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(EnrolledPerson::class, 'person');
+        $this->authorizeResource(EnrolledPerson::class, 'enrolled_person');
     }
 
     /**

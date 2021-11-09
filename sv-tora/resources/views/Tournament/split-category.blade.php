@@ -27,10 +27,7 @@
 
             @php
                 $splitUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/split");
-                $cancelUrl = url()->previous("/tournaments/" . $tournament->id . "/categories");
-                if ($cancelUrl === url()->current()) {
-                    $cancelUrl = url("/tournaments/" . $tournament->id . "/categories");
-                }
+                $cancelUrl = url("/tournaments/" . $tournament->id . "/categories");
             @endphp
 
             <x-primary-button href="{{ $splitUrl }}" class="split" text="Kategorie teilen!" icon-name="done"></x-primary-button>
