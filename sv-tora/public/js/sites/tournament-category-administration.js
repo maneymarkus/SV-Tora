@@ -24,7 +24,9 @@
 
         this.accordionElement.addEventListener("click", function (e) {
             let target = e.target;
-            e.preventDefault();
+            if (!target.classList.contains("link")) {
+                e.preventDefault();
+            }
             while (target.nodeName !== "BODY" && !target.classList.contains("tool") && !target.classList.contains("delete-fighter")) {
                 target = target.parentElement;
             }

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Session;
 class AuthenticationController extends Controller
 {
     public function showLogin() {
+        if (Auth::check()) {
+            return redirect()->route("dashboard");
+        }
         $checkboxOptions = [["text" => "Angemeldet bleiben", "value" => "remember", "checked" => false, "disabled" => false]];
         return view("auth.login", ["checkboxOptions" => $checkboxOptions]);
     }

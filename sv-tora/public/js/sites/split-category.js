@@ -217,17 +217,17 @@
             App.PrimaryButtonModule.enablePrimaryButton(splitBtn);
         }
 
-        function getCategoriesFighters(categoryContainer) {
+        function getCategoriesMembers(categoryContainer) {
             if (categoryContainer.classList.contains("category-container")) {
-                let categoryFighters = [];
+                let categoryMembers = [];
                 let fighterCards = categoryContainer.querySelectorAll("div.fighter-card");
                 fighterCards.forEach((fighterCard) => {
-                    let fighter = {
-                        "id" : fighterCard.querySelector(".fighter-id").innerText,
+                    let member = {
+                        "id" : fighterCard.querySelector(".member-id").innerText,
                     }
-                    categoryFighters.push(fighter);
+                    categoryMembers.push(member);
                 });
-                return categoryFighters;
+                return categoryMembers;
             } else {
                 return false;
             }
@@ -252,8 +252,8 @@
             let rightCategoryName = rightCategoryContainer.querySelector(".category-name").innerText;
             let data = {
                 "categories": {
-                    leftCategoryName:  getCategoriesFighters(leftCategoryContainer),
-                    rightCategoryName: getCategoriesFighters(rightCategoryContainer),
+                    leftCategoryName:  getCategoriesMembers(leftCategoryContainer),
+                    rightCategoryName: getCategoriesMembers(rightCategoryContainer),
                 },
             };
             App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, () => {

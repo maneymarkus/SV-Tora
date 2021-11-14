@@ -30,7 +30,7 @@ class EnrolledFighter extends Model
     }
 
     public function categories() {
-        return $this->belongsToMany(Category::class, "enrolled_fighter_category");
+        return $this->belongsToMany(Category::class, "enrolled_fighter_category", "category_id", "enrolled_fighter_id");
     }
 
 }

@@ -38,15 +38,13 @@
 
     </main>
 
-    @if($category->fighter !== null && $category->fighter->count() > 0)
-        @foreach($category->fighter as $enrolledFighter)
+    @if($category->teams !== null && $category->teams->count() > 0)
+        @foreach($category->teams as $enrolledTeam)
             <div class="fighter-card">
-                <h2 class="fighter-name">{{ $enrolledFighter->fighter->person->fullName() }}</h2>
-                <p class="clearfix">Alter: <span class="age">{{ $enrolledFighter->fighter->age() }}</span></p>
-                <p class="clearfix">Geschlecht: <span class="sex">{{ $enrolledFighter->fighter->sex }}</span></p>
-                <p class="clearfix">Graduierung: <span class="graduation">{{ $enrolledFighter->fighter->graduation }}</span></p>
-                <p class="clearfix">Verein: <span class="club">{{ $enrolledFighter->fighter->person->club }}</span></p>
-                <p class="no-display fighter_id">{{ $enrolledFighter->fighter->id }}</p>
+                <h2 class="fighter-name">{{ $enrolledTeam->team->name }}</h2>
+                <p class="clearfix">Maximales Alter: <span class="age">{{ $enrolledTeam->team->getHighestAge() }}</span></p>
+                <p class="clearfix">Verein: <span class="club">{{ $enrolledTeam->team->club->name }}</span></p>
+                <p class="no-display member_id">{{ $enrolledTeam->team->id }}</p>
             </div>
         @endforeach
     @endif

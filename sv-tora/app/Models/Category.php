@@ -34,11 +34,11 @@ class Category extends Model
     }
 
     public function fighters() {
-        return $this->belongsToMany(EnrolledFighter::class, "enrolled_fighter_category");
+        return $this->belongsToMany(EnrolledFighter::class, "enrolled_fighter_category", "category_id", "enrolled_fighter_id");
     }
 
     public function teams() {
-        return $this->belongsToMany(EnrolledTeam::class, "enrolled_team_category");
+        return $this->belongsToMany(EnrolledTeam::class, "enrolled_team_category", "category_id", "enrolled_team_id");
     }
 
     public static function editableProperties(Category $category = null) {

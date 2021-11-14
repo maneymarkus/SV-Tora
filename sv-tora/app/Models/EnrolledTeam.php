@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class EnrolledTeam extends Pivot
+class EnrolledTeam extends Model
 {
 
     protected $table = "enrolled_teams";
@@ -28,7 +28,7 @@ class EnrolledTeam extends Pivot
     }
 
     public function categories() {
-        return $this->belongsToMany(Category::class, "enrolled_team_category");
+        return $this->belongsToMany(Category::class, "enrolled_team_category", "category_id", "enrolled_team_id");
     }
 
 }

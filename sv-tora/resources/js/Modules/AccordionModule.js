@@ -56,7 +56,10 @@ let Accordion = function(accordion) {
      */
     this.accordionElement.addEventListener("click", function (e) {
         let target = e.target;
-        e.preventDefault();
+        console.log(target.classList.contains("link"));
+        if (!target.classList.contains("link")) {
+            e.preventDefault();
+        }
         while (target.nodeName !== "BODY" && !target.classList.contains("bar-header")) {
             target = target.parentNode;
         }

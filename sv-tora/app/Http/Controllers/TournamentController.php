@@ -60,7 +60,11 @@ class TournamentController extends Controller
                 return response()->view("Tournament.tournament-dashboard", ["tournament" => $tournament, "progressStep" => $progressStep, "enrollment" => $enrollment]);
             }
         } else {
-            return response()->view("Tournament.no-tournament");
+            if (Gate::allows("admin")) {
+                return response()->view("Tournament.no-tournament");
+            } else {
+                return redirect()->route("dashboard");
+            }
         }
     }
 
