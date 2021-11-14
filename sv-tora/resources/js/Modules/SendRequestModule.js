@@ -20,7 +20,11 @@ let requests = generalVariables.requests;
 function getData(url, callback) {
     fetch(url)
         .then(response => {
-            return response.json();
+            if (response.status === 403) {
+                createNotification(generalVariables.notificationTypes.ERROR, "Dir fehlen die nötigen Berechtigungen für diese Aktion.", undefined, undefined);
+            } else {
+                return response.json()
+            }
         })
         .then(data => {
             handleJsonResponse(data, callback);
@@ -58,7 +62,11 @@ function getRequest(url, callback, loader) {
             if (loader) {
                 removeBigLoader();
             }
-            return response.json()
+            if (response.status === 403) {
+                createNotification(generalVariables.notificationTypes.ERROR, "Dir fehlen die nötigen Berechtigungen für diese Aktion.", undefined, undefined);
+            } else {
+                return response.json()
+            }
         })
         .then(json => {
             handleJsonResponse(json, callback);
@@ -84,7 +92,11 @@ async function postRequest(method, url, callback, content, loader) {
             if (loader) {
                 removeBigLoader();
             }
-            return response.json()
+            if (response.status === 403) {
+                createNotification(generalVariables.notificationTypes.ERROR, "Dir fehlen die nötigen Berechtigungen für diese Aktion.", undefined, undefined);
+            } else {
+                return response.json()
+            }
         })
         .then(json => {
             handleJsonResponse(json, callback);

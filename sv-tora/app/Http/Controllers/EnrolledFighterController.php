@@ -8,25 +8,15 @@ use App\Helper\NotificationTypes;
 use App\Models\Category;
 use App\Models\Club;
 use App\Models\EnrolledFighter;
-use App\Models\EnrolledPerson;
 use App\Models\Fighter;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use PHPUnit\Exception;
 
 class EnrolledFighterController extends Controller
 {
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->authorizeResource(EnrolledFighter::class, 'enrolled_fighter');
-    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,18 +24,15 @@ class EnrolledFighterController extends Controller
      */
     public function index(Tournament $tournament)
     {
+        $this->authorize("viewAny", [EnrolledFighter::class, $tournament]);
+
         session()->forget("configurableFighters");
         $user = Auth::user();
-        $enrolledFighters = EnrolledFighter::join("fighters", "fighters.id", "=", "enrolled_fighters.fighter_id")
-            ->select("enrolled_fighters.*", "fighters.sex", "fighters.graduation", "fighters.id as fighter_id")
-            ->where("tournament_id", "=", $tournament->id);
-        if (Gate::allows("admin")) {
-            $enrolledFighters = $enrolledFighters->get();
-        } else {
-            $enrolledFighters = $enrolledFighters->join("people", "people.id", "=", "fighter_id")
-                ->select("people.club_id as club_id")
-                ->where("club_id", "=", $user->club->id)
-                ->get();
+        $enrolledFighters = EnrolledFighter::with("fighter.person")
+            ->where("tournament_id", "=", $tournament->id)
+            ->get();
+        if (!Gate::allows("admin")) {
+            $enrolledFighters = $enrolledFighters->where("fighter.person.club_id", "=", $user->club->id);
         }
 
         $columns = [
@@ -56,8 +43,11 @@ class EnrolledFighterController extends Controller
             ["heading" => "Geschlecht", "sortable" => true],
             ["heading" => "Graduierung", "sortable" => true],
             ["heading" => "Kategorie(n)", "sortable" => true],
-            ["heading" => "Verein", "sortable" => true],
         ];
+
+        if (Gate::allows("admin")) {
+            $columns = array_merge($columns, [["heading" => "Verein", "sortable" => true]]);
+        }
 
         $rows = [];
         $counter = 1;
@@ -72,11 +62,13 @@ class EnrolledFighterController extends Controller
                     $enrolledFighter->fighter->sex,
                     $enrolledFighter->fighter->graduation,
                     implode(", ", $enrolledFighter->categories->pluck("name")->toArray()),
-                    $enrolledFighter->fighter->person->club->name,
                 ],
                 "editUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id),
                 "deleteUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id),
             ];
+            if (Gate::allows("admin")) {
+                array_push($row["data"], $enrolledFighter->fighter->person->club->name);
+            }
             array_push($rows, $row);
         }
         return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/add"), "entities" => "Kämpfer", "entity" => "Kämpfer", "columns" => $columns, "rows" => $rows]);
@@ -89,6 +81,8 @@ class EnrolledFighterController extends Controller
      */
     public function add(Tournament $tournament)
     {
+        $this->authorize("add", [EnrolledFighter::class, $tournament]);
+
         $allEnrolledFighterIds = EnrolledFighter::all()->pluck("fighter_id");
         if (Gate::allows("admin")) {
             $selectableFighters = Fighter::all();
@@ -130,10 +124,12 @@ class EnrolledFighterController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|void
      */
     public function prepare(Request $request, Tournament $tournament) {
+        $this->authorize("prepare", [EnrolledFighter::class, $tournament]);
+
         $fighters = [];
         foreach ($request["selected_entities"] as $selectedEntity) {
             $club = Club::firstWhere("name", "=", $selectedEntity["Verein"]);
-            if (!Gate::allows("admin") && $club !== Auth::user()->club) {
+            if (!Gate::allows("admin") && $club != Auth::user()->club) {
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Eine oder mehrere der ausgewählten Kämpfer kannst du aufgrund von fehlenden Berechtigungen nicht hinzufügen.");
             }
             $first_name = $selectedEntity["Vorname"];
@@ -160,6 +156,8 @@ class EnrolledFighterController extends Controller
 
 
     public function configure(Tournament $tournament) {
+        $this->authorize("configure", [EnrolledFighter::class, $tournament]);
+
         $configurableFighters = session("configurableFighters");
         if ($configurableFighters === null) {
             return redirect("/tournaments/" . $tournament->id . "/enrolled/fighters/add");
@@ -214,6 +212,8 @@ class EnrolledFighterController extends Controller
      */
     public function enroll(Request $request, Tournament $tournament, Fighter $fighter)
     {
+        $this->authorize("enroll", [EnrolledFighter::class, $tournament, $fighter]);
+
         $enrolledFighter = $fighter->enrolledConfigurations()->where("tournament_id", "=", $tournament->id)->first();
         if ($enrolledFighter === null) {
             $enrolledFighter = EnrolledFighter::create([
@@ -256,6 +256,8 @@ class EnrolledFighterController extends Controller
      */
     public function prepareEdit(Tournament $tournament, EnrolledFighter $enrolledFighter)
     {
+        $this->authorize("configure", [EnrolledFighter::class, $tournament, $enrolledFighter]);
+
         return json_encode(["redirectUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id . "/configure")]);
     }
 
@@ -268,6 +270,8 @@ class EnrolledFighterController extends Controller
      */
     public function edit(Request $request, Tournament $tournament, EnrolledFighter $enrolledFighter)
     {
+        $this->authorize("edit", [EnrolledFighter::class, $tournament, $enrolledFighter]);
+
         $fighter = $enrolledFighter->fighter;
         $fighter->first_name = $fighter->person->first_name;
         $fighter->last_name = $fighter->person->last_name;
@@ -323,6 +327,8 @@ class EnrolledFighterController extends Controller
      */
     public function update(Request $request, Tournament $tournament, EnrolledFighter $enrolledFighter)
     {
+        $this->authorize("update", [EnrolledFighter::class, $tournament, $enrolledFighter]);
+
         $atLeastOneParticipation = false;
         $enrolledFighter->categories()->sync([]);
         foreach($request["Disziplin"] as $examinationType => $enrollmentChoice) {
@@ -356,6 +362,8 @@ class EnrolledFighterController extends Controller
      */
     public function destroy(Tournament $tournament, EnrolledFighter $enrolledFighter)
     {
+        $this->authorize("delete", [EnrolledFighter::class, $tournament, $enrolledFighter]);
+
         if ($enrolledFighter === null) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der gegebene Kämpfer existiert nicht und kann daher nicht vom Wettkampf entfernt werden.");
         }

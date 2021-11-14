@@ -5,6 +5,7 @@ namespace App\Helper;
 use App\Models\Club;
 use App\Models\Fighter;
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\TournamentTemplate;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -209,6 +210,24 @@ class GeneralHelper
         # find matching sexKey
         $categories = $categoryReference[$discipline][$graduationKey][$ageKey][$sex];
         return $categories;
+    }
+
+
+    /**
+     * This function determines the category for a given team and returns the result (this is a special case of finding the category for a fighter)
+     *
+     * @param Team $team
+     * @throws Exception
+     */
+    public static function determineCategoryOfTeam(Team $team) {
+        // get fighter with the highest age
+        $maxAgeFighter = $team->fighters()->first();
+        foreach ($team->fighters as $fighter) {
+            if ($fighter->age() > $maxAgeFighter->age()) {
+                $maxAgeFighter = $fighter;
+            }
+        }
+        return self::determineCategoryOfFighter($fighter, "Team");
     }
 
 }

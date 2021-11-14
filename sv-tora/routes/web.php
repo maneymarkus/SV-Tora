@@ -8,6 +8,7 @@ use App\Http\Controllers\EnrolledCoachController;
 use App\Http\Controllers\EnrolledFighterController;
 use App\Http\Controllers\EnrolledHelperController;
 use App\Http\Controllers\EnrolledRefereeController;
+use App\Http\Controllers\EnrolledTeamController;
 use App\Http\Controllers\FighterController;
 use App\Http\Controllers\FightPlaceController;
 use App\Http\Controllers\GlobalSettingController;
@@ -42,10 +43,8 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $zeroCategories = Category::all()->reject(function ($category) {
-        return $category->fighters->count() > 0;
-    });
-    return json_encode($zeroCategories->pluck("name"));
+    $fighters = \App\Models\EnrolledFighter::with("fighter", "fighter.person")->get();
+    return json_encode($fighters);
     #return view("test");
 });
 
@@ -134,16 +133,19 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
     Route::get("/entities/people", function () {
         return view("Entities.people");
     });
+
     Route::resource("/entities/fighters", FighterController::class)->except(["show"]);
     Route::resource("/entities/coaches", CoachController::class)->except(["show"]);
     Route::resource("/entities/referees", RefereeController::class)->except(["show"]);
     Route::resource("/entities/helpers", HelperController::class)->except(["show"]);
+
     Route::get("/entities/teams/{team}/fighters", [TeamController::class, "showFighters"]);
     Route::get("/entities/teams/{team}/fighters/create", [TeamController::class, "addFighters"]);
     Route::get("/entities/teams/{team}/fighters/select", [TeamController::class, "selectFighters"]);
     Route::post("/entities/teams/{team}/fighters", [TeamController::class, "addFightersToTeam"]);
     Route::delete("/entities/teams/{team}/fighters/{fighter}", [TeamController::class, "removeFighter"]);
     Route::resource("/entities/teams", TeamController::class)->except(["show"]);
+
     Route::get("/entities/clubs/{club}/fighters", [ClubController::class, "showFighters"]);
     Route::get("/entities/clubs/{club}/teams", [ClubController::class, "showTeams"]);
 
@@ -167,6 +169,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
     Route::get("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}/configure", [EnrolledFighterController::class, "edit"]);
     Route::post("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}", [EnrolledFighterController::class, "update"]);
     Route::delete("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}", [EnrolledFighterController::class, "destroy"]);
+
     Route::get("/tournaments/{tournament}/enrolled/coaches", [EnrolledCoachController::class, "index"]);
     Route::get("/tournaments/{tournament}/enrolled/coaches/add", [EnrolledCoachController::class, "add"]);
     Route::post("/tournaments/{tournament}/enrolled/coaches", [EnrolledCoachController::class, "enroll"]);
@@ -180,13 +183,10 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
     Route::post("/tournaments/{tournament}/enrolled/helper", [EnrolledHelperController::class, "enroll"]);
     Route::delete("/tournaments/{tournament}/enrolled/helper/{enrolled_helper}", [EnrolledHelperController::class, "destroy"]);
 
-    Route::get("/tournament/enroll-entities", function () {
-        return view("Tournament.enroll-entities");
-    });
-
-    Route::get("/tournament/fighter-tournament-configuration", function () {
-        return view("Tournament.fighter-tournament-configuration");
-    });
+    Route::get("/tournaments/{tournament}/enrolled/teams", [EnrolledTeamController::class, "index"]);
+    Route::get("/tournaments/{tournament}/enrolled/teams/add", [EnrolledTeamController::class, "add"]);
+    Route::post("/tournaments/{tournament}/enrolled/teams", [EnrolledTeamController::class, "enroll"]);
+    Route::delete("/tournaments/{tournament}/enrolled/teams/{enrolled_team}", [EnrolledTeamController::class, "destroy"]);
 
 
     /**************************************************************

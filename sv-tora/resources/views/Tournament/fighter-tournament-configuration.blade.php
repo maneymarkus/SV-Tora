@@ -14,7 +14,7 @@
 
     <main class="limited">
         <a class="link cancel-configuration" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">zurück</a>
-        <h1>Kämpfer für <span class="highlighted-span">{{ $tournament->tournamentTemplate->name }}</span> konfigurieren</h1>
+        <h1>Kämpfer für <span class="highlighted-span">{{ $tournament->tournamentTemplate->tournament_name }}</span> konfigurieren</h1>
 
         <div class="fighter-cards-container">
             @php

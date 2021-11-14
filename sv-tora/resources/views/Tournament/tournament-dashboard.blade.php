@@ -58,7 +58,7 @@
                     ->join("people", "people.id", "=", "fighters.person_id")
                     ->where("club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
             @endphp
-            <div class="persons-container dashboard-container" style="margin-top: 7rem !important;">
+            <div class="persons-container dashboard-container">
                 <h3>Personen Anmeldungen</h3>
                 <div class="grid-container">
                     <a class="enrollment starter group {{ $enrollment }}" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">

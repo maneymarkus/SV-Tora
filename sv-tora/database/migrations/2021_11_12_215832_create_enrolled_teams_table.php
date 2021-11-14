@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnrolledFightersTable extends Migration
+class CreateEnrolledTeamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateEnrolledFightersTable extends Migration
      */
     public function up()
     {
-        Schema::create('enrolled_fighters', function (Blueprint $table) {
+        Schema::create('enrolled_teams', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger("fighter_id")->index();
+            $table->unsignedBigInteger("team_id")->index();
             $table->unsignedBigInteger("tournament_id")->index();
 
-            $table->foreign("fighter_id")->references("id")->on("fighters")->onDelete("cascade");
+            $table->foreign("team_id")->references("id")->on("teams")->onDelete("cascade");
             $table->foreign("tournament_id")->references("id")->on("tournaments")->onDelete("cascade");
-            $table->unique(["fighter_id", "tournament_id"]);
+            $table->unique(["team_id", "tournament_id"]);
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateEnrolledFightersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('enrolled_fighters');
+        Schema::dropIfExists('enrolled_teams');
     }
 }

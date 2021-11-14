@@ -32,12 +32,14 @@
                 <span class="bg"></span>
             </li>
         @elseif(auth()->user())
+            {{-- TODO
             <li>
                 <a href="{{ url("/entities/clubs/" . auth()->user()->club->id) }}">
                     <span class="text">Verein</span>
                 </a>
                 <span class="bg"></span>
             </li>
+            --}}
         @endcan
         @if(\App\Models\Tournament::latest()->first()?->active || \Illuminate\Support\Facades\Gate::allows("admin"))
             <li>

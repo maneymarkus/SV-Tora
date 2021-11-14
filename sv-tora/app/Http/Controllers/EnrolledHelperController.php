@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class EnrolledHelperController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *

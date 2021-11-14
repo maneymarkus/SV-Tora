@@ -28,7 +28,7 @@
 
     <main>
 
-        <a class="link" href="{{ url()->previous("/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("entities/people") }}">zurück</a>
         <h1>Administratoren</h1>
         @can("has-permission", \App\Helper\Permissions::INVITE_ADMINS)
             <div data-admin-table="{{ $id }}" class="table-actions clearfix">

@@ -32,12 +32,26 @@ class Team extends Model
         return $this->belongsToMany(Fighter::class);
     }
 
+    public function enrolledTeams() {
+        return $this->hasMany(EnrolledTeam::class);
+    }
+
+    public function getHighestAge() {
+        $maxAge = 0;
+        foreach ($this->fighters as $fighter) {
+            if ($fighter->age() > $maxAge) {
+                $maxAge = $fighter->age();
+            }
+        }
+        return $maxAge;
+    }
+
     public static function editableProperties(Team $team = null) {
         $editableProperties = [
             "Name" => $team?->name,
         ];
 
-        if (Auth::user()->isAdmin()) {
+        if (Gate::allows("admin")) {
             $editableProperties = array_merge($editableProperties, ["Verein" => GeneralHelper::addOtherChoosableOptions("clubs", $team?->club->name)]);
         }
 

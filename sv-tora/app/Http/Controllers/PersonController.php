@@ -16,7 +16,7 @@ class PersonController extends Controller
 {
 
     /**
-     * Create the controller instance.
+     * Create the controller instance. Actually not necessary in this controller but for representation purposes
      *
      * @return void
      */

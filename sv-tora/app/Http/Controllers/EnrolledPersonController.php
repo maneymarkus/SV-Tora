@@ -11,26 +11,21 @@ use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class EnrolledPersonController extends Controller
 {
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->authorizeResource(EnrolledPerson::class, 'enrolled_person');
-    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Tournament $tournament, $type, $addUrl, $deleteUrl, $entities, $entity)
     {
+        $this->authorize("viewAny", [EnrolledPerson::class, $tournament]);
+
         $user = Auth::user();
         $enrolledPersons = EnrolledPerson::join("people", "people.id", "=", "enrolled_people.person_id")->select("enrolled_people.*", "people.type as type", "people.id as person_id")->where("tournament_id", "=", $tournament->id)->where("type", "=", $type);
         if (Gate::allows("admin")) {
@@ -60,6 +55,8 @@ class EnrolledPersonController extends Controller
      */
     public function add(Tournament $tournament, $type, $enrollUrl, $addEntityUrl, $entities, $entity)
     {
+        $this->authorize("add", [EnrolledPerson::class, $tournament]);
+
         $allEnrolledPersonIds = EnrolledPerson::all()->pluck("person_id");
         $selectablePersons = Person::where("type", "=", $type);
         if (Gate::allows("admin")) {
@@ -93,9 +90,11 @@ class EnrolledPersonController extends Controller
      */
     public function enroll(Request $request, Tournament $tournament, string $type)
     {
+        $this->authorize("enroll", [EnrolledPerson::class, $tournament]);
+
         foreach ($request["selected_entities"] as $selectedEntity) {
             $club = Club::firstWhere("name", "=", $selectedEntity["Verein"]);
-            if (!Gate::allows("admin") && $club !== Auth::user()->club) {
+            if (!Gate::allows("admin") && $club != Auth::user()->club) {
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Eine oder mehrere der ausgewählten Personen kannst du nicht hinzufügen.");
             }
             $first_name = $selectedEntity["Vorname"];
@@ -123,6 +122,8 @@ class EnrolledPersonController extends Controller
      */
     public function destroy(Tournament $tournament, EnrolledPerson $enrolledPerson)
     {
+        $this->authorize("delete", [EnrolledPerson::class, $tournament, $enrolledPerson]);
+
         if ($enrolledPerson === null) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Die gegebene Person existiert nicht und kann daher nicht vom Wettkampf entfernt werden.");
         }

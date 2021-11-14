@@ -30,7 +30,8 @@ class EnrolledFighterPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
+     * @param \App\Models\User $user
+     * @param Tournament $tournament
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(User $user, Tournament $tournament)
@@ -44,8 +45,9 @@ class EnrolledFighterPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\EnrolledFighter  $enrolledFighter
+     * @param \App\Models\User $user
+     * @param Tournament $tournament
+     * @param \App\Models\EnrolledFighter $enrolledFighter
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, Tournament $tournament, EnrolledFighter $enrolledFighter)
@@ -53,7 +55,7 @@ class EnrolledFighterPolicy
         if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
             return false;
         }
-        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club === $user->club;
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club == $user->club;
     }
 
     /**
@@ -86,6 +88,21 @@ class EnrolledFighterPolicy
     }
 
     /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\EnrolledFighter  $enrolledFighter
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function configure(User $user, Tournament $tournament)
+    {
+        if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
+            return false;
+        }
+        return !$tournament->excludedClubs->contains($user->club);
+    }
+
+    /**
      * @param \App\Models\User $user
      * @param Tournament $tournament
      * @param Fighter $fighter
@@ -96,7 +113,39 @@ class EnrolledFighterPolicy
         if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
             return false;
         }
-        return !$tournament->excludedClubs->contains($user->club) && $fighter->person->club === $user->club;
+        return !$tournament->excludedClubs->contains($user->club) && $fighter->person->club == $user->club;
+    }
+
+
+    /**
+     *
+     * @param \App\Models\User $user
+     * @param Tournament $tournament
+     * @param Fighter $fighter
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function prepareEdit(User $user, Tournament $tournament, EnrolledFighter $enrolledFighter)
+    {
+        if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
+            return false;
+        }
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club == $user->club;
+    }
+
+
+    /**
+     *
+     * @param \App\Models\User $user
+     * @param Tournament $tournament
+     * @param Fighter $fighter
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function edit(User $user, Tournament $tournament, EnrolledFighter $enrolledFighter)
+    {
+        if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
+            return false;
+        }
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club == $user->club;
     }
 
 
@@ -112,7 +161,7 @@ class EnrolledFighterPolicy
         if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
             return false;
         }
-        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club === $user->club;
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club == $user->club;
     }
 
     /**
@@ -127,7 +176,7 @@ class EnrolledFighterPolicy
         if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
             return false;
         }
-        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club === $user->club;
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club == $user->club;
     }
 
     /**
@@ -142,7 +191,7 @@ class EnrolledFighterPolicy
         if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
             return false;
         }
-        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club === $user->club;
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club == $user->club;
     }
 
     /**
@@ -157,6 +206,6 @@ class EnrolledFighterPolicy
         if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
             return false;
         }
-        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club === $user->club;
+        return !$tournament->excludedClubs->contains($user->club) && $enrolledFighter->fighter->person->club == $user->club;
     }
 }

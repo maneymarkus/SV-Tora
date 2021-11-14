@@ -2,14 +2,18 @@
 
 namespace App\Providers;
 
+use App\Models\EnrolledFighter;
 use App\Models\EnrolledPerson;
+use App\Models\EnrolledTeam;
 use App\Models\Fighter;
 use App\Models\Person;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\User;
 use App\Policies\CoachPolicy;
+use App\Policies\EnrolledFighterPolicy;
 use App\Policies\EnrolledPersonPolicy;
+use App\Policies\EnrolledTeamPolicy;
 use App\Policies\FighterPolicy;
 use App\Policies\PersonPolicy;
 use App\Policies\TeamPolicy;
@@ -32,6 +36,8 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Tournament::class => TournamentPolicy::class,
         EnrolledPerson::class => EnrolledPersonPolicy::class,
+        EnrolledFighter::class => EnrolledFighterPolicy::class,
+        EnrolledTeam::class => EnrolledTeamPolicy::class,
     ];
 
     /**

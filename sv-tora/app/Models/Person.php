@@ -37,8 +37,8 @@ class Person extends Model
         return $this->hasOne(Fighter::class);
     }
 
-    public function enrolledPerson() {
-        return $this->hasOne(EnrolledPerson::class);
+    public function enrolledPersons() {
+        return $this->hasMany(EnrolledPerson::class);
     }
 
     public static function editableProperties(Person $person = null) {
