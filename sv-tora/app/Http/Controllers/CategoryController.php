@@ -11,8 +11,12 @@ use App\Models\Fighter;
 use App\Models\Team;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class CategoryController extends Controller
 {
@@ -90,9 +94,71 @@ class CategoryController extends Controller
      * This function generates a printable PDF containing the category metadata and members
      *
      * @param Category $category
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function printCategory(Category $category) {
-        # TODO
+    public function printCategory(Tournament $tournament, Category $category) {
+        if ($category->fighters->count() > 0) {
+            $spreadsheetPath = base_path() . "/storage/app/public/Kategorie_Teilnehmer_Kämpfer.xlsx";
+        } else {
+            $spreadsheetPath = base_path() . "/storage/app/public/Kategorie_Teilnehmer_Teams.xlsx";
+        }
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $spreadsheet = $reader->load($spreadsheetPath);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        # insert category data
+        $sheet->setCellValue("E1", $category->name);
+        $sheet->setCellValue("B3", $category->examination_type);
+        $sheet->setCellValue("D3", $category->age_min . " - " . $category->age_max);
+        $sheet->setCellValue("G3", $category->sex);
+        if ($category->graduation_min === $category->graduation_max) {
+            $sheet->setCellValue("I3", $category->graduation_min);
+        } else {
+            $sheet->setCellValue("I3", $category->graduation_min . " - " . $category->graduation_max);
+        }
+
+        # insert members
+        $counter = 0;
+        $row = 9;
+        if ($category->fighters->count() > 0) {
+            foreach ($category->fighters as $enrolledFighter) {
+                $sheet->setCellValueExplicit("A" . $row, ++$counter, DataType::TYPE_STRING);
+                $sheet->setCellValue("B" . $row, $enrolledFighter->fighter->person->first_name);
+                $sheet->setCellValue("D" . $row, $enrolledFighter->fighter->person->last_name);
+                $sheet->setCellValueExplicit("E" . $row, $enrolledFighter->fighter->age(), DataType::TYPE_STRING);
+                $sheet->setCellValue("F" . $row, $enrolledFighter->fighter->sex);
+                $sheet->setCellValue("G" . $row, $enrolledFighter->fighter->graduation);
+                $sheet->setCellValue("I" . $row, $enrolledFighter->fighter->person->club->name);
+
+                $row++;
+            }
+        } else {
+            foreach ($category->teams as $enrolledTeam) {
+                $sheet->setCellValueExplicit("A" . $row, ++$counter, DataType::TYPE_STRING);
+                $sheet->setCellValue("B" . $row, $enrolledTeam->team->name);
+                $sheet->setCellValueExplicit("D" . $row, $enrolledTeam->team->getHighestAge(), DataType::TYPE_STRING);
+                $sheet->setCellValue("E" . $row, implode(", ", $enrolledTeam->team->fighters()->get()->map(function ($fighter) {
+                    return $fighter->person->first_name . " " . $fighter->person->last_name;
+                })->toArray()));
+                $sheet->setCellValue("I" . $row, $enrolledTeam->team->club->name);
+
+                $row++;
+            }
+        }
+
+        # set amount of participants of category
+        $sheet->setCellValue("J6", $counter);
+
+        # create directories and set save path
+        $fileName = "Kategorie -" . $category->name . "- Teilnehmer.pdf";
+        $savePath = base_path() . "/storage/app/public/Wettkampf_ID_" . $tournament->id . "/" . $fileName;
+        if (!is_dir(pathinfo($savePath, PATHINFO_DIRNAME))) {
+            mkdir(pathinfo($savePath, PATHINFO_DIRNAME), 0777, true);
+        }
+
+        $writer = new Mpdf($spreadsheet);
+        $writer->save($savePath);
+        return Storage::download("/public/Wettkampf_ID_" . $tournament->id . "/" . $fileName);
     }
 
 

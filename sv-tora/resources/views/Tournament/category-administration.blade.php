@@ -13,6 +13,8 @@
 @section("content")
 
     <main>
+        <x-tournament-admin-info :tournament="$tournament"></x-tournament-admin-info>
+
         <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
         <h1>Starter</h1>
 
@@ -256,7 +258,8 @@
                                         <td class="number">{{ $loop->iteration }}</td>
                                         <td class="name">{{ $enrolledTeam->team->name }}</td>
                                         <td class="club">{{ $enrolledTeam->team->club->name }}</td>
-                                        <td class="members"><a class="link" href={{ url("/entities/teams/" . $enrolledTeam->team->id . "/fighters") }}>Mitglieder</a></td>
+                                        <td class="members">{{ implode(", ", $enrolledTeam->team->fighters()->get()->map(function ($fighter) {return $fighter->person->first_name . " " . $fighter->person->last_name;})->toArray()) }}</td>
+                                        <td class="members"><a class="link" href={{ url("/entities/teams/" . $enrolledTeam->team->id . "/fighters") }}>Team-Übersicht</a></td>
                                         <td class="delete">
                                             <x-primary-button class="delete-fighter warning" href="{{ $deleteFighterUrl }}" icon-name="delete" text="Team entfernen"></x-primary-button>
                                         </td>

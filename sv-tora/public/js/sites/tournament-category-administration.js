@@ -64,7 +64,8 @@
             //Print category
             if (target.classList.contains("print")) {
                 let url = target.getAttribute("href");
-                App.ModalModule.infoModal("Kategorie drucken", "Leider wird drucken noch nicht vollständig unterstützt.");
+                window.open(url, "_blank");
+                This.inheritance.stayOpen = false;
                 return;
             }
 

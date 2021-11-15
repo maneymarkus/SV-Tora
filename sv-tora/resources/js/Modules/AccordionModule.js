@@ -56,7 +56,6 @@ let Accordion = function(accordion) {
      */
     this.accordionElement.addEventListener("click", function (e) {
         let target = e.target;
-        console.log(target.classList.contains("link"));
         if (!target.classList.contains("link")) {
             e.preventDefault();
         }

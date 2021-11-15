@@ -246,10 +246,6 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
 
         Route::resource("/settings/tournament-templates", TournamentTemplateController::class)->except(["show"]);
 
-        Route::get("/settings/categories", function () {
-            return view("Settings.categories");
-        });
-
 
         /**************************************************************
          *      Entity Routes                                         *
@@ -308,8 +304,8 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
             return view("Tournament.time-schedule");
         });
 
-        Route::get("/tournaments/{tournament}/category/{id}/fighting-system", function () {
-            return view("Tournament.fighting-system-map");
+        Route::get("/tournaments/{tournament}/category/fighting-system", function (\App\Models\Tournament $tournament) {
+            return view("Tournament.fighting-system-map", ["tournament" => $tournament]);
         });
 
     });

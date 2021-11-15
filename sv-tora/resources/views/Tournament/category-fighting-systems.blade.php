@@ -31,6 +31,8 @@
 @section("content")
 
     <main class="limited">
+        <x-tournament-admin-info :tournament="$tournament"></x-tournament-admin-info>
+
         <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
 
         <h1>Kampfsysteme der Kategorie</h1>

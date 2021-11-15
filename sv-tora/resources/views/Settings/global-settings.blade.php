@@ -18,13 +18,13 @@
 
         <div class="col">
             <h3>Kategorien</h3>
-            <a class="link" href="/settings/categories">Anzeigen</a>
+            <a class="link" target="_blank" href="{{ asset("/storage/Kategorien.pdf") }}">Anzeigen</a>
 
             <h3>Wettkämpfe</h3>
-            <a class="link" href="/settings/tournament-templates">Bearbeiten</a>
+            <a class="link" href="{{ url("/settings/tournament-templates") }}">Bearbeiten</a>
 
             <h3>Rechteverwaltung (Auch: Administrator hinzufügen)</h3>
-            <a class="link" href="/entities/admins">Bearbeiten</a>
+            <a class="link" href="{{ url("/entities/admins") }}">Bearbeiten</a>
 
             <h3 class="margin-bottom">Wettkampf Parameter</h3>
             <h4>Zeit pro Kampf in Sekunden: <span class="time-for-one-fight">{{ \App\Models\GlobalSetting::getSetting("fight_time_in_seconds") }}</span>s</h4>
