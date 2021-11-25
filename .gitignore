@@ -1,6 +1,7 @@
 .idea
 Production Deployment.txt
 production_config.txt
+sv-tora/laravel-worker.conf
 
 /vendor/
 npm-debug.log
