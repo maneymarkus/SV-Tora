@@ -32,7 +32,7 @@
         <h1>Administratoren</h1>
         @can("has-permission", \App\Helper\Permissions::INVITE_ADMINS)
             <div data-admin-table="{{ $id }}" class="table-actions clearfix">
-                <x-primary-button class="add-admin add-entity" text="Admin hinzufügen" icon-name="person_add"></x-primary-button>
+                <x-primary-button class="add-admin" text="Admin hinzufügen" icon-name="person_add"></x-primary-button>
             </div>
         @endcan
         <div class="oversize-container">

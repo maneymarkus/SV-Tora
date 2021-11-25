@@ -7,8 +7,7 @@ Klicken Sie hier, um sich zu registrieren:
 Hier Registrieren
 @endcomponent
 
-{{-- TODO: Change greeting --}}
-Sport frei,<br />
+Mit sportlichen Grüßen,<br />
 {{ config("mail.from.name") }}
 
 @endcomponent

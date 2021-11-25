@@ -12,7 +12,7 @@
         <p class="error">
             Achtung! Sie sind aktuell keinem Verein zugeordnet! Dies kann unter anderem dadurch passiert sein, dass ein Administrator Ihren Verein gelöscht hat.
             <br />
-            Bitte wenden Sie sich an {{ config("global.help-mail") }}. Ein Administrator wird Sie dann Ihrem gewünschten Verein zuordnen und Sie können dieses Tool wie gewohnt benutzen.
+            Bitte wenden Sie sich an {{ config("contact.email") }}. Ein Administrator wird Sie dann Ihrem gewünschten Verein zuordnen und Sie können dieses Tool wie gewohnt benutzen.
             <br />
             Alternativ nutzen Sie die bequeme Methode über den Button unten, um die Administratoren über das Problem aufzuklären.
             Nachdem Sie Ihren gewünschten Verein eingegeben haben, werden die Administratoren dieser App informiert und ordnen Sie sobald wie möglich Ihrem gewünschten Verein zu.

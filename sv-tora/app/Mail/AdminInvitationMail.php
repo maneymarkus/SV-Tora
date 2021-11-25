@@ -32,7 +32,7 @@ class AdminInvitationMail extends Mailable
      */
     public function __construct($token) {
         $this->token = $token;
-        $this->url = "http:\\\\laravel.test/admin/registration/" . $token;
+        $this->url = url("/admin/registration/" . $token);
     }
 
     /**

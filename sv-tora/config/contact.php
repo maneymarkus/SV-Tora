@@ -1,5 +1,5 @@
 <?php
 
 return [
-    "email" => "kontakt@sv-tora.de",
+    "email" => "popov@sv-tora.de",
 ];

@@ -25,6 +25,7 @@ let AdminTable = function(table) {
     this.tableBody = table.querySelector("tbody");
     this.tableFooter = (table.querySelector("tfoot")) ? table.querySelector("tfoot") : undefined;
     this.ths = this.tableHeader.querySelectorAll("th");
+    this.addAdminBtn = document.querySelector(".add-admin");
 
     let Row = function (tr, tableObject) {
         let This = this;
@@ -187,7 +188,7 @@ let AdminTable = function(table) {
     this.addElementBtn = undefined;
     if (this.tableElement.getAttribute("data-add")) {
         let addElementBtnSelector = this.tableElement.getAttribute("data-add");
-        this.addElementBtn = document.querySelector("#" + addElementBtnSelector);
+        this.ElementBtn = document.querySelector("#" + addElementBtnSelector);
     }
 
     // Iterate over all available rows in table body and read them into objects
@@ -237,7 +238,7 @@ let AdminTable = function(table) {
     /**
      * This function initializes the addition of a new entity/element to the table which is a new admin. New admins can be registered by inviting them via an e-mail address. Then they can register themselves on a custom landing page for them.
      */
-    this.addingEntity = function () {
+    this.addAdminBtn.addEventListener("click", function () {
         let mailInput = createInput(GeneralModule.generalVariables.inputTypes.TEXT, ["mail", "required"], undefined, "new-admin-mail", "E-Mail-Adresse", undefined, undefined, undefined);
         let ModalWindow = ModalModule.confirmModal("Neuen Administrator hinzufügen (einladen)", mailInput.inputContainer, undefined, undefined, function () {
             if (!checkInput(mailInput.inputContainer, true)) {
@@ -247,7 +248,7 @@ let AdminTable = function(table) {
                 sendRequest(GeneralModule.generalVariables.requests.POST, "/admin/registration/invitation", () => {ModalWindow.closeModal()}, data, true);
             }
         });
-    }
+    });
 
     // Return row object corresponding to given tr element
     this.getRowObject = function (tr) {

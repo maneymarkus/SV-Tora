@@ -143,7 +143,7 @@
                     <h3>Team Anmeldungen</h3>
                     <a class="enrollment teams  {{ $enrollment }}" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
                         <span class="circle">
-                            <span class="number">13</span>
+                            <span class="number">{{ \App\Models\EnrolledTeam::where("tournament_id", "=", $tournament->id)->get()->count() }}</span>
                         </span>
                     </a>
                 </div>

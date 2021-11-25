@@ -7,8 +7,7 @@ das SV Tora Berlin e.V. Team hat folgende Nachricht für Sie:<br />
 {{ $content }}
 @endcomponent
 
-{{-- TODO: Change greeting --}}
-Sport frei,<br />
+Mit sportlichen Grüßen,<br />
 {{ config("mail.from.name") }}
 
 @endcomponent

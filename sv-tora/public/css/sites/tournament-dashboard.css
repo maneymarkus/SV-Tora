@@ -430,6 +430,14 @@ main h1 {
     transform: translateY(-50%);
 }
 
+.data-privacy {
+    border: 3px solid var(--accent-color-2-dark);
+}
+
+.data-privacy p {
+    padding: 0;
+}
+
 /**************************************************************************
 
   Styles for the fighting-systems container

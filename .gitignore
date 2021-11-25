@@ -1,4 +1,6 @@
 .idea
+Production Deployment.txt
+production_config.txt
 
 /vendor/
 npm-debug.log

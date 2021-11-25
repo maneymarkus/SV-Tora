@@ -87,7 +87,7 @@ return [
      * TODO: Change default email
      */
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'kontakt@sv-tora.de'),
+        'address' => env('MAIL_FROM_ADDRESS', 'popov@sv-tora.de'),
         'name' => env('MAIL_FROM_NAME', 'SV Tora Berlin e.V.'),
     ],
 

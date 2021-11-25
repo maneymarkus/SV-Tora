@@ -45,6 +45,14 @@
 
         <div class="column-container">
 
+            <div class="topic-container dashboard-container data-privacy">
+                <h3>Datenschutz-Info</h3>
+                <p class="clearfix">
+                    Bei Wettkämpfen des Vereins werden durch beauftragte Fotografen Fotos angefertigt, die zur Öffentlichkeitsarbeit und für die Erstellung von Bildergalerien auf der Webseite des SV Tora Berlin e.V. verwendet werden.
+                    Sollten SIe nicht mit der Abbildung Ihrer Person oder Ihrer Angehörigen einverstanden sein, teilen Sie dies bitte unverzüglich dem Veranstalter mit, um nachträgliche Einsprüche zu vermeiden.
+                </p>
+            </div>
+
             <div class="info dashboard-container">
                 <h3>Info</h3>
                 <p class="clearfix"><span class="left">Graduierungen</span><span class="right">{{ $tournament->tournamentTemplate->graduation_min . " - " . $tournament->tournamentTemplate->graduation_max }}</span></p>
@@ -57,6 +65,7 @@
                 $enrolledFighters = \App\Models\EnrolledFighter::join("fighters", "fighters.id", "=", "enrolled_fighters.fighter_id")
                     ->join("people", "people.id", "=", "fighters.person_id")
                     ->where("club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
+                $enrolledTeams = \App\Models\EnrolledTeam::with("team")->get()->where("team.club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
             @endphp
             <div class="persons-container dashboard-container">
                 <h3>Personen Anmeldungen</h3>
@@ -93,7 +102,7 @@
                     <h3>Team Anmeldungen</h3>
                     <a class="enrollment teams {{ $enrollment }}" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
                         <span class="circle">
-                            <span class="number">13</span>
+                            <span class="number">{{ $enrolledTeams->where("tournament_id", "=", $tournament->id)->count() }}</span>
                         </span>
                     </a>
                 </div>

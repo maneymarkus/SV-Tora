@@ -63,6 +63,7 @@ return [
     |
     */
 
+    // TODO: change to production url!
     'url' => env('APP_URL', 'http://laravel.test'),
 
     'asset_url' => env('ASSET_URL', null),

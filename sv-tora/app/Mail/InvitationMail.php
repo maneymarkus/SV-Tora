@@ -33,7 +33,7 @@ class InvitationMail extends Mailable
      */
     public function __construct($token) {
         $this->token = $token;
-        $this->url = "http:\\\\laravel.test/registration/" . $token;
+        $this->url = url("/registration/" . $token);
     }
 
     /**

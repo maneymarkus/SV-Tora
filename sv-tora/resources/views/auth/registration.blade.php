@@ -24,7 +24,7 @@
 
         <h1>Registrierung</h1>
 
-        <p class="info">Sie wurden eingeladen, sich beim SV Tora Berlin e.V. Wettkampf-Management-System zu <span class="highlighted-span">registrieren</span>, um sich zu von SV Tora veranstalteten <span class="highlighted-span">Wettkämpfen</span> selbstständig anzumelden. Bitte beachten Sie, dass jeweils nur <span class="highlighted-span">ein Account</span> für einen Verein vorgesehen ist. Von Ihnen erstellte Personen und Wettkampf&shy;anmeldungen können nur von dem Account verwaltet werden, der diese erstellt hat (Bei weiteren Fragen wenden Sie sich gerne an <span class="highlighted-span">support@existiert.net</span>)</p>
+        <p class="info">Sie wurden eingeladen, sich beim SV Tora Berlin e.V. Wettkampf-Management-System zu <span class="highlighted-span">registrieren</span>, um sich zu von SV Tora veranstalteten <span class="highlighted-span">Wettkämpfen</span> selbstständig anzumelden (Bei weiteren Fragen wenden Sie sich gerne an <span class="highlighted-span">{{ config("contact.email") }}</span>).</p>
 
         @if ($errors->any())
             <p class="form-error">

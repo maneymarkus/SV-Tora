@@ -8,7 +8,7 @@
 
         @if(isset($error) && $error)
             <p class="error">
-                Leider konnte Ihr Passwort nicht zurückgesetzt werden. Bitte versuchen Sie es später erneut. Sollte dies öfter auftreten, dann wenden Sie sich bitte an: {{ config("global.help-mail") }}
+                Leider konnte Ihr Passwort nicht zurückgesetzt werden. Bitte versuchen Sie es später erneut. Sollte dies öfter auftreten, dann wenden Sie sich bitte an: {{ config("contact.email") }}
             </p>
         @else
             <p class="success">

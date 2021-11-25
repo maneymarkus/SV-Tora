@@ -40,11 +40,11 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get("/mailable", function () {
-    return new \App\Mail\GenericMail("Betreff", ["kajsdhf@sdfh.de"], "Inhalt");
+    return new \App\Mail\InvitationMail(\App\Helper\GeneralHelper::generateUniqueRandomToken());
 });
 
 Route::get("/test", function () {
-    $teams = \App\Models\Team::with("club")->get();
+    $teams = \App\Models\EnrolledTeam::with("team")->get();
     return json_encode($teams);
     #return view("test");
 });
