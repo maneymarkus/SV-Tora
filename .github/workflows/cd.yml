@@ -9,13 +9,13 @@ on:
     
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == "success" }}
     runs-on: ubuntu-latest
     env:
       working-directory: ./sv-tora
     defaults:
       run:
         working-directory: ./sv-tora
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
         
     steps:
       - uses: actions/checkout@v2
