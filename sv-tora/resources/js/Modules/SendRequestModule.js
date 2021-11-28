@@ -17,7 +17,7 @@ let requests = generalVariables.requests;
  * @param url
  * @param callback
  */
-function getData(url, callback) {
+async function getData(url, callback) {
     fetch(url)
         .then(response => {
             if (response.status === 403) {
@@ -39,7 +39,7 @@ function getData(url, callback) {
  * @param content {object} The content of the request (body)
  * @param loader {boolean} Determines if a loader animation should be used on the whole page
  */
-function sendRequest(method, url, callback, content, loader = false) {
+async function sendRequest(method, url, callback, content, loader = false) {
     switch(method) {
         case generalVariables.requests.GET:
             getRequest(url, callback, loader);
@@ -53,7 +53,7 @@ function sendRequest(method, url, callback, content, loader = false) {
     }
 }
 
-function getRequest(url, callback, loader) {
+async function getRequest(url, callback, loader) {
     if (loader) {
         addBigLoader();
     }

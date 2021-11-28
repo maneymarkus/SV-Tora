@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Helper\GeneralHelper;
+use App\Helper\Permissions;
 use App\Helper\Roles;
 use App\Models\Club;
 use App\Models\Permission;
@@ -31,7 +32,7 @@ class SuperUserSeeder extends Seeder
             "club_id" => Club::where("name", "=", "SV Tora")->first()->id,
         ]);
 
-        $allPermissions = Permission::all()->toArray();
+        $allPermissions = Permission::all()->all();
         $superUser->allowTo($allPermissions);
     }
 }

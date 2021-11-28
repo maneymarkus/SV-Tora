@@ -47,15 +47,19 @@
 
     let inviteButton = main.querySelector(".primary-button.invite");
 
-    inviteButton.addEventListener("click", function (e) {
+    inviteButton.addEventListener("click", async function (e) {
         e.preventDefault();
         let emailInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.TEXT, ["required", "email"], undefined, "email", "E-Mail-Adresse", undefined, undefined, undefined);
         let content = App.GeneralModule.generateElement("div");
         content.appendChild(emailInput.inputContainer);
         if (App.GeneralModule.isAdmin()) {
-            let clubSelect = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.SELECT, ["required", "club"], undefined, "club", "Zugeordnet zu Verein: ", undefined, undefined, ["Verein 1", "Verein 2", "Verein 3"]);
-            content.appendChild(clubSelect.inputContainer);
+            App.LoaderModule.addBigLoader();
+            let clubNames = await App.SendRequestModule.getData("/entities/clubs/names", (clubNames) => {
+                let clubSelect = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.SELECT, ["required", "club"], undefined, "club", "Zugeordnet zu Verein: ", undefined, undefined, clubNames);
+                content.appendChild(clubSelect.inputContainer);
+            });
         }
+        App.LoaderModule.removeBigLoader();
         let ModalWindow = App.ModalModule.confirmModal("Neuen User einladen", content, undefined, undefined, function () {
             if (!App.FormModule.checkForm(content, true)) {
                 return false;
@@ -65,7 +69,9 @@
                     data["club"] = clubSelect.getValue();
                 }
 
-                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, "/registration/invitation", () => {ModalWindow.closeModal()}, data, true);
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, "/registration/invitation", () => {
+                    ModalWindow.closeModal()
+                }, data, true);
             }
         });
     });

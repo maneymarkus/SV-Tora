@@ -79,7 +79,7 @@
 
         </div>
 
-        <a class="creator-button" href="{{ url("/creator") }}">?</a>
+        {{--<a class="creator-button" href="{{ url("/creator") }}">?</a>--}}
 
     </main>
 

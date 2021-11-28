@@ -73,7 +73,7 @@ Route::post("/logout", [AuthenticationController::class, "logout"])->name("logou
 Route::get("/registration/{token}", [RegistrationController::class, "showRegistration"])->name("registration");
 Route::post("/registration", [RegistrationController::class, "register"]);
 Route::prefix("admin")->group(function () {
-    Route::get("/registration/{token}", [RegistrationController::class, "showRegistrationAdmin"])->name("registration");
+    Route::get("/registration/{token}", [RegistrationController::class, "showRegistrationAdmin"])->name("admin-registration");
     Route::post("/registration", [RegistrationController::class, "registerAdmin"]);
 });
 
@@ -322,10 +322,6 @@ Route::get("/legal-notice", function () {
 Route::get("/data-privacy-statement", function () {
     return view("data-privacy-statement");
 });
-
-/*
- * TODO: Check if AGB is needed (or anything else)
- */
 
 
 /**************************************************************
