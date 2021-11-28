@@ -11,7 +11,7 @@ class RadioButtons extends Component
      * The name of the input field for backend identification
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * This 2-dimensional array determines the different selectable options that should be available.
@@ -21,19 +21,19 @@ class RadioButtons extends Component
      * "text": string | This text will be displayed
      * "checked": boolean | Determines if this radio button should be checked
      * "disabled": boolean | Determines if this radio button should be disabled
-     * @var string[[]]
+     * @var array
      */
-    public $options;
+    public array $radioOptions;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $options)
+    public function __construct(string $name, array $radioOptions)
     {
         $this->name = $name;
-        $this->options = $options;
+        $this->radioOptions = $radioOptions;
     }
 
     /**

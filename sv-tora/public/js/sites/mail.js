@@ -38,9 +38,11 @@
                 return;
             }
             if (App.FormModule.checkForm(mailForm, true)) {
+                App.LoaderModule.addBigLoader();
                 let data = App.TranslationModule.translateInputsToObject(mailForm);
                 data["receivers"] = receivers;
                 App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, sendButton.getAttribute("href"), () => {
+                    App.LoaderModule.removeBigLoader();
                     document.querySelector("main").classList.add("sent");
                     window.setTimeout(function () {
                         envelope.innerHTML = "mail";

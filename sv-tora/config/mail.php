@@ -36,7 +36,7 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.strato.de'),
+            'host' => env('MAIL_HOST', 'smtp.artfiles.de'),
             'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
@@ -83,9 +83,6 @@ return [
     |
     */
 
-    /*
-     * TODO: Change default email
-     */
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'popov@sv-tora.de'),
         'name' => env('MAIL_FROM_NAME', 'SV Tora Berlin e.V.'),

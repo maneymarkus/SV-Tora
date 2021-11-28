@@ -13,8 +13,7 @@ class AuthenticationController extends Controller
         if (Auth::check()) {
             return redirect()->route("dashboard");
         }
-        $checkboxOptions = [["text" => "Angemeldet bleiben", "value" => "remember", "checked" => false, "disabled" => false]];
-        return view("auth.login", ["checkboxOptions" => $checkboxOptions]);
+        return view("auth.login");
     }
 
     public function login(Request $request) {

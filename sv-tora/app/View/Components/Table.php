@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Table extends Component
 {
@@ -13,47 +14,47 @@ class Table extends Component
      * The second array should have two values:
      * "heading": string | determines the column heading
      * "sortable": boolean | determines if the table should be sortable by this particular column
-     * @var string[[]]
+     * @var array
      */
-    public $columns;
+    public array $columns;
 
     /**
      * 2-dimensional array containing all the values of the table
      * The first array should contain all the rows
      * The second array should contain all the values for the cells in this row
-     * @var string[[[]]]
+     * @var array
      */
-    public $rows;
+    public array $rows;
 
     /**
      * Determines if this table should have a preceding container allowing to add entities
-     * @var string|boolean
+     * @var string|bool
      */
-    public $actions;
+    public string|bool $actions;
 
     /**
      * Determines if this table should have a preceding container allowing to filter the table
-     * @var string|boolean
+     * @var string|bool
      */
-    public $filter;
+    public string|bool $filter;
 
     /**
      * Determines if table rows should be editable for the user
-     * @var string|boolean
+     * @var string|bool
      */
-    public $editable;
+    public string|bool $editable;
 
     /**
      * Determines if table rows should deletable for the user
-     * @var string|boolean
+     * @var string|bool
      */
-    public $deletable;
+    public string|bool $deletable;
 
     /**
      * Determines if table rows should be able to be selected (inserts another column at the front of the table with checkboxes)
-     * @var string|boolean
+     * @var string|bool
      */
-    public $selectable;
+    public string|bool $selectable;
 
     /**
      * Create a new component instance.

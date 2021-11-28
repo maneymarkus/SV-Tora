@@ -1,9 +1,7 @@
 @php
 
-    use App\Helper\GeneralHelper;
-
     if (!isset($id)) {
-        $id = GeneralHelper::uniqueRandomIdentifier();
+        $id = App\Helper\GeneralHelper::uniqueRandomIdentifier();
     }
 
     if (!isset($entity)) {

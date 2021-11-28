@@ -36,7 +36,10 @@
                     <x-slot name="autofocus">autofocus</x-slot>
                 </x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password" class="required" label="Passwort"></x-inputs.text-input>
-                <x-inputs.check-boxes name="remember" :options="$checkboxOptions"></x-inputs.check-boxes>
+                @php
+                    $checkboxOptions = [["text" => "Angemeldet bleiben", "value" => "remember", "checked" => false, "disabled" => false]];
+                @endphp
+                <x-inputs.check-boxes name="remember" :checkableOptions="$checkboxOptions"></x-inputs.check-boxes>
                 <a class="link password-forgotten">Passwort vergessen</a>
                 <button type="submit" class="secondary-button disabled login-button" >
                     <span class="text">Login</span>

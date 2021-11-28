@@ -44,9 +44,7 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $teams = \App\Models\EnrolledTeam::with("team")->get();
-    return json_encode($teams);
-    #return view("test");
+    return view("test");
 });
 
 
