@@ -42,7 +42,9 @@ class ProductionSeeder extends Seeder
         }
 
         $this->call([
-            SuperUserSeeder::class
+            SuperUserSeeder::class,
+            GlobalSettingSeeder::class,
+            TournamentTemplateSeeder::class,
         ]);
     }
 }
