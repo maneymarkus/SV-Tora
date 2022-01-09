@@ -64,9 +64,7 @@ let TimeSchedule = function (timeSchedule) {
         // calculate start time in minutes
         let currentDate = new Date();
 
-        // TODO: reactivate
-        //let currentTimeInMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
-        let currentTimeInMinutes = 900;
+        let currentTimeInMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
         let startTimeInMinutes = 0;
         let parts = This.startTime.split(":");
         startTimeInMinutes += parseInt(parts[0]) * 60;

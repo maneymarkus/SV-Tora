@@ -54,6 +54,10 @@ main:before {
     margin-bottom: 3rem;
 }
 
+.intro a {
+    font-size: inherit;
+}
+
 .sent .intro {
     opacity: 0;
 }
@@ -104,7 +108,7 @@ main:before {
 }
 
 .made-with .education {
-    color: darkblue;
+    color: blue;
 }
 
 .sent .made-with {

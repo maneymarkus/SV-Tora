@@ -54,7 +54,7 @@ class ResetPassword extends Notification
             ->action("Passwort zurücksetzen!", url("/password/reset", $this->token))
             ->line("Dieser Link wird in 60 Minuten ablaufen.")
             ->line("Sollten Sie diesen Link nicht angefordert haben, ignorieren Sie diese E-Mail bitte einfach.")
-            ->salutation("Sport frei,\n" . config("mail.from.name"));
+            ->salutation("Mit sportlichen Grüßen,\n" . config("mail.from.name"));
     }
 
     /**

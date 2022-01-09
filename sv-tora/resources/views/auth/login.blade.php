@@ -17,7 +17,7 @@
 
     <main>
 
-        <h1 class="intro"><span class="highlighted-span">SV Tora Berlin e.V.</span> Wettkampf-Management-System</h1>
+        <h1 class="intro"><a class="link" href="https://www.sv-tora.de/" target="_blank">SV Tora Berlin e.V.</a> Wettkampf-Management-System</h1>
 
         @if ($errors->any())
             <p class="form-error">

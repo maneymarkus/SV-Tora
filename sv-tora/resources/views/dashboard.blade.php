@@ -75,6 +75,7 @@
                     <x-primary-button class="settings" text="Einstellungen" icon-name="settings" href="/settings"></x-primary-button>
                 @endcan
                 <x-primary-button class="invite" text="User einladen" icon-name="person_add"></x-primary-button>
+                <x-primary-button target="_blank" href="https://www.sv-tora.de/" class="home" text="SV Tora Website" icon-name="home"></x-primary-button>
             </div>
 
         </div>

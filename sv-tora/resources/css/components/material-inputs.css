@@ -204,6 +204,10 @@ input.time-input {
     transition: color 0.2s ease;
 }
 
+.text-input-container.password label.icon {
+    cursor: pointer;
+}
+
 .text-input-container label.icon i,
 .date-input-container label.icon i,
 .time-input-container label.icon i {
