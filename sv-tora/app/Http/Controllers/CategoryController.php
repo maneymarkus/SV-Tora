@@ -98,9 +98,9 @@ class CategoryController extends Controller
      */
     public function printCategory(Tournament $tournament, Category $category) {
         if ($category->fighters->count() > 0) {
-            $spreadsheetPath = base_path() . "/storage/app/public/Kategorie_Teilnehmer_Kämpfer.xlsx";
+            $spreadsheetPath = base_path() . "/storage/app/public/categories/Kategorie_Teilnehmer_Kämpfer.xlsx";
         } else {
-            $spreadsheetPath = base_path() . "/storage/app/public/Kategorie_Teilnehmer_Teams.xlsx";
+            $spreadsheetPath = base_path() . "/storage/app/public/categories/Kategorie_Teilnehmer_Teams.xlsx";
         }
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $spreadsheet = $reader->load($spreadsheetPath);

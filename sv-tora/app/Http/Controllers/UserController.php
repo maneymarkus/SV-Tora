@@ -9,6 +9,7 @@ use App\Helper\Roles;
 use App\Models\Club;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -140,6 +141,9 @@ class UserController extends Controller
     public function updateAdminPermissions(Request $request, User $admin) {
         $this->authorize("updateAdminPermissions", $admin);
         if (Gate::allows("has-permission", Permissions::UPDATE_ADMIN_PERMISSIONS)) {
+            if ($admin->name === "Superuser") {
+                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Die Rechte des Superusers können nicht geändert werden.");
+            }
             $permissions = $request->all();
             $grantedPermissions = array_filter($permissions, function ($granted) {
                 return $granted;
@@ -175,6 +179,9 @@ class UserController extends Controller
 
     public function destroyAdmin(User $admin) {
         if (Gate::allows("has-permission", Permissions::DELETE_ADMINS)) {
+            if ($admin->name === "Superuser") {
+                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Superuser kann nicht gelöscht werden.");
+            }
             $adminName = $admin->name;
             $admin->delete();
             return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Admin \"" . $adminName . "\" wurde erfolgreich gelöscht!");
@@ -220,7 +227,17 @@ class UserController extends Controller
 
 
     public function getMailsFromUsersFromEnrolledClubs() {
-        //TODO
+        if (Tournament::latest()->first()?->active) {
+            $clubs = app(TournamentController::class)->getEnrolledClubs(Tournament::latest()->first());
+
+            $userMails = [];
+
+            foreach ($clubs as $club) {
+                $userMails = array_merge($userMails, $this->getMailsFromUsersOfClub($club));
+            }
+
+            return $userMails;
+        }
         return [];
     }
 

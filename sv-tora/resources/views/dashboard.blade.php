@@ -74,7 +74,10 @@
                     <x-primary-button class="messages" text="Nachrichten" icon-name="message" href="/messages"></x-primary-button>
                     <x-primary-button class="settings" text="Einstellungen" icon-name="settings" href="/settings"></x-primary-button>
                 @endcan
-                <x-primary-button class="invite" text="User einladen" icon-name="person_add"></x-primary-button>
+                @php
+                    $invitePermissions = \Illuminate\Support\Facades\Gate::allows("has-permission", \App\Helper\Permissions::INVITE_USERS);
+                @endphp
+                <x-primary-button class="invite" text="User einladen" icon-name="person_add" data-full-permission="{{ $invitePermissions }}"></x-primary-button>
                 <x-primary-button target="_blank" href="https://www.sv-tora.de/" class="home" text="SV Tora Website" icon-name="home"></x-primary-button>
             </div>
 

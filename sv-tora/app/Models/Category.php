@@ -27,6 +27,8 @@ class Category extends Model
         "age_min",
         "age_max",
         "sex",
+        "prepared",
+        "fighting_system_id",
     ];
 
     public function tournament() {
@@ -39,6 +41,10 @@ class Category extends Model
 
     public function teams() {
         return $this->belongsToMany(EnrolledTeam::class, "enrolled_team_category", "category_id", "enrolled_team_id");
+    }
+
+    public function fightingSystem() {
+        return $this->belongsTo(FightingSystem::class);
     }
 
     public static function editableProperties(Category $category = null) {

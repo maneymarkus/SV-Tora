@@ -16,7 +16,7 @@
         <x-tournament-admin-info :tournament="$tournament"></x-tournament-admin-info>
 
         <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
-        <h1>Starter</h1>
+        <h1>Kategorien</h1>
 
         @php
           $createCategoryUrl = url("tournaments/" . $tournament->id . "/categories")

@@ -87,6 +87,7 @@ class DatabaseSeeder extends Seeder
             PersonSeeder::class,
             FighterSeeder::class,
             GlobalSettingSeeder::class,
+            FightingSystemSeeder::class,
             TournamentTemplateSeeder::class,
         ]);
 

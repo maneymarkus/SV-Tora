@@ -84,7 +84,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Permission::class);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function allowTo($permissions) {
+        if ($this->name === "Superuser") {
+            throw new \Exception("Die Rechte des Superusers können nicht verändert werden.");
+        }
         if (is_array($permissions)) {
             foreach ($permissions as $permission) {
                 $this->permissions()->save($permission);
@@ -95,7 +101,13 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function denyTo($permissions) {
+        if ($this->name === "Superuser") {
+            throw new \Exception("Die Rechte des Superusers können nicht verändert werden.");
+        }
         if (is_array($permissions)) {
             foreach ($permissions as $permission) {
                 $this->permissions()->detach($permission);

@@ -10,23 +10,21 @@ use App\Http\Controllers\EnrolledFighterController;
 use App\Http\Controllers\EnrolledHelperController;
 use App\Http\Controllers\EnrolledRefereeController;
 use App\Http\Controllers\EnrolledTeamController;
+use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\FighterController;
+use App\Http\Controllers\FightingSystemController;
 use App\Http\Controllers\FightPlaceController;
 use App\Http\Controllers\GlobalSettingController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\PersonController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RefereeController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TournamentTemplateController;
 use App\Http\Controllers\UserController;
-use App\Models\Category;
-use App\Models\Fighter;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +42,8 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
+    $enrolledClubs = app(TournamentController::class)->getEnrolledClubs();
+    return $enrolledClubs;
     return view("test");
 });
 
@@ -82,16 +82,16 @@ Route::prefix("admin")->group(function () {
  *      Password Routes                                       *
  **************************************************************/
 
-Route::post("/password/email", [\App\Http\Controllers\PasswordController::class, "sendResetLink"])->name("password.email");
-Route::get("/password/reset/{token}", [\App\Http\Controllers\PasswordController::class, "showResetForm"])->name("password.reset");
-Route::post("/password/reset", [\App\Http\Controllers\PasswordController::class, "reset"]);
+Route::post("/password/email", [PasswordController::class, "sendResetLink"])->name("password.email");
+Route::get("/password/reset/{token}", [PasswordController::class, "showResetForm"])->name("password.reset");
+Route::post("/password/reset", [PasswordController::class, "reset"]);
 
 
 /**************************************************************
  *      Error Routes                                          *
  **************************************************************/
 
-Route::post("/inform-admins-about-no-club", [\App\Http\Controllers\ErrorController::class, "informAdminsAboutNoClub"]);
+Route::post("/inform-admins-about-no-club", [ErrorController::class, "informAdminsAboutNoClub"]);
 
 
 /**************************************************************
@@ -263,6 +263,10 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          *      Tournament Routes                                     *
          **************************************************************/
 
+        Route::get("/tournaments/{tournament}/schedule", function () {
+            return view("Tournament.time-schedule");
+        });
+
         Route::post("/tournaments/{tournament}/finish", [TournamentController::class, "finishTournament"]);
         Route::get("/tournaments/{tournament}/status", [TournamentController::class, "editTournamentStatus"]);
         Route::post("/tournaments/{tournament}/status", [TournamentController::class, "updateTournamentStatus"]);
@@ -272,9 +276,11 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         Route::post("/tournaments/{tournament}/clubs/include", [TournamentController::class, "includeClub"]);
         Route::resource("/tournaments", TournamentController::class)->except(["index", "show"]);
 
+        /*
         Route::get("/tournaments/competition-mode", function () {
             return view("Tournament.competition-mode");
         });
+        */
 
         Route::resource("/tournaments/{tournament}/fight-places", FightPlaceController::class)->except(["show"]);
 
@@ -292,19 +298,18 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         Route::post("/tournaments/{tournament}/categories/{category}/teams", [CategoryController::class, "addTeams"]);
         Route::delete("/tournaments/{tournament}/categories/{category}/fighters/{enrolled_fighter}", [CategoryController::class, "removeFighter"]);
         Route::delete("/tournaments/{tournament}/categories/{category}/teams/{enrolled_team}", [CategoryController::class, "removeTeam"]);
+
+        Route::get("/tournaments/{tournament}/categories/fighting-systems", [FightingSystemController::class, "index"]);
+        Route::post("/tournaments/{tournament}/categories/{category}/fighting-system/assign", [FightingSystemController::class, "assignFightingSystem"]);
+        Route::get("/tournaments/{tournament}/categories/{category}/fighting-system/print", [FightingSystemController::class, "printCategoryFightingSystem"]);
+
         Route::resource("/tournaments/{tournament}/categories", CategoryController::class)->except(["show", "edit", "update"]);
 
-        Route::get("/tournaments/{tournament}/category-fighting-systems", function () {
-            return view("Tournament.category-fighting-systems");
-        });
-
-        Route::get("/tournaments/{tournament}/time-schedule", function () {
-            return view("Tournament.time-schedule");
-        });
-
-        Route::get("/tournaments/{tournament}/category/fighting-system", function (\App\Models\Tournament $tournament) {
+        /*
+        Route::get("/tournaments/{tournament}/category/fighting-system", function (Tournament $tournament) {
             return view("Tournament.fighting-system-map", ["tournament" => $tournament]);
         });
+        */
 
     });
 

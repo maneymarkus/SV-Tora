@@ -22,9 +22,9 @@
         "webpack_prod": "webpack --config webpack.prod.config.js"
     },
     "devDependencies": {
-        "@babel/core": "^7.16.0",
-        "@babel/plugin-proposal-class-properties": "^7.16.0",
-        "@babel/preset-env": "^7.16.4",
+        "@babel/core": "^7.16.7",
+        "@babel/plugin-proposal-class-properties": "^7.16.7",
+        "@babel/preset-env": "^7.16.7",
         "axios": "^0.24.0",
         "babel-cli": "^6.26.0",
         "babel-loader": "^8.2.3",
@@ -32,13 +32,13 @@
         "expose-loader": "^3.1.0",
         "laravel-mix": "^6.0.39",
         "lodash": "^4.17.21",
-        "node-sass": "^6.0.1",
+        "node-sass": "^7.0.1",
         "resolve-url-loader": "^4.0.0",
-        "sass": "^1.43.5",
-        "webpack": "^5.64.4"
+        "sass": "^1.47.0",
+        "webpack": "^5.65.0"
     },
     "dependencies": {
-        "@popperjs/core": "^2.10.2",
+        "@popperjs/core": "^2.11.2",
         "jquery": "^3.6.0",
         "regenerator-runtime": "^0.13.9",
         "theaterjs": "^3.2.0",

@@ -36,7 +36,7 @@ class MailController extends Controller
     public function informClubsAboutTournamentCancellation() {
         $invitedClubs = app(UserController::class)->getMailsFromUsersFromInvitedClubs();
         $subject = "Absage des SV Tora Berlin e.V. Wettkampfes";
-        $content = "Leider muss der geplante Wettkampf des SV Tora Berlin e.V. aufgrund ungünsiger Umstände ausfallen.";
+        $content = "Leider muss der geplante Wettkampf des SV Tora Berlin e.V. unerwartet ausfallen.";
         return response()->view("mail", ["emails" => $invitedClubs, "subject" => $subject, "content" => $content]);
     }
 

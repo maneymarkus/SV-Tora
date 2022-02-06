@@ -58,10 +58,10 @@
                 @endif
             </a>
 
-            <a class="fighting-systems topic-container dashboard-container" href="{{ $changeFightingSystemsUrl }}">
+            <a class="fighting-systems topic-container dashboard-container {{ $tournament->categories()->where("prepared", "=", false)->get()->count() === 0 ? "prepared" : "" }}" href="{{ $changeFightingSystemsUrl }}">
                 <h3>Kampfsysteme</h3>
-                <p><span class="count-prepared">0</span> Kampfsysteme zugeordnet</p>
-                <p><span class="count-not-prepared">0</span> verbleibend</p>
+                <p><span class="count-prepared">{{ $tournament->categories()->where("prepared", "=", true)->get()->count() }}</span> Kampfsystem(e) zugeordnet</p>
+                <p><span class="count-not-prepared">{{ $tournament->categories()->where("prepared", "=", false)->get()->count() }}</span> verbleibend</p>
             </a>
 
             <a class="excluded-clubs topic-container dashboard-container" href="{{ $excludeClubsUrl }}">

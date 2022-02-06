@@ -487,7 +487,7 @@
     let enrollmentLinks = document.querySelectorAll("a.enrollment");
     enrollmentLinks.forEach((enrollmentLink) => {
         enrollmentLink.addEventListener("click", function (e) {
-            if (enrollmentLink.classList.contains("disabled")) {
+            if (enrollmentLink.classList.contains("disabled") && !App.GeneralModule.isAdmin()) {
                 e.preventDefault();
                 App.ModalModule.infoModal("Nicht erlaubt", "Die Anmeldung bzw. Abmeldung von Personen, Kämpfern und Teams ist aktuell nicht möglich (siehe Anmeldezeitraum).");
             }

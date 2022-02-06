@@ -24,8 +24,11 @@ class CreateCategoriesTable extends Migration
             $table->enum("sex", config("global.sex"));
             $table->unsignedInteger("age_min");
             $table->unsignedInteger("age_max");
+            $table->boolean("prepared")->default(false);
+            $table->unsignedBigInteger("fighting_system_id")->index()->nullable();
 
-            $table->foreign("tournament_id")->references("id")->on("tournaments")->onDelete("cascade");
+            $table->foreign("tournament_id")->references("id")->on("tournaments")->onDelete("CASCADE");
+            $table->foreign("fighting_system_id")->references("id")->on("fighting_systems")->onDelete("SET NULL");
             $table->unique(["name", "tournament_id"]);
             $table->timestamps();
         });

@@ -18,7 +18,7 @@
 
         <div class="col">
             <h3>Kategorien</h3>
-            <a class="link" target="_blank" href="{{ asset("/storage/Kategorien.pdf") }}">Anzeigen</a>
+            <a class="link" target="_blank" href="{{ asset("/storage/categories/Kategorien.pdf") }}">Anzeigen</a>
 
             <h3>Wettkämpfe</h3>
             <a class="link" href="{{ url("/settings/tournament-templates") }}">Bearbeiten</a>

@@ -103,13 +103,13 @@ $rows = [
         <x-slot name="value">105</x-slot>
     </x-inputs.range-input>
 
-    <x-inputs.select-input name="Selektieren" :selectableOptions="$selectoptions">
+    <x-inputs.select-input name="Selektieren" :selectable-options="$selectoptions">
         <x-slot name="placeholder">Hier auswählen...</x-slot>
     </x-inputs.select-input>
 
-    <x-inputs.radio-buttons name="Radio Knöpfe" :radioableOptions="$radiooptions"></x-inputs.radio-buttons>
+    <x-inputs.radio-buttons name="Radio Knöpfe" :radio-options="$radiooptions"></x-inputs.radio-buttons>
 
-    <x-inputs.check-boxes name="Check Boxen" :checkableOptions="$checkboxoptions"></x-inputs.check-boxes>
+    <x-inputs.check-boxes name="Check Boxen" :checkable-options="$checkboxoptions"></x-inputs.check-boxes>
 
     <x-inputs.date-input name="Datum"></x-inputs.date-input>
 

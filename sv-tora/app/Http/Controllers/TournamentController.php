@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Helper\GeneralHelper;
 use App\Helper\NotificationTypes;
 use App\Models\Club;
+use App\Models\EnrolledFighter;
+use App\Models\EnrolledPerson;
+use App\Models\EnrolledTeam;
 use App\Models\Tournament;
 use App\Models\TournamentTemplate;
 use Carbon\Carbon;
@@ -49,12 +52,12 @@ class TournamentController extends Controller
                     "deleteTournamentUrl" => url("/tournaments/" . $tournament->id),
                     "changeTournamentUrl" => url("/tournaments/" . $tournament->id),
                     "changeCategoriesUrl" => url("/tournaments/" . $tournament->id . "/categories"),
-                    "changeFightingSystemsUrl" => url("/tournaments/" . $tournament->id . "/edit"),
+                    "changeFightingSystemsUrl" => url("/tournaments/" . $tournament->id . "/categories/fighting-systems"),
                     "changeFightingPlacesUrl" => url("/tournaments/" . $tournament->id . "/fight-places"),
-                    "changeScheduleUrl" => url("/tournaments/" . $tournament->id . "/edit"),
+                    "changeScheduleUrl" => url("/tournaments/" . $tournament->id . "/schedule"),
                     "completeTournamentUrl" => url("/tournaments/" . $tournament->id . "/finish"),
                     "excludeClubsUrl" => url("/tournaments/" . $tournament->id),
-                    "enrollment" => $enrollment,
+                    "enrollment" => null,
                 ]);
             } else {
                 return response()->view("Tournament.tournament-dashboard", ["tournament" => $tournament, "progressStep" => $progressStep, "enrollment" => $enrollment]);
@@ -400,15 +403,30 @@ class TournamentController extends Controller
 
 
     /**
-     * This function returns all the currently enrolled clubs at the given $tournament
+     * This function returns all the enrolled clubs at the given $tournament
      *
-     * @param Tournament $tournament
+     * @param Tournament|null $tournament |null
+     * @return array
      */
-    public function getEnrolledClubs(Tournament $tournament) {
-        if (Gate::allows("admin")) {
-            // TODO
-            return [];
+    public function getEnrolledClubs(Tournament $tournament = null) {
+
+        if ($tournament === null) {
+            $tournament = Tournament::latest()->first();
+            if ($tournament === null) {
+                return [];
+            }
         }
+
+        $enrolledFighters = EnrolledFighter::with("fighter.person.club")->where("tournament_id", "=", $tournament->id)->get();
+        $clubs = $enrolledFighters->pluck("fighter.person.club");
+
+        $enrolledPersons = EnrolledPerson::with("person.club")->where("tournament_id", "=", $tournament->id)->get();
+        $clubs->concat($enrolledPersons->pluck("person.club"));
+
+        $enrolledTeams = EnrolledTeam::with("team.club")->where("tournament_id", "=", $tournament->id)->get();
+        $clubs->concat($enrolledTeams->pluck("team.club"));
+
+        return $clubs->unique()->toArray();
     }
 
 }
