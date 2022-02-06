@@ -57,6 +57,7 @@ class TournamentController extends Controller
                     "changeScheduleUrl" => url("/tournaments/" . $tournament->id . "/schedule"),
                     "completeTournamentUrl" => url("/tournaments/" . $tournament->id . "/finish"),
                     "excludeClubsUrl" => url("/tournaments/" . $tournament->id),
+                    "inviteClubsUrl" => url("/mail/tournament-invitation/" . $tournament->id),
                     "enrollment" => null,
                 ]);
             } else {

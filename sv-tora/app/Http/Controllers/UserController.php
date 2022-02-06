@@ -220,12 +220,6 @@ class UserController extends Controller
     }
 
 
-    public function getMailsFromUsersFromInvitedClubs() {
-        // TODO
-        return [];
-    }
-
-
     public function getMailsFromUsersFromEnrolledClubs() {
         if (Tournament::latest()->first()?->active) {
             $clubs = app(TournamentController::class)->getEnrolledClubs(Tournament::latest()->first());

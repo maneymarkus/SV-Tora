@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/mailable", function () {
-    return new \App\Mail\InvitationMail(\App\Helper\GeneralHelper::generateUniqueRandomToken());
+    return new \App\Mail\TournamentInvitationMail("Subjekt", "Wichtiger Inhalt");
 });
 
 Route::get("/test", function () {
@@ -202,6 +202,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          **************************************************************/
 
         Route::get("/mail", [MailController::class, "createMail"]);
+        Route::get("/mail/tournament-invitation/{tournament}", [MailController::class, "inviteClubsToTournament"]);
         Route::get("/mail/tournament-cancellation-information", [MailController::class, "informClubsAboutTournamentCancellation"]);
         Route::get("/mail/tournament-change-information/{tournament}", [MailController::class, "informClubsAboutTournamentChange"]);
         Route::get("/mail/user-mails/all", [UserController::class, "getMailsFromUsersFromAllClubs"]);

@@ -26,7 +26,7 @@
                         </label>
                         <br />
                         <label class="radio-input-container">
-                            Angemeldete Vereine zum aktuellen Wettkampf
+                            Angemeldeten Vereinen zum aktuellen Wettkampf
                             <input type="radio" name="receiver" value="only-enrolled" data-url="{{ url("/mail/user-mails/enrolled") }}" />
                             <span class="checkmark"></span>
                         </label>
@@ -76,6 +76,16 @@
             </span>
             <h3>Was willst du genau mitteilen?</h3>
             <textarea class="textarea input-container required" name="content" placeholder="Deine Nachricht...">@isset($content){{ $content }}@endisset</textarea>
+            @if(session("tournamentInvitation"))
+                <p style="margin-left: -1.5rem; padding-left: 1.5rem; border-left: 4px solid var(--accent-color-1-dark); font-size: 1.25rem">
+                    Der Mail wird außerdem ein Button mit direktem Link zum Wettkampf Dashboard angefügt und folgender Text:<br />
+                    Sollten Sie noch nicht im SV Tora Wettkampf Managament System angemeldet sein, dann fragen Sie bitte eine Einladung unter
+                    {{ config("contact.email") }} an.
+                </p>
+            @else
+                <h3>Willst du einen Button mit direktem Link zum Dashboard in die Mail einfügen?</h3>
+                <x-inputs.switch-input name="include-button" text="Hallo" value="1"></x-inputs.switch-input>
+            @endif
             <h3>Senden?</h3>
             <a class="primary-button send" href="{{ url("/mail") }}">
                 <i class="material-icons">mail</i>

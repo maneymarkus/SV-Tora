@@ -57,7 +57,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         /**
-         * This gate quickly checks
+         * This gate quickly checks if a given $user has a given $permission
          */
         Gate::define("has-permission", function (User $user, String $permission) {
             if (!Gate::forUser($user)->allows("admin")) {

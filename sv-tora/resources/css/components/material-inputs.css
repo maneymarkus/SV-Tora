@@ -101,7 +101,7 @@ span.input-error .message {
 
 .switch-container .text {
     font-size: 1.5em;
-    position: relative;
+    position: absolute;
     margin-left: 3.5em;
     top: 0.1em;
     cursor: pointer;

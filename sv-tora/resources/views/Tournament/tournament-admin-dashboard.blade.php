@@ -95,6 +95,7 @@
                     <x-primary-button class="exclude-clubs" href="{{ $excludeClubsUrl }}" text="Verein ausschließen" icon-name="block"></x-primary-button>
                     <x-primary-button class="change-places" href="{{ $changeFightingPlacesUrl }}"  text="Pools verwalten" icon-name="space_bar"></x-primary-button>
                     <x-primary-button class="change-schedule" href="{{ $changeScheduleUrl }}"  text="Zeitplan managen" icon-name="schedule"></x-primary-button>
+                    <x-primary-button class="invite-clubs" href="{{ $inviteClubsUrl }}"  text="Vereine zum Wettkampf einladen" icon-name="group_add"></x-primary-button>
                 </div>
                 @if($progressStep == 4)
                     <x-primary-button class="complete-tournament accent-1" href="{{ $completeTournamentUrl }}" text="Wettkampf abschließen" icon-name="done"></x-primary-button>

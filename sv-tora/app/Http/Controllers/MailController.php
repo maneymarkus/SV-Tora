@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper\GeneralHelper;
 use App\Helper\NotificationTypes;
 use App\Mail\GenericMail;
+use App\Mail\TournamentInvitationMail;
 use App\Models\Tournament;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,8 +22,13 @@ class MailController extends Controller
         $receiverMails = $request->input("receivers");
         $subject = $request->input("subject");
         $content = $request->input("content");
+        $includeButton = $request->input("include-button") ?? false;
         foreach ($receiverMails as $receiverMail) {
-            Mail::to($receiverMail)->send(new GenericMail($subject, $receiverMails, $content));
+            if (session("tournamentInvitation")) {
+                Mail::to($receiverMail)->send(new TournamentInvitationMail($subject, $content));
+            } else {
+                Mail::to($receiverMail)->send(new GenericMail($subject, $content, $includeButton));
+            }
         }
 
         if (Mail::failures()) {
@@ -33,19 +39,27 @@ class MailController extends Controller
 
     }
 
+    public function inviteClubsToTournament(Tournament $tournament) {
+        $subject = "Neuer Wettkampf des SV Tora Berlin e.V. am " . Carbon::parse($tournament->date)->format("d.m.Y");
+        $content = "Der SV Tora Berlin e.V. lädt zum Wettkampf " . $tournament->tournamentTemplate->tournament_name . " am " . Carbon::parse($tournament->date)->format("d.m.Y") . " ein.\n";
+        $content .= "Alle weiteren wichtigen Infos finden Sie im Wettkampf System auf dem Wettkampf Dashboard.";
+        session(["tournamentInvitation" => true]);
+        return response()->view("mail", ["subject" => $subject, "content" => $content]);
+    }
+
     public function informClubsAboutTournamentCancellation() {
-        $invitedClubs = app(UserController::class)->getMailsFromUsersFromInvitedClubs();
+        $enrolledClubs = app(UserController::class)->getMailsFromUsersFromEnrolledClubs();
         $subject = "Absage des SV Tora Berlin e.V. Wettkampfes";
         $content = "Leider muss der geplante Wettkampf des SV Tora Berlin e.V. unerwartet ausfallen.";
-        return response()->view("mail", ["emails" => $invitedClubs, "subject" => $subject, "content" => $content]);
+        return response()->view("mail", ["emails" => $enrolledClubs, "subject" => $subject, "content" => $content]);
     }
 
     public function informClubsAboutTournamentChange(Tournament $tournament) {
-        $invitedClubs = app(UserController::class)->getMailsFromUsersFromInvitedClubs();
+        $enrolledClubs = app(UserController::class)->getMailsFromUsersFromEnrolledClubs();
         $subject = "Änderung des SV Tora Berlin e.V. Wettkampfes";
         $date = Carbon::parse($tournament->date)->format("d.m.Y");
         $content = "Der am " . $date . " stattfindende " . $tournament->tournamentTemplate->tournament_name . " wurde geändert.";
-        return response()->view("mail", ["emails" => $invitedClubs, "subject" => $subject, "content" => $content]);
+        return response()->view("mail", ["emails" => $enrolledClubs, "subject" => $subject, "content" => $content]);
     }
 
 }

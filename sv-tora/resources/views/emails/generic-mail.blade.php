@@ -7,6 +7,14 @@ das SV Tora Berlin e.V. Team hat folgende Nachricht für Sie:<br />
 {{ $content }}
 @endcomponent
 
+@if($includeButton)
+Direkt zum Dashboard:
+@component("mail::button", ["url" => $buttonUrl])
+Dashboard
+@endcomponent
+@endif
+
+
 Mit sportlichen Grüßen,<br />
 {{ config("mail.from.name") }}
 

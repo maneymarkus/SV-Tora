@@ -7,49 +7,33 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class GenericMail extends Mailable
+class TournamentInvitationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Contains the subject of the mail
      *
-     * @var String
+     * @var string
      */
-    public String $customSubject;
+    public string $customSubject;
 
     /**
      * Contains the content of the mail
      *
-     * @var String
-     */
-    public String $content;
-
-    /**
-     * Determines if a button linking to the dashboard should be included
-     *
-     * @var bool
-     */
-    public bool $includeButton;
-
-    /**
-     * The url the button should link to
-     *
      * @var string
      */
-    public string $buttonUrl;
+    public string $content;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($subject, $content, $includeButton = false)
+    public function __construct($subject, $content)
     {
         $this->customSubject = $subject;
         $this->content = $content;
-        $this->includeButton = $includeButton;
-        $this->buttonUrl = url("/dashboard");
     }
 
     /**
@@ -61,6 +45,6 @@ class GenericMail extends Mailable
     {
         return $this
             ->subject($this->customSubject)
-            ->markdown('emails.generic-mail');
+            ->markdown('emails.tournament-invitation');
     }
 }
