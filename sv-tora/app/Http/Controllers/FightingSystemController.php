@@ -26,6 +26,7 @@ class FightingSystemController extends Controller
         }
 
         $category->fightingSystem()->associate($fightingSystem);
+        $category->calculateEstimatedTime();
         $category->prepared = true;
         $category->save();
 

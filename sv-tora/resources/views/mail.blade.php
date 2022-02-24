@@ -79,8 +79,8 @@
             @if(session("tournamentInvitation"))
                 <p style="margin-left: -1.5rem; padding-left: 1.5rem; border-left: 4px solid var(--accent-color-1-dark); font-size: 1.25rem">
                     Der Mail wird außerdem ein Button mit direktem Link zum Wettkampf Dashboard angefügt und folgender Text:<br />
-                    Sollten Sie noch nicht im SV Tora Wettkampf Managament System angemeldet sein, dann fragen Sie bitte eine Einladung unter
-                    {{ config("contact.email") }} an.
+                    <span style="font-style: italic">Sollten Sie noch nicht im SV Tora Wettkampf Managament System angemeldet sein, dann fragen Sie bitte eine Einladung unter
+                        {{ config("contact.email") }} an.</span>
                 </p>
             @else
                 <h3>Willst du einen Button mit direktem Link zum Dashboard in die Mail einfügen?</h3>

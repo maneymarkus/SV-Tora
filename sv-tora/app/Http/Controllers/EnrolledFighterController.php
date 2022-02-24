@@ -178,6 +178,11 @@ class EnrolledFighterController extends Controller
                     continue;
                 }
                 $examinationTypes[$examinationType] = [];
+                # if fighters sex is divers than display information that this case should be handled individually
+                if ($fighter->sex === "d") {
+                    $examinationTypes[$examinationType]["error"] = "Aufgrund der geringen Anzahl an Kindern mit nicht-binärem Geschlecht, haben wir standardmäßig keine eigene Kategorien für diese Kinder. Bitte kontaktieren Sie " . config("contact.email") . ", um diesen Fall individuell zu besprechen.";
+                    continue;
+                }
                 try {
                     $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType);
                 } catch (\Exception $e) {

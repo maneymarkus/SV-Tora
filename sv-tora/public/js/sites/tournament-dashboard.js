@@ -462,6 +462,7 @@
             allClubs = data;
             App.SendRequestModule.getData(enrolledClubsUrl, (data) => {
                 enrolledClubs = data;
+                console.log("Enrolled Clubs");
             });
             App.SendRequestModule.getData(excludedClubsUrl, (data) => {
                 excludedClubs = data;

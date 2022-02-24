@@ -162,6 +162,9 @@ class GeneralHelper
         $graduation = str_replace(" ", "", $fighter->graduation);
         $age = $fighter->age();
         $sex = $fighter->sex;
+        if ($sex === "m/w") {
+            $sex = "m";
+        }
 
         # find matching graduationKey
         $requiredGraduations = array_keys($categoryReference[$discipline]);

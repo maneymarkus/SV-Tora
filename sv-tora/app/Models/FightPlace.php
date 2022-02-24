@@ -25,12 +25,25 @@ class FightPlace extends Model
         return $this->belongsTo(Tournament::class);
     }
 
+    public function categories() {
+        return $this->hasMany(Category::class);
+    }
+
     public static function editableProperties(FightPlace $fightPlace = null) {
         $editableProperties = [
             "Name" => $fightPlace?->name,
         ];
 
         return $editableProperties;
+    }
+
+    public function calculateTimeInSeconds(): int
+    {
+        $time = 0;
+        foreach ($this->categories as $category) {
+            $time += $category->estimated_required_time_in_seconds;
+        }
+        return $time;
     }
 
 }

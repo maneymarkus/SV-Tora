@@ -76,9 +76,10 @@
 
             <a class="schedule topic-container dashboard-container" href="{{ $changeScheduleUrl }}">
                 <h3>Zeitplan</h3>
-                <p><span class="duration duration-place-1">0:00h</span> auf Pool 1</p>
-                <p><span class="duration duration-place-2">0:00h</span> auf Pool 2</p>
-                <p><span class="duration duration-place-3">0:00h</span> auf Pool 3</p>
+                <p>Voraussichtliches Ende des Wettkampfes: <span class="duration">16:30</span></p>
+                @foreach(\App\Models\FightPlace::all() as $fightPlace)
+                    <p><span class="duration">{{ \Carbon\Carbon::today()->set("second", $fightPlace->calculateTimeInSeconds())->format("H:i") }}</span> auf {{ $fightPlace->name }}</p>
+                @endforeach
             </a>
 
             <div class="info dashboard-container">

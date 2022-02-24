@@ -156,7 +156,6 @@
     width: calc(100% - 4em);
     opacity: 1 !important;
     max-height: unset;
-    padding-left: unset;
     padding-right: unset;
     line-height: 1.15;
     overflow-y: unset;

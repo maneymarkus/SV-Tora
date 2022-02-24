@@ -42,8 +42,8 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $enrolledClubs = app(TournamentController::class)->getEnrolledClubs();
-    return $enrolledClubs;
+    $fighter = \App\Models\Category::find(2)->fighters()->first()->fighter->person;
+    return $fighter;
     return view("test");
 });
 

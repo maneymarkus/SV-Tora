@@ -363,4 +363,14 @@ class CategoryController extends Controller
         $category->delete();
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $categoryName . "\" wurde erfolgreich gelöscht.");
     }
+
+    public function destroyAllEmptyCategories()
+    {
+        foreach (Category::all() as $category) {
+            if ($category->fighters->count() === 0 && $category->teams->count() === 0) {
+                $category->delete();
+            }
+        }
+    }
+
 }

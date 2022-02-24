@@ -430,6 +430,16 @@ main h1 {
     transform: translateY(-50%);
 }
 
+.schedule p:first-of-type {
+    font-style: unset;
+    padding-left: unset;
+}
+
+.schedule p:first-of-type span {
+    position: relative;
+    vertical-align: sub;
+}
+
 .data-privacy {
     border: 3px solid var(--accent-color-2-dark);
 }

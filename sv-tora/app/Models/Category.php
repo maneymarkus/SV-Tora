@@ -29,6 +29,8 @@ class Category extends Model
         "sex",
         "prepared",
         "fighting_system_id",
+        "estimated_required_time_in_seconds",
+        "fight_place_id",
     ];
 
     public function tournament() {
@@ -80,6 +82,71 @@ class Category extends Model
             "sex" => $categoryConfig["sex"],
         ]);
         return $category;
+    }
+
+    /**
+     * Calculates the estimated required time to execute this category on the basis of the currently assigned fighters
+     *
+     * @throws \Exception
+     */
+    public function calculateEstimatedTime() {
+        $countFighters = $this->fighters->count();
+        $countFights = 0;
+        $timePerFightInSeconds = GlobalSetting::find(0)->fight_time_in_seconds;
+
+        # add padding before actual fight:
+        $estimatedTimeInSeconds = 150;
+        switch ($this->fightingSystem->name) {
+            case "Jeder-Gegen-Jeden":
+                for ($i = $countFighters - 1; $i > 0; $i--) {
+                    $countFights += $i;
+                }
+                break;
+            case "KO-System":
+                # fighting tree contains $countFighters - 1 fights but there is an extra fight about 3. place
+                $countFights = $countFighters;
+                break;
+            case "Doppel-KO-System":
+                # regular fighting tree
+                $countFights = $countFighters - 1;
+                # consolation round is another fighting tree with only the losers (except the loser of the finale) of the regular fighting tree
+                $countFights += $countFighters - 2 - 1;
+                # extra fight about 2. place
+                $countFights += 1;
+                break;
+            case "Tafelsystem":
+                $countFights = $countFighters > 12 ? 3 : 2;
+                break;
+            case "KO-System mit finalen Tafeln":
+                # reduce fighters to 4 remaining fighters with regular fighting tree
+                $countFights = $countFighters - 1 - 3;
+                # add one round of tables
+                $countFights++;
+                break;
+            case "Doppel-KO-System mit finalen Tafeln":
+                # reduce to two remaining fighters with regular remaining tree -> all losers in consolation round
+                $countFights = $countFighters - 1 - 1;
+                # reduce to two remaining fighters in consolation round
+                $countFights += $countFighters - 2 - 1 - 1;
+                # add one round of tables
+                $countFights++;
+                break;
+            case "Brasilianisches KO-System":
+                # regular fighting tree
+                $countFights = $countFighters - 1;
+                # every fighter that lost to one of the final fighters will participate in the consolation round
+                $countConsolationFights = log($countFighters) / log(2);
+                $countFights += ceil($countConsolationFights);
+                break;
+            default:
+                throw new \Exception("Unbekanntes Kampfsystem: " . $this->fightingSystem->name);
+        }
+        # add padding after actual fight:
+        $estimatedTimeInSeconds += 150;
+
+        $estimatedTimeInSeconds += $countFights * $timePerFightInSeconds;
+        $this->estimated_required_time_in_seconds = $estimatedTimeInSeconds;
+        $this->save();
     }
 
 }

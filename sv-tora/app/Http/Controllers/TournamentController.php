@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class TournamentController extends Controller
 {
@@ -352,7 +353,35 @@ class TournamentController extends Controller
                 $club = Club::where("name", "=", $request->input("club"))->first();
                 if (!$tournament->excludedClubs->contains($club)) {
                     $tournament->excludedClubs()->attach($club->id);
-                    return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Verein \"" . $club->name . "\" wurde erfolgreich vom aktuellen Wettkampf ausgeschlossen.");
+
+                    # unenroll teams of this club
+                    $enrolledTeamsOfClub = EnrolledTeam::with("team.club")
+                        ->where("tournament_id", "=", $tournament->id)
+                        ->get()->where("team.club.id", "=", $club->id);
+                    foreach ($enrolledTeamsOfClub as $enrolledTeamOfClub) {
+                        $enrolledTeamOfClub->delete();
+                    }
+
+                    # unenroll fighters of this club
+                    $enrolledFightersOfClub = EnrolledFighter::with("fighter.person.club")
+                        ->where("tournament_id", "=", $tournament->id)
+                        ->get()->where("fighter.person.club.id", "=", $club->id);
+                    foreach ($enrolledFightersOfClub as $enrolledFighterOfClub) {
+                        $enrolledFighterOfClub->delete();
+                    }
+
+                    # remove persons of this club from tournament
+                    $enrolledPersonsOfClub = EnrolledPerson::with("person.club")
+                        ->where("tournament_id", "=", $tournament->id)
+                        ->get()->where("person.club.id", "=", $club->id);
+                    foreach ($enrolledPersonsOfClub as $enrolledPersonOfClub) {
+                        $enrolledPersonOfClub->delete();
+                    }
+
+                    # remove all empty categories if there are any
+                    app(CategoryController::class)->destroyAllEmptyCategories();
+
+                    return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Verein \"" . $club->name . "\" wurde erfolgreich vom aktuellen Wettkampf ausgeschlossen. Alle Anmeldungen, die der Verein unter Umständen schon vorgenommen hat, wurden mit dieser Aktion ebenfalls rückgängig gemacht.");
                 } else {
                     return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Dieser Verein ist schon ausgeschlossen.");
                 }
@@ -407,14 +436,14 @@ class TournamentController extends Controller
      * This function returns all the enrolled clubs at the given $tournament
      *
      * @param Tournament|null $tournament |null
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getEnrolledClubs(Tournament $tournament = null) {
 
         if ($tournament === null) {
             $tournament = Tournament::latest()->first();
             if ($tournament === null) {
-                return [];
+                return response()->json([]);
             }
         }
 
@@ -427,7 +456,7 @@ class TournamentController extends Controller
         $enrolledTeams = EnrolledTeam::with("team.club")->where("tournament_id", "=", $tournament->id)->get();
         $clubs->concat($enrolledTeams->pluck("team.club"));
 
-        return $clubs->unique()->toArray();
+        return response()->json(array_values($clubs->pluck("name")->unique()->toArray()));
     }
 
 }
