@@ -29,7 +29,7 @@
                     <h2 class="fight-place-name">{{ $fightPlace->name }}</h2>
                     <x-primary-button class="rename" href="{{ $editUrl }}" text="Namen ändern" icon-name="edit"></x-primary-button>
                     <x-primary-button class="delete warning" href="{{ $deleteUrl }}" text="Pool löschen" icon-name="delete"></x-primary-button>
-                    <p class="fights"><span class="count-fights">0</span> Kämpfe</p>
+                    <p class="fights"><span class="count-fights">{{ $fightPlace->categories->count() }}</span> Kategorien</p>
                 </div>
             @endforeach
 

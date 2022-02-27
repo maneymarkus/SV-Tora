@@ -76,9 +76,9 @@
 
             <a class="schedule topic-container dashboard-container" href="{{ $changeScheduleUrl }}">
                 <h3>Zeitplan</h3>
-                <p>Voraussichtliches Ende des Wettkampfes: <span class="duration">16:30</span></p>
+                <p>Voraussichtliches Ende des Wettkampfes: <span class="duration">{{ $tournament->calculateEstimatedEnd()->format("H:i") }}h</span></p>
                 @foreach(\App\Models\FightPlace::all() as $fightPlace)
-                    <p><span class="duration">{{ \Carbon\Carbon::today()->set("second", $fightPlace->calculateTimeInSeconds())->format("H:i") }}</span> auf {{ $fightPlace->name }}</p>
+                    <p><span class="duration">{{ \Carbon\Carbon::today()->set("second", $fightPlace->calculateTimeInSeconds())->format("H:i") }}h</span> auf {{ $fightPlace->name }}</p>
                 @endforeach
             </a>
 

@@ -69,4 +69,20 @@ class Tournament extends Model
         return $editableProperties;
     }
 
+    public function calculateEstimatedEnd(): Carbon
+    {
+        $estimatedEndTime = Carbon::parse($this->time);
+        $maxTimeInSeconds = 0;
+
+        foreach ($this->fightPlaces as $fightPlace) {
+            $estimatedTimeInSeconds = $fightPlace->calculateTimeInSeconds();
+            if ($estimatedTimeInSeconds > $maxTimeInSeconds) {
+                $maxTimeInSeconds = $estimatedTimeInSeconds;
+            }
+        }
+
+        $estimatedEndTime->addSeconds($maxTimeInSeconds);
+        return $estimatedEndTime;
+    }
+
 }
