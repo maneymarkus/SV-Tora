@@ -23,7 +23,7 @@
             <h3 class="subheading">Kihon</h3>
             @php
                 # All the Kihon categories
-                $kihonCategories = $tournament->categories->where("examination_type", "=", "Kihon");
+                $kihonCategories = $tournament->categories()->where("examination_type", "=", "Kihon")->orderBy("name")->get();
             @endphp
 
             <div class="accordion">
@@ -69,8 +69,8 @@
 
         <h3 class="subheading">Kata</h3>
         @php
-            # All the Kihon categories
-            $kataCategories = $tournament->categories->where("examination_type", "=", "Kata");
+            # All the Kata categories
+            $kataCategories = $tournament->categories()->where("examination_type", "=", "Kata")->orderBy("name")->get();
         @endphp
 
         <div class="accordion">
@@ -114,8 +114,8 @@
 
         <h3 class="subheading">Kumite</h3>
         @php
-            # All the Kihon categories
-            $kumiteCategories = $tournament->categories->where("examination_type", "=", "Kumite");
+            # All the Kumite categories
+            $kumiteCategories = $tournament->categories()->where("examination_type", "=", "Kumite")->orderBy("name")->get();
         @endphp
 
         <div class="accordion">
@@ -160,8 +160,8 @@
         @if($tournament->tournamentTemplate->team)
             <h3 class="subheading">Team</h3>
             @php
-                # All the Kihon categories
-                $teamCategories = $tournament->categories->where("examination_type", "=", "Team");
+                # All the Team categories
+                $teamCategories = $tournament->categories()->where("examination_type", "=", "Team")->orderBy("name")->get();
             @endphp
 
             <div class="accordion">

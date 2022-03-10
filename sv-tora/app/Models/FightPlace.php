@@ -19,6 +19,11 @@ class FightPlace extends Model
     protected $fillable = [
         "tournament_id",
         "name",
+        "breaks",
+    ];
+
+    protected $casts = [
+        "breaks" => "array",
     ];
 
     public function tournament() {
@@ -42,6 +47,11 @@ class FightPlace extends Model
         $time = 0;
         foreach ($this->categories as $category) {
             $time += $category->estimated_required_time_in_seconds;
+        }
+        if ($this->breaks !== null) {
+            foreach ($this->breaks as $break) {
+                $time += $break["duration"] * 60;
+            }
         }
         return $time;
     }

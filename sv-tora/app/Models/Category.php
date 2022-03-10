@@ -31,6 +31,7 @@ class Category extends Model
         "fighting_system_id",
         "estimated_required_time_in_seconds",
         "fight_place_id",
+        "rank",
     ];
 
     public function tournament() {
@@ -92,7 +93,7 @@ class Category extends Model
     public function calculateEstimatedTime() {
         $countFighters = $this->fighters->count();
         $countFights = 0;
-        $timePerFightInSeconds = GlobalSetting::find(0)->fight_time_in_seconds;
+        $timePerFightInSeconds = GlobalSetting::find(1)->fight_time_in_seconds;
 
         # add padding before actual fight:
         $estimatedTimeInSeconds = 150;
@@ -147,6 +148,18 @@ class Category extends Model
         $estimatedTimeInSeconds += $countFights * $timePerFightInSeconds;
         $this->estimated_required_time_in_seconds = $estimatedTimeInSeconds;
         $this->save();
+    }
+
+    public function calculateDisplayHeight() {
+        if ($this->estimated_required_time_in_seconds === null) {
+            $this->calculateEstimatedTime();
+        }
+
+        $timeInMinutes = ceil($this->estimated_required_time_in_seconds / 60);
+        $heightInEm = $timeInMinutes * config("global.ONE_MINUTE_LENGTH");
+
+        return $heightInEm;
+
     }
 
 }

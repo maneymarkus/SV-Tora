@@ -15,10 +15,16 @@
     <main>
         <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
 
-        <x-table :columns="$columns" :rows="$rows" actions="false" filter="true" editable="false" deletable="true" selectable="false">
+        @php
+            $editable = $enrollmentActive ? "true" : "false";
+        @endphp
+        <x-table :columns="$columns" :rows="$rows" actions="false" filter="true" editable="{{ $editable }}" deletable="{{ $editable }}" selectable="false">
             <x-slot name="heading">
                 Angemeldete <span class="highlighted-span">{{ $entities }}</span> zum {{ $tournament->tournamentTemplate->tournament_name }}
                 <p style="font-size: 1.2rem; font-weight: normal;"><strong>Hinweis</strong>: Die Aktion "Löschen" löscht hier nicht die angelegten {{ $entities }} komplett, sondern entfernt sie nur von diesem Wettkampf.</p>
+                @if(!$enrollmentActive)
+                    <p style="font-size: 1.2rem; font-weight: normal;">Da der reguläre Anmeldezeitraum nicht mehr aktiv ist, können die angemeldeten {{ $entities }} nur noch angesehen, aber nicht mehr bearbeitet werden.</p>
+                @endif
             </x-slot>
             <x-slot name="entity">{{ $entity }}</x-slot>
             <x-slot name="addEntityUrl">{{ $addUrl ?? ""}}</x-slot>
@@ -26,8 +32,11 @@
 
     </main>
 
-    <div class="primary-button-floating-container enroll-entities">
-        <x-primary-button class="enroll" text="{{ $entities }} anmelden" icon-name="add" href="{{ $addUrl }}"></x-primary-button>
-    </div>
+
+    @if($enrollmentActive)
+        <div class="primary-button-floating-container enroll-entities">
+            <x-primary-button class="enroll" text="{{ $entities }} anmelden" icon-name="add" href="{{ $addUrl }}"></x-primary-button>
+        </div>
+    @endif
 
 @endsection

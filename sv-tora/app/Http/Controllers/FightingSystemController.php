@@ -30,7 +30,7 @@ class FightingSystemController extends Controller
         $category->prepared = true;
         $category->save();
 
-        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Das Kampfsystem ($fightingSystemName) wurde der Kategorie \"" . $category->name . "\"zugeordnet.");
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Das Kampfsystem ($fightingSystemName) wurde der Kategorie \"" . $category->name . "\" zugeordnet.");
 
     }
 

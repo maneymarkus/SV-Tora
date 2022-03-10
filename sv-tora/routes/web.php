@@ -20,6 +20,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RefereeController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TournamentTemplateController;
@@ -42,8 +43,7 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $fighter = \App\Models\Category::find(2)->fighters()->first()->fighter->person;
-    return $fighter;
+    return app(ScheduleController::class)->show(\App\Models\Tournament::find(1));
     return view("test");
 });
 
@@ -264,9 +264,8 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          *      Tournament Routes                                     *
          **************************************************************/
 
-        Route::get("/tournaments/{tournament}/schedule", function () {
-            return view("Tournament.time-schedule");
-        });
+        Route::get("/tournaments/{tournament}/schedule", [ScheduleController::class, "show"]);
+        Route::post("/tournaments/{tournament}/schedule", [ScheduleController::class, "store"]);
 
         Route::post("/tournaments/{tournament}/finish", [TournamentController::class, "finishTournament"]);
         Route::get("/tournaments/{tournament}/status", [TournamentController::class, "editTournamentStatus"]);

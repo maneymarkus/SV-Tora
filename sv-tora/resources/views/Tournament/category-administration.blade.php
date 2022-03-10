@@ -18,6 +18,14 @@
         <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
         <h1>Kategorien</h1>
 
+        @if ($enrollmentActive)
+            <p>
+                <strong>Hinweis:</strong> Noch ist der reguläre Anmeldezeitraum aktiv. Änderungen, die du jetzt durchführst, sind möglicherweise (noch) nicht permament. Am besten nimmst du
+                Änderungen erst nach dem regulären Anmeldezeitraum vor.
+            </p>
+        @endif
+
+
         @php
           $createCategoryUrl = url("tournaments/" . $tournament->id . "/categories")
         @endphp
@@ -26,7 +34,7 @@
             <h3 class="subheading">Kihon</h3>
             @php
                 # All the Kihon categories
-                $kihonCategories = $tournament->categories->where("examination_type", "=", "Kihon");
+                $kihonCategories = $tournament->categories()->where("examination_type", "=", "Kihon")->orderBy("name")->get();
             @endphp
 
             <div class="accordion">
@@ -91,7 +99,7 @@
         <h3 class="subheading">Kata</h3>
         @php
             # All the Kata categories
-            $kataCategories = $tournament->categories->where("examination_type", "=", "Kata");
+            $kataCategories = $tournament->categories()->where("examination_type", "=", "Kata")->orderBy("name")->get();
         @endphp
 
         <div class="accordion">
@@ -154,7 +162,7 @@
         <h3 class="subheading">Kumite</h3>
         @php
             # All the Kumite categories
-            $kumiteCategories = $tournament->categories->where("examination_type", "=", "Kumite");
+            $kumiteCategories = $tournament->categories()->where("examination_type", "=", "Kumite")->orderBy("name")->get();
         @endphp
 
         <div class="accordion">
@@ -218,7 +226,7 @@
             <h3 class="subheading">Team</h3>
             @php
                 # All the Team categories
-                $teamCategories = $tournament->categories->where("examination_type", "=", "Team");
+                $teamCategories = $tournament->categories()->where("examination_type", "=", "Team")->orderBy("name")->get();
             @endphp
 
             <div class="accordion">

@@ -21,7 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->enum("examination_type", config("tournament.examination_types"));
             $table->enum("graduation_min", config("global.graduations"));
             $table->enum("graduation_max", config("global.graduations"));
-            $table->enum("sex", config("global.sex"));
+            $table->enum("sex", array_merge(config("global.sex"), ["m/w"]));
             $table->unsignedInteger("age_min");
             $table->unsignedInteger("age_max");
             $table->boolean("prepared")->default(false);

@@ -8,6 +8,7 @@ use App\Models\Club;
 use App\Models\EnrolledPerson;
 use App\Models\Person;
 use App\Models\Tournament;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -25,6 +26,13 @@ class EnrolledPersonController extends Controller
     public function index(Tournament $tournament, $type, $addUrl, $deleteUrl, $entities, $entity)
     {
         $this->authorize("viewAny", [EnrolledPerson::class, $tournament]);
+
+        $enrollmentActive = true;
+        if (!Auth::user()->isAdmin()) {
+            if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
+                $enrollmentActive = false;
+            }
+        }
 
         $user = Auth::user();
         $enrolledPersons = EnrolledPerson::join("people", "people.id", "=", "enrolled_people.person_id")->select("enrolled_people.*", "people.type as type", "people.id as person_id")->where("tournament_id", "=", $tournament->id)->where("type", "=", $type);
@@ -45,7 +53,7 @@ class EnrolledPersonController extends Controller
             array_push($rows, $row);
         }
 
-        return response()->view("Tournament.enrolled-entities", ["tournament" => $tournament, "addUrl" => $addUrl, "entities" => $entities, "entity" => $entity, "columns" => Person::tableHeadings(), "rows" => $rows]);
+        return response()->view("Tournament.enrolled-entities", ["tournament" => $tournament, "addUrl" => $addUrl, "entities" => $entities, "entity" => $entity, "columns" => Person::tableHeadings(), "rows" => $rows, "enrollmentActive" => $enrollmentActive]);
     }
 
     /**

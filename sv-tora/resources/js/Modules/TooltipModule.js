@@ -2,11 +2,23 @@
  * DEPENDENCIES
  */
 
-import tippy, {roundArrow} from "tippy.js";
+import tippy, {sticky, roundArrow} from "tippy.js";
 
 /**
  * This Module contains code responsible for managing tooltips
  */
+
+tippy.setDefaultProps({
+    arrow: roundArrow,
+    delay: 50,
+    duration: 100,
+    hideOnClick: true,
+    maxWidth: 500,
+    offset: [0, 20],
+    sticky: "reference",
+    theme: "svtora",
+    plugins: [sticky]
+});
 
 /**
  * This function creates a tooltip for a given element (element selector)
@@ -16,11 +28,10 @@ import tippy, {roundArrow} from "tippy.js";
 function createTooltip(triggerElementQuerySelector, content) {
     tippy(triggerElementQuerySelector, {
         content: content,
-        offset: [0, 20],
-        arrow: roundArrow,
-        theme: "svtora",
     });
 }
+
+tippy("[data-tippy-content]");
 
 /**
  * API:

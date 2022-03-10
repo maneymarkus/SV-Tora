@@ -7,6 +7,7 @@ use App\Helper\Roles;
 use App\Models\Category;
 use App\Models\Club;
 use App\Models\Fighter;
+use App\Models\FightPlace;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Team;
@@ -111,15 +112,19 @@ class DatabaseSeeder extends Seeder
             "enrollment_end" => "2021-11-30",
         ]);
 
-        Category::create([
-            "name" => "Diese Kategorie",
+        FightPlace::create([
+            "name" => "Pool 1",
             "tournament_id" => $tournament->id,
-            "examination_type" => "Kata",
-            "graduation_min" => "7. Kyu",
-            "graduation_max" => "7. Kyu",
-            "age_min" => 11,
-            "age_max" => 12,
-            "sex" => "m",
+        ]);
+
+        FightPlace::create([
+            "name" => "Pool 2",
+            "tournament_id" => $tournament->id,
+        ]);
+
+        FightPlace::create([
+            "name" => "Pool 3",
+            "tournament_id" => $tournament->id,
         ]);
 
     }

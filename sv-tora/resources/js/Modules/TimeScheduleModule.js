@@ -122,7 +122,6 @@ let TimeSchedule = function (timeSchedule) {
      * @param countHours {number} This variable determines how high the container should be and can also contain fractions of hours
      */
     this.setHeightOfTimeContainer = function (countHours) {
-        // TODO: calculation of height and width of elements should be done in backend
         let heightOf1Hour = ONE_MINUTE_LENGTH_IN_EM * 60;
 
         // the height is calculated in this way: 5em are needed for the headings of the locations and any paddings and margins in the container and each hour needs the equalling length of one minute times 60 of space
@@ -183,6 +182,7 @@ let TimeSchedule = function (timeSchedule) {
                 This.timeScaleElement.appendChild(span);
             }
 
+            This.lengthInHours = chosenDuration;
             This.setHeightOfTimeContainer(chosenDuration);
 
         });

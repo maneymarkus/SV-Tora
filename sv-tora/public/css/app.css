@@ -3190,8 +3190,6 @@ span.input-error .message {
 
 .switch-container .text {
     font-size: 1.5em;
-    position: relative;
-    margin-left: 3.5em;
     top: 0.1em;
     cursor: pointer;
 }
@@ -4732,7 +4730,6 @@ textarea.incorrect {
     width: calc(100% - 4em);
     opacity: 1 !important;
     max-height: unset;
-    padding-left: unset;
     padding-right: unset;
     line-height: 1.15;
     overflow-y: unset;
@@ -6352,7 +6349,7 @@ a.primary-button.disabled:hover:before {
 h2.table-heading {
     font-size: 2rem;
     text-shadow: 2px 2px 10px var(--text-shadow);
-    margin-bottom: 0;
+    margin: 0;
 }
 
 .table {

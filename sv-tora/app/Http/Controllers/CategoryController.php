@@ -10,6 +10,7 @@ use App\Models\EnrolledTeam;
 use App\Models\Fighter;
 use App\Models\Team;
 use App\Models\Tournament;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -27,7 +28,11 @@ class CategoryController extends Controller
      */
     public function index(Tournament $tournament)
     {
-        return response()->view("Tournament.category-administration", ["tournament" => $tournament]);
+        $enrollmentActive = false;
+        if (Carbon::today() >= Carbon::parse($tournament->enrollment_start) && Carbon::today() <= Carbon::parse($tournament->enrollment_end)) {
+            $enrollmentActive = true;
+        }
+        return response()->view("Tournament.category-administration", ["tournament" => $tournament, "enrollmentActive" => $enrollmentActive]);
     }
 
     /**

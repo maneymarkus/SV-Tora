@@ -9,6 +9,7 @@ main h3 {
 
 main h4 {
     margin-bottom: 0.25em;
+    margin-top: 1rem;
     font-size: 1.25rem;
 }
 
@@ -22,7 +23,7 @@ label span.fight-time {
 }
 
 .margin-bottom {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 @media only screen and (min-width: 600px) {

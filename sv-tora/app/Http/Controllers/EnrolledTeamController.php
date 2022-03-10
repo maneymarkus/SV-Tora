@@ -11,6 +11,7 @@ use App\Models\EnrolledTeam;
 use App\Models\Person;
 use App\Models\Team;
 use App\Models\Tournament;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -27,6 +28,13 @@ class EnrolledTeamController extends Controller
     public function index(Tournament $tournament)
     {
         $this->authorize("viewAny", [EnrolledTeam::class, $tournament]);
+
+        $enrollmentActive = true;
+        if (!Auth::user()->isAdmin()) {
+            if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
+                $enrollmentActive = false;
+            }
+        }
 
         $user = Auth::user();
         $enrolledTeams = EnrolledTeam::with("team")
@@ -61,7 +69,7 @@ class EnrolledTeamController extends Controller
             ];
             array_push($rows, $row);
         }
-        return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams/add"), "entities" => "Teams", "entity" => "Team", "columns" => $columns, "rows" => $rows]);
+        return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams/add"), "entities" => "Teams", "entity" => "Team", "columns" => $columns, "rows" => $rows, "enrollmentActive" => $enrollmentActive]);
     }
 
     /**

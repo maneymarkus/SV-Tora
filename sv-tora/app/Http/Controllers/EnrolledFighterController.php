@@ -10,6 +10,7 @@ use App\Models\Club;
 use App\Models\EnrolledFighter;
 use App\Models\Fighter;
 use App\Models\Tournament;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -25,6 +26,13 @@ class EnrolledFighterController extends Controller
     public function index(Tournament $tournament)
     {
         $this->authorize("viewAny", [EnrolledFighter::class, $tournament]);
+
+        $enrollmentActive = true;
+        if (!Auth::user()->isAdmin()) {
+            if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
+                $enrollmentActive = false;
+            }
+        }
 
         session()->forget("configurableFighters");
         $user = Auth::user();
@@ -71,7 +79,7 @@ class EnrolledFighterController extends Controller
             }
             array_push($rows, $row);
         }
-        return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/add"), "entities" => "Kämpfer", "entity" => "Kämpfer", "columns" => $columns, "rows" => $rows]);
+        return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/add"), "entities" => "Kämpfer", "entity" => "Kämpfer", "columns" => $columns, "rows" => $rows, "enrollmentActive" => $enrollmentActive]);
     }
 
     /**
@@ -178,11 +186,7 @@ class EnrolledFighterController extends Controller
                     continue;
                 }
                 $examinationTypes[$examinationType] = [];
-                # if fighters sex is divers than display information that this case should be handled individually
-                if ($fighter->sex === "d") {
-                    $examinationTypes[$examinationType]["error"] = "Aufgrund der geringen Anzahl an Kindern mit nicht-binärem Geschlecht, haben wir standardmäßig keine eigene Kategorien für diese Kinder. Bitte kontaktieren Sie " . config("contact.email") . ", um diesen Fall individuell zu besprechen.";
-                    continue;
-                }
+
                 try {
                     $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType);
                 } catch (\Exception $e) {

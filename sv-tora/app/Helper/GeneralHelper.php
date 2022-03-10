@@ -6,7 +6,9 @@ use App\Models\Club;
 use App\Models\Fighter;
 use App\Models\Role;
 use App\Models\Team;
+use App\Models\Tournament;
 use App\Models\TournamentTemplate;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -231,6 +233,29 @@ class GeneralHelper
             }
         }
         return self::determineCategoryOfFighter($fighter, "Team");
+    }
+
+    public static function createTimeline(Tournament $tournament) {
+        $timeStart = Carbon::parse($tournament->time);
+        $time = $timeStart->copy();
+        $estimatedEnd = $tournament->calculateEstimatedEnd();
+        $timelineElement = "<div class='time-scale'>";
+        $timelineElement .= "<span class='time start'><span class='emphasize'>" . $time->format("H:i") . "</span></span>";
+
+        while ($time < $estimatedEnd->copy()->addHour() || $time < $timeStart->copy()->addHours(3)) {
+            $time->addMinutes(15);
+            $timelinePart = "<span class='time'>" . $time->format("H:i") . "</span>";
+
+            if (intval($time->format("i")) === 0) {
+                $timelinePart = "<span class='time whole'><span class='emphasize'>" . $time->format("H:i") . "</span></span>";
+            }
+
+            $timelineElement .= $timelinePart;
+
+        }
+
+        $timelineElement .= "</div>";
+        return $timelineElement;
     }
 
 }
