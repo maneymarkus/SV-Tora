@@ -55,9 +55,11 @@
                                 <div class="actions-container">
                                     @php
                                         $disabled = $category->prepared ? "" : "disabled";
+                                        $changeUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/edit");
+                                        $printUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/print");
                                     @endphp
-                                    <x-primary-button class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
-                                    <x-primary-button class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                    <x-primary-button href="{{ $changeUrl }}" class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                    <x-primary-button href="{{ $printUrl }}" class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
                                 </div>
                             </div>
                         </div>
@@ -102,9 +104,11 @@
                             <div class="actions-container">
                                 @php
                                     $disabled = $category->prepared ? "" : "disabled";
+                                    $changeUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/edit");
+                                    $printUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/print");
                                 @endphp
-                                <x-primary-button class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
-                                <x-primary-button class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                <x-primary-button href="{{ $changeUrl }}" class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                <x-primary-button href="{{ $printUrl }}" class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
                             </div>
                         </div>
                     </div>
@@ -147,9 +151,11 @@
                             <div class="actions-container">
                                 @php
                                     $disabled = $category->prepared ? "" : "disabled";
+                                    $changeUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/edit");
+                                    $printUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/print");
                                 @endphp
-                                <x-primary-button class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
-                                <x-primary-button class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                <x-primary-button href="{{ $changeUrl }}" class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                <x-primary-button href="{{ $printUrl }}" class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
                             </div>
                         </div>
                     </div>
@@ -193,9 +199,11 @@
                                 <div class="actions-container">
                                     @php
                                         $disabled = $category->prepared ? "" : "disabled";
+                                        $changeUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/edit");
+                                        $printUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/print");
                                     @endphp
-                                    <x-primary-button class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
-                                    <x-primary-button class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                    <x-primary-button href="{{ $changeUrl }}" class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                    <x-primary-button href="{{ $printUrl }}" class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
                                 </div>
                             </div>
                         </div>

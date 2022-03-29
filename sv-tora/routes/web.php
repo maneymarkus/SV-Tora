@@ -302,6 +302,8 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         Route::get("/tournaments/{tournament}/categories/fighting-systems", [FightingSystemController::class, "index"]);
         Route::post("/tournaments/{tournament}/categories/{category}/fighting-system/assign", [FightingSystemController::class, "assignFightingSystem"]);
         Route::get("/tournaments/{tournament}/categories/{category}/fighting-system/print", [FightingSystemController::class, "printCategoryFightingSystem"]);
+        Route::get("/tournaments/{tournament}/categories/{category}/fighting-system/edit", [FightingSystemController::class, "editCategoryFightingSystem"]);
+        Route::post("/tournaments/{tournament}/categories/{category}/fighting-system/edit", [FightingSystemController::class, "updateCategoryFightingSystem"]);
 
         Route::resource("/tournaments/{tournament}/categories", CategoryController::class)->except(["show", "edit", "update"]);
 

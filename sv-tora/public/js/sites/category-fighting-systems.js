@@ -58,6 +58,7 @@
             }
 
             if (target.classList.contains("bar-content")) {
+                e.preventDefault();
                 This.handleContentClick(originalTarget);
             }
         });
@@ -76,16 +77,17 @@
             }
 
             if (target.classList.contains("print")) {
-                App.ModalModule.infoModal("Drucken", "Der Drucker ist gemein und mit so jemandem möchte ich nicht zusammen arbeiten. Sorry :/");
+                let url = target.getAttribute("href");
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.GET, url, (response) => {
+                    console.log(response);
+                }, undefined, true);
             }
 
             if (target.classList.contains("edit-fighting-system")) {
-                let bar = target;
-                while (bar.nodeName !== "BODY" && !bar.classList.contains("accordion-bar")) {
-                    bar = bar.parentElement;
-                }
-                let categoryName = bar.querySelector(".bar-header span.category-name").innerHTML.trim();
-                changeFightingSystemParameter(categoryName);
+                let url = target.getAttribute("href");
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.GET, url, (response) => {
+                    changeFightingSystemConfig(response);
+                }, undefined, true);
             }
         }
 
@@ -128,8 +130,20 @@
 
     };
 
-    function changeFightingSystemParameter(categoryName) {
-        //koSystem.change();
+    function changeFightingSystemConfig(response) {
+        let modal = App.ModalModule.confirmModal(response["heading"], response["html"], function () {
+            let data = {"config" : App.FightingSystemModule.translateToJson(modal.modalWindowElement.querySelector(".mw-content"))};
+            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, response["updateUrl"], undefined, data, true);
+        });
+        if (modal.modalWindowElement.querySelector(".draggable")) {
+            let modalContent = modal.modalWindowElement.querySelector(".mw-content");
+            App.FightingSystemModule.applyDragAndDrop(modalContent);
+        }
+        if (modal.modalWindowElement.querySelector(".range-input-container")) {
+            let rangeInputContainer = modal.modalWindowElement.querySelector(".range-input-container");
+            console.log(rangeInputContainer);
+            App.MaterialInputsModule.inputs.push(new App.MaterialInputsModule.RangeInput(rangeInputContainer));
+        }
     }
 
     function disableCards(countFighters) {

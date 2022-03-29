@@ -17,6 +17,7 @@ class AddFieldsToCategoriesTable extends Migration
             $table->unsignedInteger("estimated_required_time_in_seconds")->nullable();
             $table->unsignedInteger("rank")->nullable();
             $table->unsignedInteger("fight_place_id")->index()->nullable();
+            $table->json("fighting_system_configuration")->nullable();
 
             $table->foreign("fight_place_id")->references("id")->on("fight_places")->onDelete("SET NULL");
         });

@@ -1796,7 +1796,7 @@ a.go-back i {
 
 .tree {
     display: inline-block;
-
+    padding-top: 2rem;
 }
 
 .tree .column {
@@ -1807,71 +1807,71 @@ a.go-back i {
 }
 
 .tree .column:nth-child(1) .fight {
+    height: 2em;
+    margin-bottom: 2em;
+}
+
+.tree .column:nth-child(2) {
+    padding-top: 1em;
+}
+
+.tree .column:nth-child(2) .fight {
     height: 4em;
     margin-bottom: 4em;
 }
 
-.tree .column:nth-child(2) {
+.tree .column:nth-child(3) {
     padding-top: 2em;
 }
 
-.tree .column:nth-child(2) .fight {
+.tree .column:nth-child(3) .fight {
     height: 8em;
     margin-bottom: 8em;
 }
 
-.tree .column:nth-child(3) {
+.tree .column:nth-child(4) {
     padding-top: 6em;
 }
 
-.tree .column:nth-child(3) .fight {
+.tree .column:nth-child(4) .fight {
     height: 16em;
     margin-bottom: 16em;
 }
 
-.tree .column:nth-child(4) {
+.tree .column:nth-child(5) {
     padding-top: 14em;
 }
 
-.tree .column:nth-child(4) .fight {
+.tree .column:nth-child(5) .fight {
     height: 32em;
     margin-bottom: 32em;
 }
 
-.tree .column:nth-child(5) {
+.tree .column:nth-child(6) {
     padding-top: 30em;
 }
 
-.tree .column:nth-child(5) .fight {
+.tree .column:nth-child(6) .fight {
     height: 64em;
     margin-bottom: 64em;
 }
 
-.tree .column:nth-child(6) {
+.tree .column:nth-child(7) {
     padding-top: 62em;
 }
 
-.tree .column:nth-child(6) .fight {
+.tree .column:nth-child(7) .fight {
     height: 128em;
     margin-bottom: 128em;
 }
 
-.tree .column:nth-child(7) {
+.tree .column:nth-child(8) {
     padding-top: 126em;
 }
 
-.tree .column:nth-child(7) .fight {
+.tree .column:nth-child(8) .fight {
     height: 256em;
     margin-bottom: 256em;
-}
-
-.tree .column:nth-child(8) {
-    padding-top: 254em;
-}
-
-.tree .column:nth-child(8) .fight {
-    height: 512em;
-    margin-bottom: 512em;
 }
 
 .tree .fight {
@@ -1962,14 +1962,22 @@ a.go-back i {
     display: none;
 }
 
-.tree .fight .fight-number {
-    font-size: 2em;
+.tree .fight:before {
+    content: attr(data-fight-number);
+    font-size: 1.5em;
     font-weight: bold;
     text-shadow: 3px 3px 8px black;
     position: absolute;
-    top: calc(50% + 0.25em);
+    top: 50%;
     right: 0.5em;
     transform: translateY(-50%);
+}
+
+.fighter.dragging {
+    background-color: var(--theme-color-3);
+    position: absolute;
+    z-index: 100000;
+    transition: none;
 }
 
 /*****************************************************************
@@ -2062,8 +2070,9 @@ table, th, td {
  ****************************************************************/
 
 .dog-eat-dog {
-    margin: 2em 0;
+    padding: 2em;
     font-size: 1em;
+    position: relative;
 }
 
 .dog-eat-dog table {
@@ -2122,9 +2131,10 @@ table, th, td {
 }
 
 .dog-eat-dog .fight-order {
-    font-size: 1.5em;
-    margin: 0 2em;
+    font-size: 1em;
     display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
 .dog-eat-dog .fight {
@@ -2142,19 +2152,22 @@ table, th, td {
     border-bottom: 2px dashed #9B9B9B;
     color: white;
     padding: 0 0.5em 0.1em 0.5em;
-    width: 10em;
+    width: 45%;
     display: inline-block;
     transition: 0.2s ease;
 }
 
 .dog-eat-dog .fight:hover .fighter {
-    transform: scale(1.1);
     border-color: white;
 }
 
 .dog-eat-dog .fighter:first-child {
     text-align: right;
-    margin-right: 1.5em;
+    margin-right: 1em;
+}
+
+.dog-eat-dog .fighter:last-child {
+    text-align: left;
 }
 
 .dog-eat-dog .number {
@@ -2185,6 +2198,13 @@ table, th, td {
     transform: translateX(-50%);
     font-weight: 900;
     font-style: normal;
+}
+
+.fight.dragging {
+    background-color: var(--theme-color-3);
+    position: absolute;
+    z-index: 100000;
+    transition: none;
 }
 
 /*****************************************************************
@@ -4779,8 +4799,7 @@ textarea.incorrect {
 /       <div class="mw-header">
 /         <h2>Heading</h2>
 /       </div>
-/       <div class="modal-content">
-/       <div class="modal-content">
+/       <div class="mw-content">
 /         Content goes here...
 /       </div>
 /       <div class="mw-footer">
@@ -4911,7 +4930,6 @@ a.primary-button.close-modal i {
 }
 
 .modal-window .mw-content {
-    font-size: 1.25em;
     padding: 0.5em 1em 1.5em;
     word-wrap: break-word;
 }

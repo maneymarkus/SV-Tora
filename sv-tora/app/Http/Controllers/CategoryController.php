@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\EnrolledFighter;
 use App\Models\EnrolledTeam;
 use App\Models\Fighter;
+use App\Models\FightingSystem;
 use App\Models\Team;
 use App\Models\Tournament;
 use Carbon\Carbon;
@@ -62,7 +63,7 @@ class CategoryController extends Controller
         if (!in_array($examinationType, $possibleExaminationTypes)) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Diese Prüfungsform ist im betroffenen Wettkampf nicht zulässig!");
         }
-        Category::create([
+        $newCategory = Category::create([
             "name" => $newCategoryName,
             "tournament_id" => $tournament->id,
             "examination_type" => $request->input("Prüfungsform"),
@@ -72,6 +73,13 @@ class CategoryController extends Controller
             "age_max" => $request->input("Maximalalter"),
             "sex" => $request->input("Geschlecht"),
         ]);
+        if ($newCategory->examination_type === "Team") {
+            $fightingSystem = FightingSystem::firstWhere("name", "=", "Tafelsystem");
+            $newCategory->fightingSystem()->associate($fightingSystem);
+            $newCategory->prepared = true;
+            $newCategory->save();
+            app(FightingSystemController::class)->reinitializeFightingSystem($newCategory);
+        }
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die neue Kategorie \"" . $newCategoryName . "\" wurde erfolgreich angelegt. Die Seite lädt in 5 Sekunden neu, um die neue Kategorie anzuzeigen.");
     }
 
@@ -224,6 +232,7 @@ class CategoryController extends Controller
         $mergeCategory->fighters()->saveMany($category->fighters);
         $oldCategoryName = $category->name;
         $category->delete();
+        app(FightingSystemController::class)->reinitializeFightingSystem($mergeCategory);
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $oldCategoryName . "\" wurde erfolgreich mit der Kategorie \"" . $mergeCategory->name . "\" zusammen geführt. Die Seite läd in 5 Sekunden neu, um die Änderung anzuzeigen.");
     }
 
@@ -281,12 +290,16 @@ class CategoryController extends Controller
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Kämpfer \"" . $fighter->person->fullName() . "\" existiert schon in dieser Kategorie und kann daher nicht hinzugefügt werden.");
             }
 
-            $enrolledFighter = EnrolledFighter::create([
-                "fighter_id" => $fighter->id,
-                "tournament_id" => $tournament->id,
-            ]);
+            $enrolledFighter = $fighter->enrolledConfigurations()->where("tournament_id", "=", $tournament->id)->first();
+            if ($enrolledFighter === null) {
+                $enrolledFighter = EnrolledFighter::create([
+                    "fighter_id" => $fighter->id,
+                    "tournament_id" => $tournament->id,
+                ]);
+            }
             $category->fighters()->attach($enrolledFighter->id);
         }
+        app(FightingSystemController::class)->reinitializeFightingSystem($category);
         return json_encode(["redirectUrl" => url("/tournaments/" . $tournament->id . "/categories")]);
     }
 
@@ -310,13 +323,17 @@ class CategoryController extends Controller
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das Team \"" . $team->name . "\" existiert schon in dieser Kategorie und kann daher nicht hinzugefügt werden.");
             }
 
-            $newEnrolledTeam = EnrolledTeam::create([
-                "team_id" => $team->id,
-                "tournament_id" => $tournament->id,
-            ]);
+            $enrolledTeam = $team->enrolledTeams()->where("tournament_id", "=", $tournament->id)->first();
+            if ($enrolledTeam === null) {
+                $enrolledTeam = EnrolledTeam::create([
+                    "team_id" => $team->id,
+                    "tournament_id" => $tournament->id,
+                ]);
+            }
 
-            $category->teams()->attach($newEnrolledTeam->id);
+            $category->teams()->attach($enrolledTeam->id);
         }
+        app(FightingSystemController::class)->reinitializeFightingSystem($category);
         return json_encode(["redirectUrl" => url("/tournaments/" . $tournament->id . "/categories")]);
     }
 
@@ -335,6 +352,7 @@ class CategoryController extends Controller
         }
         $fighterName = $enrolledFighter->fighter->person->fullName();
         $enrolledFighter->delete();
+        app(FightingSystemController::class)->reinitializeFightingSystem($category);
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer \"" . $fighterName . "\" wurde aus der Kategorie entfernt.");
     }
 
@@ -352,6 +370,7 @@ class CategoryController extends Controller
         }
         $teamName = $enrolledTeam->team->name;
         $enrolledTeam->delete();
+        app(FightingSystemController::class)->reinitializeFightingSystem($category);
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Das Team \"" . $teamName . "\" wurde aus der Kategorie entfernt.");
     }
 
@@ -359,7 +378,8 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $category
+     * @param Tournament $tournament
+     * @param \App\Models\Category $category
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tournament $tournament, Category $category)

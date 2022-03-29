@@ -15,8 +15,7 @@
 /       <div class="mw-header">
 /         <h2>Heading</h2>
 /       </div>
-/       <div class="modal-content">
-/       <div class="modal-content">
+/       <div class="mw-content">
 /         Content goes here...
 /       </div>
 /       <div class="mw-footer">
@@ -147,7 +146,6 @@ a.primary-button.close-modal i {
 }
 
 .modal-window .mw-content {
-    font-size: 1.25em;
     padding: 0.5em 1em 1.5em;
     word-wrap: break-word;
 }

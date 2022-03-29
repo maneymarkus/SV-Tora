@@ -245,6 +245,7 @@ class EnrolledFighterController extends Controller
                     $category = Category::createCategoryByName($categoryName, $tournament);
                 }
                 $category->fighters()->attach($enrolledFighter->id);
+                app(FightingSystemController::class)->reinitializeFightingSystem($category);
             }
         }
         if (!$atLeastOneParticipation) {
@@ -354,6 +355,7 @@ class EnrolledFighterController extends Controller
                     $category = Category::createCategoryByName($categoryName, $tournament);
                 }
                 $category->fighters()->attach($enrolledFighter->id);
+                app(FightingSystemController::class)->reinitializeFightingSystem($category);
             }
         }
         if (!$atLeastOneParticipation) {
@@ -377,6 +379,9 @@ class EnrolledFighterController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der gegebene Kämpfer existiert nicht und kann daher nicht vom Wettkampf entfernt werden.");
         }
         $personName = $enrolledFighter->fighter->person->fullName();
+        foreach($enrolledFighter->categories as $enrolledCategory) {
+            app(FightingSystemController::class)->reinitializeFightingSystem($enrolledCategory);
+        }
         if ($enrolledFighter->delete()) {
             return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer mit dem Namen \"" . $personName . "\" wurde erfolgreich vom Wettkampf abgemeldet.");
         } else {

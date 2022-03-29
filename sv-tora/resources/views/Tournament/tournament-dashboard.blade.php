@@ -33,6 +33,11 @@
         <div class="tournament-container">
             <h3 data-name="tournament" class="tournament-name">{{ $tournament->tournamentTemplate->tournament_name }}</h3>
             <p>am <span data-name="date" class="tournament-date">{{ \Carbon\Carbon::parse($tournament->date)->format("d.m.Y") }}</span> um <span data-name="time" class="tournament-time">{{ \Carbon\Carbon::parse($tournament->time)->format("H:i") }}</span> Uhr</p>
+            <p>
+                Voraussichtliches Ende des Wettkampfes: <span class="duration">{{ $tournament->calculateEstimatedEnd()->format("H:i") }}h</span>
+                <br />
+                (Hierbei handelt es sich um eine Schätzung. Diese Schätzung kann sich durchaus noch verändern und hängt vom Fortschritt der Planung des Wettkampfes ab.)
+            </p>
             <p class="more-spacing">Anmeldezeitraum:</p>
             <p><span data-name="enrollment-start" class="enrollment-start">{{ \Carbon\Carbon::parse($tournament->enrollment_start)->format("d.m.Y") }}</span> - <span data-name="enrollment-end" class="enrollment-end">{{ \Carbon\Carbon::parse($tournament->enrollment_end)->format("d.m.Y") }}</span></p>
             <p class="more-spacing">Ort:</p>

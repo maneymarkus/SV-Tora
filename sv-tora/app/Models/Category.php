@@ -3,6 +3,13 @@
 namespace App\Models;
 
 use App\Helper\Categories;
+use App\Helper\FightingSystems\BrazilianKOSystem;
+use App\Helper\FightingSystems\DogEatDog;
+use App\Helper\FightingSystems\DoubleKOSystem;
+use App\Helper\FightingSystems\DoubleKOSystemWithFinalTables;
+use App\Helper\FightingSystems\KOSystem;
+use App\Helper\FightingSystems\KOSystemWithFinalTables;
+use App\Helper\FightingSystems\Tables;
 use App\Helper\GeneralHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +39,11 @@ class Category extends Model
         "estimated_required_time_in_seconds",
         "fight_place_id",
         "rank",
+        "fighting_system_configuration",
+    ];
+
+    protected $casts = [
+        "fighting_system_configuration" => "array",
     ];
 
     public function tournament() {
@@ -160,6 +172,23 @@ class Category extends Model
 
         return $heightInEm;
 
+    }
+
+    public function getFightingSystem(): ?\App\Helper\FightingSystems\FightingSystem {
+        if (!$this->prepared) {
+            return null;
+        }
+        $fightingSystem = match ($this->fightingSystem->name) {
+            "Jeder-Gegen-Jeden" => new DogEatDog($this),
+            "Tafelsystem" => new Tables($this),
+            "KO-System" => new KOSystem($this),
+            "Doppel-KO-System" => new DoubleKOSystem($this),
+            "KO-System mit finalen Tafeln" => new KOSystemWithFinalTables($this),
+            "Doppel-KO-System mit finalen Tafeln" => new DoubleKOSystemWithFinalTables($this),
+            "Brasilianisches KO-System" => new BrazilianKOSystem($this),
+            default => null,
+        };
+        return $fightingSystem;
     }
 
 }

@@ -1847,5 +1847,7 @@ export {
     getInputObject,
     compareDates,
     compareTimes,
-    createQuickTextInput
+    createQuickTextInput,
+    RangeInput,
+    inputs,
 }

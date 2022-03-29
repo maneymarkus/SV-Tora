@@ -70,9 +70,6 @@ let TimeSchedule = function (timeSchedule) {
         startTimeInMinutes += parseInt(parts[0]) * 60;
         startTimeInMinutes += parseInt(parts[1]);
 
-        // TODO: get expected end time from backend
-        let expectedEndInMinutes = undefined;
-
         // calculate max end time in minutes
         let maxEndTimeRelative = This.lengthInHours * 60;
 
