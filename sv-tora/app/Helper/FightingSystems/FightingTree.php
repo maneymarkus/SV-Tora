@@ -5,10 +5,16 @@ namespace App\Helper\FightingSystems;
 use App\Models\Fighter;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 
 class FightingTree
 {
 
+    public Collection $fighters;
     public int $numberFighters;
     public int $numberFights;
     // a level is basically the progress of a fight in a fight tree (quarter-finals, half finals, finals, etc.) (except "pre fight" level)
@@ -20,14 +26,16 @@ class FightingTree
     // a 2-dimensional array that has a shape of: [$numberLevels][$numberFightsOfLevel]
     public array $fights;
 
-    public function __construct(public Collection|int $fighters, public bool $isConsolation = false)
+    public function __construct(Collection|int $fighters, public bool $isConsolation = false)
     {
-        if ($this->fighters instanceof Collection) {
-            $this->numberFighters = count($this->fighters);
+        if ($fighters instanceof Collection) {
+            $this->fighters = $fighters;
+            $this->numberFighters = $this->fighters->count();
         } else {
-            $this->numberFighters = $this->fighters;
+            $this->numberFighters = $fighters;
             $this->fighters = new Collection();
         }
+        Log::info($this->numberFighters);
 
         $this->numberFights = $this->numberFighters - 1;
         $this->numberLevels = (int) floor(log($this->numberFighters) / log(2));
@@ -68,8 +76,8 @@ class FightingTree
         if ($this->numberPreFights > 0) {
             $displayedColumns[] = array_shift($fights);
         }
-        $marginTopForFirstPreFight = $this->numberPreFights > 0 ? (count($this->fighters) - $this->numberPreFights * 2) * 4 : 0;
-        return view("FightingSystem.fighting-tree", ["fights" => $displayedColumns, "marginTopForFirstPreFight" => $marginTopForFirstPreFight])->render();
+        $marginTopForFirstPreFight = $this->getMarginTopPrefight();
+        return view("FightingSystem.edit-fighting-tree", ["fights" => $displayedColumns, "marginTopForFirstPreFight" => $marginTopForFirstPreFight])->render();
     }
 
     function updateFightingTreeConfig(array $newTree) {
@@ -89,8 +97,32 @@ class FightingTree
         }
     }
 
-    function buildTree() {
+    function getMarginTopPrefight() {
+        return $this->numberPreFights > 0 ? (count($this->fighters) - $this->numberPreFights * 2) * 4 : 0;
+    }
 
+    function buildTree() {
+        $marginTopForFirstPreFight = $this->numberPreFights > 0 ? (count($this->fighters) - $this->numberPreFights * 2) * 4 : 0;
+        return view("FightingSystem.edit-fighting-tree", ["fights" => $this->fights, "marginTopForFirstPreFight" => $marginTopForFirstPreFight])->render();
+    }
+
+    function print(int $tournamentId, int $categoryId, bool $isFinal = true, bool $doubleKo = false) {
+        $spreadsheet = WriteSpreadsheet::writeTree($this->fights, $isFinal, $this->isConsolation, $doubleKo);
+
+        $spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
+        $spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
+        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToPage(true);
+        $tmpResource = tmpfile();
+        $writer = new Mpdf($spreadsheet);
+        $writer->save($tmpResource);
+
+        $fileName = "fightingTree.pdf";
+        if ($this->isConsolation) {
+            $fileName = "consolationTree.pdf";
+        }
+        $path = "tournaments/" . $tournamentId . "/categories/" . $categoryId . "/" . $fileName;
+        Storage::disk("public")->put($path, $tmpResource);
+        return $path;
     }
 
     function serialize(): array {
@@ -113,4 +145,5 @@ class FightingTree
         }
         return $fightingTree;
     }
+
 }

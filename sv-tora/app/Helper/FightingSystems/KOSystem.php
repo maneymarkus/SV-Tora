@@ -3,9 +3,12 @@
 namespace App\Helper\FightingSystems;
 
 use App\Models\Category;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Clegginabox\PDFMerger\PDFMerger;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class KOSystem implements FightingSystem {
 
@@ -49,9 +52,25 @@ class KOSystem implements FightingSystem {
         $this->category->save();
     }
 
+    /**
+     * @throws \Exception
+     */
     function print()
     {
-        // TODO: Implement print() method.
+
+        $pdf = new PDFMerger();
+
+        $metaInfoPath = "tournaments/" . $this->category->tournament->id . "/category/" . $this->category->id . "/metaInfo.pdf";
+        $metaInfoPdf = PDF::loadView("FightingSystem.ko-system", ["category" => $this->category])->output();
+        Storage::disk("public")->put($metaInfoPath, $metaInfoPdf);
+        $pdf->addPDF(storage_path("app/public/" . $metaInfoPath), orientation: "P");
+
+        $fightingTreePath = $this->fightingTree->print($this->category->tournament->id, $this->category->id);
+        $pdf->addPDF(storage_path("app/public/" . $fightingTreePath), orientation: "L");
+
+        $totalPdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";
+        $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
+        return Storage::disk("public")->download($totalPdfPath);
     }
 
     function serialize()

@@ -2,8 +2,10 @@
 
 namespace App\Helper\FightingSystems;
 
+use App\Helper\GeneralHelper;
 use App\Models\Category;
 use App\Models\Fighter;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -55,7 +57,7 @@ class DogEatDog implements FightingSystem {
 
     function editConfig()
     {
-        return view("FightingSystem.dog-eat-dog", ["fights" => $this->fights])->render();
+        return view("FightingSystem.edit-dog-eat-dog", ["fights" => $this->fights])->render();
     }
 
     function updateConfig(Request $request)
@@ -78,7 +80,8 @@ class DogEatDog implements FightingSystem {
 
     function print()
     {
-        // TODO: Implement print() method.
+        $pdf = Pdf::loadView("FightingSystem.dog-eat-dog", ["category" => $this->category, "fights" => $this->fights]);
+        return $pdf->download("Kampfsystem Kategorie " . $this->category->name . ".pdf");
     }
 
     function serialize()

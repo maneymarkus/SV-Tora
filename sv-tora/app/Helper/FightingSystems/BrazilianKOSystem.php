@@ -3,8 +3,11 @@
 namespace App\Helper\FightingSystems;
 
 use App\Models\Category;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Clegginabox\PDFMerger\PDFMerger;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BrazilianKOSystem implements FightingSystem {
 
@@ -34,7 +37,10 @@ class BrazilianKOSystem implements FightingSystem {
     {
         $this->fightingTree = new FightingTree($this->fighters, false);
         $this->fightingTree->initializeFightingTree();
-        $numberFighterConsolationTree = ($this->fightingTree->numberLevels + $this->fightingTree->numberPreFights) * 2;
+        $numberFighterConsolationTree = $this->fightingTree->numberLevels * 2;
+        if ($this->fightingTree->numberPreFights > 0) {
+            $numberFighterConsolationTree += 2;
+        }
         $this->consolationTree = new FightingTree($numberFighterConsolationTree, true);
         $this->consolationTree->initializeFightingTree();
     }
@@ -54,7 +60,22 @@ class BrazilianKOSystem implements FightingSystem {
 
     function print()
     {
-        // TODO: Implement print() method.
+        $pdf = new PDFMerger();
+
+        $metaInfoPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/metaInfo.pdf";
+        $metaInfoPdf = PDF::loadView("FightingSystem.ko-system", ["category" => $this->category])->output();
+        Storage::disk("public")->put($metaInfoPath, $metaInfoPdf);
+        $pdf->addPDF(storage_path("app/public/" . $metaInfoPath), orientation: "P");
+
+        $fightingTreePath = $this->fightingTree->print($this->category->tournament->id, $this->category->id);
+        $pdf->addPDF(storage_path("app/public/" . $fightingTreePath), orientation: "L");
+
+        $consolationTreePath = $this->consolationTree->print($this->category->tournament->id, $this->category->id);
+        $pdf->addPDF(storage_path("app/public/" . $consolationTreePath), orientation: "L");
+
+        $totalPdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";
+        $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
+        return Storage::disk("public")->download($totalPdfPath);
     }
 
     function serialize()
@@ -70,6 +91,6 @@ class BrazilianKOSystem implements FightingSystem {
     {
         $serializedFightingSystem = $this->category->fighting_system_configuration;
         $this->fightingTree = FightingTree::deserialize(clone $this->fighters, $serializedFightingSystem["fightingTree"]);
-        $this->consolationTree = FightingTree::deserialize(clone $this->fighters, $serializedFightingSystem["consolationTree"]);
+        $this->consolationTree = FightingTree::deserialize(new Collection(), $serializedFightingSystem["consolationTree"]);
     }
 }

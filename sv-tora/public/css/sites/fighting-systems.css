@@ -1,0 +1,506 @@
+/*****************************************************************
+           FIGHT-TREES for KO-System, Doppel-KO-System
+ ****************************************************************/
+
+.tree {
+    display: inline-block;
+    padding-top: 2rem;
+    white-space: nowrap;
+}
+
+.tree .column {
+    float: left;
+    position: relative;
+    width: 15em;
+    margin-left: 1em;
+}
+
+.tree .column:nth-child(1) .fight {
+    height: 2em;
+    margin-bottom: 2em;
+}
+
+.tree .column:nth-child(2) {
+    padding-top: 1em;
+}
+
+.tree .column:nth-child(2) .fight {
+    height: 4em;
+    margin-bottom: 4em;
+}
+
+.tree .column:nth-child(3) {
+    padding-top: 2em;
+}
+
+.tree .column:nth-child(3) .fight {
+    height: 8em;
+    margin-bottom: 8em;
+}
+
+.tree .column:nth-child(4) {
+    padding-top: 6em;
+}
+
+.tree .column:nth-child(4) .fight {
+    height: 16em;
+    margin-bottom: 16em;
+}
+
+.tree .column:nth-child(5) {
+    padding-top: 14em;
+}
+
+.tree .column:nth-child(5) .fight {
+    height: 32em;
+    margin-bottom: 32em;
+}
+
+.tree .column:nth-child(6) {
+    padding-top: 30em;
+}
+
+.tree .column:nth-child(6) .fight {
+    height: 64em;
+    margin-bottom: 64em;
+}
+
+.tree .column:nth-child(7) {
+    padding-top: 62em;
+}
+
+.tree .column:nth-child(7) .fight {
+    height: 128em;
+    margin-bottom: 128em;
+}
+
+.tree .column:nth-child(8) {
+    padding-top: 126em;
+}
+
+.tree .column:nth-child(8) .fight {
+    height: 256em;
+    margin-bottom: 256em;
+}
+
+.tree .fight {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 10em;
+    border-right: 0.1em solid white;
+}
+
+.tree .fight:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    width: 1em;
+    height: 0.1em;
+    background-color: white;
+}
+
+.tree .fight.winner {
+    height: 2.5em;
+    border-right: none;
+    margin-top: -1.25em;
+}
+
+.tree .fight.winner:after {
+    display: none;
+}
+
+.tree .fighter {
+    position: absolute;
+    display: inline-block;
+    width: 95%;
+    left: 0;
+    font-size: 1em;
+    padding: 0.25em 0.5em 0.1em 0.75em;
+    border-bottom: 0.1em dashed #A8A8A8;
+    transition: 0.2s ease;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.tree .fighter:hover {
+    font-size: 1.3em;
+}
+
+.tree .fighter.loser {
+    text-decoration: line-through;
+    color: #4A4A4A;
+}
+
+.tree .fighter.winner {
+    color: gold;
+}
+
+.tree .fighter:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(-5% - 0.1em);
+    transform: translateY(-50%);
+    width: 5%;
+    height: 0.1em;
+    background-color: white;
+}
+
+.tree .fight .fighter:nth-of-type(1) {
+    top: -0.75em;
+}
+
+.tree .fight .fighter:nth-of-type(2) {
+    bottom: -0.8em;
+}
+
+.tree .fight.winner .fighter:nth-child(1) {
+    border-color: gold;
+    color: gold;
+    font-weight: bold;
+    font-size: 1.5em;
+    top: 0;
+}
+
+.tree .fight.winner .fighter:after {
+    display: none;
+}
+
+.tree .fight:before {
+    content: attr(data-fight-number);
+    font-size: 1.5em;
+    font-weight: bold;
+    text-shadow: 3px 3px 8px black;
+    position: absolute;
+    top: 50%;
+    right: 0.5em;
+    transform: translateY(-50%);
+}
+
+.fighter.dragging {
+    background-color: var(--theme-color-3);
+    position: absolute;
+    z-index: 100000;
+    transition: none;
+}
+
+/*****************************************************************
+            Tafeln
+ ****************************************************************/
+
+.tafeln {
+    margin: 2em 0;
+    font-size: 1em;
+}
+
+table, th, td {
+    border-collapse: collapse;
+}
+
+.tafeln table {
+    border: 1px solid #9B9B9B;
+    background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+}
+
+.tafeln thead {
+    border-bottom: 3px solid #9B9B9B;
+}
+
+.tafeln th {
+    font-size: 1.5em;
+    padding: 0.25em 1em 0.25em 0.25em;
+    border: 1px solid #9B9B9B;
+    font-style: italic;
+}
+
+.tafeln td {
+    font-size: 1.5em;
+    padding: 0.25em 1em 0.25em 0.25em;
+    border: 1px solid #9B9B9B;
+}
+
+.tafeln .points {
+    min-width: 5em;
+    padding: 0.25em 0;
+    text-align: center;
+}
+
+.tafeln td.points {
+    padding: 0;
+    border: 1px solid #9B9B9B;
+    transition: 0.2s ease;
+}
+
+.tafeln td.points:hover {
+    background-color: rgba(23, 23, 23, 0.8);
+}
+
+.tafeln td.points input {
+    display: inline-block;
+    width: 5em;
+    height: 100%;
+    padding: 0.25em 0.25em;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.tafeln td.points input:focus {
+    border: 1px solid white;
+    box-shadow: 0 0 5px 0 white inset;
+}
+
+.tafeln th:nth-child(8) {
+    border-right: 3px solid #9B9B9B;
+}
+
+.tafeln td:nth-child(8) {
+    border-right: 3px dashed #9B9B9B;
+}
+
+.tafeln th:nth-child(9) {
+    border-right: 3px solid #9B9B9B;
+}
+
+.tafeln td:nth-child(9) {
+    border-right: 3px solid #9B9B9B;
+}
+
+
+
+/*****************************************************************
+            DOG EAT DOG
+ ****************************************************************/
+
+.dog-eat-dog {
+    padding: 2em;
+    font-size: 1em;
+    position: relative;
+}
+
+.dog-eat-dog table {
+    border: 1px solid #9B9B9B;
+    background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+    float: left;
+}
+
+.dog-eat-dog thead {
+    border-bottom: 3px solid #9B9B9B;
+}
+
+.dog-eat-dog th {
+    font-size: 1.5em;
+    padding: 0.25em 1em 0.25em 0.25em;
+    border: 1px solid #9B9B9B;
+    font-style: italic;
+}
+
+.dog-eat-dog td {
+    font-size: 1.5em;
+    padding: 0.25em 1em 0.25em 0.25em;
+    border: 1px solid #9B9B9B;
+}
+
+.dog-eat-dog .points {
+    min-width: 5em;
+    padding: 0.25em 0;
+    text-align: center;
+}
+
+.dog-eat-dog td.points {
+    padding: 0;
+    border: 1px solid #9B9B9B;
+    transition: 0.2s ease;
+}
+
+.dog-eat-dog td.points:hover {
+    background-color: rgba(23, 23, 23, 0.8);
+}
+
+.dog-eat-dog td.points input {
+    display: inline-block;
+    width: 7.5em;
+    height: 100%;
+    padding: 0.25em 0.25em;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.dog-eat-dog td.points input:focus {
+    border: 1px solid white;
+    box-shadow: 0px 0px 5px 0 white inset;
+}
+
+.dog-eat-dog .fight-order {
+    font-size: 1em;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.dog-eat-dog .fight {
+    margin-bottom: 1em;
+    position: relative;
+    transition: 0.2s ease;
+    padding-top: 2em;
+}
+
+.dog-eat-dog .fight:hover {
+    background: rgba(23, 23, 23, 0.75);
+}
+
+.dog-eat-dog .fighter {
+    border-bottom: 2px dashed #9B9B9B;
+    color: white;
+    padding: 0 0.5em 0.1em 0.5em;
+    width: 40%;
+    display: inline-block;
+    transition: 0.2s ease;
+}
+
+.dog-eat-dog .fight:hover .fighter {
+    border-color: white;
+}
+
+.dog-eat-dog .fighter.first {
+    text-align: right;
+    margin-right: 1em;
+}
+
+.dog-eat-dog .fighter.second {
+    text-align: left;
+}
+
+.dog-eat-dog .number {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0.25em;
+    font-weight: bold;
+    font-style: italic;
+    border-radius: 50%;
+    background-color: rgba(61, 118, 225, 0.5);
+    text-align: center;
+    width: 1.75em;
+    height: 1.75em;
+    line-height: 1.75;
+    transition: 0.2s ease;
+}
+
+.dog-eat-dog .fight:hover .number {
+    background-color: var(--accent-color-1-light);
+}
+
+.dog-eat-dog .number:after {
+    content: ':';
+    position: absolute;
+    top: 1.5em;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 900;
+    font-style: normal;
+}
+
+.dog-eat-dog .square {
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid black;
+}
+
+.dog-eat-dog .square.first {
+    margin-right: 0.5rem;
+}
+
+.dog-eat-dog .square.second {
+    margin-left: 0.5rem;
+}
+
+
+/*****************************************************************
+            WINNERS
+ ****************************************************************/
+
+.winners {
+    width: 20em;
+    font-size: 1em;
+    margin-left: 2.5em;
+}
+
+.winners > span {
+    font-size: 1.5em;
+    display: inline-block;
+    width: 100%;
+    padding-left: 0.5em;
+    padding-bottom: 0.15em;
+    border-bottom: 2px dashed white;
+    margin: 0.5em 0;
+    position: relative;
+}
+
+.winners > span:before {
+    position: absolute;
+    left: -1.5em;
+    top: 0;
+}
+
+.winners .first {
+    color: gold;
+    border-color: gold;
+}
+
+.winners .first:before {
+    content: '1.';
+}
+
+.winners .second {
+    color: silver;
+    border-color: silver;
+}
+
+.winners .second:before {
+    content: '2.';
+}
+
+.winners .third {
+    color: #CD7F32;
+    border-color: #CD7F32;
+}
+
+.winners .third:before {
+    content: '3.';
+}
+
+.winners .origin {
+    position: absolute;
+    color: #9B9B9B;
+    font-size: 0.75em;
+    top: 50%;
+    transform: translateY(-50%);
+    left: calc(100% + 0.5em);
+    width: 13em;
+}
+
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}

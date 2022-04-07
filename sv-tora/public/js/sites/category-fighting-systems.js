@@ -58,7 +58,6 @@
             }
 
             if (target.classList.contains("bar-content")) {
-                e.preventDefault();
                 This.handleContentClick(originalTarget);
             }
         });
@@ -78,9 +77,7 @@
 
             if (target.classList.contains("print")) {
                 let url = target.getAttribute("href");
-                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.GET, url, (response) => {
-                    console.log(response);
-                }, undefined, true);
+                window.open(url, "_blank");
             }
 
             if (target.classList.contains("edit-fighting-system")) {

@@ -4,8 +4,11 @@ namespace App\Helper\FightingSystems;
 
 use App\Helper\GeneralHelper;
 use App\Models\Category;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Clegginabox\PDFMerger\PDFMerger;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DoubleKOSystemWithFinalTables implements FightingSystem {
 
@@ -43,7 +46,7 @@ class DoubleKOSystemWithFinalTables implements FightingSystem {
 
     function editConfig()
     {
-        return $this->fightingTree->editFightingTreeConfig() . view("FightingSystem.tables", ["numberReferees" => $this->numberReferees, "id" => GeneralHelper::uniqueRandomIdentifier()])->render();
+        return $this->fightingTree->editFightingTreeConfig() . view("FightingSystem.edit-tables", ["numberReferees" => $this->numberReferees, "id" => GeneralHelper::uniqueRandomIdentifier()])->render();
     }
 
     function updateConfig(Request $request)
@@ -57,7 +60,27 @@ class DoubleKOSystemWithFinalTables implements FightingSystem {
 
     function print()
     {
-        // TODO: Implement print() method.
+        $pdf = new PDFMerger();
+
+        $metaInfoPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/metaInfo.pdf";
+        $metaInfoPdf = PDF::loadView("FightingSystem.ko-system", ["category" => $this->category])->output();
+        Storage::disk("public")->put($metaInfoPath, $metaInfoPdf);
+        $pdf->addPDF(storage_path("app/public/" . $metaInfoPath), orientation: "P");
+
+        $fightingTreePath = $this->fightingTree->print($this->category->tournament->id, $this->category->id, false, true);
+        $pdf->addPDF(storage_path("app/public/" . $fightingTreePath), orientation: "L");
+
+        $consolationTreePath = $this->consolationTree->print($this->category->tournament->id, $this->category->id, false, true);
+        $pdf->addPDF(storage_path("app/public/" . $consolationTreePath), orientation: "L");
+
+        $tablesPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/table.pdf";
+        $tablesPdf = PDF::loadView("FightingSystem.final-round-tables", ["category" => $this->category, "numberReferees" => $this->numberReferees, "onlyFightingSystem" => true])->output();
+        Storage::disk("public")->put($tablesPath, $tablesPdf);
+        $pdf->addPDF(storage_path("app/public/" . $tablesPath), orientation: "P");
+
+        $totalPdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";
+        $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
+        return Storage::disk("public")->download($totalPdfPath);
     }
 
     function serialize()
@@ -74,7 +97,7 @@ class DoubleKOSystemWithFinalTables implements FightingSystem {
     {
         $serializedFightingSystem = $this->category->fighting_system_configuration;
         $this->fightingTree = FightingTree::deserialize(clone $this->fighters, $serializedFightingSystem["fightingTree"]);
-        $this->consolationTree = FightingTree::deserialize(clone $this->fighters, $serializedFightingSystem["consolationTree"]);
+        $this->consolationTree = FightingTree::deserialize(new Collection(), $serializedFightingSystem["consolationTree"]);
         $this->numberReferees = $serializedFightingSystem["numberReferees"];
     }
 }

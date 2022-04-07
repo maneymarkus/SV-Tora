@@ -65,7 +65,8 @@ class FightingSystemController extends Controller
         if (!$category->prepared) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das Kampfsystem dieser Kategorie (" . $category->name  . ") kann nicht angepasst werden, da noch gar kein Kampfsystem zugewiesen wurde.");
         }
-        return response()->json(["print"]);
+        $fightingSystem = $category->getFightingSystem();
+        return $fightingSystem->print();
     }
 
     /**

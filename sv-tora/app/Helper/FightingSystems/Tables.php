@@ -4,7 +4,9 @@ namespace App\Helper\FightingSystems;
 
 use App\Helper\GeneralHelper;
 use App\Models\Category;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class Tables implements FightingSystem {
 
@@ -32,7 +34,7 @@ class Tables implements FightingSystem {
 
     function editConfig()
     {
-        return view("FightingSystem.tables", ["numberReferees" => $this->numberReferees, "id" => GeneralHelper::uniqueRandomIdentifier()])->render();
+        return view("FightingSystem.edit-tables", ["numberReferees" => $this->numberReferees, "id" => GeneralHelper::uniqueRandomIdentifier()])->render();
     }
 
     function updateConfig(Request $request)
@@ -45,7 +47,8 @@ class Tables implements FightingSystem {
 
     function print()
     {
-        // TODO: Implement print() method.
+        $pdf = Pdf::loadView("FightingSystem.tables", ["category" => $this->category, "numberReferees" => $this->numberReferees, "id" => GeneralHelper::uniqueRandomIdentifier()]);
+        return $pdf->download("Kampfsystem Kategorie " . $this->category->name . ".pdf");
     }
 
     function serialize()

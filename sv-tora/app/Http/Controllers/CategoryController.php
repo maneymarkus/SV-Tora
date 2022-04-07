@@ -164,14 +164,14 @@ class CategoryController extends Controller
 
         # create directories and set save path
         $fileName = "Kategorie -" . $category->name . "- Teilnehmer.pdf";
-        $savePath = base_path() . "/storage/app/public/Wettkampf_ID_" . $tournament->id . "/" . $fileName;
+        $savePath = base_path() . "/storage/app/public/tournaments/" . $tournament->id . "/categories/" . $category->id . $fileName;
         if (!is_dir(pathinfo($savePath, PATHINFO_DIRNAME))) {
             mkdir(pathinfo($savePath, PATHINFO_DIRNAME), 0777, true);
         }
 
         $writer = new Mpdf($spreadsheet);
         $writer->save($savePath);
-        return Storage::download("/public/Wettkampf_ID_" . $tournament->id . "/" . $fileName);
+        return Storage::download("/public/tournaments/" . $tournament->id . "/categories/" . $category->id . $fileName);
     }
 
 
