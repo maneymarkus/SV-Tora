@@ -18,6 +18,43 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
+
+            .link-container {
+                justify-content: center;
+            }
+
+            a.link {
+                color: #3d76e1;
+                text-decoration: none;
+                transition: 0.2s ease;
+                padding-top: 1rem;
+                position: relative;
+                cursor: pointer;
+                font-size: 1.25rem;
+            }
+
+            a.link:after {
+                content: '';
+                position: absolute;
+                height: 2px;
+                background-color: #2699FB;
+                width: 0;
+                bottom: 0;
+                right: 0;
+                transition: 0.2s ease;
+                transition-delay: 0.2s;
+            }
+
+            a.link:hover,
+            a.link:focus {
+                color: #2699FB;
+            }
+
+            a.link:hover:after,
+            a.link:focus:after {
+                left: 0;
+                width: 100%;
+            }
         </style>
     </head>
     <body class="antialiased">
@@ -31,6 +68,9 @@
                     <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider">
                         @yield('message')
                     </div>
+                </div>
+                <div class="link-container flex">
+                    <a class="link" href="{{ url("/dashboard") }}">Zurück zum Dashboard</a>
                 </div>
             </div>
         </div>
