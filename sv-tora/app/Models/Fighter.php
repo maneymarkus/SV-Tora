@@ -26,8 +26,18 @@ class Fighter extends Model
         "person_id",
     ];
 
-    public function age() {
-        return Carbon::parse($this->birthdate)->age;
+    /**
+     *  Calculates the age of this fighter. If a $date is given, calculates the age at this specific date
+     *
+     * @param Carbon|null $date
+     * @return int
+     */
+    public function age(Carbon $date = null) {
+        if ($date === null) {
+            $date = Carbon::today();
+        }
+        $birthdate = Carbon::parse($this->birthdate);
+        return $birthdate->diffInYears($date);
     }
 
     public function person() {

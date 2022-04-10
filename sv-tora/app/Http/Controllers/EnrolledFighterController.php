@@ -234,7 +234,8 @@ class EnrolledFighterController extends Controller
         foreach($request["Disziplin"] as $examinationType => $enrollmentChoice) {
             if ($enrollmentChoice == "1") {
                 $atLeastOneParticipation = true;
-                $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType);
+                $tournamentDate = Carbon::parse($tournament->date);
+                $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType, $tournamentDate);
                 if (is_array($categories)) {
                     $categoryName = $categories[$request["Kategorie"][$examinationType . " Kategorie"]];
                 } else {

@@ -156,13 +156,17 @@ class GeneralHelper
      * @return string|array
      * @throws Exception
      */
-    public static function determineCategoryOfFighter(Fighter $fighter, string $discipline) {
+    public static function determineCategoryOfFighter(Fighter $fighter, string $discipline, Carbon $date = null) {
+        if ($date === null) {
+            $date = Carbon::today();
+        }
+
         if (!in_array($discipline, config("tournament.examination_types"))) {
             throw new Exception("Diese Disziplin \"" . $discipline . "\" existiert nicht.");
         }
         $categoryReference = config("tournament.category_reference");
         $graduation = str_replace(" ", "", $fighter->graduation);
-        $age = $fighter->age();
+        $age = $fighter->age($date);
         $sex = $fighter->sex;
         if ($sex === "m/w") {
             $sex = "m";
