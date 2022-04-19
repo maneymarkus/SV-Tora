@@ -38,7 +38,7 @@ class KOSystemWithFinalTables implements FightingSystem {
     {
         $this->fightingTree = new FightingTree(clone $this->fighters, false);
         $this->fightingTree->initializeFightingTree();
-        $this->numberReferees = 7;
+        $this->numberReferees = 5;
     }
 
     function editConfig()
@@ -65,7 +65,7 @@ class KOSystemWithFinalTables implements FightingSystem {
         $pdf->addPDF(storage_path("app/public/" . $metaInfoPath), orientation: "P");
 
         $fightingTreePath = $this->fightingTree->print($this->category->tournament->id, $this->category->id, false);
-        $pdf->addPDF(storage_path("app/public/" . $fightingTreePath), orientation: "L");
+        $pdf->addPDF($fightingTreePath, orientation: "L");
 
         $tablesPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/table.pdf";
         $tablesPdf = PDF::loadView("FightingSystem.final-round-tables", ["category" => $this->category, "numberReferees" => $this->numberReferees, "onlyFightingSystem" => true])->output();

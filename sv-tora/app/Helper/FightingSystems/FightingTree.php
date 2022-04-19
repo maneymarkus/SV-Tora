@@ -26,7 +26,7 @@ class FightingTree
     // a 2-dimensional array that has a shape of: [$numberLevels][$numberFightsOfLevel]
     public array $fights;
 
-    public function __construct(Collection|int $fighters, public bool $isConsolation = false)
+    public function __construct(Collection|int $fighters, public bool $isConsolation = false, public int $startFightNumber = 1)
     {
         if ($fighters instanceof Collection) {
             $this->fighters = $fighters;
@@ -35,7 +35,6 @@ class FightingTree
             $this->numberFighters = $fighters;
             $this->fighters = new Collection();
         }
-        Log::info($this->numberFighters);
 
         $this->numberFights = $this->numberFighters - 1;
         $this->numberLevels = (int) floor(log($this->numberFighters) / log(2));
@@ -62,7 +61,8 @@ class FightingTree
             if (count($fighters) > 0) {
                 $fighter2 = $fighters->shift();
             }
-            $fight = new Fight($fighter1, $fighter2, $i + 1);
+            $fightNumber = $this->startFightNumber + $i;
+            $fight = new Fight($fighter1, $fighter2, $fightNumber);
             $fights[$currentLevel][] = $fight;
             $nodeNumber--;
             $currentLevel = floor(log($nodeNumber) / log(2));
@@ -106,22 +106,38 @@ class FightingTree
         return view("FightingSystem.edit-fighting-tree", ["fights" => $this->fights, "marginTopForFirstPreFight" => $marginTopForFirstPreFight])->render();
     }
 
+    /**
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
     function print(int $tournamentId, int $categoryId, bool $isFinal = true, bool $doubleKo = false) {
-        $spreadsheet = WriteSpreadsheet::writeTree($this->fights, $isFinal, $this->isConsolation, $doubleKo);
-
-        $spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
-        $spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
-        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToPage(true);
-        $tmpResource = tmpfile();
-        $writer = new Mpdf($spreadsheet);
-        $writer->save($tmpResource);
+        $printFights = $this->fights;
+        if (!$isFinal) {
+            if ($this->isConsolation) {
+                array_pop($printFights);
+            }
+            if (!$this->isConsolation && $doubleKo) {
+                array_pop($printFights);
+            }
+            if (!$this->isConsolation && !$doubleKo) {
+                array_pop($printFights);
+                array_pop($printFights);
+            }
+        }
+        // heading
+        $heading = "Kampfbaum";
+        if ($this->isConsolation) {
+            $heading = "Trostrunde";
+        }
+        $preFightOffset = WriteSpreadsheet::calculateOffsetOfPrefights($this->fights);
+        $spreadsheet = WriteSpreadsheet::writeTree($printFights, $heading, $preFightOffset);
 
         $fileName = "fightingTree.pdf";
         if ($this->isConsolation) {
             $fileName = "consolationTree.pdf";
         }
-        $path = "tournaments/" . $tournamentId . "/categories/" . $categoryId . "/" . $fileName;
-        Storage::disk("public")->put($path, $tmpResource);
+        $path = storage_path("app/public/tournaments/" . $tournamentId . "/categories/" . $categoryId . "/" . $fileName);
+
+        WriteSpreadsheet::saveSpreadsheet($spreadsheet, $path);
         return $path;
     }
 

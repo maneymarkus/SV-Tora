@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class KOSystem implements FightingSystem {
 
     public FightingTree $fightingTree;
+    public Fight $fightForThird;
     private Collection $fighters;
 
     public function __construct(protected Category $category)
@@ -37,6 +39,7 @@ class KOSystem implements FightingSystem {
     {
         $this->fightingTree = new FightingTree(clone $this->fighters, false);
         $this->fightingTree->initializeFightingTree();
+        $this->fightingTree->fights[count($this->fightingTree->fights) - 1][0]->fightNumber++;
     }
 
     function editConfig()
@@ -57,7 +60,6 @@ class KOSystem implements FightingSystem {
      */
     function print()
     {
-
         $pdf = new PDFMerger();
 
         $metaInfoPath = "tournaments/" . $this->category->tournament->id . "/category/" . $this->category->id . "/metaInfo.pdf";
@@ -66,7 +68,18 @@ class KOSystem implements FightingSystem {
         $pdf->addPDF(storage_path("app/public/" . $metaInfoPath), orientation: "P");
 
         $fightingTreePath = $this->fightingTree->print($this->category->tournament->id, $this->category->id);
-        $pdf->addPDF(storage_path("app/public/" . $fightingTreePath), orientation: "L");
+        $pdf->addPDF($fightingTreePath, orientation: "L");
+
+        if ($this->fighters->count() > 3) {
+            $extraFights = new Spreadsheet();
+            WriteSpreadsheet::setHeading($extraFights, "Kampf um Platz 3");
+            $fightForThird = new Fight(fightNumber: $this->fightingTree->numberFights);
+            $loserFromFirstFight = $this->fightingTree->fights[count($this->fightingTree->fights) - 2][0]->fightNumber;
+            WriteSpreadsheet::writeFight($extraFights, 1, 3, $fightForThird, 5, "Verlierer aus Kampf " . $loserFromFirstFight, "Verlierer aus Kampf " . $loserFromFirstFight + 1);
+            $extraFightsPath = storage_path("app/public/tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/" . "extraFights.pdf");
+            WriteSpreadsheet::saveSpreadsheet($extraFights, $extraFightsPath);
+            $pdf->addPDF($extraFightsPath, orientation: "L");
+        }
 
         $totalPdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";
         $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));

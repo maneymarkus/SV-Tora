@@ -324,7 +324,7 @@ return [
         ],
         "double-ko-system" => [
             "name" => "Doppel-KO-System",
-            "min_fighters" => 2,
+            "min_fighters" => 6,
             "max_fighters" => 64,
         ],
         "tables" => [
@@ -339,7 +339,7 @@ return [
         ],
         "double-ko-system-with-final-tables" => [
             "name" => "Doppel-KO-System mit finalen Tafeln",
-            "min_fighters" => 8,
+            "min_fighters" => 6,
             "max_fighters" => 64,
         ],
         "brazlian-ko-system" => [

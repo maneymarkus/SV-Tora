@@ -29,7 +29,7 @@ class Tables implements FightingSystem {
 
     function initialize()
     {
-        $this->numberReferees = 7;
+        $this->numberReferees = 5;
     }
 
     function editConfig()

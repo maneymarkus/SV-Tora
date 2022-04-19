@@ -68,10 +68,10 @@ class DoubleKOSystem implements FightingSystem {
         $pdf->addPDF(storage_path("app/public/" . $metaInfoPath), orientation: "P");
 
         $fightingTreePath = $this->fightingTree->print($this->category->tournament->id, $this->category->id);
-        $pdf->addPDF(storage_path("app/public/" . $fightingTreePath), orientation: "L");
+        $pdf->addPDF($fightingTreePath, orientation: "L");
 
         $consolationTreePath = $this->consolationTree->print($this->category->tournament->id, $this->category->id);
-        $pdf->addPDF(storage_path("app/public/" . $consolationTreePath), orientation: "L");
+        $pdf->addPDF($consolationTreePath, orientation: "L");
 
         $totalPdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";
         $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
