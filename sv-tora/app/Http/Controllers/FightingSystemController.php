@@ -7,15 +7,18 @@ use App\Helper\NotificationTypes;
 use App\Models\Category;
 use App\Models\FightingSystem;
 use App\Models\Tournament;
+use Clegginabox\PDFMerger\PDFMerger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class FightingSystemController extends Controller
 {
 
     public function index(Tournament $tournament)
     {
-        return response()->view("Tournament.category-fighting-systems", ["tournament" => $tournament]);
+        $printAllFightingSystemsUrl = url("/tournaments/" . $tournament->id . "/categories/fighting-systems/print-all");
+        return response()->view("Tournament.category-fighting-systems", ["tournament" => $tournament, "printAllFightingSystemsUrl" => $printAllFightingSystemsUrl]);
     }
 
     public function assignFightingSystem(Request $request, Tournament $tournament, Category $category) {
@@ -66,7 +69,23 @@ class FightingSystemController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das Kampfsystem dieser Kategorie (" . $category->name  . ") kann nicht angepasst werden, da noch gar kein Kampfsystem zugewiesen wurde.");
         }
         $fightingSystem = $category->getFightingSystem();
-        return $fightingSystem->print();
+        $pdfPath = $fightingSystem->print();
+        return Storage::disk("public")->download($pdfPath);
+    }
+
+    public function printAllFightingSystems(Tournament $tournament) {
+        $pdf = new PDFMerger();
+        foreach ($tournament->categories()->orderBy("name")->get() as $category) {
+            if (!$category->prepared) {
+                continue;
+            }
+            $fightingSystem = $category->getFightingSystem();
+            $pdfPath = storage_path("app/public/" . $fightingSystem->print());
+            $pdf->addPDF($pdfPath);
+        }
+        $totalPdfPath = "tournaments/" . $tournament->id . "/categories/AlleKampfSysteme.pdf";
+        $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
+        return Storage::disk("public")->download($totalPdfPath);
     }
 
     /**

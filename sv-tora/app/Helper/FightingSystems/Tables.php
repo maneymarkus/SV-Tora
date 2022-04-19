@@ -48,7 +48,9 @@ class Tables implements FightingSystem {
     function print()
     {
         $pdf = Pdf::loadView("FightingSystem.tables", ["category" => $this->category, "numberReferees" => $this->numberReferees, "id" => GeneralHelper::uniqueRandomIdentifier()]);
-        return $pdf->download("Kampfsystem Kategorie " . $this->category->name . ".pdf");
+        $pdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";;
+        $pdf->save(storage_path("app/public/" . $pdfPath));
+        return $pdfPath;
     }
 
     function serialize()

@@ -81,7 +81,9 @@ class DogEatDog implements FightingSystem {
     function print()
     {
         $pdf = Pdf::loadView("FightingSystem.dog-eat-dog", ["category" => $this->category, "fights" => $this->fights]);
-        return $pdf->download("Kampfsystem Kategorie " . $this->category->name . ".pdf");
+        $pdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";;
+        $pdf->save(storage_path("app/public/" . $pdfPath));
+        return $pdfPath;
     }
 
     function serialize()

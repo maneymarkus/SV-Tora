@@ -12,6 +12,7 @@ use App\Models\FightingSystem;
 use App\Models\Team;
 use App\Models\Tournament;
 use Carbon\Carbon;
+use Clegginabox\PDFMerger\PDFMerger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -33,7 +34,8 @@ class CategoryController extends Controller
         if (Carbon::today() >= Carbon::parse($tournament->enrollment_start) && Carbon::today() <= Carbon::parse($tournament->enrollment_end)) {
             $enrollmentActive = true;
         }
-        return response()->view("Tournament.category-administration", ["tournament" => $tournament, "enrollmentActive" => $enrollmentActive]);
+        $printAllCategoriesUrl = url("/tournaments/" . $tournament->id . "/categories/print");
+        return response()->view("Tournament.category-administration", ["tournament" => $tournament, "enrollmentActive" => $enrollmentActive, "printAllCategoriesUrl" => $printAllCategoriesUrl]);
     }
 
     /**
@@ -103,13 +105,7 @@ class CategoryController extends Controller
     }
 
 
-    /**
-     * This function generates a printable PDF containing the category metadata and members
-     *
-     * @param Category $category
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     */
-    public function printCategory(Tournament $tournament, Category $category) {
+    public function generateCategoryPdf(Tournament $tournament, Category $category) {
         if ($category->fighters->count() > 0) {
             $spreadsheetPath = base_path() . "/storage/app/public/categories/Kategorie_Teilnehmer_Kämpfer.xlsx";
         } else {
@@ -163,7 +159,7 @@ class CategoryController extends Controller
         $sheet->setCellValue("J6", $counter);
 
         # create directories and set save path
-        $fileName = "Kategorie -" . $category->name . "- Teilnehmer.pdf";
+        $fileName = "Kategorie - " . $category->name . " - Teilnehmer.pdf";
         $savePath = base_path() . "/storage/app/public/tournaments/" . $tournament->id . "/categories/" . $category->id . "/". $fileName;
         if (!is_dir(pathinfo($savePath, PATHINFO_DIRNAME))) {
             mkdir(pathinfo($savePath, PATHINFO_DIRNAME), 0777, true);
@@ -171,7 +167,36 @@ class CategoryController extends Controller
 
         $writer = new Mpdf($spreadsheet);
         $writer->save($savePath);
-        return Storage::download("/public/tournaments/" . $tournament->id . "/categories/" . $category->id . $fileName);
+    }
+
+
+    /**
+     * This function generates a printable PDF containing the category metadata and members
+     *
+     * @param Category $category
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function printCategory(Tournament $tournament, Category $category) {
+        self::generateCategoryPdf($tournament, $category);
+        $fileName = "Kategorie - " . $category->name . " - Teilnehmer.pdf";
+        return Storage::download("/public/tournaments/" . $tournament->id . "/categories/" . $category->id . "/" . $fileName);
+    }
+
+
+    public function printAllCategories(Tournament $tournament) {
+        $pdf = new PDFMerger();
+        foreach ($tournament->categories()->orderBy("name")->get() as $category) {
+            if ($category->fighters->count() > 0) {
+                self::generateCategoryPdf($tournament, $category);
+                $fileName = "Kategorie - " . $category->name . " - Teilnehmer.pdf";
+                $pdfPath = storage_path("app/public/tournaments/" . $tournament->id . "/categories/" . $category->id . "/". $fileName);
+                $pdf->addPDF($pdfPath, orientation: "P");
+            }
+        }
+
+        $totalPdfPath = "tournaments/" . $tournament->id . "/categories/AlleKategorien.pdf";
+        $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
+        return Storage::disk("public")->download($totalPdfPath);
     }
 
 

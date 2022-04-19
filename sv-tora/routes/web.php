@@ -288,6 +288,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
             return view("Tournament.split-category");
         });
         Route::post("/tournaments/{tournament}/categories/{category}/name", [CategoryController::class, "updateName"]);
+        Route::get("/tournaments/{tournament}/categories/print", [CategoryController::class, "printAllCategories"]);
         Route::get("/tournaments/{tournament}/categories/{category}/print", [CategoryController::class, "printCategory"]);
         Route::get("/tournaments/{tournament}/categories/{category}/split", [CategoryController::class, "prepareSplittingCategory"]);
         Route::post("/tournaments/{tournament}/categories/{category}/split", [CategoryController::class, "splitCategory"]);
@@ -300,6 +301,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         Route::delete("/tournaments/{tournament}/categories/{category}/teams/{enrolled_team}", [CategoryController::class, "removeTeam"]);
 
         Route::get("/tournaments/{tournament}/categories/fighting-systems", [FightingSystemController::class, "index"]);
+        Route::get("/tournaments/{tournament}/categories/fighting-systems/print-all", [FightingSystemController::class, "printAllFightingSystems"]);
         Route::post("/tournaments/{tournament}/categories/{category}/fighting-system/assign", [FightingSystemController::class, "assignFightingSystem"]);
         Route::get("/tournaments/{tournament}/categories/{category}/fighting-system/print", [FightingSystemController::class, "printCategoryFightingSystem"]);
         Route::get("/tournaments/{tournament}/categories/{category}/fighting-system/edit", [FightingSystemController::class, "editCategoryFightingSystem"]);

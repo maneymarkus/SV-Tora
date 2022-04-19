@@ -74,7 +74,7 @@ class KOSystemWithFinalTables implements FightingSystem {
 
         $totalPdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";
         $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
-        return Storage::disk("public")->download($totalPdfPath);
+        return $totalPdfPath;
     }
 
     function serialize()

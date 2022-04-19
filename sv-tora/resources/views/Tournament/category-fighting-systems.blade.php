@@ -18,6 +18,9 @@
         <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
 
         <h1>Kampfsysteme der Kategorien</h1>
+        <div style="text-align: right">
+            <x-primary-button target="_blank" class="print-all" href="{{ $printAllFightingSystemsUrl }}" icon-name="print" text="Alle Kategorien drucken"></x-primary-button>
+        </div>
 
         @if($tournament->tournamentTemplate->kihon)
             <h3 class="subheading">Kihon</h3>

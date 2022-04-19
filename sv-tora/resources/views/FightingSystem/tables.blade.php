@@ -76,16 +76,29 @@
         </tr>
         </thead>
         <tbody>
-        @for($i = 0; $i < 4; $i++)
-            <tr>
-                <td style="min-width: 10rem;"></td>
-                @for($r = 0; $r < $numberReferees; $r++)
-                    <td>&nbsp;</td>
-                @endfor
-                <td></td>
-                <td></td>
-            </tr>
-        @endfor
+        @if($category->fighters->count() <= 4)
+            @foreach($category->fighters as $enrolledFighter)
+                <tr>
+                    <td>{{ $enrolledFighter->fighter->person->fullName() }}</td>
+                    @for($i = 0; $i < $numberReferees; $i++)
+                        <td></td>
+                    @endfor
+                    <td></td>
+                    <td></td>
+                </tr>
+            @endforeach
+        @else
+            @for($i = 0; $i < 4; $i++)
+                <tr>
+                    <td style="min-width: 10rem;"></td>
+                    @for($r = 0; $r < $numberReferees; $r++)
+                        <td>&nbsp;</td>
+                    @endfor
+                    <td></td>
+                    <td></td>
+                </tr>
+            @endfor
+        @endif
         </tbody>
     </table>
 
