@@ -53,7 +53,12 @@
         <tr>
             @if($selectable)
                 <th>
-                    <span class="column-heading no-sort">Auswählen</span>
+                    <span class="column-heading no-sort">
+                        <label class="checkbox-input-container select-all" style="width: 100%; height: 100%;">
+                            <input type="checkbox" />
+                            <span class="checkmark" style="top: 50%; left: 50%; transform: translateY(-50%); font-size: 1.25em"></span>
+                        </label>
+                    </span>
                 </th>
             @endif
             @foreach($columns as $column)

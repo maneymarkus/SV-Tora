@@ -170,7 +170,7 @@ class TeamController extends Controller
             array_push($rows, $row);
         }
 
-        return view("Entities.team-members", ["teamName" => $team->name, "columns" => Fighter::tableHeadings(), "rows" => $rows, "addEntityUrl" => url("/entities/teams/" . $team->id . "/fighters")]);
+        return view("Entities.team-members", ["teamName" => $team->name, "columns" => Fighter::tableHeadings(), "rows" => $rows, "addEntityUrl" => url("/entities/teams/" . $team->id . "/fighters"), "backUrl" => url("/entities/teams/")]);
     }
 
     public function addFighters(Team $team) {

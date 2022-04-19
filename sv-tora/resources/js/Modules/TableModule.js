@@ -209,7 +209,7 @@ let Table = function(table) {
      */
     this.tableElement.addEventListener("click", function (e) {
         let target = e.target;
-        while (target.nodeName !== "BODY" && !target.classList.contains("sort")  && !target.classList.contains("edit") && !target.classList.contains("delete") && !target.classList.contains("select-row")) {
+        while (target.nodeName !== "BODY" && !target.classList.contains("sort")  && !target.classList.contains("edit") && !target.classList.contains("delete") && !target.classList.contains("select-row") && !target.classList.contains("select-all")) {
             target = target.parentElement;
         }
         if (target.nodeName === "BODY") {
@@ -249,6 +249,15 @@ let Table = function(table) {
             return;
         }
 
+        if (target.classList.contains("select-all")) {
+            // Somehow this is necessary as without this the handler will react to two click events
+            e.preventDefault();
+            let checkBox = target.querySelector(".checkbox-input-container input");
+            checkBox.checked = !checkBox.checked;
+            This.handleAllSelection();
+            return;
+        }
+
         // Determine which row has been clicked on
         let clickedRow = target;
         while (clickedRow.nodeName !== "TR") {
@@ -275,7 +284,7 @@ let Table = function(table) {
 
         // Select a table row
         if (target.classList.contains("select-row")) {
-            // Somehow this is necessary as without this this handler will react to two click events
+            // Somehow this is necessary as without this the handler will react to two click events
             e.preventDefault();
             let rowObject = This.getRowObject(clickedRow);
             This.handleSelection(rowObject);
@@ -284,6 +293,22 @@ let Table = function(table) {
 
     });
 
+    this.handleAllSelection = function () {
+        let allSelect = !This.tableHeader.querySelector(".checkbox-input-container.select-all input").checked;
+        let selectableTrs = This.tableBody.querySelectorAll("tr:not(.no-display)");
+        let selectedI = 0;
+        selectableTrs.forEach(selectableTr => {
+            if (selectedI++ >= This.selectLimit) {
+                return;
+            }
+            let checkBox = selectableTr.querySelector(".checkbox-input-container.select-row input");
+            if (checkBox.checked === allSelect) {
+                let rowObject = This.getRowObject(selectableTr);
+                This.handleSelection(rowObject);
+            }
+        });
+    }
+
     this.handleSelection = function (rowObject) {
         let checkBox = rowObject.tr.querySelector(".checkbox-input-container.select-row input");
         if (checkBox.checked) {
@@ -291,6 +316,9 @@ let Table = function(table) {
             rowObject.tr.classList.remove("selected");
             if (This.selectedRows.includes(rowObject)) {
                 This.selectedRows.splice(This.selectedRows.indexOf(rowObject), 1);
+            }
+            if (This.tableHeader.querySelector(".checkbox-input-container.select-all input").checked) {
+                This.tableHeader.querySelector(".checkbox-input-container.select-all input").checked = false;
             }
         } else {
             // check if it is allowed to add more items
@@ -302,6 +330,9 @@ let Table = function(table) {
                 rowObject.tr.classList.add("selected");
                 if (!This.selectedRows.includes(rowObject)) {
                     This.selectedRows.push(rowObject);
+                }
+                if (This.selectedRows.length === This.tableBody.querySelectorAll("tr:not(.no-display)").length) {
+                    This.tableHeader.querySelector(".checkbox-input-container.select-all input").checked = true;
                 }
             }
         }
