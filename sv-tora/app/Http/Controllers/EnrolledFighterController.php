@@ -380,10 +380,11 @@ class EnrolledFighterController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der gegebene Kämpfer existiert nicht und kann daher nicht vom Wettkampf entfernt werden.");
         }
         $personName = $enrolledFighter->fighter->person->fullName();
-        foreach($enrolledFighter->categories as $enrolledCategory) {
-            app(FightingSystemController::class)->reinitializeFightingSystem($enrolledCategory);
-        }
+        $affectedCategories = $enrolledFighter->categories;
         if ($enrolledFighter->delete()) {
+            foreach($affectedCategories as $affectedCategory) {
+                app(FightingSystemController::class)->reinitializeFightingSystem($affectedCategory);
+            }
             return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer mit dem Namen \"" . $personName . "\" wurde erfolgreich vom Wettkampf abgemeldet.");
         } else {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte der Kämpfer mit dem Namen \"" . $personName . "\" nicht vom Wettkampf abgemeldet werden.");

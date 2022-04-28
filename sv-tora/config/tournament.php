@@ -315,7 +315,7 @@ return [
         "dog-eats-dog" => [
             "name" => "Jeder-Gegen-Jeden",
             "min_fighters" => 2,
-            "max_fighters" => 5,
+            "max_fighters" => 6,
         ],
         "ko-system" => [
             "name" => "KO-System",
@@ -324,7 +324,7 @@ return [
         ],
         "double-ko-system" => [
             "name" => "Doppel-KO-System",
-            "min_fighters" => 6,
+            "min_fighters" => 4,
             "max_fighters" => 64,
         ],
         "tables" => [
@@ -339,10 +339,10 @@ return [
         ],
         "double-ko-system-with-final-tables" => [
             "name" => "Doppel-KO-System mit finalen Tafeln",
-            "min_fighters" => 6,
+            "min_fighters" => 8,
             "max_fighters" => 64,
         ],
-        "brazlian-ko-system" => [
+        "brazilian-ko-system" => [
             "name" => "Brasilianisches KO-System",
             "min_fighters" => 4,
             "max_fighters" => 64,

@@ -73,9 +73,9 @@ class KOSystem implements FightingSystem {
         if ($this->fighters->count() > 3) {
             $extraFights = new Spreadsheet();
             WriteSpreadsheet::setHeading($extraFights, "Kampf um Platz 3");
-            $fightForThird = new Fight(fightNumber: $this->fightingTree->numberFights);
             $loserFromFirstFight = $this->fightingTree->fights[count($this->fightingTree->fights) - 2][0]->fightNumber;
-            WriteSpreadsheet::writeFight($extraFights, 1, 3, $fightForThird, 5, "Verlierer aus Kampf " . $loserFromFirstFight, "Verlierer aus Kampf " . $loserFromFirstFight + 1);
+            $fightForThird = new Fight(fightNumber: $this->fightingTree->numberFights, fighter1Description: "Verlierer aus Kampf " . $loserFromFirstFight, fighter2Description: "Verlierer aus Kampf " . $loserFromFirstFight + 1);
+            WriteSpreadsheet::writeFight($extraFights, 1, 3, $fightForThird, 5);
             $extraFightsPath = storage_path("app/public/tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/" . "extraFights.pdf");
             WriteSpreadsheet::saveSpreadsheet($extraFights, $extraFightsPath);
             $pdf->addPDF($extraFightsPath, orientation: "L");

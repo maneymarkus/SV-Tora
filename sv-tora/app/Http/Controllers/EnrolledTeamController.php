@@ -156,7 +156,11 @@ class EnrolledTeamController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das gegebene Team existiert nicht und kann daher nicht vom Wettkampf entfernt werden.");
         }
         $teamName = $enrolledTeam->team->name;
+        $affectedCategories = $enrolledTeam->categories;
         if ($enrolledTeam->delete()) {
+            foreach ($affectedCategories as $affectedCategory) {
+                app(FightingSystemController::class)->reinitializeFightingSystem($affectedCategory);
+            }
             return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Das Team mit dem Namen \"" . $teamName . "\" wurde erfolgreich vom Wettkampf abgemeldet.");
         } else {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte das Team mit dem Namen \"" . $teamName . "\" nicht vom Wettkampf abgemeldet werden.");

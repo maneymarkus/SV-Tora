@@ -4,12 +4,6 @@ namespace App\Helper\FightingSystems;
 
 use App\Models\Fighter;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
-use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 
 class FightingTree
 {
@@ -26,7 +20,7 @@ class FightingTree
     // a 2-dimensional array that has a shape of: [$numberLevels][$numberFightsOfLevel]
     public array $fights;
 
-    public function __construct(Collection|int $fighters, public bool $isConsolation = false, public int $startFightNumber = 1)
+    public function __construct(Collection|int $fighters)
     {
         if ($fighters instanceof Collection) {
             $this->fighters = $fighters;
@@ -61,7 +55,7 @@ class FightingTree
             if (count($fighters) > 0) {
                 $fighter2 = $fighters->shift();
             }
-            $fightNumber = $this->startFightNumber + $i;
+            $fightNumber = $i + 1;
             $fight = new Fight($fighter1, $fighter2, $fightNumber);
             $fights[$currentLevel][] = $fight;
             $nodeNumber--;
@@ -101,40 +95,26 @@ class FightingTree
         return $this->numberPreFights > 0 ? (count($this->fighters) - $this->numberPreFights * 2) * 4 : 0;
     }
 
-    function buildTree() {
-        $marginTopForFirstPreFight = $this->numberPreFights > 0 ? (count($this->fighters) - $this->numberPreFights * 2) * 4 : 0;
-        return view("FightingSystem.edit-fighting-tree", ["fights" => $this->fights, "marginTopForFirstPreFight" => $marginTopForFirstPreFight])->render();
-    }
-
     /**
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     function print(int $tournamentId, int $categoryId, bool $isFinal = true, bool $doubleKo = false) {
         $printFights = $this->fights;
         if (!$isFinal) {
-            if ($this->isConsolation) {
+            if ($doubleKo) {
                 array_pop($printFights);
             }
-            if (!$this->isConsolation && $doubleKo) {
-                array_pop($printFights);
-            }
-            if (!$this->isConsolation && !$doubleKo) {
+            if (!$doubleKo) {
                 array_pop($printFights);
                 array_pop($printFights);
             }
         }
         // heading
         $heading = "Kampfbaum";
-        if ($this->isConsolation) {
-            $heading = "Trostrunde";
-        }
         $preFightOffset = WriteSpreadsheet::calculateOffsetOfPrefights($this->fights);
         $spreadsheet = WriteSpreadsheet::writeTree($printFights, $heading, $preFightOffset);
 
         $fileName = "fightingTree.pdf";
-        if ($this->isConsolation) {
-            $fileName = "consolationTree.pdf";
-        }
         $path = storage_path("app/public/tournaments/" . $tournamentId . "/categories/" . $categoryId . "/" . $fileName);
 
         WriteSpreadsheet::saveSpreadsheet($spreadsheet, $path);
@@ -143,13 +123,12 @@ class FightingTree
 
     function serialize(): array {
         $serializedTree = array();
-        $serializedTree["isConsolation"] = $this->isConsolation;
         $serializedTree["tree"] = $this->fights;
         return $serializedTree;
     }
 
     static function deserialize(Collection $fighters, array $config): FightingTree {
-        $fightingTree = new FightingTree($fighters, $config["isConsolation"]);
+        $fightingTree = new FightingTree($fighters);
         $cCount = 0;
         // loop over columns
         foreach ($config["tree"] as $column) {

@@ -56,7 +56,7 @@ let Table = function(table) {
          */
         this.initializeValues = function() {
             This.tds.forEach((td) => {
-                let value = td.innerHTML.trim();
+                let value = td.textContent;
                 let key = td.getAttribute("data-column");
                 if (key && key.toLowerCase() !== "aktionen" && key.toLowerCase() !== "nr.") {
                     this.values[key] = value;

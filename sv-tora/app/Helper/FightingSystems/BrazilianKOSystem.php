@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class BrazilianKOSystem implements FightingSystem {
 
     public FightingTree $fightingTree;
-    public FightingTree $consolationTree;
+    public ConsolationTree $consolationTree;
     private Collection $fighters;
 
     public function __construct(protected Category $category)
@@ -35,13 +35,13 @@ class BrazilianKOSystem implements FightingSystem {
 
     function initialize()
     {
-        $this->fightingTree = new FightingTree($this->fighters, false);
+        $this->fightingTree = new FightingTree($this->fighters);
         $this->fightingTree->initializeFightingTree();
         $numberFighterConsolationTree = $this->fightingTree->numberLevels * 2;
         if ($this->fightingTree->numberPreFights > 0) {
             $numberFighterConsolationTree += 2;
         }
-        $this->consolationTree = new FightingTree($numberFighterConsolationTree, true);
+        $this->consolationTree = new ConsolationTree($numberFighterConsolationTree, $this->fighters->count() - 2);
         $this->consolationTree->initializeFightingTree();
     }
 
@@ -91,6 +91,10 @@ class BrazilianKOSystem implements FightingSystem {
     {
         $serializedFightingSystem = $this->category->fighting_system_configuration;
         $this->fightingTree = FightingTree::deserialize(clone $this->fighters, $serializedFightingSystem["fightingTree"]);
-        $this->consolationTree = FightingTree::deserialize(new Collection(), $serializedFightingSystem["consolationTree"]);
+        $numberFighterConsolationTree = $this->fightingTree->numberLevels * 2;
+        if ($this->fightingTree->numberPreFights > 0) {
+            $numberFighterConsolationTree += 2;
+        }
+        $this->consolationTree = ConsolationTree::deserialize($numberFighterConsolationTree, $serializedFightingSystem["consolationTree"]);
     }
 }

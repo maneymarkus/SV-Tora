@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class DoubleKOSystemWithFinalTables implements FightingSystem {
 
     public FightingTree $fightingTree;
-    public FightingTree $consolationTree;
+    public ConsolationTree $consolationTree;
     private Collection $fighters;
     private int $numberReferees;
 
@@ -37,9 +37,9 @@ class DoubleKOSystemWithFinalTables implements FightingSystem {
 
     function initialize()
     {
-        $this->fightingTree = new FightingTree($this->fighters, false);
+        $this->fightingTree = new FightingTree($this->fighters);
         $this->fightingTree->initializeFightingTree();
-        $this->consolationTree = new FightingTree(count($this->fighters) - 4, true, $this->fightingTree->numberFights);
+        $this->consolationTree = new ConsolationTree($this->fighters->count() - 2, $this->fighters->count() - 1);
         $this->consolationTree->initializeFightingTree();
         $this->numberReferees = 5;
     }
@@ -97,7 +97,7 @@ class DoubleKOSystemWithFinalTables implements FightingSystem {
     {
         $serializedFightingSystem = $this->category->fighting_system_configuration;
         $this->fightingTree = FightingTree::deserialize(clone $this->fighters, $serializedFightingSystem["fightingTree"]);
-        $this->consolationTree = FightingTree::deserialize(new Collection(), $serializedFightingSystem["consolationTree"]);
+        $this->consolationTree = ConsolationTree::deserialize($this->fighters->count() - 4, $serializedFightingSystem["consolationTree"]);
         $this->numberReferees = $serializedFightingSystem["numberReferees"];
     }
 }
