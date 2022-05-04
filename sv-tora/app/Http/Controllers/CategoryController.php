@@ -377,8 +377,12 @@ class CategoryController extends Controller
         }
         $fighterName = $enrolledFighter->fighter->person->fullName();
         $enrolledFighter->delete();
-        app(FightingSystemController::class)->reinitializeFightingSystem($category);
-        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer \"" . $fighterName . "\" wurde aus der Kategorie entfernt.");
+        $fightingSystem = app(FightingSystemController::class)->reinitializeFightingSystem($category);
+        $message = "Der Kämpfer \"" . $fighterName . "\" wurde aus der Kategorie entfernt.";
+        if ($fightingSystem === null) {
+            $message .= " Aktuell sind weniger Kämpfer in der Kategorie, als vom schon zugeteilten Kampfsystem mindestens benötigt werden. Daher wurde das Kampfsystem zurückgesetzt.";
+        }
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, $message);
     }
 
     /**

@@ -34,4 +34,13 @@ class ExampleTest extends TestCase
         $this->assertTrue(true);
     }
 
+    public function testCategoryLimits()
+    {
+        $category = Category::find(3);
+
+        echo $category->fightingSystem->min_fighters;
+
+        $this->assertTrue(true);
+    }
+
 }

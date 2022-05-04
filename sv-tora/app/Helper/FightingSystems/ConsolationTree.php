@@ -103,8 +103,8 @@ class ConsolationTree
         }
         // heading
         $heading = "Trostrunde";
-        $preFightOffset = WriteSpreadsheet::calculateOffsetOfPrefights($this->fights, true);
-        $spreadsheet = WriteSpreadsheet::writeTree($printFights, $heading, $preFightOffset);
+        $preFightOffset = WriteSpreadsheet::calculateOffsetOfPrefights($this->fights, true, $this->numberPreFights > 0);
+        $spreadsheet = WriteSpreadsheet::writeTree($printFights, $heading, $preFightOffset, true, $this->numberPreFights > 0);
 
         $fileName = "consolationTree.pdf";
         $path = storage_path("app/public/tournaments/" . $tournamentId . "/categories/" . $categoryId . "/" . $fileName);

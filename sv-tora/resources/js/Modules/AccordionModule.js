@@ -88,6 +88,9 @@ let Accordion = function(accordion) {
     this.deleteAccordionBar = function (accordionBar) {
         if (accordionBar.classList.contains("accordion-bar")) {
             accordionBar.remove();
+            This.openBar = undefined;
+            This.stayOpen = false;
+            This.sliding = false;
             This.accordionBars = This.accordionElement.querySelectorAll(".accordion-bar");
         }
     }

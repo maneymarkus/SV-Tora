@@ -79,7 +79,7 @@ class DoubleKOSystem implements FightingSystem {
 
         $extraFights = new Spreadsheet();
         WriteSpreadsheet::setHeading($extraFights, "Kampf um Platz 2");
-        $fightNumber = $this->fightingTree->numberFights + $this->consolationTree->numberFights;
+        $fightNumber = $this->fightingTree->numberFights + $this->consolationTree->numberFights + 1;
         $loserOfFight = $this->fightingTree->fights[count($this->fightingTree->fights) - 1][0]->fightNumber;
         $winnerOfFight = $this->consolationTree->fights[count($this->consolationTree->fights) - 1][0]->fightNumber;
         $fightForSecond = new Fight(fightNumber: $fightNumber, fighter1Description: "Verlierer aus Kampf " . $loserOfFight, fighter2Description: "Gewinner aus Kampf " . $winnerOfFight);

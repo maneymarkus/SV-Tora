@@ -21,39 +21,74 @@ class WriteSpreadsheet
      * @param array $tree Should be a 2-dimensional array of shape: [$columns][$fightsOfColumn]
      * @param string|null $heading The heading of this particular spreadsheet tree
      * @param float|null $prefightOffset possibly already calculated prefight offset
+     * @param bool $isConsolation
+     * @param bool $hasPreFights states whether this tree has pre fights or not (only relevant for consolation tree as it is trivial for regular tree)
      * @return Spreadsheet
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public static function writeTree(array $tree, string $heading = null, float $prefightOffset = null, bool $isConsolation = false): Spreadsheet
+    public static function writeTree(array $tree, string $heading = null, float $prefightOffset = null, bool $isConsolation = false, bool $hasPreFights = false): Spreadsheet
     {
         $spreadsheet = new Spreadsheet();
 
         self::setHeading($spreadsheet, $heading);
 
-        $row = 5;
         if ($prefightOffset === null) {
-            $prefightOffset = self::calculateOffsetOfPrefights($tree, $isConsolation);
+            $prefightOffset = self::calculateOffsetOfPrefights($tree, $isConsolation, $hasPreFights);
         }
+
+        $fightHeightExponent = 0;
+        // leave some margin for the heading
+        $topMargin = 3;
+        $lastFightHeightInCells = 2;
+
         // iterate over columns of (fighting) tree
         for ($c = 0; $c < count($tree); $c++) {
-            $spreadsheet->getActiveSheet()->getColumnDimensionByColumn($c + 1)->setWidth(25);
 
-            // increase $row by space between fights
-            $row = 3 + floor(self::calculateFightHeight($c, $isConsolation) / 2);
+            // calculate fight height
+            $fightHeightExponent += 1;
+            if ($isConsolation) {
+                if ($c === 0) {
+                    $fightHeightExponent += 1;
+                }
+                if ($c > 1) {
+                    if (count($tree[$c - 1]) === count($tree[$c])) {
+                        $fightHeightExponent -= 1;
+                    }
+                }
+            }
+            $fightHeightInCells = pow(2, $fightHeightExponent) + 1;
+
+            $spreadsheet->getActiveSheet()->getColumnDimensionByColumn($c + 1)->setWidth(20);
+
+            // add top margin to align tree
+            if (!$isConsolation) {
+                $add = pow(2, $c + 1) - pow(2, $c);
+            } else {
+                $add = $lastFightHeightInCells;
+            }
+            $topMargin += floor($add / 2);
+
+            $row = $topMargin;
             if ($c === 0) {
                 $row += $prefightOffset;
             }
 
             // iterate over fights of this particular column (with index) $c
             foreach ($tree[$c] as $fight) {
-                self::writeFightOfTree($spreadsheet, $c + 1, $row, $fight, $isConsolation);
+                self::writeFightOfTree($spreadsheet, $c + 1, $row, $fight, $fightHeightInCells);
 
                 // increase $row by height of fight
-                $row += self::calculateFightHeight($c, $isConsolation);
+                $row += $fightHeightInCells;
 
                 // increase $row by space between fights
-                $row += self::calculateFightHeight($c, $isConsolation) - 2;
+                $row += $fightHeightInCells - 2;
+
+                if ($c === 0 && $isConsolation && isset($tree[$c + 1]) && count($tree[$c]) === count($tree[$c + 1]) && !$hasPreFights) {
+                    $row += $fightHeightInCells * 2 - 2;
+                }
             }
+
+            $lastFightHeightInCells = $fightHeightInCells;
         }
 
         return $spreadsheet;
@@ -73,37 +108,39 @@ class WriteSpreadsheet
     /**
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public static function writeFightOfTree(Spreadsheet $spreadsheet, int $column, int $row, Fight $fight, bool $isConsolation = false) {
-        $fightHeightInCells = self::calculateFightHeight($column - 1, $isConsolation);
+    public static function writeFightOfTree(Spreadsheet $spreadsheet, int $column, int $row, Fight $fight, int $fightHeightInCells) {
         self::writeFight($spreadsheet, $column, $row, $fight, $fightHeightInCells);
     }
 
     public static function writeFight(Spreadsheet $spreadsheet, int $column, int $row, Fight $fight, int $fightHeightInCells) {
         $activeSheet = $spreadsheet->getActiveSheet();
-        $activeSheet->getColumnDimensionByColumn($column)->setWidth(25);
+        $activeSheet->getColumnDimensionByColumn($column)->setWidth(20);
 
         // write first fighter
         $activeSheet->getCellByColumnAndRow($column, $row)->setValue($fight->fighter1?->person->fullName());
+        $activeSheet->getCellByColumnAndRow($column, $row)->getStyle()->getFont()->setSize(9);
         $activeSheet->getCellByColumnAndRow($column, $row)->getStyle()->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THIN);
         if ($fight->fighter1Description !== null) {
             // add comment
             $activeSheet->getCellByColumnAndRow($column, $row + 1)->setValue($fight->fighter1Description);
-            $activeSheet->getCellByColumnAndRow($column, $row + 1)->getStyle()->getFont()->setSize(8);
+            $activeSheet->getCellByColumnAndRow($column, $row + 1)->getStyle()->getFont()->setSize(7);
             $activeSheet->getCellByColumnAndRow($column, $row + 1)->getStyle()->getFont()->setItalic(true);
         }
 
         // write second fighter
         $activeSheet->getCellByColumnAndRow($column, $row + $fightHeightInCells - 1)->setValue($fight->fighter2?->person->fullName());
+        $activeSheet->getCellByColumnAndRow($column, $row + $fightHeightInCells - 1)->getStyle()->getFont()->setSize(9);
         $activeSheet->getCellByColumnAndRow($column, $row + $fightHeightInCells - 1)->getStyle()->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THIN);
         if ($fight->fighter2Description !== null) {
             // add comment
             $activeSheet->getCellByColumnAndRow($column, $row + $fightHeightInCells)->setValue($fight->fighter2Description);
-            $activeSheet->getCellByColumnAndRow($column, $row + $fightHeightInCells)->getStyle()->getFont()->setSize(8);
+            $activeSheet->getCellByColumnAndRow($column, $row + $fightHeightInCells)->getStyle()->getFont()->setSize(7);
             $activeSheet->getCellByColumnAndRow($column, $row + $fightHeightInCells)->getStyle()->getFont()->setItalic(true);
         }
 
         // write fight number
         $fightNumberCellOffset = floor($fightHeightInCells / 2);
+        $activeSheet->getCellByColumnAndRow($column, $row + $fightNumberCellOffset)->getStyle()->getFont()->setSize(9);
         $activeSheet->getCellByColumnAndRow($column, $row + $fightNumberCellOffset)->setValue($fight->fightNumber);
 
         //style borders
@@ -113,32 +150,29 @@ class WriteSpreadsheet
 
         // set border for winner
         $activeSheet->getCellByColumnAndRow($column + 1, $row + $fightNumberCellOffset)->getStyle()->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THIN);
-        $activeSheet->getColumnDimensionByColumn($column + 1)->setWidth(25);
+        $activeSheet->getColumnDimensionByColumn($column + 1)->setWidth(20);
     }
 
-    private static function calculateFightHeight(int $columnIndex, bool $isConsolation = false): int
-    {
-        // column index determines height of fight
-        $columnNumber = $columnIndex + 1;
-        if ($isConsolation) {
-            $columnNumber++;
+    public static function calculateOffsetOfPrefights(array $tree, bool $isConsolation = false, bool $hasPreFights = false) {
+        $offset = 0;
+        if (!$isConsolation) {
+            $exponent = count($tree) - 1;
+            if (count($tree[0]) % pow(2, $exponent) === 0) {
+                return 0;
+            }
+            $numberMissingFights = pow(2, $exponent) - count($tree[0]);
+            $offset = 3 * $numberMissingFights;
+            $offset += 1 * $numberMissingFights;
+        } else {
+            if (!$hasPreFights) {
+                return 0;
+            }
+
+            $maxNumberFightsOnLevel = count($tree[1]) * 2;
+            $numberMissingFights = $maxNumberFightsOnLevel - count($tree[0]);
+            $offset = 5 * $numberMissingFights;
+            $offset += 3 * $numberMissingFights;
         }
-        $fightHeightInCells = pow(2, $columnNumber);
-        // every fight height in a spreadsheet tree is odd
-        $fightHeightInCells += 1;
-
-        return $fightHeightInCells;
-    }
-
-    public static function calculateOffsetOfPrefights(array $tree, bool $isConsolation = false) {
-        $exponent = count($tree) - 1;
-        if (count($tree[0]) % pow(2, $exponent) === 0) {
-            return 0;
-        }
-
-        $numberMissingFights = pow(2, $exponent) - count($tree[0]);
-        $offset = self::calculateFightHeight(0, $isConsolation) * $numberMissingFights;
-        $offset += (self::calculateFightHeight(0, $isConsolation) - 2) * $numberMissingFights;
         return $offset;
     }
 

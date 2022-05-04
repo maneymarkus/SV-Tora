@@ -105,9 +105,11 @@
 
             // delete category
             if (target.classList.contains("delete")) {
-                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, target.getAttribute("href"), () => {
-                    barHeader.parentElement.remove();
-                }, undefined, true);
+                App.ModalModule.deleteModal("Kategorie " + categoryName + " löschen", "Willst du wirklich die Kategorie " + categoryName + " löschen?", function () {
+                    App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, target.getAttribute("href"), () => {
+                        This.inheritance.deleteAccordionBar(barHeader.parentElement);
+                    }, undefined, true);
+                });
                 return;
             }
         }
