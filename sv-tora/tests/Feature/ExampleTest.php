@@ -27,20 +27,4 @@ class ExampleTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testFightingTree() {
-        $consolationTree = new FightingTree(8, true);
-        $consolationTree->initializeFightingTree();
-        print_r($consolationTree->serialize());
-        $this->assertTrue(true);
-    }
-
-    public function testCategoryLimits()
-    {
-        $category = Category::find(3);
-
-        echo $category->fightingSystem->min_fighters;
-
-        $this->assertTrue(true);
-    }
-
 }

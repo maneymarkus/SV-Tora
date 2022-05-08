@@ -39,7 +39,6 @@ header {
     left: 0;
     position: fixed;
     width: 100%;
-    padding: 1.5rem 0 1rem 0;
     transition: 0.5s ease;
     text-align: center;
     z-index: 1000;
@@ -62,12 +61,13 @@ header:before {
 header a.logo {
     display: block;
     position: relative;
-    background-image: url("/images/Logo_light.png");
+    background-image: url("/images/SVToraLogo.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    height: 25px;
+    height: 45px;
     transition: 0.5s ease;
+    margin: 0.25rem 0;
 }
 
 header .header-button {
@@ -126,17 +126,18 @@ header .profile {
 @media only screen and (min-width: 992px) {
     header:hover,
     header.open-menu {
-        transform: translateY(50%);
+        transform: translateY(15%);
         padding-top: 0;
     }
 
     header a.logo {
-        height: 40px;
+        height: 65px;
+        margin: 0.5rem 0;
     }
 
     header:hover a.logo,
     header.open-menu a.logo {
-        height: 55px;
+        height: 80px;
     }
 
     header .header-button {
