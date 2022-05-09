@@ -95,20 +95,22 @@ class FightingSystemController extends Controller
      */
     public function reinitializeFightingSystem(Category $category) {
         $category->refresh();
-        $category->fighting_system_configuration = null;
-        $category->save();
-
-        // trigger initialization
-        $participants = $category->fighters->count();
-
-        if ($participants < $category->fightingSystem->min_fighters || $participants > $category->fightingSystem->max_fighters) {
-            $category->prepared = false;
+        if ($category->fightingSystem !== null) {
+            $category->fighting_system_configuration = null;
             $category->save();
-            return null;
+
+            // trigger initialization
+            $participants = $category->fighters->count();
+
+            if ($participants < $category->fightingSystem->min_fighters || $participants > $category->fightingSystem->max_fighters) {
+                $category->prepared = false;
+                $category->save();
+                return null;
+            }
+            $category->calculateEstimatedTime();
+            $fightingSystem = $category->getFightingSystem();
+            return $fightingSystem;
         }
-        $category->calculateEstimatedTime();
-        $fightingSystem = $category->getFightingSystem();
-        return $fightingSystem;
     }
 
 }

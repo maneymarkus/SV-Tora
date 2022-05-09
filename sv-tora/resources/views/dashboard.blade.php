@@ -71,7 +71,8 @@
                 @can("admin")
                     <x-primary-button class="mail" text="E-Mail schreiben" icon-name="mail" href="/mail"></x-primary-button>
                     <x-primary-button class="documents" text="Dokumente" icon-name="description" href="/documents"></x-primary-button>
-                    <x-primary-button class="messages" text="Nachrichten" icon-name="message" href="/messages"></x-primary-button>
+
+                    {{-- <x-primary-button class="messages" text="Nachrichten" icon-name="message" href="/messages"></x-primary-button> --}}
                     <x-primary-button class="settings" text="Einstellungen" icon-name="settings" href="/settings"></x-primary-button>
                 @endcan
                 @php
@@ -87,6 +88,7 @@
 
     </main>
 
-    <x-footer></x-footer>
+
+    {{-- <x-footer></x-footer> --}}
 
 @endsection

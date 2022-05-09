@@ -54,7 +54,7 @@
                 <h3>Datenschutz-Info</h3>
                 <p class="clearfix">
                     Bei Wettkämpfen des Vereins werden durch beauftragte Fotografen Fotos angefertigt, die zur Öffentlichkeitsarbeit und für die Erstellung von Bildergalerien auf der Webseite des SV Tora Berlin e.V. verwendet werden.
-                    Sollten SIe nicht mit der Abbildung Ihrer Person oder Ihrer Angehörigen einverstanden sein, teilen Sie dies bitte unverzüglich dem Veranstalter mit, um nachträgliche Einsprüche zu vermeiden.
+                    Sollten Sie nicht mit der Abbildung Ihrer Person oder Ihrer Angehörigen einverstanden sein, teilen Sie dies bitte unverzüglich dem Veranstalter mit, um nachträgliche Einsprüche zu vermeiden.
                 </p>
             </div>
 

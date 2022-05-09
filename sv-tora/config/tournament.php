@@ -329,7 +329,7 @@ return [
         ],
         "tables" => [
             "name" => "Tafelsystem",
-            "min_fighters" => 1,
+            "min_fighters" => 2,
             "max_fighters" => 64,
         ],
         "ko-system-with-final-tables" => [

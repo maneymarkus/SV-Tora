@@ -238,17 +238,21 @@ let AdminTable = function(table) {
     /**
      * This function initializes the addition of a new entity/element to the table which is a new admin. New admins can be registered by inviting them via an e-mail address. Then they can register themselves on a custom landing page for them.
      */
-    this.addAdminBtn.addEventListener("click", function () {
-        let mailInput = createInput(GeneralModule.generalVariables.inputTypes.TEXT, ["mail", "required"], undefined, "new-admin-mail", "E-Mail-Adresse", undefined, undefined, undefined);
-        let ModalWindow = ModalModule.confirmModal("Neuen Administrator hinzufügen (einladen)", mailInput.inputContainer, undefined, undefined, function () {
-            if (!checkInput(mailInput.inputContainer, true)) {
-                return false;
-            } else {
-                let data = {email: mailInput.getValue()};
-                sendRequest(GeneralModule.generalVariables.requests.POST, "/admin/registration/invitation", () => {ModalWindow.closeModal()}, data, true);
-            }
+    if (this.addAdminBtn) {
+        this.addAdminBtn.addEventListener("click", function () {
+            let mailInput = createInput(GeneralModule.generalVariables.inputTypes.TEXT, ["mail", "required"], undefined, "new-admin-mail", "E-Mail-Adresse", undefined, undefined, undefined);
+            let ModalWindow = ModalModule.confirmModal("Neuen Administrator hinzufügen (einladen)", mailInput.inputContainer, undefined, undefined, function () {
+                if (!checkInput(mailInput.inputContainer, true)) {
+                    return false;
+                } else {
+                    let data = {email: mailInput.getValue()};
+                    sendRequest(GeneralModule.generalVariables.requests.POST, "/admin/registration/invitation", () => {
+                        ModalWindow.closeModal()
+                    }, data, true);
+                }
+            });
         });
-    });
+    }
 
     // Return row object corresponding to given tr element
     this.getRowObject = function (tr) {
