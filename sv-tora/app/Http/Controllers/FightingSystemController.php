@@ -99,13 +99,14 @@ class FightingSystemController extends Controller
             $category->fighting_system_configuration = null;
             $category->save();
 
-            // trigger initialization
-            $participants = $category->fighters->count();
+            if ($category->teams->count() <= 0) {
+                $participants = $category->fighters->count();
 
-            if ($participants < $category->fightingSystem->min_fighters || $participants > $category->fightingSystem->max_fighters) {
-                $category->prepared = false;
-                $category->save();
-                return null;
+                if ($participants < $category->fightingSystem->min_fighters || $participants > $category->fightingSystem->max_fighters) {
+                    $category->prepared = false;
+                    $category->save();
+                    return null;
+                }
             }
             $category->calculateEstimatedTime();
             $fightingSystem = $category->getFightingSystem();

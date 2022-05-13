@@ -7,7 +7,9 @@ use App\Helper\NotificationTypes;
 use App\Mail\GenericMail;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use SebastianBergmann\LinesOfCode\LinesOfCode;
 
 class DocumentController extends Controller
 {
@@ -30,22 +32,30 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        $file = $request->file("document");
-        $documents = Document::all();
-        if ($file === null) {
-            return view("documents", ["documents" => $documents])->with(["error" => "Bitte lade ein existierendes Dokument hoch."]);
+        if ($request->hasFile("documents")) {
+            foreach ($request->file("documents") as $file) {
+                $fileName = $file->getClientOriginalName();
+                $fileExt = $file->getClientOriginalExtension();
+                $copyCounter = 2;
+                if (Document::where("name", "=", $fileName)->first() !== null) {
+                    $fileName = substr($fileName, 0, strlen($fileName) - 1 - strlen($fileExt));
+                    $fileName .= " " . $copyCounter++ . ".";
+                    $fileName .= $fileExt;
+                    while (Document::where("name", "=", $fileName)->first() !== null) {
+                        $fileName = substr($fileName, 0, strlen($fileName) - 1 - strlen($fileExt) - 2);
+                        $fileName .= " " . $copyCounter++ . ".";
+                        $fileName .= $fileExt;
+                    }
+                }
+
+                $path = $file->store("/public/documents");
+                $newDocument = Document::create([
+                    "name" => $fileName,
+                    "path" => $path,
+                    "ext" => $fileExt,
+                ]);
+            }
         }
-        $fileName = $request->file("document")->getClientOriginalName();
-        if (Document::where("name", "=", $fileName)->first() !== null) {
-            return view("documents", ["documents" => $documents])->with(["error" => "Ein Dokument mit dem Namne \"" .$fileName . "\" existiert schon!"]);
-        }
-        $fileExt = $request->file("document")->getClientOriginalExtension();
-        $path = $request->file("document")->store("/public/documents");
-        $newDocument = Document::create([
-            "name" => $fileName,
-            "path" => $path,
-            "ext" => $fileExt,
-        ]);
         return $this->index();
     }
 

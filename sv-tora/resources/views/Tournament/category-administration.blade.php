@@ -263,7 +263,7 @@
                             <table>
                                 @foreach($category->teams as $enrolledTeam)
                                     @php
-                                        $deleteFighterUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/teams/" . $enrolledTeam->id);
+                                        $deleteTeamUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/teams/" . $enrolledTeam->id);
                                     @endphp
                                     <tr>
                                         <td class="number">{{ $loop->iteration }}</td>
@@ -272,7 +272,7 @@
                                         <td class="members">{{ implode(", ", $enrolledTeam->team->fighters()->get()->map(function ($fighter) {return $fighter->person->first_name . " " . $fighter->person->last_name;})->toArray()) }}</td>
                                         <td class="members"><a class="link" href={{ url("/entities/teams/" . $enrolledTeam->team->id . "/fighters") }}>Team-Übersicht</a></td>
                                         <td class="delete">
-                                            <x-primary-button class="delete-fighter warning" href="{{ $deleteFighterUrl }}" icon-name="delete" text="Team entfernen"></x-primary-button>
+                                            <x-primary-button class="delete-fighter warning" href="{{ $deleteTeamUrl }}" icon-name="delete" text="Team entfernen"></x-primary-button>
                                         </td>
                                     </tr>
                                 @endforeach

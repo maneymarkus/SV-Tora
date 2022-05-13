@@ -26,14 +26,22 @@ class TournamentInvitationMail extends Mailable
     public string $content;
 
     /**
+     * The path to possibly attached files
+     *
+     * @var array|null
+     */
+    public ?array $attachmentFiles;
+
+    /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($subject, $content)
+    public function __construct($subject, $content, $attachmentFiles = null)
     {
         $this->customSubject = $subject;
         $this->content = $content;
+        $this->attachmentFiles = $attachmentFiles;
     }
 
     /**
@@ -43,8 +51,18 @@ class TournamentInvitationMail extends Mailable
      */
     public function build()
     {
-        return $this
+        $email = $this
             ->subject($this->customSubject)
             ->markdown('emails.tournament-invitation');
+
+        if ($this->attachmentFiles !== null) {
+            foreach ($this->attachmentFiles as $attachmentFile) {
+                $email->attach($attachmentFile["path"], [
+                    "as" => $attachmentFile["name"],
+                ]);
+            }
+        }
+
+        return $email;
     }
 }

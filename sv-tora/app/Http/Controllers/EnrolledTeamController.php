@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Club;
 use App\Models\EnrolledPerson;
 use App\Models\EnrolledTeam;
+use App\Models\FightingSystem;
 use App\Models\Person;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -15,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class EnrolledTeamController extends Controller
 {
@@ -47,7 +49,7 @@ class EnrolledTeamController extends Controller
         $columns = [
             ["heading" => "Nr.", "sortable" => true],
             ["heading" => "Name", "sortable" => true],
-            ["heading" => "Kategorie(n)", "sortable" => true],
+            ["heading" => "Kategorie", "sortable" => true],
         ];
 
         if (Gate::allows("admin")) {
@@ -67,7 +69,10 @@ class EnrolledTeamController extends Controller
                 "editUrl" => url("/entities/teams/" . $enrolledTeam->team->id),
                 "deleteUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams/" . $enrolledTeam->id),
             ];
-            array_push($rows, $row);
+            if (Gate::allows("admin")) {
+                $row["data"][] = $enrolledTeam->team->club->name;
+            }
+            $rows[] = $row;
         }
         return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams/add"), "entities" => "Teams", "entity" => "Team", "columns" => $columns, "rows" => $rows, "enrollmentActive" => $enrollmentActive]);
     }
@@ -98,7 +103,7 @@ class EnrolledTeamController extends Controller
             $row = [
                 "data" => $selectableTeam->tableProperties($counter++),
             ];
-            array_push($rows, $row);
+            $rows[] = $row;
         }
         return response()->view("Tournament.enroll-entities", ["tournament" => $tournament, "enrollUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams"), "addEntityUrl" => url("/entities/teams"), "entities" => "Teams", "entity" => "Team", "columns" => Team::tableHeadings(), "rows" => $rows]);
     }
@@ -128,7 +133,7 @@ class EnrolledTeamController extends Controller
             if ($team === null) {
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das Team \"" . $name . "\" existiert nicht und kann daher nicht angemeldet werden.");
             }
-            $enrolledTeam = EnrolledPerson::create([
+            $enrolledTeam = EnrolledTeam::create([
                 "tournament_id" => $tournament->id,
                 "team_id" => $team->id,
             ]);
@@ -138,6 +143,18 @@ class EnrolledTeamController extends Controller
                 $category = Category::createCategoryByName($categoryName, $tournament);
             }
             $category->teams()->attach($enrolledTeam->id);
+
+            if (!$category->prepared) {
+                $fightingSystem = FightingSystem::firstWhere("name", "=", "Tafelsystem");
+                $category->fightingSystem()->associate($fightingSystem);
+
+                $category->prepared = true;
+                $category->save();
+                Log::info($category);
+            }
+
+            app(FightingSystemController::class)->reinitializeFightingSystem($category);
+
         }
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Alle ausgewählten Teams wurden zum Wettkampf angemeldet.");
     }

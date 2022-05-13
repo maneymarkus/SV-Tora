@@ -33,7 +33,6 @@ class PersonController extends Controller
     public function index($type, $editUrl, $deleteUrl, $addUrl, $entities, $entity)
     {
         $user = Auth::user();
-        $persons = null;
         if (Gate::allows("admin")) {
             $persons = Person::where("type", "=", $type)->get();
         } else {

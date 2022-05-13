@@ -62,13 +62,15 @@
      * This block handles the switching to competition mode
      */
 
+    /*
     let fightModeButton = document.querySelector("a.fight-mode");
+     */
     let tournamentDateString = document.querySelector(".tournament-container span.tournament-date").innerText;
     let fightingSystemsContainer = document.querySelector("a.fighting-systems");
 
+
+    /*
     fightModeButton.addEventListener("click", function (e) {
-        ModalModule.infoModal("Wettkamf-Modus", "Leider ist der Wettkampf-Modus noch nicht implementiert und steht demnach leider nicht zur Verfügung.");
-        /*
         if (checkPreparation()) {
             if (checkDate()) {
                 // everything is fine so just do nothing and follow the link :)
@@ -84,8 +86,8 @@
             e.preventDefault();
             ModalModule.infoModal("Wettkampf Vorbereitung nicht ausreichend.", "Du kannst noch nicht in den Wettkampf-Modus wechseln, da die Vorbereitung noch nicht abgeschlossen ist. Das Mindeste ist, dass jede Kategorie ein Kampfsystem zugewiesen bekommt.");
         }
-         */
     });
+     */
 
     function checkDate() {
         let day = tournamentDateString.substring(0, tournamentDateString.indexOf("."));
@@ -109,47 +111,49 @@
     let actionsContainer = document.querySelector("div.actions");
     let tournamentContainer = document.querySelector("div.tournament-container");
 
-    actionsContainer.addEventListener("click", function (e) {
-        let target = e.target;
-        while (target.nodeName !== "BODY" && !target.classList.contains("primary-button")) {
-            target = target.parentElement;
-        }
+    if (actionsContainer) {
+        actionsContainer.addEventListener("click", function (e) {
+            let target = e.target;
+            while (target.nodeName !== "BODY" && !target.classList.contains("primary-button")) {
+                target = target.parentElement;
+            }
 
-        // delete tournament
-        if (target.classList.contains("cancel-tournament")) {
-            e.preventDefault();
-            let url = target.getAttribute("href");
-            deleteTournament(url);
-        }
+            // delete tournament
+            if (target.classList.contains("cancel-tournament")) {
+                e.preventDefault();
+                let url = target.getAttribute("href");
+                deleteTournament(url);
+            }
 
-        // change status of the tournament
-        if (target.classList.contains("change-status")) {
-            e.preventDefault();
-            let url = target.getAttribute("href");
-            changeStatusOfTournament(url);
-        }
+            // change status of the tournament
+            if (target.classList.contains("change-status")) {
+                e.preventDefault();
+                let url = target.getAttribute("href");
+                changeStatusOfTournament(url);
+            }
 
-        // change tournament general properties
-        if (target.classList.contains("change-tournament")) {
-            e.preventDefault();
-            let url = target.getAttribute("href");
-            changeTournament(url);
-        }
+            // change tournament general properties
+            if (target.classList.contains("change-tournament")) {
+                e.preventDefault();
+                let url = target.getAttribute("href");
+                changeTournament(url);
+            }
 
-        // complete tournament
-        if (target.classList.contains("complete-tournament")) {
-            e.preventDefault();
-            let url = target.getAttribute("href");
-            completeTournament(url);
-        }
+            // complete tournament
+            if (target.classList.contains("complete-tournament")) {
+                e.preventDefault();
+                let url = target.getAttribute("href");
+                completeTournament(url);
+            }
 
-        // exclude clubs
-        if (target.classList.contains("exclude-clubs")) {
-            e.preventDefault();
-            openExclusionModal();
-        }
+            // exclude clubs
+            if (target.classList.contains("exclude-clubs")) {
+                e.preventDefault();
+                openExclusionModal();
+            }
 
-    });
+        });
+    }
 
 
     /**
@@ -169,7 +173,7 @@
     function deleteTournament(url) {
         ModalModule.deleteModal("Wettkampf absagen", "Willst du den Wettkampf wirklich absagen? Diese Aktion kann nicht rückgängig gemacht werden.", function () {
             App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, url, (responseData) => {
-                ModalModule.confirmModal("Wettkampf abgesagt", "Du hast den Wettkampf abgesagt. Willst du die anderen Vereine (dies beinhaltet alle eingeladenen Vereine) über die Absage informieren?", function () {
+                ModalModule.confirmModal("Wettkampf abgesagt", "Du hast den Wettkampf abgesagt. Willst du die bisher schon angemeldeten Vereine über die Absage informieren? Du kannst dann natürlich auch noch weitere Empfänger hinzufügen.", function () {
                     window.location.href = responseData["url"];
                 }, function() {
                     ModalModule.infoModal("Wettkampf gelöscht", "Der Wettkampf wurde gelöscht. Wenn du dieses Info-Fenster schließt, läd die Seite neu und du kannst einen neuen Wettkampf erstellen.", function () {
@@ -304,7 +308,9 @@
     excludeButton.addEventListener("click", function () {
         let selection = checkboxesObject.getValue();
         if (selection.length > 0) {
-            excludeEntities(selection);
+            App.ModalModule.confirmModal("Verein(e) ausschließen", "Möchtest du die gewählten/den gewählten Verein(e) wirklich vom Wettkampf ausschließen?", function () {
+                excludeEntities(selection);
+            });
         }
         SecondaryButtonModule.disableSecondaryButton(excludeButton);
     });
@@ -388,7 +394,7 @@
      * @param entity
      */
     function createAndAppendExclusionTag(entity) {
-        let excludeTag = App.TagModule.createTag(["excluded-club"], entity);
+        let excludeTag = App.TagModule.createTag(["excluded-club"], null, entity);
         if (excludedContainer.querySelector("span.no-exclusion")) {
             excludedContainer.querySelector("span.no-exclusion").remove();
         }

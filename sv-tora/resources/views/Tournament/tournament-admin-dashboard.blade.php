@@ -156,12 +156,14 @@
 
     </main>
 
+    {{--
     <div class="primary-button-floating-container mode-control">
         <a class="primary-button fight-mode">
             <i class="material-icons">whatshot</i>
             <p>Wettkampf-Modus</p>
         </a>
     </div>
+    --}}
 
     <div class="exclude-clubs-modal clearfix">
         <a class="primary-button close">

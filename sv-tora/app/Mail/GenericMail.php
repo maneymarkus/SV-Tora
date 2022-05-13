@@ -40,16 +40,24 @@ class GenericMail extends Mailable
     public string $buttonUrl;
 
     /**
+     * The path to possibly attached files
+     *
+     * @var array|null
+     */
+    public ?array $attachmentFiles;
+
+    /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($subject, $content, $includeButton = false)
+    public function __construct($subject, $content, $includeButton = false, $attachmentFiles = null)
     {
         $this->customSubject = $subject;
         $this->content = $content;
         $this->includeButton = $includeButton;
         $this->buttonUrl = url("/dashboard");
+        $this->attachmentFiles = $attachmentFiles;
     }
 
     /**
@@ -59,8 +67,18 @@ class GenericMail extends Mailable
      */
     public function build()
     {
-        return $this
+        $email = $this
             ->subject($this->customSubject)
             ->markdown('emails.generic-mail');
+
+        if ($this->attachmentFiles !== null) {
+            foreach ($this->attachmentFiles as $attachmentFile) {
+                $email->attach($attachmentFile["path"], [
+                    "as" => $attachmentFile["name"],
+                ]);
+            }
+        }
+
+        return $email;
     }
 }

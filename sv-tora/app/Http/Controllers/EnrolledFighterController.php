@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class EnrolledFighterController extends Controller
 {
@@ -75,9 +76,9 @@ class EnrolledFighterController extends Controller
                 "deleteUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id),
             ];
             if (Gate::allows("admin")) {
-                array_push($row["data"], $enrolledFighter->fighter->person->club->name);
+                $row["data"][] = $enrolledFighter->fighter->person->club->name;
             }
-            array_push($rows, $row);
+            $rows[] = $row;
         }
         return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/add"), "entities" => "Kämpfer", "entity" => "Kämpfer", "columns" => $columns, "rows" => $rows, "enrollmentActive" => $enrollmentActive]);
     }
@@ -188,7 +189,8 @@ class EnrolledFighterController extends Controller
                 $examinationTypes[$examinationType] = [];
 
                 try {
-                    $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType);
+                    $tournamentDate = Carbon::parse($tournament->date);
+                    $categories = GeneralHelper::determineCategoryOfFighter($fighter, $examinationType, $tournamentDate);
                 } catch (\Exception $e) {
                     $error = $e->getMessage();
                     $examinationTypes[$examinationType]["error"] = $error;
@@ -345,7 +347,8 @@ class EnrolledFighterController extends Controller
         foreach($request["Disziplin"] as $examinationType => $enrollmentChoice) {
             if ($enrollmentChoice == "1") {
                 $atLeastOneParticipation = true;
-                $categories = GeneralHelper::determineCategoryOfFighter($enrolledFighter->fighter, $examinationType);
+                $tournamentDate = Carbon::parse($tournament->date);
+                $categories = GeneralHelper::determineCategoryOfFighter($enrolledFighter->fighter, $examinationType, $tournamentDate);
                 if (is_array($categories)) {
                     $categoryName = $categories[$request["Kategorie"][$examinationType . " Kategorie"]];
                 } else {

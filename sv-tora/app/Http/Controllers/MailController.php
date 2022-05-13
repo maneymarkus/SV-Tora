@@ -9,6 +9,7 @@ use App\Mail\TournamentInvitationMail;
 use App\Models\Tournament;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
@@ -22,12 +23,25 @@ class MailController extends Controller
         $receiverMails = $request->input("receivers");
         $subject = $request->input("subject");
         $content = $request->input("content");
+        $files = array();
+
+        if ($request->hasFile("attached-files")) {
+            foreach ($request->file("attached-files") as $file) {
+                $attachmentFile = [];
+                $path = $file->store("/public/temp");
+                $attachmentFile["path"] = storage_path("app/" . $path);
+                $attachmentFile["name"] = $file->getClientOriginalName();
+                $files[] = $attachmentFile;
+            }
+        }
+
         $includeButton = $request->input("include-button") ?? false;
         foreach ($receiverMails as $receiverMail) {
             if (session("tournamentInvitation")) {
-                Mail::to($receiverMail)->send(new TournamentInvitationMail($subject, $content));
+                Mail::to($receiverMail)->send(new TournamentInvitationMail($subject, $content, $files));
+                session()->forget("tournamentInvitation");
             } else {
-                Mail::to($receiverMail)->send(new GenericMail($subject, $content, $includeButton));
+                Mail::to($receiverMail)->send(new GenericMail($subject, $content, $includeButton, $files));
             }
         }
 
@@ -48,8 +62,9 @@ class MailController extends Controller
     }
 
     public function informClubsAboutTournamentCancellation() {
-        $enrolledClubs = app(UserController::class)->getMailsFromUsersFromEnrolledClubs();
-        $subject = "Absage des SV Tora Berlin e.V. Wettkampfes";
+        $tournamentInfo = session("tournamentInfo");
+        $enrolledClubs = $tournamentInfo["enrolledClubs"];
+        $subject = "Absage des SV Tora Berlin e.V. Wettkampfes vom " . $tournamentInfo["date"] . " um " . $tournamentInfo["time"];
         $content = "Leider muss der geplante Wettkampf des SV Tora Berlin e.V. unerwartet ausfallen.";
         return response()->view("mail", ["emails" => $enrolledClubs, "subject" => $subject, "content" => $content]);
     }

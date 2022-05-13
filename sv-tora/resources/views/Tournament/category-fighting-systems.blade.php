@@ -178,35 +178,28 @@
                     @php
                         $categoryUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id);
                     @endphp
-                    <div class="accordion-bar {{ $category->prepared ? "prepared" : "" }}" data-category-url="{{ $categoryUrl }}">
+                    <div class="accordion-bar prepared" data-category-url="{{ $categoryUrl }}">
                         <div class="bar-header clearfix">
                             <i class="material-icons open-indicator">keyboard_arrow_down</i>
                             <h4 class="heading">
                                 Kategorie:
                                 <span class="category-name">{{ $category->name }}</span>
-                                (<span class="graduation">{{ $category->graduation_min . "-" . $category->graduation_max }}</span> / <span class="category-age">{{ $category->age_min . "-" . $category->age_max }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->fighters->count() }}</span>)
+                                (<span class="graduation">{{ $category->graduation_min . "-" . $category->graduation_max }}</span> / <span class="category-age">{{ $category->age_min . "-" . $category->age_max }}</span> / <span class="category-sex">{{ $category->sex }}</span> / <span class="count-members">{{ $category->teams->count() }}</span>)
                             </h4>
-                            @if($category->prepared)
-                                <i class="material-icons prepared">done</i>
-                            @endif
+                            <i class="material-icons prepared">done</i>
                         </div>
                         <div class="bar-content">
                             <div class="side">
-                                @if($category->prepared)
-                                    <a class="fighting-system">{{ $category->fightingSystem->name }}</a>
-                                @else
-                                    <a class="fighting-system">Kampfsystem wählen...</a>
-                                @endif
+                                <span class="fighting-system">{{ $category->fightingSystem->name }}</span>
                             </div>
                             <div class="side">
                                 <div class="actions-container">
                                     @php
-                                        $disabled = $category->prepared ? "" : "disabled";
                                         $changeUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/edit");
                                         $printUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/fighting-system/print");
                                     @endphp
-                                    <x-primary-button href="{{ $changeUrl }}" class="edit-fighting-system {{ $disabled }}" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
-                                    <x-primary-button href="{{ $printUrl }}" class="print {{ $disabled }}" text="Drucken" icon-name="print"></x-primary-button>
+                                    <x-primary-button href="{{ $changeUrl }}" class="edit-fighting-system" text="Kampfsystem anpassen" icon-name="account_balance"></x-primary-button>
+                                    <x-primary-button href="{{ $printUrl }}" class="print" text="Drucken" icon-name="print"></x-primary-button>
                                 </div>
                             </div>
                         </div>

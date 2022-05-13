@@ -1,4 +1,9 @@
 <div {{ $attributes->merge(["class" => "radio-group input-container"]) }}>
+    @php
+        if(!isset($check)) {
+            $check = false;
+        }
+    @endphp
     @foreach($radioOptions as $option)
         @php
             $id = \App\Helper\GeneralHelper::uniqueRandomIdentifier();

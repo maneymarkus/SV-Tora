@@ -87,7 +87,7 @@ body.darkmode {
 
 html {
     height: 100%;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: white;
     line-height: 1.2;
     font-family: "Baloo Chettan 2", sans-serif;
@@ -361,20 +361,17 @@ a.go-back i {
 
 
 @media only screen and (min-width: 600px) {
-    html {
-        font-size: 1.1rem;
-    }
 }
 
 @media only screen and (min-width: 768px) {
     html {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 }
 
 @media only screen and (min-width: 992px) {
     html {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 
     main {

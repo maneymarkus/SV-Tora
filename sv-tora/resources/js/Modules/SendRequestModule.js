@@ -80,14 +80,27 @@ async function postRequest(method, url, callback, content, loader) {
         addBigLoader();
     }
 
-    fetch(url, {
-        method: method,
-        body: JSON.stringify(content),
-        headers: {
-            "content-type": "application/json; charset=UTF-8",
-            "X-CSRF-TOKEN": csrfToken,
-        }
-    })
+    let request;
+    if (Object.prototype.toString.call(content) === "[object FormData]") {
+        request = fetch(url, {
+            method: method,
+            body: content,
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            }
+        })
+    } else {
+        request = fetch(url, {
+            method: method,
+            body: JSON.stringify(content),
+            headers: {
+                "content-type": "application/json; charset=UTF-8",
+                "X-CSRF-TOKEN": csrfToken,
+            }
+        })
+    }
+
+    request
         .then(response => {
             if (loader) {
                 removeBigLoader();

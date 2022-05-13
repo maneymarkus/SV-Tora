@@ -62,6 +62,16 @@ class Category extends Model
         return $this->belongsTo(FightingSystem::class);
     }
 
+    public function entities() {
+        if ($this->fighters->count() > 0) {
+            return $this->fighters();
+        }
+        if ($this->teams->count() > 0) {
+            return $this->teams();
+        }
+        return null;
+    }
+
     public static function editableProperties(Category $category = null) {
         $editableProperties = [
             "Name" => $category?->name,

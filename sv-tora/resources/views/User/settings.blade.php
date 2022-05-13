@@ -23,7 +23,7 @@
         </div>
         <div class="setting">
             <h3>Passwort</h3>
-            <a class="link change-password">Ändern</a>
+            <a class="link change-password" href="{{ url("/entities/users/" . \Illuminate\Support\Facades\Auth::user()->id . "/password") }}">Ändern</a>
         </div>
         <div class="setting">
             <label for="darkmode" class="switch-container input-container darkmode-switch">

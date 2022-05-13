@@ -46,7 +46,7 @@
                 <p class="clearfix">Geschlecht: <span class="sex">{{ $enrolledFighter->fighter->sex }}</span></p>
                 <p class="clearfix">Graduierung: <span class="graduation">{{ $enrolledFighter->fighter->graduation }}</span></p>
                 <p class="clearfix">Verein: <span class="club">{{ $enrolledFighter->fighter->person->club->name }}</span></p>
-                <p class="no-display member_id">{{ $enrolledFighter->fighter->id }}</p>
+                <p class="no-display member-id">{{ $enrolledFighter->id }}</p>
             </div>
         @endforeach
     @endif

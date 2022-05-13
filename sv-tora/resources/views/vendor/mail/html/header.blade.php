@@ -1,7 +1,7 @@
 <tr>
 <td class="header">
 <a href="{{ $url }}" style="display: inline-block;">
-    <img src="{{ asset("images/Logo_dark_small.png") }}" class="logo" alt="SV Tora Berlin e.V.">
+    <img src="{{ asset("images/SVToraLogo.png") }}" class="logo" alt="SV Tora Berlin e.V.">
 </a>
 </td>
 </tr>

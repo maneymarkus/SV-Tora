@@ -21,7 +21,6 @@ class CreatePeopleTable extends Migration
             $table->string("last_name");
             $table->unsignedBigInteger("club_id")->index();
 
-            $table->unique(["type", "first_name", "last_name", "club_id"]);
             $table->foreign("club_id")->references("id")->on("clubs")->onDelete("cascade");
             $table->timestamps();
         });

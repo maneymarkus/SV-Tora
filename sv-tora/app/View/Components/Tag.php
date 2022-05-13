@@ -11,16 +11,23 @@ class Tag extends Component
      * The value of the tag (is necessary in contrast to the key value of the tag)
      * @var string
      */
-    public $value;
+    public string $value;
+
+    /**
+     * The optional key of the tag
+     * @var string|mixed|null
+     */
+    public ?string $key;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($value)
+    public function __construct($value, $key = null)
     {
         $this->value = $value;
+        $this->key = $key;
     }
 
     /**

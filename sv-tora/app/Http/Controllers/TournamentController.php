@@ -37,6 +37,7 @@ class TournamentController extends Controller
      */
     public function dashboard()
     {
+        $this->authorize("dashboard", Tournament::class);
         if (Tournament::latest()->first()?->active) {
             $tournament = Tournament::latest()->first();
             $progressStep = $tournament->status;
@@ -138,7 +139,7 @@ class TournamentController extends Controller
         ]);
 
         $fightPlace = $newTournament->fightPlaces()->create([
-            "name" => "1",
+            "name" => "Pool 1",
         ]);
 
         if ($enrollmentStart <= $today) {
@@ -266,7 +267,12 @@ class TournamentController extends Controller
 
         $status = $request->input("Wettkampf-Status");
         $statusCode = array_search($status, config("tournament.tournament_statuus"));
+        $oldStatus = $tournament->status;
         $tournament->status = $statusCode;
+
+        if ($statusCode - $oldStatus > 1) {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Du kannst nicht mehrere Stufen des Wettkampfes auf einmal überspringen.");
+        }
 
         if ($statusCode >= 1) {
             // enrollment is open so the enrollment date should be set to this date if not
@@ -302,6 +308,14 @@ class TournamentController extends Controller
         $tournamentName = $tournament->tournamentTemplate->tournament_name;
         $tournamentDate = Carbon::parse($tournament->date);
         if ($tournament->active) {
+
+            $tournamentInfo = [];
+            $tournamentInfo["date"] = Carbon::parse($tournament->date)->format("d.m.Y");
+            $tournamentInfo["time"] = Carbon::parse($tournament->time)->format("H:i");
+            $tournamentInfo["enrolledClubs"] = app(UserController::class)->getMailsFromUsersFromEnrolledClubs();
+
+            session(["tournamentInfo" => $tournamentInfo]);
+
             $tournament->delete();
             return response()->json([
                 "url" => url("/mail/tournament-cancellation-information"),
@@ -320,16 +334,18 @@ class TournamentController extends Controller
      * @param Tournament $tournament
      */
     public function finishTournament(Tournament $tournament) {
-        if ($tournament->active) {
-            if ($tournament->status == 4) {
-                $tournament->active = false;
-                $tournament->save();
-                return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Wettkampf wurde erfolgreich beendet.");
+        if (Gate::allows("admin")) {
+            if ($tournament->active) {
+                if ($tournament->status == 4) {
+                    $tournament->active = false;
+                    $tournament->save();
+                    return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Wettkampf wurde erfolgreich beendet.");
+                } else {
+                    return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Wettkampf kann noch nicht abgeschlossen werden.");
+                }
             } else {
-                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Wettkampf kann noch nicht abgeschlossen werden.");
+                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Dieser Wettkampf kann nicht nochmal beendet werden.");
             }
-        } else {
-            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Dieser Wettkampf kann nicht nochmal beendet werden.");
         }
     }
 
@@ -343,7 +359,6 @@ class TournamentController extends Controller
     public function excludeClub(Request $request, Tournament $tournament) {
         if (Gate::allows("admin")) {
             if ($tournament->active) {
-                // TODO: if club to be excluded already enrolled
                 $club = Club::where("name", "=", $request->input("club"))->first();
                 if (!$tournament->excludedClubs->contains($club)) {
                     $tournament->excludedClubs()->attach($club->id);
@@ -398,7 +413,9 @@ class TournamentController extends Controller
         if (Gate::allows("admin")) {
             if ($tournament->active) {
                 $club = Club::where("name", "=", $request->input("club"))->first();
-                if ($tournament->excludedClubs->contains($club)) {
+                $tournament->refresh();
+                Log::info($request);
+                if ($tournament->excludedClubs->pluck("id")->contains($club->id)) {
                     $tournament->excludedClubs()->detach($club->id);
                     return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Verein \"" . $club->name . "\" wurde erfolgreich wieder eingeschlossen und kann Personen zum aktuellen Wettkampf anmelden.");
                 } else {
@@ -419,9 +436,32 @@ class TournamentController extends Controller
      * @param Tournament $tournament
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getExcludedClubs(Tournament $tournament) {
+    public function getExcludedClubNames(Tournament $tournament) {
         if (Gate::allows("admin")) {
             return response()->json($tournament->excludedClubs->pluck("name"));
+        }
+    }
+
+
+    public function getEnrolledClubs(Tournament $tournament = null) {
+        if (Gate::allows("admin")) {
+            if ($tournament === null) {
+                $tournament = Tournament::latest()->first();
+                if ($tournament === null) {
+                    return response()->json([]);
+                }
+            }
+
+            $enrolledFighters = EnrolledFighter::with("fighter.person.club")->where("tournament_id", "=", $tournament->id)->get();
+            $clubs = $enrolledFighters->pluck("fighter.person.club");
+
+            $enrolledPersons = EnrolledPerson::with("person.club")->where("tournament_id", "=", $tournament->id)->get();
+            $clubs->concat($enrolledPersons->pluck("person.club"));
+
+            $enrolledTeams = EnrolledTeam::with("team.club")->where("tournament_id", "=", $tournament->id)->get();
+            $clubs->concat($enrolledTeams->pluck("team.club"));
+
+            return $clubs->unique();
         }
     }
 
@@ -432,25 +472,12 @@ class TournamentController extends Controller
      * @param Tournament|null $tournament |null
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getEnrolledClubs(Tournament $tournament = null) {
+    public function getEnrolledClubNames(Tournament $tournament = null) {
+        if (Gate::allows("admin")) {
+            $clubs = $this->getEnrolledClubs($tournament);
 
-        if ($tournament === null) {
-            $tournament = Tournament::latest()->first();
-            if ($tournament === null) {
-                return response()->json([]);
-            }
+            return response()->json(array_values($clubs->pluck("name")->unique()->toArray()));
         }
-
-        $enrolledFighters = EnrolledFighter::with("fighter.person.club")->where("tournament_id", "=", $tournament->id)->get();
-        $clubs = $enrolledFighters->pluck("fighter.person.club");
-
-        $enrolledPersons = EnrolledPerson::with("person.club")->where("tournament_id", "=", $tournament->id)->get();
-        $clubs->concat($enrolledPersons->pluck("person.club"));
-
-        $enrolledTeams = EnrolledTeam::with("team.club")->where("tournament_id", "=", $tournament->id)->get();
-        $clubs->concat($enrolledTeams->pluck("team.club"));
-
-        return response()->json(array_values($clubs->pluck("name")->unique()->toArray()));
     }
 
 }

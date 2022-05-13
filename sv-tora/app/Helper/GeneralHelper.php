@@ -236,7 +236,7 @@ class GeneralHelper
                 $maxAgeFighter = $fighter;
             }
         }
-        return self::determineCategoryOfFighter($fighter, "Team");
+        return self::determineCategoryOfFighter($maxAgeFighter, "Team");
     }
 
     public static function createTimeline(Tournament $tournament) {

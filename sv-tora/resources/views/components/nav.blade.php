@@ -31,17 +31,15 @@
                 </a>
                 <span class="bg"></span>
             </li>
-        @elseif(auth()->user())
-            {{-- TODO
+        @endcan
+        @if(\Illuminate\Support\Facades\Gate::allows("admin"))
             <li>
-                <a href="{{ url("/entities/clubs/" . auth()->user()->club->id) }}">
-                    <span class="text">Verein</span>
+                <a href="{{ url("/tournament/dashboard") }}">
+                    <span class="text">Wettkampf-Dashboard</span>
                 </a>
                 <span class="bg"></span>
             </li>
-            --}}
-        @endcan
-        @if(\App\Models\Tournament::latest()->first()?->active || \Illuminate\Support\Facades\Gate::allows("admin"))
+        @elseif(\App\Models\Tournament::latest()->first()?->active && !\App\Models\Tournament::latest()->first()?->excludedClubs->contains(\Illuminate\Support\Facades\Auth::user()->club))
             <li>
                 <a href="{{ url("/tournament/dashboard") }}">
                     <span class="text">Wettkampf-Dashboard</span>

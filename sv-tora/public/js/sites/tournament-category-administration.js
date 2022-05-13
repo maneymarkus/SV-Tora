@@ -105,7 +105,7 @@
 
             // delete category
             if (target.classList.contains("delete")) {
-                App.ModalModule.deleteModal("Kategorie " + categoryName + " löschen", "Willst du wirklich die Kategorie " + categoryName + " löschen?", function () {
+                App.ModalModule.deleteModal("Kategorie " + categoryName + " löschen", "Willst du wirklich die Kategorie " + categoryName + " löschen?<br>Angemeldete Kämpfer/Teams aus dieser Kategorie werden vom Wettkampf entfernt, wenn sie in keiner anderen Kategorie enthalten sind.", function () {
                     App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.DELETE, target.getAttribute("href"), () => {
                         This.inheritance.deleteAccordionBar(barHeader.parentElement);
                     }, undefined, true);

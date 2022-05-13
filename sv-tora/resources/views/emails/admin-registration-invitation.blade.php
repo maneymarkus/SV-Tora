@@ -7,6 +7,8 @@ Bitte klicke hier, um dich zu registrieren:
 Hier Registrieren
 @endcomponent
 
+<br>
+<br>
 Mit sportlichen Grüßen,<br />
 {{ config("mail.from.name") }}
 

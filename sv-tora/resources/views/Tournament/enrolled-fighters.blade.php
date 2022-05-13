@@ -22,7 +22,7 @@
             <x-slot name="heading">
                 Angemeldete <span class="highlighted-span">{{ $entities }}</span> zum {{ $tournament->tournamentTemplate->tournament_name }}
                 <p style="font-size: 1.2rem; font-weight: normal;"><strong>Hinweis</strong>: Die Aktion "Löschen" löscht hier nicht die angelegten {{ $entities }} komplett, sondern entfernt sie nur von diesem Wettkampf.</p>
-                <p style="font-size: 1.2rem; font-weight: normal;">Bitte beachte außerdem, dass dir beim Hinzufügen von Startern/Kämpfern nur jene angezeigt werden, die den Kriterien des Wettkampfes entsprechen (in Bezug auf erlaubte Graduierungen und Altersgrenzen).</p>
+                <p style="font-size: 1.2rem; font-weight: normal;">Bitte beachte außerdem, dass dir beim Hinzufügen von Startern/Kämpfern und Teams nur jene angezeigt werden, die den Kriterien des Wettkampfes entsprechen (in Bezug auf erlaubte Graduierungen und Altersgrenzen). Bei Teams erfolgt die Einteilung in die Kategorien anhand des Alters des Team-Ältesten.</p>
                 @if(!$enrollmentActive)
                     <p style="font-size: 1.2rem; font-weight: normal;">Da der reguläre Anmeldezeitraum nicht mehr aktiv ist, können die angemeldeten {{ $entities }} nur noch angesehen, aber nicht mehr bearbeitet werden.</p>
                 @endif

@@ -14,6 +14,7 @@ use App\Models\Tournament;
 use Carbon\Carbon;
 use Clegginabox\PDFMerger\PDFMerger;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -216,8 +217,9 @@ class CategoryController extends Controller
 
 
     public function splitCategory(Request $request, Tournament $tournament, Category $category) {
-        $categories = $request->input("categories");
-        foreach($categories as $categoryName => $members) {
+        $newCategories = $request->input("categories");
+        foreach($newCategories as $newCategoryInfo) {
+            $categoryName = $newCategoryInfo["categoryName"];
             if (Category::where("tournament_id", "=", $tournament->id)->where("name", "=", $categoryName)->first() != null) {
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Eine Kategorie mit dem Namen \"" . $categoryName . "\" existiert schon. Bitte wähle also einen anderen Namen.");
             }
@@ -225,24 +227,25 @@ class CategoryController extends Controller
                 "name" => $categoryName,
                 "tournament_id" => $tournament->id,
                 "examination_type" => $category->examination_type,
-                "graduation" => $category->graduation,
-                "age_start" => $category->age_start,
-                "age_end" => $category->age_end,
+                "graduation_min" => $category->graduation_min,
+                "graduation_max" => $category->graduation_max,
+                "age_min" => $category->age_min,
+                "age_max" => $category->age_max,
                 "sex" => $category->sex,
             ]);
-            foreach($members as $m) {
+            foreach($newCategoryInfo["members"] as $m) {
                 if ($category->teams->count() > 0) {
-                    $team = Team::find($m->id);
+                    $team = EnrolledTeam::find($m["id"]);
                     $newCategory->teams()->save($team);
                 } else {
-                    $fighter = Fighter::find($m->id);
+                    $fighter = EnrolledFighter::find($m["id"]);
                     $newCategory->fighters()->save($fighter);
                 }
             }
         }
         $oldCategoryName = $category->name;
         $category->delete();
-        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $oldCategoryName . "\" wurde erfolgreich geteilt!");
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $oldCategoryName . "\" wurde erfolgreich geteilt! Du wirst gleich zur Übersicht der Kategorien zurückgeleitet.");
     }
 
 
@@ -414,7 +417,18 @@ class CategoryController extends Controller
     public function destroy(Tournament $tournament, Category $category)
     {
         $categoryName = $category->name;
+        // get entities (fighters/teams) affected by category deletion
+        $affectedEntities = $category->entities()?->get();
         $category->delete();
+
+        // check if entities also enrolled in other categories, otherwise delete
+        if ($affectedEntities !== null) {
+            foreach ($affectedEntities as $affectedEntity) {
+                if ($affectedEntity->categories->count() <= 0) {
+                    $affectedEntity->delete();
+                }
+            }
+        }
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $categoryName . "\" wurde erfolgreich gelöscht.");
     }
 

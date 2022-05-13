@@ -21,6 +21,7 @@ main h1 {
     position: relative;
     text-align: center;
     margin-bottom: 2rem;
+    padding: 0 0.5rem;
 }
 
 .document:hover {

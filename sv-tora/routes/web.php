@@ -39,11 +39,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/mailable", function () {
-    return new \App\Mail\TournamentInvitationMail("Subjekt", "Wichtiger Inhalt");
+    return new \App\Mail\GenericMail("Subjekt", "Wichtiger Inhalt", true);
 });
 
 Route::get("/test", function () {
-    return app(ScheduleController::class)->show(\App\Models\Tournament::find(1));
+    $team = \App\Models\Team::find(5);
+    $category = \App\Helper\GeneralHelper::determineCategoryOfTeam($team);
+    return $team->fighters;
+
     return view("test");
 });
 
@@ -101,7 +104,15 @@ Route::post("/inform-admins-about-no-club", [ErrorController::class, "informAdmi
 Route::middleware(["auth:web", "hasClub"])->group(function () {
 
     Route::get("/dashboard", function () {
-        return view("dashboard");
+        $personCount = \App\Models\Person::all()->count();
+        $teamCount = \App\Models\Team::all()->count();
+        $clubCount = \App\Models\Club::all()->count();
+        if (!\Illuminate\Support\Facades\Auth::user()->isAdmin()) {
+            $ownClub = \Illuminate\Support\Facades\Auth::user()->club;
+            $personCount = \App\Models\Person::where("club_id", "=", $ownClub->id)->get()->count();
+            $teamCount = \App\Models\Team::where("club_id", "=", $ownClub->id)->get()->count();
+        }
+        return view("dashboard", ["personCount" => $personCount, "teamCount" => $teamCount, "clubCount" => $clubCount]);
     })->name("dashboard");
 
     Route::get("/no-club", function () {
@@ -116,6 +127,9 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
     Route::get("/user/settings", function () {
         return view("User.settings");
     })->withoutMiddleware("hasClub");
+
+    Route::put("/entities/users/{user}/password", [UserController::class, "updatePassword"]);
+    Route::put("/entities/users/{user}", [UserController::class, "update"]);
 
 
     /**************************************************************
@@ -250,7 +264,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
          *      Entity Routes                                         *
          **************************************************************/
 
-        Route::resource("/entities/users", UserController::class)->except(["create", "store", "edit"]);
+        Route::resource("/entities/users", UserController::class)->except(["create", "store", "edit", "update"]);
         Route::get("/entities/clubs/names", [ClubController::class, "getClubNames"]);
         Route::resource("/entities/clubs", ClubController::class);
         Route::get("/entities/users/{user}/admin/edit", [UserController::class, "editByAdmin"]);
@@ -270,8 +284,8 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         Route::post("/tournaments/{tournament}/finish", [TournamentController::class, "finishTournament"]);
         Route::get("/tournaments/{tournament}/status", [TournamentController::class, "editTournamentStatus"]);
         Route::post("/tournaments/{tournament}/status", [TournamentController::class, "updateTournamentStatus"]);
-        Route::get("/tournaments/{tournament}/clubs/enrolled", [TournamentController::class, "getEnrolledClubs"]);
-        Route::get("/tournaments/{tournament}/clubs/excluded", [TournamentController::class, "getExcludedClubs"]);
+        Route::get("/tournaments/{tournament}/clubs/enrolled", [TournamentController::class, "getEnrolledClubNames"]);
+        Route::get("/tournaments/{tournament}/clubs/excluded", [TournamentController::class, "getExcludedClubNames"]);
         Route::post("/tournaments/{tournament}/clubs/exclude", [TournamentController::class, "excludeClub"]);
         Route::post("/tournaments/{tournament}/clubs/include", [TournamentController::class, "includeClub"]);
         Route::resource("/tournaments", TournamentController::class)->except(["index", "show"]);
@@ -324,6 +338,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
  *      Legal Stuff                                           *
  **************************************************************/
 
+/*
 Route::get("/legal-notice", function () {
     return view("legal-notice");
 });
@@ -331,6 +346,7 @@ Route::get("/legal-notice", function () {
 Route::get("/data-privacy-statement", function () {
     return view("data-privacy-statement");
 });
+*/
 
 
 /**************************************************************

@@ -54,10 +54,11 @@
         let content = App.GeneralModule.generateElement("div");
         content.appendChild(informativeParagraph);
         content.appendChild(emailInput.inputContainer);
-        if (App.GeneralModule.isAdmin()) {
+        let clubSelect;
+        if (inviteButton.getAttribute("data-full-permission") === "1") {
             App.LoaderModule.addBigLoader();
             let clubNames = await App.SendRequestModule.getData("/entities/clubs/names", (clubNames) => {
-                let clubSelect = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.SELECT, ["required", "club"], undefined, "club", "Zugeordnet zu Verein: ", undefined, undefined, clubNames);
+                clubSelect = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.SELECT, ["required", "club"], undefined, "club", "Zugeordnet zu Verein: ", undefined, undefined, clubNames);
                 content.appendChild(clubSelect.inputContainer);
             });
             App.LoaderModule.removeBigLoader();

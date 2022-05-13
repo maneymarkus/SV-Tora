@@ -67,7 +67,7 @@
                 target = target.parentElement;
             }
 
-            if (target.classList.contains("fighting-system")) {
+            if (target.classList.contains("fighting-system") && target.nodeName === "A") {
                 if (This.inheritance.openBar.classList.contains("prepared")) {
                     App.ModalModule.confirmModal("Kampfsystem wählen...", "Willst du wirklich ein anderes Kampfsystem wählen? Eventuelle Änderungen, die du schon gemacht hast, werden damit überschrieben und das kann nicht rückgängig gemacht werden.", This.chooseFightingSystem);
                 } else {

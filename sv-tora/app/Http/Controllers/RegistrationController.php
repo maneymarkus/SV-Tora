@@ -41,7 +41,7 @@ class RegistrationController extends Controller
         ]);
 
         $email = $request->input("email");
-        $club = $request->input("club");
+        $club = Club::where("name", "=", $request->input("club"))->first();
 
         if (User::where("email", "=", $email)->first() !== null) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Dieser User existiert schon in unserer Datenbank. Eine Einladung ist daher nicht notwendig.");
@@ -54,7 +54,7 @@ class RegistrationController extends Controller
 
         $invitation = RegistrationInvitation::updateOrCreate(
             ["email" => $email],
-            ["token" => $token, "role_id" => Role::getRoleId(Roles::REGULAR), "club" => $club]
+            ["token" => $token, "role_id" => Role::getRoleId(Roles::REGULAR), "club_id" => $club->id]
         );
 
         if (Mail::failures()) {
@@ -167,6 +167,9 @@ class RegistrationController extends Controller
             "role_id" => Role::getRoleId(Roles::REGULAR),
         ]);
 
+        $newUser->club()->associate($invitation->club);
+        $newUser->save();
+
         $invitation->delete();
 
         $credentials = $request->only("email", "password");
@@ -223,7 +226,11 @@ class RegistrationController extends Controller
             "role_id" => Role::getRoleId(Roles::ADMIN),
         ]);
 
-        $newAdmin->permissions()->sync(Permission::all()->pluck("id"));
+        $newAdmin->club()->associate($invitation->club);
+        $newAdmin->save();
+
+        # new admins shouldn't have any additional permissions at first
+        # $newAdmin->permissions()->sync(Permission::all()->pluck("id"));
 
         $invitation->delete();
 

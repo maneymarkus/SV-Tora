@@ -1507,7 +1507,7 @@ class FileInput extends Input {
     }
 
     getValue() {
-        return this.inputElement.value;
+        return this.inputElement.files;
     }
 
     /**

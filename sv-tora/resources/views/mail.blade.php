@@ -18,7 +18,7 @@
             <h3>Wem willst du schreiben?</h3>
             <div class="receiver-container clearfix">
                 <div class="receiver-selection">
-                    <div class="radio-group input-container required">
+                    <div class="radio-group input-container">
                         <label class="radio-input-container">
                             Allen Vereinen
                             <input type="radio" name="receiver" value="all" data-url="{{ url("/mail/user-mails/all") }}" />
@@ -53,29 +53,25 @@
                     <span class="to">An:</span>
                     @isset($emails)
                         @foreach($emails as $email)
-                            <x-tag class="receiver">
-                                @isset($email["name"])
-                                    <x-slot name="key">{{ $email["name"] }}</x-slot>
-                                @endisset
-                                <x-slot name="value">{{ $email["mail"] }}</x-slot>
-                            </x-tag>
+                            @php
+                                $key = $email["name"] ?? null;
+                                $value = $email["mail"];
+                            @endphp
+                            <x-tag class="receiver" :key="$key" :value="$value"></x-tag>
                         @endforeach
                     @endisset
                 </div>
             </div>
+
             <h3>Worum geht's?</h3>
             <span class="text-input-container input-container subject required">
                 <label class="icon" for="subject"><i class="material-icons">person</i></label>
-                @isset($subject)
-                    <input class="text-input" type="text" id="subject" name="subject" value="{{ $subject }}" />
-                @else
-                    <input class="text-input" type="text" id="subject" name="subject" />
-                @endisset
+                    <input class="text-input" type="text" id="subject" name="subject" value="{{ $subject ?? "" }}" />
                 <label class="text" for="subject">Betreff</label>
                 <span class="underline"></span>
             </span>
             <h3>Was willst du genau mitteilen?</h3>
-            <textarea class="textarea input-container required" name="content" placeholder="Deine Nachricht...">@isset($content){{ $content }}@endisset</textarea>
+            <textarea class="textarea input-container required" name="content" placeholder="Deine Nachricht...">{{ $content ?? "" }}</textarea>
             @if(session("tournamentInvitation"))
                 <p style="margin-left: -1.5rem; padding-left: 1.5rem; border-left: 4px solid var(--accent-color-1-dark); font-size: 1.25rem">
                     Der Mail wird außerdem ein Button mit direktem Link zum Wettkampf Dashboard angefügt und folgender Text:<br />
@@ -84,8 +80,12 @@
                 </p>
             @else
                 <h3>Willst du einen Button mit direktem Link zum Dashboard in die Mail einfügen?</h3>
-                <x-inputs.switch-input name="include-button" text="Hallo" value="1"></x-inputs.switch-input>
+                <x-inputs.switch-input name="include-button" text="Button einfügen" value="1"></x-inputs.switch-input>
             @endif
+
+            <h3>Willst du eine (oder mehrere) Datei(en) anhängen?</h3>
+            <x-inputs.file-input name="attached-files"></x-inputs.file-input>
+
             <h3>Senden?</h3>
             <a class="primary-button send" href="{{ url("/mail") }}">
                 <i class="material-icons">mail</i>

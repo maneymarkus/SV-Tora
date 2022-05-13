@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -88,7 +89,6 @@ class UserController extends Controller
     {
         $editable = [
             "name" => "Der Name wurde erfolgreich geändert.",
-            "password" => "Das Passwort wurde erfolgreich geändert.",
             "dark_mode" => "Der Design Modus wurde erfolgreich geändert.",
             "smartphone_optimized_tables" => "Die Tabellenoptimierung wurde erfolgreich geändert."
         ];
@@ -109,6 +109,17 @@ class UserController extends Controller
         } else {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.");
         }
+    }
+
+    public function updatePassword(Request $request, User $user) {
+        $givenOldPassword = $request->input("oldPassword");
+        Log::info($givenOldPassword);
+        if (!Hash::check($givenOldPassword, $user->password)) {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das alte Passwort stimmt nicht mit den gespeicherten Daten überein.");
+        }
+        $user->password = Hash::make($request->input("password"));
+        $user->save();
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Das Passwort wurde erfolgreich geändert.");
     }
 
     /**
@@ -196,10 +207,10 @@ class UserController extends Controller
         $userMails = [];
 
         foreach ($users as $user) {
-            array_push($userMails, [
+            $userMails[] = [
                 "name" => $club->name,
                 "mail" => $user->email,
-            ]);
+            ];
         }
 
         return $userMails;
@@ -226,7 +237,8 @@ class UserController extends Controller
 
             $userMails = [];
 
-            foreach ($clubs as $club) {
+            foreach ($clubs as $c) {
+                $club = Club::find($c["id"]);
                 $userMails = array_merge($userMails, $this->getMailsFromUsersOfClub($club));
             }
 
@@ -241,7 +253,7 @@ class UserController extends Controller
         $clubs = [];
 
         foreach ($receivers as $receiver) {
-            array_push($clubs, Club::where("name", "=", $receiver)->first());
+            $clubs[] = Club::where("name", "=", $receiver)->first();
         }
 
         $userMails = [];

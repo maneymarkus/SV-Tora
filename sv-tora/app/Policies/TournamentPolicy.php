@@ -25,6 +25,15 @@ class TournamentPolicy
     }
 
 
+    public function dashboard(User $user) {
+        $tournament = Tournament::latest()->first();
+        if ($tournament?->active && !$tournament?->excludedClubs->contains($user->club)) {
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * This function is used for the various api endpoints to prevent regular users to be able to use them
      *

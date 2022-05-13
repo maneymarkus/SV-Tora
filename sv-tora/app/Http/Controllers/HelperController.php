@@ -18,7 +18,7 @@ class HelperController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(Person::class, 'person');
+        $this->authorizeResource(Person::class, 'helper');
     }
 
     /**
