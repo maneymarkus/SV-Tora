@@ -93,8 +93,17 @@ class EnrolledTeamController extends Controller
         } else {
             $selectableTeams = Team::where("club_id", "=", Auth::user()->club->id)->get();
         }
-        $selectableTeams = $selectableTeams->reject(function ($team) use ($allEnrolledTeamIds) {
-            return $allEnrolledTeamIds->contains($team->id) || $team->getHighestAge() > 17;
+        $selectableTeams = $selectableTeams->reject(function ($team) use ($tournament, $allEnrolledTeamIds) {
+            if ($team->getHighestAge(Carbon::parse($tournament->date)) < 8) {
+                return true;
+            }
+            if ($team->getHighestAge(Carbon::parse($tournament->date)) > 17) {
+                return true;
+            }
+            if ($allEnrolledTeamIds->contains($team->id)) {
+                return true;
+            }
+            return false;
         });
         $rows = [];
         $counter = 1;
@@ -150,7 +159,6 @@ class EnrolledTeamController extends Controller
 
                 $category->prepared = true;
                 $category->save();
-                Log::info($category);
             }
 
             app(FightingSystemController::class)->reinitializeFightingSystem($category);

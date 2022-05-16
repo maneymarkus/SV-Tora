@@ -13,12 +13,6 @@
 */
 
 body {
-    --theme-color-1: #E5E5E5;
-    --theme-color-2: #FFFFFF;
-    --theme-color-3: #C8C8C8;
-    --theme-color-4: #9D9D9D;
-    --theme-color-5: #4D4D4D;
-
     --theme-color-1-light: #E5E5E5;
     --theme-color-2-light: #FFFFFF;
     --theme-color-3-light: #C8C8C8;
@@ -30,6 +24,12 @@ body {
     --theme-color-3-dark: #303030;
     --theme-color-4-dark: #4a4a4a;
     --theme-color-5-dark: #9b9b9b;
+
+    --theme-color-1: var(--theme-color-1-light);
+    --theme-color-2: var(--theme-color-2-light);
+    --theme-color-3: var(--theme-color-3-light);
+    --theme-color-4: var(--theme-color-4-light);
+    --theme-color-5: var(--theme-color-5-light);
 
     --disabled-light: #A0A0A0;
     --disabled-dark: #727272;
@@ -61,11 +61,11 @@ body {
 }
 
 body.darkmode {
-    --theme-color-1: #171717;
-    --theme-color-2: #222222;
-    --theme-color-3: #303030;
-    --theme-color-4: #4a4a4a;
-    --theme-color-5: #9b9b9b;
+    --theme-color-1: var(--theme-color-1-dark);
+    --theme-color-2: var(--theme-color-2-dark);
+    --theme-color-3: var(--theme-color-3-dark);
+    --theme-color-4: var(--theme-color-4-dark);
+    --theme-color-5: var(--theme-color-5-dark);
 
     --placeholder-color: #B4B4B4;
     --text-color: white;

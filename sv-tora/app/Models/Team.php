@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helper\GeneralHelper;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -36,11 +37,14 @@ class Team extends Model
         return $this->hasMany(EnrolledTeam::class);
     }
 
-    public function getHighestAge() {
+    public function getHighestAge(Carbon $date = null) {
+        if ($date === null) {
+            $date = Carbon::today();
+        }
         $maxAge = 0;
         foreach ($this->fighters as $fighter) {
-            if ($fighter->age() > $maxAge) {
-                $maxAge = $fighter->age();
+            if ($fighter->age($date) > $maxAge) {
+                $maxAge = $fighter->age($date);
             }
         }
         return $maxAge;
