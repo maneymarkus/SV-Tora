@@ -36,7 +36,7 @@ class KOSystemWithFinalTables implements FightingSystem {
 
     function initialize()
     {
-        $this->fightingTree = new FightingTree(clone $this->fighters, false);
+        $this->fightingTree = new FightingTree(clone $this->fighters);
         $this->fightingTree->initializeFightingTree();
         $this->numberReferees = 5;
     }

@@ -7,12 +7,13 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Clegginabox\PDFMerger\PDFMerger;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class BrazilianKOSystem implements FightingSystem {
 
     public FightingTree $fightingTree;
-    public ConsolationTree $consolationTree;
+    public FightingTree $consolationTree;
     private Collection $fighters;
 
     public function __construct(protected Category $category)
@@ -37,11 +38,14 @@ class BrazilianKOSystem implements FightingSystem {
     {
         $this->fightingTree = new FightingTree($this->fighters);
         $this->fightingTree->initializeFightingTree();
-        $numberFighterConsolationTree = $this->fightingTree->numberLevels * 2;
+        $numberFighterConsolationTree = ($this->fightingTree->numberLevels - 1) * 2;
         if ($this->fightingTree->numberPreFights > 0) {
-            $numberFighterConsolationTree += 2;
+            $numberFighterConsolationTree++;
+            if ($this->fightingTree->numberPreFights > pow(2, $this->fightingTree->numberLevels) / 2) {
+                $numberFighterConsolationTree++;
+            }
         }
-        $this->consolationTree = new ConsolationTree($numberFighterConsolationTree, $this->fighters->count() - 2);
+        $this->consolationTree = new FightingTree($numberFighterConsolationTree, $this->fightingTree->numberFights + 1);
         $this->consolationTree->initializeFightingTree();
     }
 
@@ -68,10 +72,10 @@ class BrazilianKOSystem implements FightingSystem {
         $pdf->addPDF(storage_path("app/public/" . $metaInfoPath), orientation: "P");
 
         $fightingTreePath = $this->fightingTree->print($this->category->tournament->id, $this->category->id);
-        $pdf->addPDF(storage_path("app/public/" . $fightingTreePath), orientation: "L");
+        $pdf->addPDF($fightingTreePath, orientation: "L");
 
-        $consolationTreePath = $this->consolationTree->print($this->category->tournament->id, $this->category->id);
-        $pdf->addPDF(storage_path("app/public/" . $consolationTreePath), orientation: "L");
+        $consolationTreePath = $this->consolationTree->print($this->category->tournament->id, $this->category->id, isConsolation: true);
+        $pdf->addPDF($consolationTreePath, orientation: "L");
 
         $totalPdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";
         $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
@@ -91,10 +95,13 @@ class BrazilianKOSystem implements FightingSystem {
     {
         $serializedFightingSystem = $this->category->fighting_system_configuration;
         $this->fightingTree = FightingTree::deserialize(clone $this->fighters, $serializedFightingSystem["fightingTree"]);
-        $numberFighterConsolationTree = $this->fightingTree->numberLevels * 2;
+        $numberFighterConsolationTree = ($this->fightingTree->numberLevels - 1) * 2;
         if ($this->fightingTree->numberPreFights > 0) {
-            $numberFighterConsolationTree += 2;
+            $numberFighterConsolationTree++;
+            if ($this->fightingTree->numberPreFights > pow(2, $this->fightingTree->numberLevels) / 2) {
+                $numberFighterConsolationTree++;
+            }
         }
-        $this->consolationTree = ConsolationTree::deserialize($numberFighterConsolationTree, $serializedFightingSystem["consolationTree"]);
+        $this->consolationTree = FightingTree::deserialize($numberFighterConsolationTree, $serializedFightingSystem["consolationTree"]);
     }
 }

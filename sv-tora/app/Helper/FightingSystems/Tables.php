@@ -50,6 +50,7 @@ class Tables implements FightingSystem {
         $isTeams = $this->category->teams->count() > 0;
         $pdf = Pdf::loadView("FightingSystem.tables", ["category" => $this->category, "numberReferees" => $this->numberReferees, "id" => GeneralHelper::uniqueRandomIdentifier(), "isTeams" => $isTeams]);
         $pdfPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/Kampfsystem Kategorie " . $this->category->name . ".pdf";;
+        mkdir(storage_path("app/public/" . dirname($pdfPath)), recursive: true);
         $pdf->save(storage_path("app/public/" . $pdfPath));
         return $pdfPath;
     }
