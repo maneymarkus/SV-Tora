@@ -61,6 +61,7 @@
             <div class="info dashboard-container">
                 <h3>Info</h3>
                 <p class="clearfix"><span class="left">Graduierungen</span><span class="right">{{ $tournament->tournamentTemplate->graduation_min . " - " . $tournament->tournamentTemplate->graduation_max }}</span></p>
+                <p class="clearfix" style="text-align: center"><a class="link" target="_blank" href="{{ url("/tournaments/" . $tournament->id . "/categories/overview") }}" style="font-size: inherit">Kategorienübersicht</a></p>
             </div>
 
             @php
@@ -84,19 +85,19 @@
                     <a class="enrollment referees group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/referees") }}">
                         <p class="text">Kampf&shy;richter</p>
                         <span class="circle">
-                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::REFEREE)->get()->count() }}</span>
+                            <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::REFEREE)->count() }}</span>
                         </span>
                     </a>
                     <a class="enrollment coaches group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/coaches") }}">
                         <p class="text">Coaches</p>
                         <span class="circle">
-                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::COACH)->get()->count() }}</span>
+                            <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::COACH)->count() }}</span>
                         </span>
                     </a>
                     <a class="enrollment helper group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/helper") }}">
                         <p class="text">Helfer</p>
                         <span class="circle">
-                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::HELPER)->get()->count() }}</span>
+                            <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::HELPER)->count() }}</span>
                         </span>
                     </a>
                 </div>

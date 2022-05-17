@@ -8,11 +8,14 @@ use App\Models\Club;
 use App\Models\EnrolledPerson;
 use App\Models\Person;
 use App\Models\Tournament;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class EnrolledPersonController extends Controller
 {
@@ -23,7 +26,7 @@ class EnrolledPersonController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(Tournament $tournament, $type, $addUrl, $deleteUrl, $entities, $entity)
+    public function index(Tournament $tournament, $type, $addUrl, $deleteUrl, $editUrl, $entities, $entity)
     {
         $this->authorize("viewAny", [EnrolledPerson::class, $tournament]);
 
@@ -48,13 +51,34 @@ class EnrolledPersonController extends Controller
         foreach ($enrolledPersons as $enrolledPerson) {
             $row = [
                 "data" => $enrolledPerson->person->tableProperties($counter++),
+                "editUrl" => url($editUrl . "/" . $enrolledPerson->person->id),
                 "deleteUrl" => url($deleteUrl . "/" . $enrolledPerson->id),
             ];
             array_push($rows, $row);
         }
 
-        return response()->view("Tournament.enrolled-entities", ["tournament" => $tournament, "addUrl" => $addUrl, "entities" => $entities, "entity" => $entity, "columns" => Person::tableHeadings(), "rows" => $rows, "enrollmentActive" => $enrollmentActive]);
+        return response()->view("Tournament.enrolled-entities", ["tournament" => $tournament, "addUrl" => $addUrl, "entities" => $entities, "entity" => $entity, "columns" => Person::tableHeadings(), "rows" => $rows, "enrollmentActive" => $enrollmentActive, "printEnrolledUrl" => $deleteUrl . "/print"]);
     }
+
+
+    public function print(Tournament $tournament, $type, $entities) {
+        $this->authorize("viewAny", [EnrolledPerson::class, $tournament]);
+
+        $enrolledPersons = $tournament->enrolledPeople()->get()->where("person.type", "=", $type)->sortBy("person.last_name");
+        if (!Auth::user()->isAdmin()) {
+            $enrolledPersons = $enrolledPersons->where("person.club_id", "=", Auth::user()->club->id);
+        }
+        $pdf = Pdf::loadView("Tournament.print-enrolled-entities", ["tournament" => $tournament, "isAdmin" => Auth::user()->isAdmin(), "enrolledPersons" => $enrolledPersons, "entities" => $entities]);
+        $pdfPath = "tournaments/" . $tournament->id . "/enrolledPersons";
+        if (!is_dir(storage_path("app/public/" . dirname($pdfPath)))) {
+            mkdir(storage_path("app/public/" . dirname($pdfPath)), recursive: true);
+        }
+        $tempFileMetaData = stream_get_meta_data(tmpfile());
+        $pdf->save($tempFileMetaData["uri"]);
+        $path = Storage::disk("public")->putFile($pdfPath, new File($tempFileMetaData["uri"]));
+        return Storage::disk("public")->download($path);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -75,6 +99,13 @@ class EnrolledPersonController extends Controller
         $selectablePersons = $selectablePersons->reject(function ($person) use ($allEnrolledPersonIds) {
             return $allEnrolledPersonIds->contains($person->id);
         });
+        // reject all persons of excluded clubs
+        if ($tournament->excludedClubs !== null) {
+            $selectablePersons = $selectablePersons->reject(function ($person) use ($tournament) {
+                $excludedClubsIds = $tournament->excludedClubs->pluck("id");
+                return $excludedClubsIds->contains($person->club->id);
+            });
+        }
         $rows = [];
         $counter = 1;
 
@@ -104,6 +135,11 @@ class EnrolledPersonController extends Controller
             $club = Club::firstWhere("name", "=", $selectedEntity["Verein"]);
             if (!Gate::allows("admin") && $club != Auth::user()->club) {
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Eine oder mehrere der ausgewählten Personen kannst du nicht hinzufügen.");
+            }
+            if ($tournament->excludedClubs !== null) {
+                if ($tournament->excludedClubs->contains($club)) {
+                    return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Einen oder mehrere der ausgewählten Personen kannst du nicht zum Wettkampf hinzufügen, da der zugehörige Verein vom Wettkampf ausgeschlossen ist.");
+                }
             }
             $first_name = $selectedEntity["Vorname"];
             $last_name = $selectedEntity["Nachname"];

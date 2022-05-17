@@ -170,6 +170,8 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
     Route::get("/tournament/dashboard", [TournamentController::class, "dashboard"]);
 
     Route::middleware("activeTournament")->group(function () {
+        Route::get("/tournaments/{tournament}/categories/overview", [CategoryController::class, "printCategoriesOverview"]);
+
         Route::get("/tournament/enrollment", function () {
             return view("Tournament.enrollment");
         });
@@ -183,24 +185,29 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         Route::get("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}/configure", [EnrolledFighterController::class, "edit"]);
         Route::post("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}", [EnrolledFighterController::class, "update"]);
         Route::delete("/tournaments/{tournament}/enrolled/fighters/{enrolled_fighter}", [EnrolledFighterController::class, "destroy"]);
+        Route::get("/tournaments/{tournament}/enrolled/fighters/print", [EnrolledFighterController::class, "print"]);
 
         Route::get("/tournaments/{tournament}/enrolled/coaches", [EnrolledCoachController::class, "index"]);
         Route::get("/tournaments/{tournament}/enrolled/coaches/add", [EnrolledCoachController::class, "add"]);
         Route::post("/tournaments/{tournament}/enrolled/coaches", [EnrolledCoachController::class, "enroll"]);
         Route::delete("/tournaments/{tournament}/enrolled/coaches/{enrolled_coach}", [EnrolledCoachController::class, "destroy"]);
+        Route::get("/tournaments/{tournament}/enrolled/coaches/print", [EnrolledCoachController::class, "print"]);
         Route::get("/tournaments/{tournament}/enrolled/referees", [EnrolledRefereeController::class, "index"]);
         Route::get("/tournaments/{tournament}/enrolled/referees/add", [EnrolledRefereeController::class, "add"]);
         Route::post("/tournaments/{tournament}/enrolled/referees", [EnrolledRefereeController::class, "enroll"]);
         Route::delete("/tournaments/{tournament}/enrolled/referees/{enrolled_referee}", [EnrolledRefereeController::class, "destroy"]);
+        Route::get("/tournaments/{tournament}/enrolled/referees/print", [EnrolledRefereeController::class, "print"]);
         Route::get("/tournaments/{tournament}/enrolled/helper", [EnrolledHelperController::class, "index"]);
         Route::get("/tournaments/{tournament}/enrolled/helper/add", [EnrolledHelperController::class, "add"]);
         Route::post("/tournaments/{tournament}/enrolled/helper", [EnrolledHelperController::class, "enroll"]);
         Route::delete("/tournaments/{tournament}/enrolled/helper/{enrolled_helper}", [EnrolledHelperController::class, "destroy"]);
+        Route::get("/tournaments/{tournament}/enrolled/helper/print", [EnrolledHelperController::class, "print"]);
 
         Route::get("/tournaments/{tournament}/enrolled/teams", [EnrolledTeamController::class, "index"]);
         Route::get("/tournaments/{tournament}/enrolled/teams/add", [EnrolledTeamController::class, "add"]);
         Route::post("/tournaments/{tournament}/enrolled/teams", [EnrolledTeamController::class, "enroll"]);
         Route::delete("/tournaments/{tournament}/enrolled/teams/{enrolled_team}", [EnrolledTeamController::class, "destroy"]);
+        Route::get("/tournaments/{tournament}/enrolled/teams/print", [EnrolledTeamController::class, "print"]);
     });
 
 

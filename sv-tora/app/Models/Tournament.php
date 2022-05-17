@@ -38,6 +38,14 @@ class Tournament extends Model
         return $this->hasMany(EnrolledPerson::class);
     }
 
+    public function enrolledFighters() {
+        return $this->hasMany(EnrolledFighter::class);
+    }
+
+    public function enrolledTeams() {
+        return $this->hasMany(EnrolledTeam::class);
+    }
+
     public function categories() {
         return $this->hasMany(Category::class);
     }

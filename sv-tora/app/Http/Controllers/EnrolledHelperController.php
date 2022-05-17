@@ -18,7 +18,11 @@ class EnrolledHelperController extends Controller
     public function index(Tournament $tournament)
     {
         return app(EnrolledPersonController::class)
-            ->index($tournament, PersonTypes::HELPER, url("/tournaments/" . $tournament->id . "/enrolled/helper/add"), url("/tournaments/" . $tournament->id . "/enrolled/helper/"), "Helfer", "Helfer");
+            ->index($tournament, PersonTypes::HELPER, url("/tournaments/" . $tournament->id . "/enrolled/helper/add"), url("/tournaments/" . $tournament->id . "/enrolled/helper/"), url("/entities/helper/"), "Helfer", "Helfer");
+    }
+
+    public function print(Tournament $tournament) {
+        return app(EnrolledPersonController::class)->print($tournament, PersonTypes::HELPER, "Helfer");
     }
 
     /**

@@ -10,11 +10,14 @@ use App\Models\Club;
 use App\Models\EnrolledFighter;
 use App\Models\Fighter;
 use App\Models\Tournament;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class EnrolledFighterController extends Controller
 {
@@ -70,7 +73,7 @@ class EnrolledFighterController extends Controller
                     $enrolledFighter->fighter->age(),
                     $enrolledFighter->fighter->sex,
                     $enrolledFighter->fighter->graduation,
-                    implode(", ", $enrolledFighter->categories->pluck("name")->toArray()),
+                    implode(", ", $enrolledFighter->categories()->where("tournament_id", "=", $tournament->id)->get()->pluck("name")->toArray()),
                 ],
                 "editUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id),
                 "deleteUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/" . $enrolledFighter->id),
@@ -80,8 +83,28 @@ class EnrolledFighterController extends Controller
             }
             $rows[] = $row;
         }
-        return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/add"), "entities" => "Kämpfer", "entity" => "Kämpfer", "columns" => $columns, "rows" => $rows, "enrollmentActive" => $enrollmentActive]);
+        return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/add"), "entities" => "Kämpfer", "entity" => "Kämpfer", "columns" => $columns, "rows" => $rows, "enrollmentActive" => $enrollmentActive, "printEnrolledUrl" => url("/tournaments/" . $tournament->id . "/enrolled/fighters/print")]);
     }
+
+
+    public function print(Tournament $tournament) {
+        $this->authorize("viewAny", [EnrolledFighter::class, $tournament]);
+
+        $enrolledFighters = $tournament->enrolledFighters()->get()->sortBy("fighter.person.last_name");
+        if (!Auth::user()->isAdmin()) {
+            $enrolledFighters = $enrolledFighters->where("fighter.person.club_id", "=", Auth::user()->club->id);
+        }
+        $pdf = Pdf::loadView("Tournament.print-enrolled-fighters", ["tournament" => $tournament, "isAdmin" => Auth::user()->isAdmin(), "enrolledFighters" => $enrolledFighters]);
+        $pdfPath = "tournaments/" . $tournament->id . "/enrolledFighters";
+        if (!is_dir(storage_path("app/public/" . dirname($pdfPath)))) {
+            mkdir(storage_path("app/public/" . dirname($pdfPath)), recursive: true);
+        }
+        $tempFileMetaData = stream_get_meta_data(tmpfile());
+        $pdf->save($tempFileMetaData["uri"]);
+        $path = Storage::disk("public")->putFile($pdfPath, new File($tempFileMetaData["uri"]));
+        return Storage::disk("public")->download($path);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -101,6 +124,7 @@ class EnrolledFighterController extends Controller
                 return $fighter->person->club->id !== $user->club->id;
             });
         }
+        // reject all fighters that don't match the age and graduation limits
         $selectableFighters = $selectableFighters->reject(function ($fighter) use ($allEnrolledFighterIds, $tournament) {
             $graduationMin = array_search($tournament->tournamentTemplate->graduation_min, config("global.graduations"));
             $graduationMax = array_search($tournament->tournamentTemplate->graduation_max, config("global.graduations"));
@@ -110,6 +134,13 @@ class EnrolledFighterController extends Controller
                 || array_search($fighter->graduation, config("global.graduations")) > $graduationMax
                 || array_search($fighter->graduation, config("global.graduations")) < $graduationMin;
         });
+        // reject all fighters of excluded clubs
+        if ($tournament->excludedClubs !== null) {
+            $selectableFighters = $selectableFighters->reject(function ($fighter) use ($tournament) {
+                $excludedClubsIds = $tournament->excludedClubs->pluck("id");
+                return $excludedClubsIds->contains($fighter->person->club->id);
+            });
+        }
         $rows = [];
         $counter = 1;
 
@@ -140,6 +171,11 @@ class EnrolledFighterController extends Controller
             $club = Club::firstWhere("name", "=", $selectedEntity["Verein"]);
             if (!Gate::allows("admin") && $club != Auth::user()->club) {
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Eine oder mehrere der ausgewählten Kämpfer kannst du aufgrund von fehlenden Berechtigungen nicht hinzufügen.");
+            }
+            if ($tournament->excludedClubs !== null) {
+                if ($tournament->excludedClubs->contains($club)) {
+                    return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Einen oder mehrere der ausgewählten Kämpfer kannst du nicht zum Wettkampf hinzufügen, da der zugehörige Verein vom Wettkampf ausgeschlossen ist.");
+                }
             }
             $first_name = $selectedEntity["Vorname"];
             $last_name = $selectedEntity["Nachname"];

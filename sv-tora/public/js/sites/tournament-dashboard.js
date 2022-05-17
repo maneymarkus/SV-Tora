@@ -249,242 +249,245 @@
 
     let excludedClubsCard = document.querySelector("a.excluded-clubs");
     let exclusionModal = document.querySelector(".exclude-clubs-modal");
-    let closeExclusionModalButton = exclusionModal.querySelector(".close");
-    let excludedContainer = exclusionModal.querySelector("div.excluded-clubs");
-    let clubContainer = exclusionModal.querySelector(".club-selection");
-    let excludeButton = exclusionModal.querySelector(".secondary-button.exclude");
-    let excludeInput = exclusionModal.querySelector(".text-input-container");
-    let excludeInputObject = MaterialInputsModule.getInputObject(excludeInput);
-    let countExcludedClubsSpan = excludedClubsCard.querySelector("span.count-excluded");
-    let checkboxesObject = undefined;
+    if (exclusionModal) {
+        let closeExclusionModalButton = exclusionModal.querySelector(".close");
+        let excludedContainer = exclusionModal.querySelector("div.excluded-clubs");
+        let clubContainer = exclusionModal.querySelector(".club-selection");
+        let excludeButton = exclusionModal.querySelector(".secondary-button.exclude");
+        let excludeInput = exclusionModal.querySelector(".text-input-container");
+        let excludeInputObject = MaterialInputsModule.getInputObject(excludeInput);
+        let countExcludedClubsSpan = excludedClubsCard.querySelector("span.count-excluded");
+        let checkboxesObject = undefined;
 
-    SecondaryButtonModule.disableSecondaryButton(excludeButton);
-
-    let allClubsUrl = "/entities/clubs/names";
-    let allClubs = [];
-    let baseUrl = excludedClubsCard.getAttribute("href");
-    let enrolledClubsUrl = baseUrl + "/clubs/enrolled";
-    let enrolledClubs = [];
-    let excludedClubsUrl = baseUrl + "/clubs/excluded";
-    let excludedClubs = [];
-    let excludeClubUrl = baseUrl + "/clubs/exclude";
-    let includeClubUrl = baseUrl + "/clubs/include";
-
-    /**
-     * A click on the excluded club card in the dashboard should open the exclusion modal
-     */
-    excludedClubsCard.addEventListener("click", function (e) {
-        e.preventDefault();
-        openExclusionModal();
-    });
-
-    /**
-     * A click on the exclude action button in the dashboard should open the exclusion modal
-     */
-    closeExclusionModalButton.addEventListener("click", function (e) {
-        closeExclusionModal();
-    });
-
-    /**
-     * This function decides whether to enable the button to finally exclude a selected entity/e-mail address or not
-     */
-    function controlExclusionButton() {
-        let value = excludeInputObject.getValue();
-        let selection = checkboxesObject.getValue();
-        if (selection.length > 0 || value !== "") {
-            if (excludeInputObject.incorrect) {
-                SecondaryButtonModule.disableSecondaryButton(excludeButton);
-            } else {
-                SecondaryButtonModule.enableSecondaryButton(excludeButton);
-            }
-        } else {
-            SecondaryButtonModule.disableSecondaryButton(excludeButton);
-        }
-    }
-
-    /**
-     * A click on the exclude button triggers the exclusion of selected entities
-     */
-    excludeButton.addEventListener("click", function () {
-        let selection = checkboxesObject.getValue();
-        if (selection.length > 0) {
-            App.ModalModule.confirmModal("Verein(e) ausschließen", "Möchtest du die gewählten/den gewählten Verein(e) wirklich vom Wettkampf ausschließen?", function () {
-                excludeEntities(selection);
-            });
-        }
         SecondaryButtonModule.disableSecondaryButton(excludeButton);
-    });
 
-    /**
-     * Clicks in the container containing the excluded club tags should be captured and if the user clicked a delete button ("wants to remove this club from the excluded club list) than the club should be removed from the excluded club list, as well as the clicked element
-     */
-    excludedContainer.addEventListener("click", function (e) {
-        let target = e.target;
-        while (target.nodeName !== "BODY" && !target.classList.contains("delete")) {
-            target = target.parentElement;
-        }
-        if (target.classList.contains("delete")) {
-            let clubTag = target;
-            while (!clubTag.classList.contains("excluded-club")) {
-                clubTag = clubTag.parentElement;
-            }
-            let representedClub = clubTag.querySelector(".tag-value").innerText;
-            App.ModalModule.confirmModal("Verein nicht mehr ausschließen?", "Möchtest du " + representedClub + " nicht mehr ausschließen? User, die diesem Verein angehören, sehen den Wettkampf dann wieder im Dashboard, bekommen Informationen (via E-Mail) und können Personen anmelden.", function () {
-                let data = {"club": representedClub}
-                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, includeClubUrl, () => {
-                    excludedClubs.splice(excludedClubs.indexOf(representedClub), 1);
-                    clubTag.remove();
-                    updateCountExcludedClubs();
-                    insertClubCheckboxes();
-                    if (excludedClubs.length === 0 && !excludedContainer.querySelector(".no-exclusion")) {
-                        excludedContainer.appendChild(GeneralModule.generateElement("span", ["no-exclusion"], "Keiner"));
-                    }
-                }, data, true);
-            });
-        }
-    });
+        let allClubsUrl = "/entities/clubs/names";
+        let allClubs = [];
+        let baseUrl = excludedClubsCard.getAttribute("href");
+        let enrolledClubsUrl = baseUrl + "/clubs/enrolled";
+        let enrolledClubs = [];
+        let excludedClubsUrl = baseUrl + "/clubs/excluded";
+        let excludedClubs = [];
+        let excludeClubUrl = baseUrl + "/clubs/exclude";
+        let includeClubUrl = baseUrl + "/clubs/include";
 
-    /**
-     * This function simply updates the span html element in the dashboard responsible for showing the count of excluded clubs
-     */
-    function updateCountExcludedClubs() {
-        countExcludedClubsSpan.innerHTML = excludedClubs.length + "";
-    }
-
-    /**
-     * This function iterates over a given array of entities that should be excluded
-     * @param entities {string[]} The entities that are about to be excluded
-     */
-    function excludeEntities(entities) {
-        entities.forEach((entity) => {
-            excludeEntity(entity);
+        /**
+         * A click on the excluded club card in the dashboard should open the exclusion modal
+         */
+        excludedClubsCard.addEventListener("click", function (e) {
+            e.preventDefault();
+            openExclusionModal();
         });
-    }
 
-    /**
-     * This function excludes a given entity (from this tournament)
-     * @param entity {string} The given entity which will be excluded
-     */
-    function excludeEntity(entity) {
-        if (!excludedClubs.includes(entity)) {
-            if (enrolledClubs.includes(entity)) {
-                ModalModule.confirmModal(entity + " ausschließen", "Willst du " + entity + " wirklich ausschließen? " + entity + " ist schon zum aktuellen Wettkampf angemeldet. Alle dies betreffenden Anmeldungen werden storniert. Das kann nicht rückgängig gemacht werden.", function () {
-                    exclude();
-                });
-            } else {
-                exclude();
-            }
-        }
-        function exclude() {
-            let data = {"club": entity};
-            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, excludeClubUrl, () => {
-                if (enrolledClubs.includes(entity)) {
-                    enrolledClubs.splice(enrolledClubs.indexOf(entity), 1);
+        /**
+         * A click on the exclude action button in the dashboard should open the exclusion modal
+         */
+        closeExclusionModalButton.addEventListener("click", function (e) {
+            closeExclusionModal();
+        });
+
+        /**
+         * This function decides whether to enable the button to finally exclude a selected entity/e-mail address or not
+         */
+        function controlExclusionButton() {
+            let value = excludeInputObject.getValue();
+            let selection = checkboxesObject.getValue();
+            if (selection.length > 0 || value !== "") {
+                if (excludeInputObject.incorrect) {
+                    SecondaryButtonModule.disableSecondaryButton(excludeButton);
+                } else {
+                    SecondaryButtonModule.enableSecondaryButton(excludeButton);
                 }
-                createAndAppendExclusionTag(entity);
-                excludedClubs.push(entity);
-                insertClubCheckboxes();
-                updateCountExcludedClubs();
-            }, data, true);
-        }
-    }
-
-    /**
-     * This function creates a tag element for the entity which has been excluded and directly appends it to the responsible container element
-     * @param entity
-     */
-    function createAndAppendExclusionTag(entity) {
-        let excludeTag = App.TagModule.createTag(["excluded-club"], null, entity);
-        if (excludedContainer.querySelector("span.no-exclusion")) {
-            excludedContainer.querySelector("span.no-exclusion").remove();
-        }
-        excludedContainer.appendChild(excludeTag);
-    }
-
-    /**
-     * The input element serves as a search bar and a free text input. While typing the list of registered clubs is being updated serving the purpose of searching. When no club is found anymore it is assumed that the user wants to exclude a custom e-mail-address (and the input is therefore then validated with a RegExp)
-     */
-    excludeInput.addEventListener("input", function () {
-        let value = excludeInputObject.getValue().toLowerCase();
-        controlExclusionButton();
-        let checkboxGroup = checkboxesObject.inputContainer;
-        let allCheckboxes = checkboxGroup.querySelectorAll(".checkbox-input-container");
-        let countCheckboxes = 0;
-        allCheckboxes.forEach((checkbox) => {
-            let input = checkbox.querySelector("input")
-            let representedClub = input.getAttribute("value");
-            if (representedClub.toLowerCase().indexOf(value) !== -1 || input.checked) {
-                checkbox.style.display = "inline-block";
-                countCheckboxes++;
             } else {
-                checkbox.style.display = "none";
-            }
-        });
-        if (countCheckboxes === 0) {
-            if (!excludeInputObject.inputContainer.classList.contains("mail")) {
-                excludeInputObject.inputContainer.classList.add("mail");
-                excludeInputObject.updateInputValidation();
-            }
-        } else {
-            if (excludeInputObject.inputContainer.classList.contains("mail")) {
-                excludeInputObject.inputContainer.classList.remove("mail");
-                excludeInputObject.updateInputValidation();
+                SecondaryButtonModule.disableSecondaryButton(excludeButton);
             }
         }
-    });
 
-    /**
-     * This function inserts the (still available = all not so far excluded clubs) club checkboxes in the responsible container element
-     */
-    function insertClubCheckboxes() {
-        clubContainer.innerHTML = "";
-        let options = [];
-        allClubs.forEach((club) => {
-            if (!excludedClubs.includes(club)) {
-                let optionObject = {};
-                optionObject["text"] = club;
-                options.push(optionObject);
+        /**
+         * A click on the exclude button triggers the exclusion of selected entities
+         */
+        excludeButton.addEventListener("click", function () {
+            let selection = checkboxesObject.getValue();
+            if (selection.length > 0) {
+                App.ModalModule.confirmModal("Verein(e) ausschließen", "Möchtest du die gewählten/den gewählten Verein(e) wirklich vom Wettkampf ausschließen?", function () {
+                    excludeEntities(selection);
+                });
+            }
+            SecondaryButtonModule.disableSecondaryButton(excludeButton);
+        });
+
+        /**
+         * Clicks in the container containing the excluded club tags should be captured and if the user clicked a delete button ("wants to remove this club from the excluded club list) than the club should be removed from the excluded club list, as well as the clicked element
+         */
+        excludedContainer.addEventListener("click", function (e) {
+            let target = e.target;
+            while (target.nodeName !== "BODY" && !target.classList.contains("delete")) {
+                target = target.parentElement;
+            }
+            if (target.classList.contains("delete")) {
+                let clubTag = target;
+                while (!clubTag.classList.contains("excluded-club")) {
+                    clubTag = clubTag.parentElement;
+                }
+                let representedClub = clubTag.querySelector(".tag-value").innerText;
+                App.ModalModule.confirmModal("Verein nicht mehr ausschließen?", "Möchtest du " + representedClub + " nicht mehr ausschließen? User, die diesem Verein angehören, sehen den Wettkampf dann wieder im Dashboard, bekommen Informationen (via E-Mail) und können Personen anmelden.", function () {
+                    let data = {"club": representedClub}
+                    App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, includeClubUrl, () => {
+                        excludedClubs.splice(excludedClubs.indexOf(representedClub), 1);
+                        clubTag.remove();
+                        updateCountExcludedClubs();
+                        insertClubCheckboxes();
+                        if (excludedClubs.length === 0 && !excludedContainer.querySelector(".no-exclusion")) {
+                            excludedContainer.appendChild(GeneralModule.generateElement("span", ["no-exclusion"], "Keiner"));
+                        }
+                    }, data, true);
+                });
             }
         });
-        checkboxesObject = MaterialInputsModule.createInput(GeneralModule.generalVariables.inputTypes.CHECKBOX, undefined, undefined, "exclude-clubs", undefined, undefined, undefined, options);
-        clubContainer.appendChild(checkboxesObject.inputContainer);
 
-        // if the user selects a club checkbox the exclusion button should be enabled
-        checkboxesObject.inputContainer.addEventListener("input", function () {
+        /**
+         * This function simply updates the span html element in the dashboard responsible for showing the count of excluded clubs
+         */
+        function updateCountExcludedClubs() {
+            countExcludedClubsSpan.innerHTML = excludedClubs.length + "";
+        }
+
+        /**
+         * This function iterates over a given array of entities that should be excluded
+         * @param entities {string[]} The entities that are about to be excluded
+         */
+        function excludeEntities(entities) {
+            entities.forEach((entity) => {
+                excludeEntity(entity);
+            });
+        }
+
+        /**
+         * This function excludes a given entity (from this tournament)
+         * @param entity {string} The given entity which will be excluded
+         */
+        function excludeEntity(entity) {
+            if (!excludedClubs.includes(entity)) {
+                if (enrolledClubs.includes(entity)) {
+                    ModalModule.confirmModal(entity + " ausschließen", "Willst du " + entity + " wirklich ausschließen? " + entity + " ist schon zum aktuellen Wettkampf angemeldet. Alle dies betreffenden Anmeldungen werden storniert. Das kann nicht rückgängig gemacht werden.", function () {
+                        exclude();
+                    });
+                } else {
+                    exclude();
+                }
+            }
+
+            function exclude() {
+                let data = {"club": entity};
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, excludeClubUrl, () => {
+                    if (enrolledClubs.includes(entity)) {
+                        enrolledClubs.splice(enrolledClubs.indexOf(entity), 1);
+                    }
+                    createAndAppendExclusionTag(entity);
+                    excludedClubs.push(entity);
+                    insertClubCheckboxes();
+                    updateCountExcludedClubs();
+                }, data, true);
+            }
+        }
+
+        /**
+         * This function creates a tag element for the entity which has been excluded and directly appends it to the responsible container element
+         * @param entity
+         */
+        function createAndAppendExclusionTag(entity) {
+            let excludeTag = App.TagModule.createTag(["excluded-club"], null, entity);
+            if (excludedContainer.querySelector("span.no-exclusion")) {
+                excludedContainer.querySelector("span.no-exclusion").remove();
+            }
+            excludedContainer.appendChild(excludeTag);
+        }
+
+        /**
+         * The input element serves as a search bar and a free text input. While typing the list of registered clubs is being updated serving the purpose of searching. When no club is found anymore it is assumed that the user wants to exclude a custom e-mail-address (and the input is therefore then validated with a RegExp)
+         */
+        excludeInput.addEventListener("input", function () {
+            let value = excludeInputObject.getValue().toLowerCase();
             controlExclusionButton();
-        });
-    }
-
-    /**
-     * This function is responsible for opening the exclusion modal
-     */
-    function openExclusionModal() {
-        ModalModule.appendOverlay();
-        exclusionModal.classList.add("open");
-        App.LoaderModule.addBigLoader();
-        App.SendRequestModule.getData(allClubsUrl, (data) => {
-            // remove "SV Tora" as this can't be excluded from the tournament
-            data.splice(data.indexOf("SV Tora"), 1);
-            allClubs = data;
-            App.SendRequestModule.getData(enrolledClubsUrl, (data) => {
-                enrolledClubs = data;
-                console.log("Enrolled Clubs");
+            let checkboxGroup = checkboxesObject.inputContainer;
+            let allCheckboxes = checkboxGroup.querySelectorAll(".checkbox-input-container");
+            let countCheckboxes = 0;
+            allCheckboxes.forEach((checkbox) => {
+                let input = checkbox.querySelector("input")
+                let representedClub = input.getAttribute("value");
+                if (representedClub.toLowerCase().indexOf(value) !== -1 || input.checked) {
+                    checkbox.style.display = "inline-block";
+                    countCheckboxes++;
+                } else {
+                    checkbox.style.display = "none";
+                }
             });
-            App.SendRequestModule.getData(excludedClubsUrl, (data) => {
-                excludedClubs = data;
-                App.LoaderModule.removeBigLoader();
-                insertClubCheckboxes();
-            });
+            if (countCheckboxes === 0) {
+                if (!excludeInputObject.inputContainer.classList.contains("mail")) {
+                    excludeInputObject.inputContainer.classList.add("mail");
+                    excludeInputObject.updateInputValidation();
+                }
+            } else {
+                if (excludeInputObject.inputContainer.classList.contains("mail")) {
+                    excludeInputObject.inputContainer.classList.remove("mail");
+                    excludeInputObject.updateInputValidation();
+                }
+            }
         });
-    }
 
-    /**
-     * This function is responsible for closing the exclusion modal
-     */
-    function closeExclusionModal() {
-        ModalModule.removeOverlay();
-        exclusionModal.classList.remove("open");
-        excludeInputObject.setValue("");
+        /**
+         * This function inserts the (still available = all not so far excluded clubs) club checkboxes in the responsible container element
+         */
+        function insertClubCheckboxes() {
+            clubContainer.innerHTML = "";
+            let options = [];
+            allClubs.forEach((club) => {
+                if (!excludedClubs.includes(club)) {
+                    let optionObject = {};
+                    optionObject["text"] = club;
+                    options.push(optionObject);
+                }
+            });
+            checkboxesObject = MaterialInputsModule.createInput(GeneralModule.generalVariables.inputTypes.CHECKBOX, undefined, undefined, "exclude-clubs", undefined, undefined, undefined, options);
+            clubContainer.appendChild(checkboxesObject.inputContainer);
+
+            // if the user selects a club checkbox the exclusion button should be enabled
+            checkboxesObject.inputContainer.addEventListener("input", function () {
+                controlExclusionButton();
+            });
+        }
+
+        /**
+         * This function is responsible for opening the exclusion modal
+         */
+        function openExclusionModal() {
+            ModalModule.appendOverlay();
+            exclusionModal.classList.add("open");
+            App.LoaderModule.addBigLoader();
+            App.SendRequestModule.getData(allClubsUrl, (data) => {
+                // remove "SV Tora" as this can't be excluded from the tournament
+                data.splice(data.indexOf("SV Tora"), 1);
+                allClubs = data;
+                App.SendRequestModule.getData(enrolledClubsUrl, (data) => {
+                    enrolledClubs = data;
+                    console.log("Enrolled Clubs");
+                });
+                App.SendRequestModule.getData(excludedClubsUrl, (data) => {
+                    excludedClubs = data;
+                    App.LoaderModule.removeBigLoader();
+                    insertClubCheckboxes();
+                });
+            });
+        }
+
+        /**
+         * This function is responsible for closing the exclusion modal
+         */
+        function closeExclusionModal() {
+            ModalModule.removeOverlay();
+            exclusionModal.classList.remove("open");
+            excludeInputObject.setValue("");
+        }
     }
 
 

@@ -11,9 +11,12 @@ use App\Models\Fighter;
 use App\Models\FightingSystem;
 use App\Models\Team;
 use App\Models\Tournament;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Clegginabox\PDFMerger\PDFMerger;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -37,6 +40,23 @@ class CategoryController extends Controller
         }
         $printAllCategoriesUrl = url("/tournaments/" . $tournament->id . "/categories/print");
         return response()->view("Tournament.category-administration", ["tournament" => $tournament, "enrollmentActive" => $enrollmentActive, "printAllCategoriesUrl" => $printAllCategoriesUrl]);
+    }
+
+    public function printCategoriesOverview(Tournament $tournament) {
+        if (!$tournament->active && !$tournament->excludedClubs->contains(Auth::user()->club)) {
+            abort(403);
+        }
+
+        $categories = $tournament->categories()->orderBy("name")->get();
+        $pdf = Pdf::loadView("Tournament.print-category-overview", ["tournament" => $tournament, "categories" => $categories, "isAdmin" => Auth::user()->isAdmin()]);
+        $pdfPath = "tournaments/" . $tournament->id . "/categories";
+        if (!is_dir(storage_path("app/public/" . dirname($pdfPath)))) {
+            mkdir(storage_path("app/public/" . dirname($pdfPath)), recursive: true);
+        }
+        $tempFileMetaData = stream_get_meta_data(tmpfile());
+        $pdf->save($tempFileMetaData["uri"]);
+        $path = Storage::disk("public")->putFile($pdfPath, new File($tempFileMetaData["uri"]));
+        return Storage::disk("public")->download($path);
     }
 
     /**

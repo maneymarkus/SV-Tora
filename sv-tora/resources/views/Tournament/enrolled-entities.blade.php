@@ -23,8 +23,11 @@
                 Angemeldete <span class="highlighted-span">{{ $entities }}</span> zum {{ $tournament->tournamentTemplate->tournament_name }}
                 <p style="font-size: 1.2rem; font-weight: normal;"><strong>Hinweis</strong>: Die Aktion "Löschen" löscht hier nicht die angelegten {{ $entities }} komplett, sondern entfernt sie nur von diesem Wettkampf.</p>
                 @if(!$enrollmentActive)
-                    <p style="font-size: 1.2rem; font-weight: normal;">Da der reguläre Anmeldezeitraum nicht mehr aktiv ist, können die angemeldeten {{ $entities }} nur noch angesehen, aber nicht mehr bearbeitet werden.</p>
+                    <p style="font-size: 1.2rem; font-weight: normal;">Da der reguläre Anmeldezeitraum nicht aktiv ist, können die angemeldeten {{ $entities }} nur angesehen, aber nicht bearbeitet werden.</p>
                 @endif
+                <div style="display: flex; justify-content: flex-end; margin: 0 auto; max-width: 800px">
+                    <x-primary-button class="print-enrolled" target="_blank" text="Angemeldete {{ $entities }} ausdrucken" icon-name="print" href="{{ $printEnrolledUrl }}"></x-primary-button>
+                </div>
             </x-slot>
             <x-slot name="entity">{{ $entity }}</x-slot>
             <x-slot name="addEntityUrl">{{ $addUrl ?? ""}}</x-slot>

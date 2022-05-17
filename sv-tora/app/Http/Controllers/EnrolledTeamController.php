@@ -6,17 +6,21 @@ use App\Helper\GeneralHelper;
 use App\Helper\NotificationTypes;
 use App\Models\Category;
 use App\Models\Club;
+use App\Models\EnrolledFighter;
 use App\Models\EnrolledPerson;
 use App\Models\EnrolledTeam;
 use App\Models\FightingSystem;
 use App\Models\Person;
 use App\Models\Team;
 use App\Models\Tournament;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class EnrolledTeamController extends Controller
 {
@@ -64,7 +68,7 @@ class EnrolledTeamController extends Controller
                 "data" => [
                     $counter++,
                     $enrolledTeam->team->name,
-                    implode(", ", $enrolledTeam->categories->pluck("name")->toArray()),
+                    implode(", ", $enrolledTeam->categories()->where("tournament_id", "=", $tournament->id)->get()->pluck("name")->toArray()),
                 ],
                 "editUrl" => url("/entities/teams/" . $enrolledTeam->team->id),
                 "deleteUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams/" . $enrolledTeam->id),
@@ -74,8 +78,28 @@ class EnrolledTeamController extends Controller
             }
             $rows[] = $row;
         }
-        return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams/add"), "entities" => "Teams", "entity" => "Team", "columns" => $columns, "rows" => $rows, "enrollmentActive" => $enrollmentActive]);
+        return response()->view("Tournament.enrolled-fighters", ["tournament" => $tournament, "addUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams/add"), "entities" => "Teams", "entity" => "Team", "columns" => $columns, "rows" => $rows, "enrollmentActive" => $enrollmentActive, "printEnrolledUrl" => url("/tournaments/" . $tournament->id . "/enrolled/teams/print")]);
     }
+
+
+    public function print(Tournament $tournament) {
+        $this->authorize("viewAny", [EnrolledTeam::class, $tournament]);
+
+        $enrolledTeams = $tournament->enrolledTeams()->get()->sortBy("team.name");
+        if (!Auth::user()->isAdmin()) {
+            $enrolledTeams = $enrolledTeams->where("team.club_id", "=", Auth::user()->club->id);
+        }
+        $pdf = Pdf::loadView("Tournament.print-enrolled-teams", ["tournament" => $tournament, "isAdmin" => Auth::user()->isAdmin(), "enrolledTeams" => $enrolledTeams]);
+        $pdfPath = "tournaments/" . $tournament->id . "/enrolledTeams";
+        if (!is_dir(storage_path("app/public/" . dirname($pdfPath)))) {
+            mkdir(storage_path("app/public/" . dirname($pdfPath)), recursive: true);
+        }
+        $tempFileMetaData = stream_get_meta_data(tmpfile());
+        $pdf->save($tempFileMetaData["uri"]);
+        $path = Storage::disk("public")->putFile($pdfPath, new File($tempFileMetaData["uri"]));
+        return Storage::disk("public")->download($path);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -105,6 +129,13 @@ class EnrolledTeamController extends Controller
             }
             return false;
         });
+        // reject all teams of excluded clubs
+        if ($tournament->excludedClubs !== null) {
+            $selectableTeams = $selectableTeams->reject(function ($team) use ($tournament) {
+                $excludedClubsIds = $tournament->excludedClubs->pluck("id");
+                return $excludedClubsIds->contains($team->club->id);
+            });
+        }
         $rows = [];
         $counter = 1;
 
@@ -134,6 +165,11 @@ class EnrolledTeamController extends Controller
             $club = Club::firstWhere("name", "=", $selectedEntity["Verein"]);
             if (!Gate::allows("admin") && $club != Auth::user()->club) {
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Eine oder mehrere der ausgewählten Teams kannst du nicht hinzufügen.");
+            }
+            if ($tournament->excludedClubs !== null) {
+                if ($tournament->excludedClubs->contains($club)) {
+                    return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Einen oder mehrere der ausgewählten Kämpfer kannst du nicht zum Wettkampf hinzufügen, da der zugehörige Verein vom Wettkampf ausgeschlossen ist.");
+                }
             }
             $name = $selectedEntity["Name"];
             $team = Team::where("name", "=", $name)

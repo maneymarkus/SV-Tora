@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Helper\PersonTypes;
 use App\Models\EnrolledPerson;
 use App\Models\Tournament;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EnrolledCoachController extends Controller
 {
@@ -18,7 +22,11 @@ class EnrolledCoachController extends Controller
     public function index(Tournament $tournament)
     {
         return app(EnrolledPersonController::class)
-            ->index($tournament, PersonTypes::COACH, url("/tournaments/" . $tournament->id . "/enrolled/coaches/add"), url("/tournaments/" . $tournament->id . "/enrolled/coaches/"), "Coaches", "Coach");
+            ->index($tournament, PersonTypes::COACH, url("/tournaments/" . $tournament->id . "/enrolled/coaches/add"), url("/tournaments/" . $tournament->id . "/enrolled/coaches/"), url("/entities/coaches/"), "Coaches", "Coach");
+    }
+
+    public function print(Tournament $tournament) {
+        return app(EnrolledPersonController::class)->print($tournament, PersonTypes::COACH, "Coaches");
     }
 
     /**
