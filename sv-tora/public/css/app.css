@@ -476,29 +476,29 @@ template {
 */
 
 body {
-    --theme-color-1: #E5E5E5;
-    --theme-color-2: #FFFFFF;
-    --theme-color-3: #C8C8C8;
-    --theme-color-4: #9D9D9D;
-    --theme-color-5: #4D4D4D;
-
     --theme-color-1-light: #E5E5E5;
     --theme-color-2-light: #FFFFFF;
     --theme-color-3-light: #C8C8C8;
     --theme-color-4-light: #9D9D9D;
-    --theme-color-5-light: #4D4D4D;
+    --theme-color-5-light: #7b7b7b;
 
-    --theme-color-1-dark: #171717;
-    --theme-color-2-dark: #222222;
-    --theme-color-3-dark: #303030;
-    --theme-color-4-dark: #4a4a4a;
-    --theme-color-5-dark: #9b9b9b;
+    --theme-color-1-dark: #232323;
+    --theme-color-2-dark: #414141;
+    --theme-color-3-dark: #545454;
+    --theme-color-4-dark: #6d6d6d;
+    --theme-color-5-dark: #9e9e9e;
+
+    --theme-color-1: var(--theme-color-1-light);
+    --theme-color-2: var(--theme-color-2-light);
+    --theme-color-3: var(--theme-color-3-light);
+    --theme-color-4: var(--theme-color-4-light);
+    --theme-color-5: var(--theme-color-5-light);
 
     --disabled-light: #A0A0A0;
     --disabled-dark: #727272;
 
     --placeholder-color: #6B6B6B;
-    --text-color: #171717;
+    --text-color: #232323;
     --disabled-text-color: #8D8D8D;
 
     --text-shadow: #616161;
@@ -524,14 +524,15 @@ body {
 }
 
 body.darkmode {
-    --theme-color-1: #171717;
-    --theme-color-2: #222222;
-    --theme-color-3: #303030;
-    --theme-color-4: #4a4a4a;
-    --theme-color-5: #9b9b9b;
+    --theme-color-1: var(--theme-color-1-dark);
+    --theme-color-2: var(--theme-color-2-dark);
+    --theme-color-3: var(--theme-color-3-dark);
+    --theme-color-4: var(--theme-color-4-dark);
+    --theme-color-5: var(--theme-color-5-dark);
 
     --placeholder-color: #B4B4B4;
     --text-color: white;
+    --disabled-text-color: #797979;
 
     --text-shadow: black;
     --box-shadow: black;
@@ -575,7 +576,7 @@ body:before {
     background-position: center;
     background-repeat: repeat;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0.2;
 }
 
 body.darkmode:before {
@@ -696,7 +697,7 @@ table, .table, th, td {
 
 @-webkit-keyframes color-blink {
     from {
-        color: white;
+        color: var(--text-color);
     }
     to {
         color: var(--accent-color-1-light);
@@ -705,7 +706,7 @@ table, .table, th, td {
 
 @keyframes color-blink {
     from {
-        color: white;
+        color: var(--text-color);
     }
     to {
         color: var(--accent-color-1-light);
@@ -1088,12 +1089,12 @@ a.go-back i {
 }
 
 .bar-header:hover .open-indicator {
-    color: #171717;
+    color: var(--theme-color-1);
     transform: translateY(-50%) scale(1.5);
 }
 
 .accordion-bar.open .open-indicator {
-    color: #171717;
+    color: var(--theme-color-1);
     transform: translateY(-50%) rotate(180deg);
 }
 
@@ -1123,9 +1124,13 @@ a.go-back i {
     height: 0;
     transition: height 0.5s ease 0s, border-color 0.2s ease 0s, border-width 0.2s ease 0.2s, opacity 0.2s ease 0.5s;
     overflow: hidden;
-    background-color: rgba(23, 23, 23, 0.5);
-    border: 0 solid rgba(23, 23, 23, 0.5);
+    background-color: rgba(157, 157, 157, 0.5);
+    border: 0 solid rgba(35, 35, 35, 0.5);
     cursor: auto;
+}
+
+.darkmode .bar-content {
+    background-color: rgba(35, 35, 35, 0.5);
 }
 
 .open .bar-content {
@@ -1231,7 +1236,7 @@ a.go-back i {
     left: -15%;
     margin: 0;
     font-size: 5rem;
-    color: black;
+    color: var(--theme-color-1);
     opacity: 0.2;
     text-align: center;
     font-weight: 900;
@@ -1282,13 +1287,9 @@ a.go-back i {
 }
 
 .card:hover .district {
-    color: #3E3E3E;
+    color: var(--text-color);
     top: 45%;
     font-size: 2rem;
-}
-
-.darkmode .card:hover .district {
-    color: #C6C6C6;
 }
 
 @media only screen and (min-width: 600px) {
@@ -1392,13 +1393,12 @@ a.go-back i {
 }
 
 .carousel-container .page.inactive {
-    color: #6B6B6B;
+    color: var(--disabled-text-color);
     background: radial-gradient(circle at 0% 100%, rgba(150, 150, 150, 1) 85%, rgba(61, 118, 225, 0.9));
     opacity: 0.9;
 }
 
 .darkmode .carousel-container .page.inactive {
-    color: #828282;
     background: radial-gradient(circle at 0% 100%, rgba(48, 48, 48, 1) 85%, rgba(61, 118, 225, 0.9));
 }
 
@@ -1406,8 +1406,8 @@ a.go-back i {
     margin-top: 40%;
     font-size: 1.5em;
     padding: 0.25em 0;
-    border-top: 3px solid #4A4A4A;
-    border-bottom: 3px solid #4A4A4A;
+    border-top: 3px solid var(--theme-color-3);
+    border-bottom: 3px solid var(--theme-color-3);
     box-shadow: 0 20px 20px -18px var(--box-shadow), 0 -20px 20px -18px var(--box-shadow);
     text-align: center;
     letter-spacing: 0.05em;
@@ -1878,7 +1878,7 @@ a.go-back i {
     display: block;
     width: 100%;
     height: 10em;
-    border-right: 0.1em solid white;
+    border-right: 0.1em solid var(--text-color);
 }
 
 .tree .fight:after {
@@ -1889,7 +1889,7 @@ a.go-back i {
     transform: translateY(-50%);
     width: 1em;
     height: 0.1em;
-    background-color: white;
+    background-color: var(--text-color);
 }
 
 .tree .fight.winner {
@@ -1909,7 +1909,7 @@ a.go-back i {
     left: 0;
     font-size: 1em;
     padding: 0.25em 0.5em 0.1em 0.75em;
-    border-bottom: 0.1em dashed #A8A8A8;
+    border-bottom: 0.1em dashed var(--theme-color-5);
     transition: 0.2s ease;
     white-space: nowrap;
     text-align: left;
@@ -1921,7 +1921,7 @@ a.go-back i {
 
 .tree .fighter.loser {
     text-decoration: line-through;
-    color: #4A4A4A;
+    color: var(--disabled-text-color);
 }
 
 .tree .fighter.winner {
@@ -1936,7 +1936,7 @@ a.go-back i {
     transform: translateY(-50%);
     width: 5%;
     height: 0.1em;
-    background-color: white;
+    background-color: var(--text-color);
 }
 
 .tree .fight .fighter:nth-of-type(1) {
@@ -1963,7 +1963,7 @@ a.go-back i {
     content: attr(data-fight-number);
     font-size: 1.5em;
     font-weight: bold;
-    text-shadow: 3px 3px 8px black;
+    text-shadow: 3px 3px 8px var(--text-shadow);
     position: absolute;
     top: 50%;
     right: 0.5em;
@@ -1991,25 +1991,29 @@ table, th, td {
 }
 
 .tafeln table {
-    border: 1px solid #9B9B9B;
-    background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+    border: 1px solid var(--theme-color-5);
+    background: linear-gradient(45deg, rgba(229, 229, 229, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+}
+
+.darkmode .tafeln table {
+    background: linear-gradient(45deg, rgba(35, 35, 35, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
 }
 
 .tafeln thead {
-    border-bottom: 3px solid #9B9B9B;
+    border-bottom: 3px solid var(--theme-color-5);
 }
 
 .tafeln th {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     font-style: italic;
 }
 
 .tafeln td {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
 }
 
 .tafeln .points {
@@ -2020,7 +2024,7 @@ table, th, td {
 
 .tafeln td.points {
     padding: 0;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     transition: 0.2s ease;
 }
 
@@ -2034,7 +2038,7 @@ table, th, td {
     height: 100%;
     padding: 0.25em 0.25em;
     background-color: transparent;
-    color: white;
+    color: var(--text-color);
     text-align: center;
     border: 1px solid transparent;
 }
@@ -2045,19 +2049,19 @@ table, th, td {
 }
 
 .tafeln th:nth-child(8) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 .tafeln td:nth-child(8) {
-    border-right: 3px dashed #9B9B9B;
+    border-right: 3px dashed var(--theme-color-5);
 }
 
 .tafeln th:nth-child(9) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 .tafeln td:nth-child(9) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 
@@ -2073,26 +2077,26 @@ table, th, td {
 }
 
 .dog-eat-dog table {
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
     float: left;
 }
 
 .dog-eat-dog thead {
-    border-bottom: 3px solid #9B9B9B;
+    border-bottom: 3px solid var(--theme-color-5);
 }
 
 .dog-eat-dog th {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     font-style: italic;
 }
 
 .dog-eat-dog td {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
 }
 
 .dog-eat-dog .points {
@@ -2103,7 +2107,7 @@ table, th, td {
 
 .dog-eat-dog td.points {
     padding: 0;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     transition: 0.2s ease;
 }
 
@@ -2117,14 +2121,14 @@ table, th, td {
     height: 100%;
     padding: 0.25em 0.25em;
     background-color: transparent;
-    color: white;
+    color: var(--text-color);
     text-align: center;
     border: 1px solid transparent;
 }
 
 .dog-eat-dog td.points input:focus {
-    border: 1px solid white;
-    box-shadow: 0px 0px 5px 0 white inset;
+    border: 1px solid var(--text-color);
+    box-shadow: 0px 0px 5px 0 var(--text-color) inset;
 }
 
 .dog-eat-dog .fight-order {
@@ -2146,8 +2150,8 @@ table, th, td {
 }
 
 .dog-eat-dog .fighter {
-    border-bottom: 2px dashed #9B9B9B;
-    color: white;
+    border-bottom: 2px dashed var(--theme-color-5);
+    color: var(--text-color);
     padding: 0 0.5em 0.1em 0.5em;
     width: 45%;
     display: inline-block;
@@ -2155,7 +2159,7 @@ table, th, td {
 }
 
 .dog-eat-dog .fight:hover .fighter {
-    border-color: white;
+    border-color: var(--text-color);
 }
 
 .dog-eat-dog .fighter:first-child {
@@ -2220,7 +2224,7 @@ table, th, td {
     width: 100%;
     padding-left: 0.5em;
     padding-bottom: 0.15em;
-    border-bottom: 2px dashed white;
+    border-bottom: 2px dashed var(--text-color);
     margin: 0.5em 0;
     position: relative;
 }
@@ -2260,7 +2264,7 @@ table, th, td {
 
 .winners .origin {
     position: absolute;
-    color: #9B9B9B;
+    color: var(--theme-color-5);
     font-size: 0.75em;
     top: 50%;
     transform: translateY(-50%);
@@ -2385,11 +2389,15 @@ header:before {
     left: 0;
     width: 100%;
     height: 150%;
-    background-color: var(--theme-color-1-dark);
+    background-color: var(--theme-color-5);
     z-index: -1;
     border-radius: 0 0 50% 50%/0 0 75% 75%;
     box-shadow: 0 0 10px 3px var(--box-shadow);
     opacity: 0.95;
+}
+
+.darkmode header:before {
+    background-color: var(--theme-color-1-dark);
 }
 
 header a.logo {
@@ -2410,15 +2418,18 @@ header .header-button {
     border-radius: 10%;
     width: 5rem;
     height: 5rem;
-    background-color: var(--theme-color-1-dark);
+    background-color: var(--theme-color-5);
     text-align: center;
     top: -0.5rem;
-    box-shadow: 0 0 10px 3px black;
+    box-shadow: 0 0 10px 3px var(--box-shadow);
     transition: 0.5s ease;
     cursor: pointer;
     z-index: 2;
     text-decoration: none;
-    color: white;
+}
+
+.darkmode header .header-button {
+    background-color: var(--theme-color-1-dark);
 }
 
 header .header-button:hover,
@@ -2440,8 +2451,12 @@ header .profile {
 .header .header-button i {
     font-size: 2rem;
     line-height: 3;
-    color: var(--accent-color-1-dark);
+    color: var(--accent-color-1-light);
     transition: 0.2s ease;
+}
+
+.darkmode .header .header-button i {
+    color: var(--accent-color-1-dark);
 }
 
 .header .header-button:hover i,
@@ -2608,13 +2623,9 @@ header .profile {
 }
 
 .horizontal-card:hover .district {
-    color: #3E3E3E;
+    color: var(--text-color);
     font-size: 3.5em;
-    text-shadow: 1px 1px 4px black;
-}
-
-.darkmode .horizontal-card:hover .district {
-    color: #C6C6C6;
+    text-shadow: 1px 1px 4px var(--text-shadow);
 }
 
 .horizontal-card .count {
@@ -2883,7 +2894,7 @@ header .profile {
 }
 
 .darkmode .loader {
-  background-color: rgba(23, 23, 23, 0.5);
+  background-color: rgba(35, 35, 35, 0.5);
 }
 
 .loader-container .fighter {
@@ -2974,7 +2985,7 @@ header .profile {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(255, 255, 255, 0.25);
     transition: 0.5s ease;
 }
 
@@ -2986,8 +2997,13 @@ header .profile {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(255, 255, 255, 0.25);
     transition: 0.5s ease;
+}
+
+.darkmode .login-container:before,
+.darkmode .registration-container:before {
+    background-color: rgba(35, 35, 35, 0.25);
 }
 
 .login-container:hover:before,
@@ -3124,12 +3140,16 @@ span.input-error {
     top: 100%;
     border: 2px solid var(--error-light);
     border-top: 0;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     width: 100%;
     border-radius: 5px;
     padding: 0.5em;
     z-index: 100;
     text-align: left;
+}
+
+.darkmode span.input-error {
+    background-color: rgba(35, 35, 35, 0.9);
 }
 
 span.input-error i {
@@ -3175,7 +3195,7 @@ span.input-error .message {
     display: block;
     width: 4em;
     height: 2em;
-    background-color: #9B9B9B;
+    background-color: var(--theme-color-5);
     transition: .4s;
     border-radius: 2em;
 }
@@ -3733,13 +3753,17 @@ input.time-input {
     top: 0;
     left: 0;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     width: 100vw;
     height: 100vh;
     transform: scale(0);
     z-index: 10000000;
     transition: 0.5s ease;
     font-size: 1rem; /* Adjust size */
+}
+
+.darkmode .datepicker-container {
+    background-color: rgba(35, 35, 35, 0.5);
 }
 
 .datepicker-container.show {
@@ -3992,13 +4016,17 @@ input.time-input {
     top: 0;
     left:0;
     overflow: auto;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.5);
     width: 100vw;
     height: 100vh;
     transform: scale(0);
     z-index: 1000000000;
     transition: 0.5s ease;
     font-size: 1rem; /* Adjust size */
+}
+
+.darkmode .timepicker-container {
+    background: rgba(35, 35, 35, 0.5);
 }
 
 .timepicker-container.show {
@@ -4070,7 +4098,7 @@ input.time-input {
 
 .timepicker .clockface .clockhand { /* line between dot and chosen time */
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(35, 35, 35, 0.25);
     width: 0.1em;
     height: 5em;
     top: 2.5em;
@@ -4362,11 +4390,7 @@ input.time-input {
     background-color: var(--accent-color-1-dark);
     margin-bottom: 0.25em;
     transition: transform 0.1s ease-out 0s, background-color 0.2s ease;
-    color: white;
-}
-
-.darkmode .file-input-container > i {
-    color: black;
+    color: var(--text-color);
 }
 
 .file-input-container:hover > i {
@@ -4407,6 +4431,7 @@ textarea {
     transition: 0.2s ease;
     cursor: text;
     position: relative;
+    color: var(--text-color);
 }
 
 .darkmode textarea {
@@ -4429,10 +4454,6 @@ textarea:hover {
 textarea:focus,
 textarea.filled {
     background-color: rgba(0, 0, 0, 0.15);
-}
-
-.darkmode textarea {
-    color: white;
 }
 
 textarea::-moz-placeholder {
@@ -4483,13 +4504,13 @@ textarea.incorrect {
     margin-top: -0.4rem; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
     -webkit-transition: 0.2s ease;
     transition: 0.2s ease;
-    box-shadow: 1px 1px 3px 0 black;
+    box-shadow: 1px 1px 3px 0 var(--box-shadow);
 }
 
 .range-input-container:hover ::-webkit-slider-thumb {
     transform: scale(1.5);
     background-color: var(--accent-color-1-light);
-    box-shadow: 1px 1px 5px 0 black;
+    box-shadow: 1px 1px 5px 0 var(--box-shadow);
 }
 
 .range-input-container ::-moz-range-thumb {
@@ -4500,7 +4521,7 @@ textarea.incorrect {
     cursor: pointer;
     -moz-transition: 0.2s ease;
     transition: 0.2s ease;
-    box-shadow: 1px 1px 3px 0 black;
+    box-shadow: 1px 1px 3px 0 var(--box-shadow);
 }
 
 .range-input-container:hover ::-moz-range-thumb {
@@ -4516,7 +4537,7 @@ textarea.incorrect {
     cursor: pointer;
     -ms-transition: 0.2s ease;
     transition: 0.2s ease;
-    box-shadow: 1px 1px 3px 0 black;
+    box-shadow: 1px 1px 3px 0 var(--box-shadow);
 }
 
 .range-input-container:hover ::-ms-thumb {
@@ -4841,7 +4862,7 @@ main.blur {
 
 .overlay.open,
 .just-overlay.open {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(35, 35, 35, 0.5);
     transition: 0.2s ease;
 }
 
@@ -4856,12 +4877,8 @@ main.blur {
     transform: translateX(-50%) scale(0);
     transition: 0.5s ease 0.5s;
     font-size: 1rem; /* ADJUST Size individually */
-    background-color: var(--theme-color-4);
-    box-shadow: 0 10px 15px 3px var(--box-shadow);
-}
-
-.darkmode .modal-window {
     background-color: var(--theme-color-2);
+    box-shadow: 0 10px 15px 3px var(--box-shadow);
 }
 
 .modal-window:after {
@@ -4888,7 +4905,7 @@ a.primary-button.close-modal {
 }
 
 a.primary-button.close-modal i {
-    color: #171717;
+    color: var(--theme-color-1-dark);
     background-color: var(--accent-color-2-dark);
     border-radius: 50%;
     padding: 0.1em;
@@ -4905,20 +4922,16 @@ a.primary-button.close-modal i {
     height: 0;
     overflow: hidden;
     margin: 0.75em 0 1em 0;
-    background-color: var(--theme-color-5);
+    background-color: var(--theme-color-1);
     font-weight: bold;
     transition: 0.5s ease;
-}
-
-.darkmode .modal-window .mw-header {
-    background-color: var(--theme-color-1);
 }
 
 .modal-window .mw-header h2 {
     font-size: 1.75em;
     padding: 0.5em 1.5em 0.5em 1.5em;
     margin: 0;
-    text-shadow: 2px 2px 5px var(--text-shadow);
+    text-shadow: 1px 1px 3px var(--text-shadow);
     color: var(--text-color);
 }
 
@@ -5068,10 +5081,14 @@ nav.nav {
         radial-gradient(black 15%, transparent 16%) 10px 10px,
         radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
         radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 10px 11px;
-    background-color: rgba(30, 30, 30, 0.9);
+    background-color: rgba(69, 69, 69, 0.9);
     background-size: 20px 20px;
     -webkit-backdrop-filter: blur(5px);
             backdrop-filter: blur(5px);
+}
+
+.darkmode nav.nav {
+    background-color: rgba(35, 35, 35, 0.9);
 }
 
 nav.nav.open {
@@ -5911,7 +5928,7 @@ a.primary-button.disabled:hover:before {
   cursor: pointer;
   display: inline-block;
   letter-spacing: 0.1em;
-  background: var(--theme-color-3);
+  background: var(--theme-color-1);
   transition: 0.5s ease, background-color 0.5s;
   font-size: 0.9rem;
   height: auto;
@@ -5919,10 +5936,6 @@ a.primary-button.disabled:hover:before {
   color: var(--text-color);
   padding: 0.5em 2em;
   box-shadow: 0 2px 8px 3px var(--box-shadow);
-}
-
-.darkmode .secondary-button {
-  background-color: var(--theme-color-1);
 }
 
 .secondary-button:hover,
@@ -5949,14 +5962,10 @@ a.primary-button.disabled:hover:before {
   z-index: 1;
   width: calc(100% + 6px);
   height: calc(100% - 1em);
-  background: var(--theme-color-3);
+  background: var(--theme-color-1);
   top: 0.5em;
   left: -3px;
   transition: 0.4s ease;
-}
-
-.darkmode .secondary-button:before {
-  background: var(--theme-color-1);
 }
 
 .secondary-button:after {
@@ -5965,14 +5974,10 @@ a.primary-button.disabled:hover:before {
   z-index: 1;
   width: calc(100% - 1em);
   height: calc(100% + 4px);
-  background: var(--theme-color-3);
+  background: var(--theme-color-1);
   top: -2px;
   left: 0.5em;
   transition: 0.4s ease;
-}
-
-.darkmode .secondary-button:after {
-  background: var(--theme-color-1);
 }
 
 .secondary-button:hover:before,
@@ -6029,8 +6034,8 @@ a.primary-button.disabled:hover:before {
 }
 
 .secondary-button.disabled {
-  color: #4A4A4A;
-  border-color: #4A4A4A;
+  color: var(--disabled-text-color);
+  border-color: var(--disabled-text-color);
   cursor: not-allowed;
 }
 
@@ -6132,7 +6137,7 @@ a.primary-button.disabled:hover:before {
 }
 
 .shortcuts .shortcuts-container {
-    background-color: var(--theme-color-3);
+    background-color: var(--theme-color-5);
     position: relative;
     top: 0;
     left: 0;
@@ -6146,9 +6151,9 @@ a.primary-button.disabled:hover:before {
     box-shadow: 10px 0 10px var(--box-shadow) inset;
 }
 
-.darkmode .shortcuts-container {
-     background-color: var(--theme-color-1);
- }
+.darkmode .shortcuts .shortcuts-container {
+    background-color: var(--theme-color-1);
+}
 
 .shortcuts:after {
     content: '\E315';
@@ -6161,16 +6166,17 @@ a.primary-button.disabled:hover:before {
     left: 100%;
     display: inline-block;
     border-radius: 0 5em 5em 0;
-    background-color: var(--theme-color-3);
+    background-color: var(--theme-color-5);
     box-shadow: 0 0 10px 5px var(--box-shadow);
     z-index: -1;
-    color: var(--accent-color-1-dark);
+    color: var(--accent-color-1-light);
     transition: 0.5s ease;
     margin-left: -0.2em;
 }
 
 .darkmode .shortcuts:after {
     background-color: var(--theme-color-1);
+    color: var(--accent-color-1-dark);
 }
 
 .shortcuts:hover:after,
@@ -6183,6 +6189,7 @@ a.primary-button.disabled:hover:before {
     top: 0;
     left: 0;
     font-size: 1em;
+    color: white;
 }
 
 @media only screen and (min-width: 600px) {
@@ -6385,11 +6392,11 @@ h2.table-heading {
     display: table-cell;
     position: -webkit-sticky;
     position: sticky;
-    top: 4em; /* for position sticky */
+    top: 4.5em; /* for position sticky */
     width: auto;
     box-shadow: 0px 7px 10px 0 var(--box-shadow);
     color: var(--text-color);
-    background-color: var(--theme-color-5);
+    background-color: var(--theme-color-4);
     z-index: 105;
 }
 
@@ -6866,7 +6873,6 @@ div.chosen-filters {
 /
 */
 
-/* TODO: calculate width and height*/
 .time-schedule-container {
     min-width: 100%;
     width: 100%;

@@ -43,10 +43,6 @@ Route::get("/mailable", function () {
 });
 
 Route::get("/test", function () {
-    $team = \App\Models\Team::find(5);
-    $category = \App\Helper\GeneralHelper::determineCategoryOfTeam($team);
-    return $team->fighters;
-
     return view("test");
 });
 

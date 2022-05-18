@@ -10,14 +10,18 @@ thead {
 }
 
 thead th {
-    color: white;
-    background-color: #171717;
+    color: var(--text-color);
+    background-color: var(--theme-color-4);
     z-index: 10;
     position: sticky;
     top: 0; /* for position sticky */
     width: auto;
-    box-shadow: 0 7px 10px 0 black;
+    box-shadow: 0 7px 10px 0 var(--box-shadow);
     padding: 0.5em;
+}
+
+.darkmode thead th {
+    background-color: var(--theme-color-1);
 }
 
 th .tt-trigger {

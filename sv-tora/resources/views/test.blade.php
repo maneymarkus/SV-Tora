@@ -11,7 +11,7 @@
 @php
 
 $slides = [];
-array_push($slides, "Tafelsystem");
+$slides[] = ["Tafelsystem", ];
 
 $imagePath = asset("something_else.jpg");
 
@@ -82,8 +82,6 @@ $rows = [
         <x-slot name="key">Schlüssel</x-slot>
     </x-tag>
 
-    <x-message type="info" message="Nachricht" timestamp="15.04.2021 14:04" sender="System"></x-message>
-
     <x-inputs.text-input type="email" name="text_input" label="Just some input">
         <x-slot name="value">Some other value</x-slot>
     </x-inputs.text-input>
@@ -114,6 +112,8 @@ $rows = [
     <x-inputs.date-input name="Datum"></x-inputs.date-input>
 
     <x-inputs.time-input name="Zeit"></x-inputs.time-input>
+
+    <x-inputs.file-input name="file"></x-inputs.file-input>
 
     <x-table :columns="$columns" :rows="$rows" actions="false" filter="true" editable="false" deletable="false" selectable="false">
     </x-table>

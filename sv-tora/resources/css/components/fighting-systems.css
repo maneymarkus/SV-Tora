@@ -89,7 +89,7 @@
     display: block;
     width: 100%;
     height: 10em;
-    border-right: 0.1em solid white;
+    border-right: 0.1em solid var(--text-color);
 }
 
 .tree .fight:after {
@@ -100,7 +100,7 @@
     transform: translateY(-50%);
     width: 1em;
     height: 0.1em;
-    background-color: white;
+    background-color: var(--text-color);
 }
 
 .tree .fight.winner {
@@ -120,7 +120,7 @@
     left: 0;
     font-size: 1em;
     padding: 0.25em 0.5em 0.1em 0.75em;
-    border-bottom: 0.1em dashed #A8A8A8;
+    border-bottom: 0.1em dashed var(--theme-color-5);
     transition: 0.2s ease;
     white-space: nowrap;
     text-align: left;
@@ -132,7 +132,7 @@
 
 .tree .fighter.loser {
     text-decoration: line-through;
-    color: #4A4A4A;
+    color: var(--disabled-text-color);
 }
 
 .tree .fighter.winner {
@@ -147,7 +147,7 @@
     transform: translateY(-50%);
     width: 5%;
     height: 0.1em;
-    background-color: white;
+    background-color: var(--text-color);
 }
 
 .tree .fight .fighter:nth-of-type(1) {
@@ -174,7 +174,7 @@
     content: attr(data-fight-number);
     font-size: 1.5em;
     font-weight: bold;
-    text-shadow: 3px 3px 8px black;
+    text-shadow: 3px 3px 8px var(--text-shadow);
     position: absolute;
     top: 50%;
     right: 0.5em;
@@ -202,25 +202,29 @@ table, th, td {
 }
 
 .tafeln table {
-    border: 1px solid #9B9B9B;
-    background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+    border: 1px solid var(--theme-color-5);
+    background: linear-gradient(45deg, rgba(229, 229, 229, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+}
+
+.darkmode .tafeln table {
+    background: linear-gradient(45deg, rgba(35, 35, 35, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
 }
 
 .tafeln thead {
-    border-bottom: 3px solid #9B9B9B;
+    border-bottom: 3px solid var(--theme-color-5);
 }
 
 .tafeln th {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     font-style: italic;
 }
 
 .tafeln td {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
 }
 
 .tafeln .points {
@@ -231,7 +235,7 @@ table, th, td {
 
 .tafeln td.points {
     padding: 0;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     transition: 0.2s ease;
 }
 
@@ -245,7 +249,7 @@ table, th, td {
     height: 100%;
     padding: 0.25em 0.25em;
     background-color: transparent;
-    color: white;
+    color: var(--text-color);
     text-align: center;
     border: 1px solid transparent;
 }
@@ -256,19 +260,19 @@ table, th, td {
 }
 
 .tafeln th:nth-child(8) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 .tafeln td:nth-child(8) {
-    border-right: 3px dashed #9B9B9B;
+    border-right: 3px dashed var(--theme-color-5);
 }
 
 .tafeln th:nth-child(9) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 .tafeln td:nth-child(9) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 
@@ -284,26 +288,26 @@ table, th, td {
 }
 
 .dog-eat-dog table {
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
     float: left;
 }
 
 .dog-eat-dog thead {
-    border-bottom: 3px solid #9B9B9B;
+    border-bottom: 3px solid var(--theme-color-5);
 }
 
 .dog-eat-dog th {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     font-style: italic;
 }
 
 .dog-eat-dog td {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
 }
 
 .dog-eat-dog .points {
@@ -314,7 +318,7 @@ table, th, td {
 
 .dog-eat-dog td.points {
     padding: 0;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     transition: 0.2s ease;
 }
 
@@ -328,14 +332,14 @@ table, th, td {
     height: 100%;
     padding: 0.25em 0.25em;
     background-color: transparent;
-    color: white;
+    color: var(--text-color);
     text-align: center;
     border: 1px solid transparent;
 }
 
 .dog-eat-dog td.points input:focus {
-    border: 1px solid white;
-    box-shadow: 0px 0px 5px 0 white inset;
+    border: 1px solid var(--text-color);
+    box-shadow: 0px 0px 5px 0 var(--text-color) inset;
 }
 
 .dog-eat-dog .fight-order {
@@ -357,8 +361,8 @@ table, th, td {
 }
 
 .dog-eat-dog .fighter {
-    border-bottom: 2px dashed #9B9B9B;
-    color: white;
+    border-bottom: 2px dashed var(--theme-color-5);
+    color: var(--text-color);
     padding: 0 0.5em 0.1em 0.5em;
     width: 45%;
     display: inline-block;
@@ -366,7 +370,7 @@ table, th, td {
 }
 
 .dog-eat-dog .fight:hover .fighter {
-    border-color: white;
+    border-color: var(--text-color);
 }
 
 .dog-eat-dog .fighter:first-child {
@@ -431,7 +435,7 @@ table, th, td {
     width: 100%;
     padding-left: 0.5em;
     padding-bottom: 0.15em;
-    border-bottom: 2px dashed white;
+    border-bottom: 2px dashed var(--text-color);
     margin: 0.5em 0;
     position: relative;
 }
@@ -471,7 +475,7 @@ table, th, td {
 
 .winners .origin {
     position: absolute;
-    color: #9B9B9B;
+    color: var(--theme-color-5);
     font-size: 0.75em;
     top: 50%;
     transform: translateY(-50%);

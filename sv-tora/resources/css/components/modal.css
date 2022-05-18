@@ -59,7 +59,7 @@ main.blur {
 
 .overlay.open,
 .just-overlay.open {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(35, 35, 35, 0.5);
     transition: 0.2s ease;
 }
 
@@ -74,12 +74,8 @@ main.blur {
     transform: translateX(-50%) scale(0);
     transition: 0.5s ease 0.5s;
     font-size: 1rem; /* ADJUST Size individually */
-    background-color: var(--theme-color-4);
-    box-shadow: 0 10px 15px 3px var(--box-shadow);
-}
-
-.darkmode .modal-window {
     background-color: var(--theme-color-2);
+    box-shadow: 0 10px 15px 3px var(--box-shadow);
 }
 
 .modal-window:after {
@@ -106,7 +102,7 @@ a.primary-button.close-modal {
 }
 
 a.primary-button.close-modal i {
-    color: #171717;
+    color: var(--theme-color-1-dark);
     background-color: var(--accent-color-2-dark);
     border-radius: 50%;
     padding: 0.1em;
@@ -123,20 +119,16 @@ a.primary-button.close-modal i {
     height: 0;
     overflow: hidden;
     margin: 0.75em 0 1em 0;
-    background-color: var(--theme-color-5);
+    background-color: var(--theme-color-1);
     font-weight: bold;
     transition: 0.5s ease;
-}
-
-.darkmode .modal-window .mw-header {
-    background-color: var(--theme-color-1);
 }
 
 .modal-window .mw-header h2 {
     font-size: 1.75em;
     padding: 0.5em 1.5em 0.5em 1.5em;
     margin: 0;
-    text-shadow: 2px 2px 5px var(--text-shadow);
+    text-shadow: 1px 1px 3px var(--text-shadow);
     color: var(--text-color);
 }
 

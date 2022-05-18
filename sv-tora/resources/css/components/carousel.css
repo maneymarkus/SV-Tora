@@ -68,13 +68,12 @@
 }
 
 .carousel-container .page.inactive {
-    color: #6B6B6B;
+    color: var(--disabled-text-color);
     background: radial-gradient(circle at 0% 100%, rgba(150, 150, 150, 1) 85%, rgba(61, 118, 225, 0.9));
     opacity: 0.9;
 }
 
 .darkmode .carousel-container .page.inactive {
-    color: #828282;
     background: radial-gradient(circle at 0% 100%, rgba(48, 48, 48, 1) 85%, rgba(61, 118, 225, 0.9));
 }
 
@@ -82,8 +81,8 @@
     margin-top: 40%;
     font-size: 1.5em;
     padding: 0.25em 0;
-    border-top: 3px solid #4A4A4A;
-    border-bottom: 3px solid #4A4A4A;
+    border-top: 3px solid var(--theme-color-3);
+    border-bottom: 3px solid var(--theme-color-3);
     box-shadow: 0 20px 20px -18px var(--box-shadow), 0 -20px 20px -18px var(--box-shadow);
     text-align: center;
     letter-spacing: 0.05em;

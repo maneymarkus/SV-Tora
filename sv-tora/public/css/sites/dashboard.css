@@ -60,7 +60,7 @@ div.no-tournament {
     height: 19rem;
     border-radius: 20px;
     box-shadow: 3px 3px 15px 5px var(--box-shadow);
-    background-color: rgba(232, 232, 232, 0.75);
+    background-color: rgba(200, 200, 200, 0.75);
     text-decoration: none;
     color: var(--text-color);
     transition: 0.5s ease;
@@ -69,11 +69,11 @@ div.no-tournament {
 }
 
 .darkmode .tournaments {
-    background-color: rgba(23, 23, 23, 0.75);
+    background-color: rgba(35, 35, 35, 0.75);
 }
 
 .tournaments:hover {
-    background-color: var(--theme-color-3);
+    background-color: var(--theme-color-4);
     transform: scale(1.05);
 }
 
@@ -173,7 +173,7 @@ div.no-tournament p {
 }
 
 .actions {
-    background-color: rgba(77, 77, 77, 0.8);
+    background-color: var(--theme-color-3);
     padding: 1rem;
     border-radius: 15px;
     box-shadow: 0 5px 10px var(--box-shadow);

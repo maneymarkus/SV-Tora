@@ -16,8 +16,7 @@ main h1 {
 
 .document {
     display: inline-block;
-    width: auto;
-    max-width: 10rem;
+    width: 10rem;
     position: relative;
     text-align: center;
     margin-bottom: 2rem;
@@ -71,10 +70,14 @@ form.document-upload {
     left: 50%;
     transform: translate(-50%, -50%) scale(1);
     color: black;
-    opacity: 0.3;
+    opacity: 0.1;
     font-size: 25rem;
     z-index: -1;
     transition: opacity 1.25s ease, transform 1.25s ease, left 1s ease-out 1.5s;
+}
+
+.darkmode .document-bg {
+    opacity: 0.3;
 }
 
 .document-interaction {

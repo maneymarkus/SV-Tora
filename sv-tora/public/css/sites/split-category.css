@@ -17,13 +17,13 @@ h1 span {
     top: 0;
     min-height: 300px;
     height: calc(100% - 5rem - 4rem); /* 100% height - paddings and heading - space for buttons */
-    background-color: rgba(23, 23, 23, 0.5);
+    background-color: rgba(200, 200, 200, 0.5);
     overflow-y: auto;
     padding: 0 1.5rem 3rem;
 }
 
 .darkmode .category-container {
-    background-color: rgba(23, 23, 23, 0.75);
+    background-color: rgba(35, 35, 35, 0.75);
 
 }
 

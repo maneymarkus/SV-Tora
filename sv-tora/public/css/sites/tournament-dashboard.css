@@ -279,11 +279,15 @@ main h1 {
 .info {
     width: 100%;
     border-radius: 10px;
-    background-color: rgba(74, 74, 74, 0.75);
+    background-color: rgba(200, 200, 200, 0.75);
     box-shadow: 3px 3px 10px 3px var(--box-shadow);
     padding: 1em 2em;
     transition: 0.5s ease;
     position: relative;
+}
+
+.darkmode .info {
+    background-color: rgba(84, 84, 84, 0.75);
 }
 
 .info:hover {
@@ -347,7 +351,7 @@ main h1 {
     left: 50%;
     transform: translate(-50%, -50%) skew(-5deg, -5deg);
     font-size: 4em;
-    color: #222222;
+    color: var(--theme-color-2-dark);
     font-weight: 900;
     opacity: 0.9;
     transition: 0.5s ease;
@@ -355,8 +359,12 @@ main h1 {
 
 .actions:hover:before {
     font-size: 5em;
-    color: #171717;
+    color: var(--theme-color-5);
     opacity: 0.5;
+}
+
+.darkmode .actions:hover:before {
+    color: var(--theme-color-1-dark);
 }
 
 .actions .change-actions {
@@ -523,7 +531,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .darkmode .persons-container {
-    background-color: rgba(23, 23, 23, 0.75);
+    background-color: rgba(35, 35, 35, 0.75);
 }
 
 .persons-container:hover {
@@ -653,8 +661,12 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .group:not(.disabled):hover .number {
-    color: var(--theme-color-1);
+    color: var(--text-color);
     font-weight: bold;
+}
+
+.darkmode .group:not(.disabled):hover .number {
+    color: var(--theme-color-1);
 }
 
 .group .text {
@@ -782,6 +794,10 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 
 .teams:hover:not(.disabled) .number {
     font-weight: bold;
+    color: var(--text-color);
+}
+
+.darkmode .teams:hover:not(.disabled) .number {
     color: var(--theme-color-1);
 }
 

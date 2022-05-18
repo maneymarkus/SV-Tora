@@ -21,13 +21,6 @@
             <x-primary-button target="_blank" class="print-all" href="{{ $printAllCategoriesUrl }}" icon-name="print" text="Alle Kategorien drucken"></x-primary-button>
         </div>
 
-        @if ($enrollmentActive)
-            <p>
-                <strong>Hinweis:</strong> Noch ist der reguläre Anmeldezeitraum aktiv. Änderungen, die du jetzt durchführst, sind möglicherweise (noch) nicht permament. Am besten nimmst du
-                Änderungen erst nach dem regulären Anmeldezeitraum vor.
-            </p>
-        @endif
-
 
         @php
           $createCategoryUrl = url("tournaments/" . $tournament->id . "/categories")

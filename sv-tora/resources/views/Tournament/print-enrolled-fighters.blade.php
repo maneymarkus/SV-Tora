@@ -64,9 +64,6 @@
                 <th>Nr.</th>
                 <th>Nachname</th>
                 <th>Vorname</th>
-                <th>Alter</th>
-                <th>Geschlecht</th>
-                <th>Graduierung</th>
                 <th>Kategorie(n)</th>
                 @if($isAdmin)
                     <th>Verein</th>
@@ -79,9 +76,6 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $enrolledFighter->fighter->person->last_name }}</td>
                     <td>{{ $enrolledFighter->fighter->person->first_name }}</td>
-                    <td>{{ $enrolledFighter->fighter->age() }}</td>
-                    <td>{{ $enrolledFighter->fighter->sex }}</td>
-                    <td>{{ $enrolledFighter->fighter->graduation }}</td>
                     <td>{{ implode(", ", $enrolledFighter->categories()->where("tournament_id", "=", $tournament->id)->get()->sortBy("name")->pluck("name")->toArray()) }}</td>
                     @if($isAdmin)
                         <td>{{ $enrolledFighter->fighter->person->club->name }}</td>

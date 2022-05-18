@@ -51,11 +51,15 @@ header:before {
     left: 0;
     width: 100%;
     height: 150%;
-    background-color: var(--theme-color-1-dark);
+    background-color: var(--theme-color-5);
     z-index: -1;
     border-radius: 0 0 50% 50%/0 0 75% 75%;
     box-shadow: 0 0 10px 3px var(--box-shadow);
     opacity: 0.95;
+}
+
+.darkmode header:before {
+    background-color: var(--theme-color-1-dark);
 }
 
 header a.logo {
@@ -76,15 +80,18 @@ header .header-button {
     border-radius: 10%;
     width: 5rem;
     height: 5rem;
-    background-color: var(--theme-color-1-dark);
+    background-color: var(--theme-color-5);
     text-align: center;
     top: -0.5rem;
-    box-shadow: 0 0 10px 3px black;
+    box-shadow: 0 0 10px 3px var(--box-shadow);
     transition: 0.5s ease;
     cursor: pointer;
     z-index: 2;
     text-decoration: none;
-    color: white;
+}
+
+.darkmode header .header-button {
+    background-color: var(--theme-color-1-dark);
 }
 
 header .header-button:hover,
@@ -106,8 +113,12 @@ header .profile {
 .header .header-button i {
     font-size: 2rem;
     line-height: 3;
-    color: var(--accent-color-1-dark);
+    color: var(--accent-color-1-light);
     transition: 0.2s ease;
+}
+
+.darkmode .header .header-button i {
+    color: var(--accent-color-1-dark);
 }
 
 .header .header-button:hover i,

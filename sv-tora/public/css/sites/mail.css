@@ -66,10 +66,14 @@ form.mail-content .radio-input-container {
     left: 50%;
     transform: translate(-50%, -50%) scale(1);
     color: black;
-    opacity: 0.3;
+    opacity: 0.1;
     font-size: 25rem;
     z-index: -1;
     transition: opacity 1.25s ease, transform 1.25s ease, left 1s ease-out 1.5s;
+}
+
+.darkmode .envelope {
+    opacity: 0.3;
 }
 
 .sent .mail-content {
