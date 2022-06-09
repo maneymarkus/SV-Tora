@@ -37,7 +37,7 @@ class KOSystem implements FightingSystem {
 
     function initialize()
     {
-        $this->fightingTree = new FightingTree(clone $this->fighters);
+        $this->fightingTree = new FightingTree(clone $this->fighters->shuffle());
         $this->fightingTree->initializeFightingTree();
         $this->fightingTree->fights[count($this->fightingTree->fights) - 1][0]->fightNumber++;
     }
@@ -62,7 +62,7 @@ class KOSystem implements FightingSystem {
     {
         $pdf = new PDFMerger();
 
-        $metaInfoPath = "tournaments/" . $this->category->tournament->id . "/category/" . $this->category->id . "/metaInfo.pdf";
+        $metaInfoPath = "tournaments/" . $this->category->tournament->id . "/categories/" . $this->category->id . "/metaInfo.pdf";
         $metaInfoPdf = PDF::loadView("FightingSystem.ko-system", ["category" => $this->category])->output();
         Storage::disk("public")->put($metaInfoPath, $metaInfoPdf);
         $pdf->addPDF(storage_path("app/public/" . $metaInfoPath), orientation: "P");

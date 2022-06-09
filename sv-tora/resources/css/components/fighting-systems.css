@@ -207,7 +207,7 @@ table, th, td {
 }
 
 .darkmode .tafeln table {
-    background: linear-gradient(45deg, rgba(35, 35, 35, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+    background: linear-gradient(45deg, rgba(25, 25, 25, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
 }
 
 .tafeln thead {

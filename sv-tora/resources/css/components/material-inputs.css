@@ -22,7 +22,7 @@ span.input-error {
 }
 
 .darkmode span.input-error {
-    background-color: rgba(35, 35, 35, 0.9);
+    background-color: rgba(25, 25, 25, 0.9);
 }
 
 span.input-error i {
@@ -642,7 +642,7 @@ input.time-input {
 }
 
 .darkmode .datepicker-container {
-    background-color: rgba(35, 35, 35, 0.5);
+    background-color: rgba(25, 25, 25, 0.5);
 }
 
 .datepicker-container.show {
@@ -905,7 +905,7 @@ input.time-input {
 }
 
 .darkmode .timepicker-container {
-    background: rgba(35, 35, 35, 0.5);
+    background: rgba(25, 25, 25, 0.5);
 }
 
 .timepicker-container.show {
@@ -977,7 +977,7 @@ input.time-input {
 
 .timepicker .clockface .clockhand { /* line between dot and chosen time */
     position: absolute;
-    background-color: rgba(35, 35, 35, 0.25);
+    background-color: rgba(25, 25, 25, 0.25);
     width: 0.1em;
     height: 5em;
     top: 2.5em;

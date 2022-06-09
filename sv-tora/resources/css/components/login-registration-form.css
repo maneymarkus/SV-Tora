@@ -51,7 +51,7 @@
 
 .darkmode .login-container:before,
 .darkmode .registration-container:before {
-    background-color: rgba(35, 35, 35, 0.25);
+    background-color: rgba(25, 25, 25, 0.25);
 }
 
 .login-container:hover:before,

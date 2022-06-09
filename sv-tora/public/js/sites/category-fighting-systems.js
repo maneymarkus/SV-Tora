@@ -76,8 +76,9 @@
             }
 
             if (target.classList.contains("print")) {
-                let url = target.getAttribute("href");
-                window.open(url, "_blank");
+                // simply do nothing
+                //let url = target.getAttribute("href");
+                //window.open(url, "_blank");
             }
 
             if (target.classList.contains("edit-fighting-system")) {

@@ -37,7 +37,7 @@ class DoubleKOSystemWithFinalTables implements FightingSystem {
 
     function initialize()
     {
-        $this->fightingTree = new FightingTree($this->fighters);
+        $this->fightingTree = new FightingTree(clone $this->fighters->shuffle());
         $this->fightingTree->initializeFightingTree();
         $this->consolationTree = new ConsolationTree($this->fighters->count() - 2, $this->fighters->count() - 1);
         $this->consolationTree->initializeFightingTree();

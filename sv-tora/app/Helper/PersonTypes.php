@@ -11,12 +11,12 @@ abstract class PersonTypes
     const FIGHTER = "fighter";
     const COACH = "coach";
     const REFEREE = "referee";
-    const HELPER = "helper";
+    const DESK_SUPPORTER = "desk supporter";
 
     const PERSONS = [
         self::FIGHTER,
         self::COACH,
         self::REFEREE,
-        self::HELPER,
+        self::DESK_SUPPORTER,
     ];
 }

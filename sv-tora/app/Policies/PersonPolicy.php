@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Person;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Log;
 
 class PersonPolicy
 {
@@ -63,6 +64,7 @@ class PersonPolicy
      *
      * @param User $user
      * @param Person $person
+     * @return bool
      */
     public function edit(User $user, Person $person) {
         return $user->club->id === $person->club->id;

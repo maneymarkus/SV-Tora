@@ -3,7 +3,7 @@
  *******************************************************************/
 
 main.no-tournament {
-    text-align: center;
+    text-align: left;
     color: var(--theme-color-5);
     font-style: italic;
     transform-style: preserve-3d;
@@ -11,6 +11,7 @@ main.no-tournament {
 
 .no-tournament h1 {
     margin-bottom: 3rem;
+    text-align: center;
 }
 
 .no-tournament .host-tournament {
@@ -287,7 +288,7 @@ main h1 {
 }
 
 .darkmode .info {
-    background-color: rgba(84, 84, 84, 0.75);
+    background-color: rgba(55, 55, 55, 0.75);
 }
 
 .info:hover {
@@ -531,7 +532,7 @@ a.fighting-systems.prepared:hover .count-not-prepared {
 }
 
 .darkmode .persons-container {
-    background-color: rgba(35, 35, 35, 0.75);
+    background-color: rgba(25, 25, 25, 0.75);
 }
 
 .persons-container:hover {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper\GeneralHelper;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -29,15 +30,15 @@ class PasswordController extends Controller
 
     }
 
-    public function showResetForm(Request $request, $token) {
-        return view("auth.reset-password", ["token" => $token, "email" => $request->input("email")]);
+    public function showResetForm($token) {
+        return view("auth.reset-password", ["token" => $token]);
     }
 
     public function reset(Request $request) {
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            "password" => "bail|required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/",
+            "password" => ["bail", "required", \Illuminate\Validation\Rules\Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             "password-confirmation" => "required|same:password",
         ]);
 

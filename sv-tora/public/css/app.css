@@ -482,11 +482,11 @@ body {
     --theme-color-4-light: #9D9D9D;
     --theme-color-5-light: #7b7b7b;
 
-    --theme-color-1-dark: #232323;
-    --theme-color-2-dark: #414141;
-    --theme-color-3-dark: #545454;
-    --theme-color-4-dark: #6d6d6d;
-    --theme-color-5-dark: #9e9e9e;
+    --theme-color-1-dark: #191919;
+    --theme-color-2-dark: #272727;
+    --theme-color-3-dark: #373737;
+    --theme-color-4-dark: #434343;
+    --theme-color-5-dark: #848484;
 
     --theme-color-1: var(--theme-color-1-light);
     --theme-color-2: var(--theme-color-2-light);
@@ -576,11 +576,11 @@ body:before {
     background-position: center;
     background-repeat: repeat;
     z-index: -1;
-    opacity: 0.2;
+    opacity: 0.15;
 }
 
 body.darkmode:before {
-    opacity: 1;
+    opacity: 0.7;
 }
 
 main {
@@ -1125,12 +1125,12 @@ a.go-back i {
     transition: height 0.5s ease 0s, border-color 0.2s ease 0s, border-width 0.2s ease 0.2s, opacity 0.2s ease 0.5s;
     overflow: hidden;
     background-color: rgba(157, 157, 157, 0.5);
-    border: 0 solid rgba(35, 35, 35, 0.5);
+    border: 0 solid rgba(25, 25, 25, 0.5);
     cursor: auto;
 }
 
 .darkmode .bar-content {
-    background-color: rgba(35, 35, 35, 0.5);
+    background-color: rgba(25, 25, 25, 0.5);
 }
 
 .open .bar-content {
@@ -1996,7 +1996,7 @@ table, th, td {
 }
 
 .darkmode .tafeln table {
-    background: linear-gradient(45deg, rgba(35, 35, 35, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+    background: linear-gradient(45deg, rgba(25, 25, 25, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
 }
 
 .tafeln thead {
@@ -2894,7 +2894,7 @@ header .profile {
 }
 
 .darkmode .loader {
-  background-color: rgba(35, 35, 35, 0.5);
+  background-color: rgba(25, 25, 25, 0.5);
 }
 
 .loader-container .fighter {
@@ -3003,7 +3003,7 @@ header .profile {
 
 .darkmode .login-container:before,
 .darkmode .registration-container:before {
-    background-color: rgba(35, 35, 35, 0.25);
+    background-color: rgba(25, 25, 25, 0.25);
 }
 
 .login-container:hover:before,
@@ -3149,7 +3149,7 @@ span.input-error {
 }
 
 .darkmode span.input-error {
-    background-color: rgba(35, 35, 35, 0.9);
+    background-color: rgba(25, 25, 25, 0.9);
 }
 
 span.input-error i {
@@ -3763,7 +3763,7 @@ input.time-input {
 }
 
 .darkmode .datepicker-container {
-    background-color: rgba(35, 35, 35, 0.5);
+    background-color: rgba(25, 25, 25, 0.5);
 }
 
 .datepicker-container.show {
@@ -4026,7 +4026,7 @@ input.time-input {
 }
 
 .darkmode .timepicker-container {
-    background: rgba(35, 35, 35, 0.5);
+    background: rgba(25, 25, 25, 0.5);
 }
 
 .timepicker-container.show {
@@ -4098,7 +4098,7 @@ input.time-input {
 
 .timepicker .clockface .clockhand { /* line between dot and chosen time */
     position: absolute;
-    background-color: rgba(35, 35, 35, 0.25);
+    background-color: rgba(25, 25, 25, 0.25);
     width: 0.1em;
     height: 5em;
     top: 2.5em;
@@ -4862,7 +4862,7 @@ main.blur {
 
 .overlay.open,
 .just-overlay.open {
-    background-color: rgba(35, 35, 35, 0.5);
+    background-color: rgba(25, 25, 25, 0.5);
     transition: 0.2s ease;
 }
 
@@ -5088,7 +5088,7 @@ nav.nav {
 }
 
 .darkmode nav.nav {
-    background-color: rgba(35, 35, 35, 0.9);
+    background-color: rgba(25, 25, 25, 0.9);
 }
 
 nav.nav.open {

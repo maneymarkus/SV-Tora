@@ -154,12 +154,12 @@
     transition: height 0.5s ease 0s, border-color 0.2s ease 0s, border-width 0.2s ease 0.2s, opacity 0.2s ease 0.5s;
     overflow: hidden;
     background-color: rgba(157, 157, 157, 0.5);
-    border: 0 solid rgba(35, 35, 35, 0.5);
+    border: 0 solid rgba(25, 25, 25, 0.5);
     cursor: auto;
 }
 
 .darkmode .bar-content {
-    background-color: rgba(35, 35, 35, 0.5);
+    background-color: rgba(25, 25, 25, 0.5);
 }
 
 .open .bar-content {

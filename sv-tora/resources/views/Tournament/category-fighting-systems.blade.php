@@ -122,7 +122,12 @@
         <h3 class="subheading">Kumite</h3>
         @php
             # All the Kumite categories
-            $kumiteCategories = $tournament->categories()->where("examination_type", "=", "Kumite")->orderBy("name")->get();
+        $kumiteCategories = $tournament->categories()
+                ->where("examination_type", "=", "Kumite")
+                ->orWhere("examination_type", "=", "Kumite (Kihon Ippon)")
+                ->orWhere("examination_type", "=", "Kumite (Jiyu Ippon)")
+                ->orWhere("examination_type", "=", "Kumite (Shobu Ippon)")
+                ->orderBy("name")->get();
         @endphp
 
         <div class="accordion">

@@ -7,7 +7,7 @@ use App\Http\Controllers\CoachController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EnrolledCoachController;
 use App\Http\Controllers\EnrolledFighterController;
-use App\Http\Controllers\EnrolledHelperController;
+use App\Http\Controllers\EnrolledDeskSupporterController;
 use App\Http\Controllers\EnrolledRefereeController;
 use App\Http\Controllers\EnrolledTeamController;
 use App\Http\Controllers\ErrorController;
@@ -15,7 +15,7 @@ use App\Http\Controllers\FighterController;
 use App\Http\Controllers\FightingSystemController;
 use App\Http\Controllers\FightPlaceController;
 use App\Http\Controllers\GlobalSettingController;
-use App\Http\Controllers\HelperController;
+use App\Http\Controllers\DeskSupporterController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RefereeController;
@@ -146,7 +146,7 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
     Route::resource("/entities/fighters", FighterController::class)->except(["show"]);
     Route::resource("/entities/coaches", CoachController::class)->except(["show"]);
     Route::resource("/entities/referees", RefereeController::class)->except(["show"]);
-    Route::resource("/entities/helpers", HelperController::class)->except(["show"]);
+    Route::resource("/entities/desk-supporters", DeskSupporterController::class)->except(["show"]);
 
     Route::get("/entities/teams/{team}/fighters", [TeamController::class, "showFighters"]);
     Route::get("/entities/teams/{team}/fighters/create", [TeamController::class, "addFighters"]);
@@ -193,11 +193,11 @@ Route::middleware(["auth:web", "hasClub"])->group(function () {
         Route::post("/tournaments/{tournament}/enrolled/referees", [EnrolledRefereeController::class, "enroll"]);
         Route::delete("/tournaments/{tournament}/enrolled/referees/{enrolled_referee}", [EnrolledRefereeController::class, "destroy"]);
         Route::get("/tournaments/{tournament}/enrolled/referees/print", [EnrolledRefereeController::class, "print"]);
-        Route::get("/tournaments/{tournament}/enrolled/helper", [EnrolledHelperController::class, "index"]);
-        Route::get("/tournaments/{tournament}/enrolled/helper/add", [EnrolledHelperController::class, "add"]);
-        Route::post("/tournaments/{tournament}/enrolled/helper", [EnrolledHelperController::class, "enroll"]);
-        Route::delete("/tournaments/{tournament}/enrolled/helper/{enrolled_helper}", [EnrolledHelperController::class, "destroy"]);
-        Route::get("/tournaments/{tournament}/enrolled/helper/print", [EnrolledHelperController::class, "print"]);
+        Route::get("/tournaments/{tournament}/enrolled/desk-supporters", [EnrolledDeskSupporterController::class, "index"]);
+        Route::get("/tournaments/{tournament}/enrolled/desk-supporters/add", [EnrolledDeskSupporterController::class, "add"]);
+        Route::post("/tournaments/{tournament}/enrolled/desk-supporters", [EnrolledDeskSupporterController::class, "enroll"]);
+        Route::delete("/tournaments/{tournament}/enrolled/desk-supporters/{enrolled_desk_supporter}", [EnrolledDeskSupporterController::class, "destroy"]);
+        Route::get("/tournaments/{tournament}/enrolled/desk-supporters/print", [EnrolledDeskSupporterController::class, "print"]);
 
         Route::get("/tournaments/{tournament}/enrolled/teams", [EnrolledTeamController::class, "index"]);
         Route::get("/tournaments/{tournament}/enrolled/teams/add", [EnrolledTeamController::class, "add"]);

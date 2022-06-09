@@ -80,7 +80,7 @@ class Category extends Model
             "Maximal-Graduierung" => GeneralHelper::addOtherChoosableOptions("graduations", $category?->gratudation_max),
             "Mindestalter" => GeneralHelper::addOtherChoosableOptions("age", $category?->age_min),
             "Maximalalter" => GeneralHelper::addOtherChoosableOptions("age", $category?->age_max),
-            "Geschlecht" => GeneralHelper::addOtherChoosableOptions("sex", $category?->sex),
+            "Geschlecht" => GeneralHelper::addOtherChoosableOptions("sex-with-mixed", $category?->sex),
         ];
 
         return $editableProperties;
@@ -117,8 +117,8 @@ class Category extends Model
         $countFights = 0;
         $timePerFightInSeconds = GlobalSetting::find(1)->fight_time_in_seconds;
 
-        # add padding before actual fight:
-        $estimatedTimeInSeconds = 150;
+        # add padding before actual fight (currently 180 seconds/3 minutes):
+        $estimatedTimeInSeconds = 180;
         switch ($this->fightingSystem->name) {
             case "Jeder-Gegen-Jeden":
                 for ($i = $countFighters - 1; $i > 0; $i--) {
@@ -164,8 +164,8 @@ class Category extends Model
             default:
                 throw new \Exception("Unbekanntes Kampfsystem: " . $this->fightingSystem->name);
         }
-        # add padding after actual fight:
-        $estimatedTimeInSeconds += 150;
+        # add padding after actual fight (currently 180 seconds/3 minutes):
+        $estimatedTimeInSeconds += 180;
 
         $estimatedTimeInSeconds += $countFights * $timePerFightInSeconds;
         $this->estimated_required_time_in_seconds = $estimatedTimeInSeconds;

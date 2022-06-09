@@ -53,7 +53,14 @@
                     <p><span class="count-kihon-categories">{{ $tournament->categories()->where("examination_type", "=", "Kihon")->get()->count() }}</span> Kihon Kategorie(n)</p>
                 @endif
                 <p><span class="count-kata-categories">{{ $tournament->categories()->where("examination_type", "=", "Kata")->get()->count() }}</span> Kata Kategorie(n)</p>
-                <p><span class="count-kumite-categories">{{ $tournament->categories()->where("examination_type", "=", "Kumite")->get()->count() }}</span> Kumite Kategorie(n)</p>
+                <p><span class="count-kumite-categories">{{ $tournament->categories()
+                                                            ->where("examination_type", "=", "Kumite")
+                                                            ->orWhere("examination_type", "=", "Kumite (Kihon Ippon)")
+                                                            ->orWhere("examination_type", "=", "Kumite (Jiyu Ippon)")
+                                                            ->orWhere("examination_type", "=", "Kumite (Shobu Ippon)")
+                                                            ->orderBy("name")->get()->count() }}
+                    </span> Kumite Kategorie(n)
+                </p>
                 @if($tournament->tournamentTemplate->team)
                     <p><span class="count-team-categories">{{ $tournament->categories()->where("examination_type", "=", "Team")->get()->count() }}</span> Team Kategorie(n)</p>
                 @endif
@@ -86,7 +93,7 @@
             <div class="info dashboard-container">
                 <h3>Info</h3>
                 <p class="clearfix"><span class="left">Graduierungen</span><span class="right">{{ $tournament->tournamentTemplate->graduation_min . " - " . $tournament->tournamentTemplate->graduation_max }}</span></p>
-                <p class="clearfix" style="text-align: center"><a class="link" target="_blank" href="{{ url("/tournaments/" . $tournament->id . "/categories/overview") }}" style="font-size: inherit">Kategorienübersicht</a></p>
+                <p class="clearfix" style="text-align: center"><a class="link" href="{{ url("/tournaments/" . $tournament->id . "/categories/overview") }}" style="font-size: inherit">Kategorienübersicht</a></p>
             </div>
 
             <div class="actions clearfix dashboard-container">
@@ -115,28 +122,28 @@
             <div class="persons-container dashboard-container">
                 <h3>Personen Anmeldungen</h3>
                 <div class="grid-container">
-                    <a class="enrollment starter group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">
-                        <p class="text">Starter</p>
+                    <a class="enrollment helper group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/desk-supporters") }}">
+                        <p class="text">Tisch&shy;besetzung</p>
                         <span class="circle">
-                            <span class="number">{{ \App\Models\EnrolledFighter::where("tournament_id", "=", $tournament->id)->get()->count() }}</span>
+                            <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::DESK_SUPPORTER)->count() }}</span>
                         </span>
                     </a>
                     <a class="enrollment referees group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/referees") }}">
-                        <p class="text">Kampf&shy;richter</p>
+                        <p class="text">Kampf&shy;&shy;richter</p>
                         <span class="circle">
                             <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::REFEREE)->count() }}</span>
                         </span>
                     </a>
                     <a class="enrollment coaches group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/coaches") }}">
-                        <p class="text">Coaches</p>
+                        <p class="text">Coaches/<wbr>Helfer</p>
                         <span class="circle">
                             <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::COACH)->count() }}</span>
                         </span>
                     </a>
-                    <a class="enrollment helper group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/helper") }}">
-                        <p class="text">Helfer</p>
+                    <a class="enrollment starter group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">
+                        <p class="text">Kämpfer</p>
                         <span class="circle">
-                            <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::HELPER)->count() }}</span>
+                            <span class="number">{{ \App\Models\EnrolledFighter::where("tournament_id", "=", $tournament->id)->get()->count() }}</span>
                         </span>
                     </a>
                 </div>
