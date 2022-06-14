@@ -13,7 +13,7 @@
 @section("content")
 
     <main>
-        <a class="link cancel-configuration" href="{{ url()->previous("/tournament/dashboard") }}">zurück</a>
+        <a class="link cancel-configuration" href="{{ url()->previous("/tournaments/" . $tournament->id) }}">zurück</a>
 
         <x-table class="smartphone-optimized" :columns="$columns" :rows="$rows" actions="true" filter="true" editable="false" deletable="false" selectable="true">
             <x-slot name="heading">{{ $entities }} zum <span class="tournament-name highlighted-span">{{ $tournament->tournamentTemplate->tournament_name }}</span> am <span class="tournament-date highlighted-span">{{ \Carbon\Carbon::parse($tournament->date)->format("d.m.Y") }}</span> anmelden</x-slot>
@@ -25,7 +25,7 @@
 
     <div class="primary-button-floating-container cancel-control">
         @php
-            $backUrl = url()->previous("/tournament/dashboard");
+            $backUrl = url()->previous("/tournaments/" . $tournament->id);
         @endphp
         <x-primary-button class="cancel warning" text="Abbrechen" icon-name="close" href="{{ $backUrl }}"></x-primary-button>
     </div>

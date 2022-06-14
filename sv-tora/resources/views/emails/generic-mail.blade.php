@@ -14,8 +14,6 @@ Direkt zum Dashboard:
 Dashboard
 @endcomponent
 @endif
-
-
 <br />
 <br />
 Mit sportlichen Grüßen,<br />

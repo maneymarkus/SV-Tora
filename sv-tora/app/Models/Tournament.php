@@ -58,6 +58,13 @@ class Tournament extends Model
         return $this->belongsToMany(Club::class, "excluded_clubs");
     }
 
+    public static function hasActiveTournament() {
+        if (Tournament::where("active", true)->first() !== null) {
+            return true;
+        }
+        return false;
+    }
+
     public static function editableProperties(Tournament $tournament = null) {
         $date = $tournament !== null ? Carbon::parse($tournament->date)->format("d.m.Y") : null;
         $time = $tournament !== null ? Carbon::parse($tournament->time)->format("H:i") : null;

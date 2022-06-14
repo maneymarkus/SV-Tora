@@ -37,8 +37,8 @@ class MailController extends Controller
 
         $includeButton = $request->input("include-button") ?? false;
         foreach ($receiverMails as $receiverMail) {
-            if (session("tournamentInvitation")) {
-                Mail::to($receiverMail)->send(new TournamentInvitationMail($subject, $content, $files));
+            if (session("tournamentInvitation") !== null) {
+                Mail::to($receiverMail)->send(new TournamentInvitationMail(session("tournamentInvitation"), $subject, $content, $files));
                 session()->forget("tournamentInvitation");
             } else {
                 Mail::to($receiverMail)->send(new GenericMail($subject, $content, $includeButton, $files));
@@ -57,7 +57,7 @@ class MailController extends Controller
         $subject = "Neuer Wettkampf des SV Tora Berlin e.V. am " . Carbon::parse($tournament->date)->format("d.m.Y");
         $content = "Der SV Tora Berlin e.V. lädt zum Wettkampf " . $tournament->tournamentTemplate->tournament_name . " am " . Carbon::parse($tournament->date)->format("d.m.Y") . " ein.\n";
         $content .= "Alle weiteren wichtigen Infos finden Sie im Wettkampf System auf dem Wettkampf Dashboard.";
-        session(["tournamentInvitation" => true]);
+        session(["tournamentInvitation" => $tournament]);
         return response()->view("mail", ["subject" => $subject, "content" => $content]);
     }
 

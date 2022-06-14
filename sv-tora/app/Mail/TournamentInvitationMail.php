@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Tournament;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,6 +11,13 @@ use Illuminate\Queue\SerializesModels;
 class TournamentInvitationMail extends Mailable
 {
     use Queueable, SerializesModels;
+
+    /**
+     * The tournament the user is being invited to
+     *
+     * @var Tournament
+     */
+    public Tournament $tournament;
 
     /**
      * Contains the subject of the mail
@@ -37,8 +45,9 @@ class TournamentInvitationMail extends Mailable
      *
      * @return void
      */
-    public function __construct($subject, $content, $attachmentFiles = null)
+    public function __construct($tournament, $subject, $content, $attachmentFiles = null)
     {
+        $this->tournament = $tournament;
         $this->customSubject = $subject;
         $this->content = $content;
         $this->attachmentFiles = $attachmentFiles;

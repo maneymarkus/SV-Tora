@@ -15,7 +15,7 @@
     <main class="limited">
         <x-tournament-admin-info :tournament="$tournament"></x-tournament-admin-info>
 
-        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournaments") }}">zurück</a>
         <h1>Kategorien</h1>
         <div style="text-align: right">
             <x-primary-button target="_blank" class="print-all" href="{{ $printAllCategoriesUrl }}" icon-name="print" text="Alle Kategorien drucken"></x-primary-button>

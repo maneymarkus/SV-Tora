@@ -177,7 +177,7 @@
                     window.location.href = responseData["url"];
                 }, function() {
                     ModalModule.infoModal("Wettkampf gelöscht", "Der Wettkampf wurde gelöscht. Wenn du dieses Info-Fenster schließt, läd die Seite neu und du kannst einen neuen Wettkampf erstellen.", function () {
-                        window.location.reload();
+                        window.location.href = "/tournaments";
                     });
                 });
             }, undefined, true);

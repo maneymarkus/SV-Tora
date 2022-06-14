@@ -13,7 +13,7 @@
     </style>
 
     <main>
-        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournaments/" . $tournament->id) }}">zurück</a>
 
         @php
             $editable = $enrollmentActive ? "true" : "false";

@@ -25,15 +25,6 @@ class TournamentPolicy
     }
 
 
-    public function dashboard(User $user) {
-        $tournament = Tournament::latest()->first();
-        if ($tournament?->active && !$tournament?->excludedClubs->contains($user->club)) {
-            return true;
-        }
-        return false;
-    }
-
-
     /**
      * This function is used for the various api endpoints to prevent regular users to be able to use them
      *
@@ -52,7 +43,7 @@ class TournamentPolicy
      */
     public function viewAny(User $user)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -64,7 +55,7 @@ class TournamentPolicy
      */
     public function view(User $user, Tournament $tournament)
     {
-        return $tournament->id === Tournament::latest()->first()->id && !$tournament->excludedClubs->contains($user->club);
+        return $tournament->active && !$tournament->excludedClubs->contains($user->club);
     }
 
     /**

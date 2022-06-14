@@ -48,7 +48,9 @@
 
                 formData.append("content", document.querySelector("textarea[name='content']").value);
 
-                formData.append("include-button", document.querySelector("input[name='include-button']").value);
+                if (document.querySelector("input[name='include-button']")) {
+                    formData.append("include-button", document.querySelector("input[name='include-button']").value);
+                }
 
                 [...document.querySelector(".file-input-container input").files].forEach(file => {
                     formData.append("attached-files[]", file);

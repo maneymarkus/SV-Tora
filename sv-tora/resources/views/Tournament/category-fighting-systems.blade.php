@@ -15,7 +15,7 @@
     <main class="limited">
         <x-tournament-admin-info :tournament="$tournament"></x-tournament-admin-info>
 
-        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournaments/" . $tournament->id) }}">zurück</a>
 
         <h1>Kampfsysteme der Kategorien</h1>
         <div style="text-align: right">

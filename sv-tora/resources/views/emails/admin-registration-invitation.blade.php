@@ -2,11 +2,10 @@
 Hallo,<br />
 du wurdest eingeladen, als Admin beim SV Tora Berlin e.V. mitzuwirken.<br />
 Bitte klicke hier, um dich zu registrieren:
-
+<br>
 @component("mail::button", ["url" => $url])
 Hier Registrieren
 @endcomponent
-
 <br>
 <br>
 Mit sportlichen Grüßen,<br />

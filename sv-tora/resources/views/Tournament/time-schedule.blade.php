@@ -15,7 +15,7 @@
     <main class="limited">
         <x-tournament-admin-info :tournament="$tournament"></x-tournament-admin-info>
 
-        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournaments/" . $tournament->id) }}">zurück</a>
         <h1>Wettkampf Zeitplan</h1>
         <p>Falls du Parameter bezüglich der Wettkämpfe (z.B. die Standardlänge eines einzelnen Kampfes) einstellen willst, dann findest du das in den <a class="link" href="/settings">Einstellungen</a>.</p>
 
@@ -50,9 +50,10 @@
 
         <div class="time-actions">
             @php
+                $backUrl = url("/tournaments/" . $tournament->id);
                 $saveUrl = url("/tournaments/" . $tournament->id . "/schedule");
             @endphp
-            <x-primary-button class="back" href="/tournament/dashboard" text="Zum Dashboard" icon-name="backspace"></x-primary-button>
+            <x-primary-button class="back" href="{{ $backUrl }}" text="Zum Dashboard" icon-name="backspace"></x-primary-button>
             <x-primary-button class="reset warning" text="Zurücksetzen" icon-name="restore"></x-primary-button>
             <x-primary-button class="duration" text="Zeitdauer" icon-name="timelapse"></x-primary-button>
             <x-primary-button class="save" href="{{ $saveUrl }}" text="Speichern" icon-name="save"></x-primary-button>

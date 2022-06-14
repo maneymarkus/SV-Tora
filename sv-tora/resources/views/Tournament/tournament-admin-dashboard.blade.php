@@ -13,7 +13,7 @@
 @section("content")
 
     <main class="tournament clearfix">
-        <a class="link" href="{{ url("/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournaments") }}">zurück</a>
         <h1>Wettkampf-Dashboard</h1>
 
         <div data-progress="{{ $progressStep }}" class="status-container">
