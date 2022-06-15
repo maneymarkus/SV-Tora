@@ -31,24 +31,13 @@
                 </a>
                 <span class="bg"></span>
             </li>
-        @elseif(auth()->user())
-            {{-- TODO
-            <li>
-                <a href="{{ url("/entities/clubs/" . auth()->user()->club->id) }}">
-                    <span class="text">Verein</span>
-                </a>
-                <span class="bg"></span>
-            </li>
-            --}}
         @endcan
-        @if(\App\Models\Tournament::latest()->first()?->active || \Illuminate\Support\Facades\Gate::allows("admin"))
-            <li>
-                <a href="{{ url("/tournament/dashboard") }}">
-                    <span class="text">Wettkampf-Dashboard</span>
-                </a>
-                <span class="bg"></span>
-            </li>
-        @endif
+        <li>
+            <a href="{{ url("/tournaments") }}">
+                <span class="text">Wettkampf-Dashboard</span>
+            </a>
+            <span class="bg"></span>
+        </li>
     </ul>
     <div class="image-container">
         <img alt="Symbol eines Kämpfers" src="{{ asset("images/fighter-symbol-white.png") }}" />

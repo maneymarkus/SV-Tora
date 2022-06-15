@@ -13,7 +13,7 @@
 @section("content")
 
     <main class="tournament clearfix">
-        <a class="link" href="{{ url("/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournaments") }}">zurück</a>
         <h1>Wettkampf-Dashboard</h1>
 
         <div data-progress="{{ $progressStep }}" class="status-container">
@@ -33,6 +33,7 @@
         <div class="tournament-container">
             <h3 data-name="Wettkampf-Vorlage" class="tournament-name">{{ $tournament->tournamentTemplate->tournament_name }}</h3>
             <p>am <span data-name="Datum" class="tournament-date">{{ \Carbon\Carbon::parse($tournament->date)->format("d.m.Y") }}</span> um <span data-name="Uhrzeit" class="tournament-time">{{ \Carbon\Carbon::parse($tournament->time)->format("H:i") }}</span> Uhr</p>
+            <p>Voraussichtliches Ende des Wettkampfes: <span class="duration">{{ $tournament->calculateEstimatedEnd()->format("H:i") }}h</span></p>
             <p class="more-spacing">Anmeldezeitraum:</p>
             <p><span data-name="Anmeldezeitraum Start" class="enrollment-start">{{ \Carbon\Carbon::parse($tournament->enrollment_start)->format("d.m.Y") }}</span> - <span data-name="Anmeldezeitraum Ende" class="enrollment-end">{{ \Carbon\Carbon::parse($tournament->enrollment_end)->format("d.m.Y") }}</span></p>
             <p class="more-spacing">Ort:</p>
@@ -58,10 +59,10 @@
                 @endif
             </a>
 
-            <a class="fighting-systems topic-container dashboard-container" href="{{ $changeFightingSystemsUrl }}">
+            <a class="fighting-systems topic-container dashboard-container {{ $tournament->categories()->where("prepared", "=", false)->get()->count() === 0 ? "prepared" : "" }}" href="{{ $changeFightingSystemsUrl }}">
                 <h3>Kampfsysteme</h3>
-                <p><span class="count-prepared">0</span> Kampfsysteme zugeordnet</p>
-                <p><span class="count-not-prepared">0</span> verbleibend</p>
+                <p><span class="count-prepared">{{ $tournament->categories()->where("prepared", "=", true)->get()->count() }}</span> Kampfsystem(e) zugeordnet</p>
+                <p><span class="count-not-prepared">{{ $tournament->categories()->where("prepared", "=", false)->get()->count() }}</span> verbleibend</p>
             </a>
 
             <a class="excluded-clubs topic-container dashboard-container" href="{{ $excludeClubsUrl }}">
@@ -76,32 +77,37 @@
 
             <a class="schedule topic-container dashboard-container" href="{{ $changeScheduleUrl }}">
                 <h3>Zeitplan</h3>
-                <p><span class="duration duration-place-1">0:00h</span> auf Pool 1</p>
-                <p><span class="duration duration-place-2">0:00h</span> auf Pool 2</p>
-                <p><span class="duration duration-place-3">0:00h</span> auf Pool 3</p>
+                <p>Voraussichtliches Ende des Wettkampfes: <span class="duration">{{ $tournament->calculateEstimatedEnd()->format("H:i") }}h</span></p>
+                @foreach($tournament->fightPlaces()->orderBy("created_at")->get() as $fightPlace)
+                    <p><span class="duration">{{ \Carbon\Carbon::today()->set("second", $fightPlace->calculateTimeInSeconds())->format("H:i") }}h</span> auf {{ $fightPlace->name }}</p>
+                @endforeach
             </a>
 
             <div class="info dashboard-container">
                 <h3>Info</h3>
                 <p class="clearfix"><span class="left">Graduierungen</span><span class="right">{{ $tournament->tournamentTemplate->graduation_min . " - " . $tournament->tournamentTemplate->graduation_max }}</span></p>
+                <p class="clearfix" style="text-align: center"><a class="link" href="{{ url("/tournaments/" . $tournament->id . "/categories/overview") }}" style="font-size: inherit">Kategorienübersicht</a></p>
             </div>
 
-            <div class="actions clearfix dashboard-container">
-                <div class="change-actions">
-                    <x-primary-button class="change-status" href="{{ $changeTournamentStatusUrl }}" text="Status ändern" icon-name="build"></x-primary-button>
-                    <x-primary-button class="change-tournament" href="{{ $changeTournamentUrl }}" text="Wettkampf ändern" icon-name="settings"></x-primary-button>
-                    <x-primary-button class="change-category" href="{{ $changeCategoriesUrl }}" text="Kategorien administrieren" icon-name="group"></x-primary-button>
-                    <x-primary-button class="change-fight-system" href="{{ $changeFightingSystemsUrl }}" text="Kampfsysteme wählen" icon-name="view_carousel"></x-primary-button>
-                    <x-primary-button class="exclude-clubs" href="{{ $excludeClubsUrl }}" text="Verein ausschließen" icon-name="block"></x-primary-button>
-                    <x-primary-button class="change-places" href="{{ $changeFightingPlacesUrl }}"  text="Pools verwalten" icon-name="space_bar"></x-primary-button>
-                    <x-primary-button class="change-schedule" href="{{ $changeScheduleUrl }}"  text="Zeitplan managen" icon-name="schedule"></x-primary-button>
+            @if ($tournament->active)
+                <div class="actions clearfix dashboard-container">
+                    <div class="change-actions">
+                        <x-primary-button class="change-status" href="{{ $changeTournamentStatusUrl }}" text="Status ändern" icon-name="build"></x-primary-button>
+                        <x-primary-button class="change-tournament" href="{{ $changeTournamentUrl }}" text="Wettkampf ändern" icon-name="settings"></x-primary-button>
+                        <x-primary-button class="change-category" href="{{ $changeCategoriesUrl }}" text="Kategorien administrieren" icon-name="group"></x-primary-button>
+                        <x-primary-button class="change-fight-system" href="{{ $changeFightingSystemsUrl }}" text="Kampfsysteme wählen" icon-name="view_carousel"></x-primary-button>
+                        <x-primary-button class="exclude-clubs" href="{{ $excludeClubsUrl }}" text="Verein ausschließen" icon-name="block"></x-primary-button>
+                        <x-primary-button class="change-places" href="{{ $changeFightingPlacesUrl }}"  text="Pools verwalten" icon-name="space_bar"></x-primary-button>
+                        <x-primary-button class="change-schedule" href="{{ $changeScheduleUrl }}"  text="Zeitplan managen" icon-name="schedule"></x-primary-button>
+                        <x-primary-button class="invite-clubs" href="{{ $inviteClubsUrl }}"  text="Vereine zum Wettkampf einladen" icon-name="group_add"></x-primary-button>
+                    </div>
+                    @if($progressStep == 4)
+                        <x-primary-button class="complete-tournament accent-1" href="{{ $completeTournamentUrl }}" text="Wettkampf abschließen" icon-name="done"></x-primary-button>
+                    @else
+                        <x-primary-button class="warning cancel-tournament" href="{{ $deleteTournamentUrl }}" text="Wettkampf absagen" icon-name="close"></x-primary-button>
+                    @endif
                 </div>
-                @if($progressStep == 4)
-                    <x-primary-button class="complete-tournament accent-1" href="{{ $completeTournamentUrl }}" text="Wettkampf abschließen" icon-name="done"></x-primary-button>
-                @else
-                    <x-primary-button class="warning cancel-tournament" href="{{ $deleteTournamentUrl }}" text="Wettkampf absagen" icon-name="close"></x-primary-button>
-                @endif
-            </div>
+            @endif
 
             @php
                 $enrolledPersons = \App\Models\EnrolledPerson::join("people", "people.id", "=", "enrolled_people.person_id")
@@ -111,28 +117,28 @@
             <div class="persons-container dashboard-container">
                 <h3>Personen Anmeldungen</h3>
                 <div class="grid-container">
-                    <a class="enrollment starter group {{ $enrollment }}" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">
-                        <p class="text">Starter</p>
+                    <a class="enrollment helper group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/desk-supporters") }}">
+                        <p class="text">Tisch&shy;besetzung</p>
+                        <span class="circle">
+                            <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::DESK_SUPPORTER)->count() }}</span>
+                        </span>
+                    </a>
+                    <a class="enrollment referees group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/referees") }}">
+                        <p class="text">Kampf&shy;&shy;richter</p>
+                        <span class="circle">
+                            <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::REFEREE)->count() }}</span>
+                        </span>
+                    </a>
+                    <a class="enrollment coaches group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/coaches") }}">
+                        <p class="text">Coaches/<wbr>Helfer</p>
+                        <span class="circle">
+                            <span class="number">{{ $enrolledPersons->get()->where("type", "=", \App\Helper\PersonTypes::COACH)->count() }}</span>
+                        </span>
+                    </a>
+                    <a class="enrollment starter group" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/fighters") }}">
+                        <p class="text">Kämpfer</p>
                         <span class="circle">
                             <span class="number">{{ \App\Models\EnrolledFighter::where("tournament_id", "=", $tournament->id)->get()->count() }}</span>
-                        </span>
-                    </a>
-                    <a class="enrollment referees group {{ $enrollment }}" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/referees") }}">
-                        <p class="text">Kampf&shy;richter</p>
-                        <span class="circle">
-                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::REFEREE)->get()->count() }}</span>
-                        </span>
-                    </a>
-                    <a class="enrollment coaches group {{ $enrollment }}" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/coaches") }}">
-                        <p class="text">Coaches</p>
-                        <span class="circle">
-                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::COACH)->get()->count() }}</span>
-                        </span>
-                    </a>
-                    <a class="enrollment helper group {{ $enrollment }}" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/helper") }}">
-                        <p class="text">Helfer</p>
-                        <span class="circle">
-                            <span class="number">{{ $enrolledPersons->where("type", "=", \App\Helper\PersonTypes::HELPER)->get()->count() }}</span>
                         </span>
                     </a>
                 </div>
@@ -141,7 +147,7 @@
             @if($tournament->tournamentTemplate->team)
                 <div class="teams-container dashboard-container">
                     <h3>Team Anmeldungen</h3>
-                    <a class="enrollment teams  {{ $enrollment }}" href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
+                    <a class="enrollment teams " href="{{ url("/tournaments/" . $tournament->id . "/enrolled/teams") }}">
                         <span class="circle">
                             <span class="number">{{ \App\Models\EnrolledTeam::where("tournament_id", "=", $tournament->id)->get()->count() }}</span>
                         </span>
@@ -153,12 +159,14 @@
 
     </main>
 
+    {{--
     <div class="primary-button-floating-container mode-control">
         <a class="primary-button fight-mode">
             <i class="material-icons">whatshot</i>
             <p>Wettkampf-Modus</p>
         </a>
     </div>
+    --}}
 
     <div class="exclude-clubs-modal clearfix">
         <a class="primary-button close">

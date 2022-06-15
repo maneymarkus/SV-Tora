@@ -62,7 +62,7 @@ main {
     font-size: 0.75em;
     position: absolute;
     margin: 0;
-    top: calc(50% - 2em);
+    top: calc(50% - 1.5em);
 }
 
 .fight-place .rename {
@@ -88,7 +88,7 @@ main {
     color: var(--accent-color-1-dark);
     font-weight: bold;
     font-size: 1.5em;
-    vertical-align: middle;
+    vertical-align: text-bottom;
 }
 
 .add-container {

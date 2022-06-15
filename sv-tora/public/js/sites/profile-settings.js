@@ -34,10 +34,14 @@
 
     // User wants to change Password
     let passwordChangeBtn = document.querySelector("a.change-password");
-    passwordChangeBtn.addEventListener("click", function () {
-        let passwordInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.PASSWORD, ["required", "password"], undefined, "password", "Passwort", undefined, undefined, undefined);
-        let passwordConfirmInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.PASSWORD, ["required", "password", "password-confirmation"], undefined, "password-confirmation", "Passwort Bestätigung", undefined, undefined, undefined);
+    const passwordUpdateUrl = passwordChangeBtn.getAttribute("href");
+    passwordChangeBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        let oldPasswordInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.PASSWORD, ["required", "password", "old-password"], undefined, "old-password", "Altes Passwort", undefined, undefined, undefined);
+        let passwordInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.PASSWORD, ["required", "password"], undefined, "password", "Neues Passwort", undefined, undefined, undefined);
+        let passwordConfirmInput = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.PASSWORD, ["required", "password", "password-confirmation"], undefined, "password-confirmation", "Neues Passwort bestätigen", undefined, undefined, undefined);
         let content = App.GeneralModule.generateElement("div");
+        content.appendChild(oldPasswordInput.inputContainer);
         content.appendChild(passwordInput.inputContainer);
         content.appendChild(passwordConfirmInput.inputContainer);
         App.FormModule.checkConfirmation(passwordInput.inputContainer, passwordConfirmInput.inputContainer);
@@ -45,8 +49,11 @@
             if (!App.FormModule.checkForm(content, true)) {
                 return false;
             } else {
-                let data = {password: passwordInput.getValue()}
-                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.PUT, updateUrl, () => {
+                let data = {
+                    password: passwordInput.getValue(),
+                    oldPassword: oldPasswordInput.getValue(),
+                }
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.PUT, passwordUpdateUrl, () => {
                     ModalWindow.closeModal();
                 }, data, true);
             }

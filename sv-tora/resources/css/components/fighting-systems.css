@@ -4,7 +4,7 @@
 
 .tree {
     display: inline-block;
-
+    padding-top: 2rem;
 }
 
 .tree .column {
@@ -15,71 +15,71 @@
 }
 
 .tree .column:nth-child(1) .fight {
+    height: 2em;
+    margin-bottom: 2em;
+}
+
+.tree .column:nth-child(2) {
+    padding-top: 1em;
+}
+
+.tree .column:nth-child(2) .fight {
     height: 4em;
     margin-bottom: 4em;
 }
 
-.tree .column:nth-child(2) {
+.tree .column:nth-child(3) {
     padding-top: 2em;
 }
 
-.tree .column:nth-child(2) .fight {
+.tree .column:nth-child(3) .fight {
     height: 8em;
     margin-bottom: 8em;
 }
 
-.tree .column:nth-child(3) {
+.tree .column:nth-child(4) {
     padding-top: 6em;
 }
 
-.tree .column:nth-child(3) .fight {
+.tree .column:nth-child(4) .fight {
     height: 16em;
     margin-bottom: 16em;
 }
 
-.tree .column:nth-child(4) {
+.tree .column:nth-child(5) {
     padding-top: 14em;
 }
 
-.tree .column:nth-child(4) .fight {
+.tree .column:nth-child(5) .fight {
     height: 32em;
     margin-bottom: 32em;
 }
 
-.tree .column:nth-child(5) {
+.tree .column:nth-child(6) {
     padding-top: 30em;
 }
 
-.tree .column:nth-child(5) .fight {
+.tree .column:nth-child(6) .fight {
     height: 64em;
     margin-bottom: 64em;
 }
 
-.tree .column:nth-child(6) {
+.tree .column:nth-child(7) {
     padding-top: 62em;
 }
 
-.tree .column:nth-child(6) .fight {
+.tree .column:nth-child(7) .fight {
     height: 128em;
     margin-bottom: 128em;
 }
 
-.tree .column:nth-child(7) {
+.tree .column:nth-child(8) {
     padding-top: 126em;
 }
 
-.tree .column:nth-child(7) .fight {
+.tree .column:nth-child(8) .fight {
     height: 256em;
     margin-bottom: 256em;
-}
-
-.tree .column:nth-child(8) {
-    padding-top: 254em;
-}
-
-.tree .column:nth-child(8) .fight {
-    height: 512em;
-    margin-bottom: 512em;
 }
 
 .tree .fight {
@@ -89,7 +89,7 @@
     display: block;
     width: 100%;
     height: 10em;
-    border-right: 0.1em solid white;
+    border-right: 0.1em solid var(--text-color);
 }
 
 .tree .fight:after {
@@ -100,7 +100,7 @@
     transform: translateY(-50%);
     width: 1em;
     height: 0.1em;
-    background-color: white;
+    background-color: var(--text-color);
 }
 
 .tree .fight.winner {
@@ -120,7 +120,7 @@
     left: 0;
     font-size: 1em;
     padding: 0.25em 0.5em 0.1em 0.75em;
-    border-bottom: 0.1em dashed #A8A8A8;
+    border-bottom: 0.1em dashed var(--theme-color-5);
     transition: 0.2s ease;
     white-space: nowrap;
     text-align: left;
@@ -132,7 +132,7 @@
 
 .tree .fighter.loser {
     text-decoration: line-through;
-    color: #4A4A4A;
+    color: var(--disabled-text-color);
 }
 
 .tree .fighter.winner {
@@ -147,7 +147,7 @@
     transform: translateY(-50%);
     width: 5%;
     height: 0.1em;
-    background-color: white;
+    background-color: var(--text-color);
 }
 
 .tree .fight .fighter:nth-of-type(1) {
@@ -170,14 +170,22 @@
     display: none;
 }
 
-.tree .fight .fight-number {
-    font-size: 2em;
+.tree .fight:before {
+    content: attr(data-fight-number);
+    font-size: 1.5em;
     font-weight: bold;
-    text-shadow: 3px 3px 8px black;
+    text-shadow: 3px 3px 8px var(--text-shadow);
     position: absolute;
-    top: calc(50% + 0.25em);
+    top: 50%;
     right: 0.5em;
     transform: translateY(-50%);
+}
+
+.fighter.dragging {
+    background-color: var(--theme-color-3);
+    position: absolute;
+    z-index: 100000;
+    transition: none;
 }
 
 /*****************************************************************
@@ -194,25 +202,29 @@ table, th, td {
 }
 
 .tafeln table {
-    border: 1px solid #9B9B9B;
-    background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+    border: 1px solid var(--theme-color-5);
+    background: linear-gradient(45deg, rgba(229, 229, 229, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
+}
+
+.darkmode .tafeln table {
+    background: linear-gradient(45deg, rgba(25, 25, 25, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
 }
 
 .tafeln thead {
-    border-bottom: 3px solid #9B9B9B;
+    border-bottom: 3px solid var(--theme-color-5);
 }
 
 .tafeln th {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     font-style: italic;
 }
 
 .tafeln td {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
 }
 
 .tafeln .points {
@@ -223,7 +235,7 @@ table, th, td {
 
 .tafeln td.points {
     padding: 0;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     transition: 0.2s ease;
 }
 
@@ -237,7 +249,7 @@ table, th, td {
     height: 100%;
     padding: 0.25em 0.25em;
     background-color: transparent;
-    color: white;
+    color: var(--text-color);
     text-align: center;
     border: 1px solid transparent;
 }
@@ -248,19 +260,19 @@ table, th, td {
 }
 
 .tafeln th:nth-child(8) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 .tafeln td:nth-child(8) {
-    border-right: 3px dashed #9B9B9B;
+    border-right: 3px dashed var(--theme-color-5);
 }
 
 .tafeln th:nth-child(9) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 .tafeln td:nth-child(9) {
-    border-right: 3px solid #9B9B9B;
+    border-right: 3px solid var(--theme-color-5);
 }
 
 
@@ -270,31 +282,32 @@ table, th, td {
  ****************************************************************/
 
 .dog-eat-dog {
-    margin: 2em 0;
+    padding: 2em;
     font-size: 1em;
+    position: relative;
 }
 
 .dog-eat-dog table {
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     background: linear-gradient(45deg, rgba(23, 23, 23, 0.5) 15%, rgba(61, 118, 225, 0.5) 125%);
     float: left;
 }
 
 .dog-eat-dog thead {
-    border-bottom: 3px solid #9B9B9B;
+    border-bottom: 3px solid var(--theme-color-5);
 }
 
 .dog-eat-dog th {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     font-style: italic;
 }
 
 .dog-eat-dog td {
     font-size: 1.5em;
     padding: 0.25em 1em 0.25em 0.25em;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
 }
 
 .dog-eat-dog .points {
@@ -305,7 +318,7 @@ table, th, td {
 
 .dog-eat-dog td.points {
     padding: 0;
-    border: 1px solid #9B9B9B;
+    border: 1px solid var(--theme-color-5);
     transition: 0.2s ease;
 }
 
@@ -319,20 +332,21 @@ table, th, td {
     height: 100%;
     padding: 0.25em 0.25em;
     background-color: transparent;
-    color: white;
+    color: var(--text-color);
     text-align: center;
     border: 1px solid transparent;
 }
 
 .dog-eat-dog td.points input:focus {
-    border: 1px solid white;
-    box-shadow: 0px 0px 5px 0 white inset;
+    border: 1px solid var(--text-color);
+    box-shadow: 0px 0px 5px 0 var(--text-color) inset;
 }
 
 .dog-eat-dog .fight-order {
-    font-size: 1.5em;
-    margin: 0 2em;
+    font-size: 1em;
     display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
 .dog-eat-dog .fight {
@@ -347,22 +361,25 @@ table, th, td {
 }
 
 .dog-eat-dog .fighter {
-    border-bottom: 2px dashed #9B9B9B;
-    color: white;
+    border-bottom: 2px dashed var(--theme-color-5);
+    color: var(--text-color);
     padding: 0 0.5em 0.1em 0.5em;
-    width: 10em;
+    width: 45%;
     display: inline-block;
     transition: 0.2s ease;
 }
 
 .dog-eat-dog .fight:hover .fighter {
-    transform: scale(1.1);
-    border-color: white;
+    border-color: var(--text-color);
 }
 
 .dog-eat-dog .fighter:first-child {
     text-align: right;
-    margin-right: 1.5em;
+    margin-right: 1em;
+}
+
+.dog-eat-dog .fighter:last-child {
+    text-align: left;
 }
 
 .dog-eat-dog .number {
@@ -395,6 +412,13 @@ table, th, td {
     font-style: normal;
 }
 
+.fight.dragging {
+    background-color: var(--theme-color-3);
+    position: absolute;
+    z-index: 100000;
+    transition: none;
+}
+
 /*****************************************************************
             WINNERS
  ****************************************************************/
@@ -411,7 +435,7 @@ table, th, td {
     width: 100%;
     padding-left: 0.5em;
     padding-bottom: 0.15em;
-    border-bottom: 2px dashed white;
+    border-bottom: 2px dashed var(--text-color);
     margin: 0.5em 0;
     position: relative;
 }
@@ -451,7 +475,7 @@ table, th, td {
 
 .winners .origin {
     position: absolute;
-    color: #9B9B9B;
+    color: var(--theme-color-5);
     font-size: 0.75em;
     top: 50%;
     transform: translateY(-50%);

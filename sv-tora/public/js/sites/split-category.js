@@ -36,7 +36,6 @@
             this.fighterName = this.cardElement.querySelector("h2.fighter-name").innerText;
             this.age = parseInt(this.cardElement.querySelector("span.age").innerText.replace(" Jahre", ""));
             this.sex = (this.cardElement.querySelector("span.sex").innerText.toLowerCase() === "Männlich") ? "m" : "w";
-            this.category = this.cardElement.querySelector("span.category").innerText;
             this.graduation = this.cardElement.querySelector("span.graduation").innerText;
             this.club = this.cardElement.querySelector("span.club").innerText;
 
@@ -161,6 +160,7 @@
         });
 
         if (unassignedCards[0]) {
+            console.log(unassignedCards);
             activateAssigning();
         } else {
             App.ModalModule.infoModal("Keine Kämpfer vorhanden", "In dieser Kategorie sind (noch) keine Kämpfer. Füge erst Kämpfer hinzu, um die Kategorie dann zu teilen.", function () {
@@ -251,10 +251,16 @@
             let leftCategoryName = leftCategoryContainer.querySelector(".category-name").innerText;
             let rightCategoryName = rightCategoryContainer.querySelector(".category-name").innerText;
             let data = {
-                "categories": {
-                    leftCategoryName:  getCategoriesMembers(leftCategoryContainer),
-                    rightCategoryName: getCategoriesMembers(rightCategoryContainer),
-                },
+                "categories": [
+                    {
+                        categoryName: leftCategoryName,
+                        members: getCategoriesMembers(leftCategoryContainer)
+                    },
+                    {
+                        categoryName: rightCategoryName,
+                        members: getCategoriesMembers(rightCategoryContainer),
+                    }
+                ]
             };
             App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, () => {
                 window.setTimeout(function () {

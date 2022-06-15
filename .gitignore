@@ -2,6 +2,7 @@
 Production Deployment.txt
 production_config.txt
 sv-tora/laravel-worker.conf
+sv-tora/sv_tora_conf
 
 /vendor/
 npm-debug.log

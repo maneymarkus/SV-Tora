@@ -17,7 +17,7 @@ let requests = generalVariables.requests;
  * @param url
  * @param callback
  */
-function getData(url, callback) {
+async function getData(url, callback) {
     fetch(url)
         .then(response => {
             if (response.status === 403) {
@@ -39,7 +39,7 @@ function getData(url, callback) {
  * @param content {object} The content of the request (body)
  * @param loader {boolean} Determines if a loader animation should be used on the whole page
  */
-function sendRequest(method, url, callback, content, loader = false) {
+async function sendRequest(method, url, callback, content, loader = false) {
     switch(method) {
         case generalVariables.requests.GET:
             getRequest(url, callback, loader);
@@ -53,7 +53,7 @@ function sendRequest(method, url, callback, content, loader = false) {
     }
 }
 
-function getRequest(url, callback, loader) {
+async function getRequest(url, callback, loader) {
     if (loader) {
         addBigLoader();
     }
@@ -80,14 +80,27 @@ async function postRequest(method, url, callback, content, loader) {
         addBigLoader();
     }
 
-    fetch(url, {
-        method: method,
-        body: JSON.stringify(content),
-        headers: {
-            "content-type": "application/json; charset=UTF-8",
-            "X-CSRF-TOKEN": csrfToken,
-        }
-    })
+    let request;
+    if (Object.prototype.toString.call(content) === "[object FormData]") {
+        request = fetch(url, {
+            method: method,
+            body: content,
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            }
+        })
+    } else {
+        request = fetch(url, {
+            method: method,
+            body: JSON.stringify(content),
+            headers: {
+                "content-type": "application/json; charset=UTF-8",
+                "X-CSRF-TOKEN": csrfToken,
+            }
+        })
+    }
+
+    request
         .then(response => {
             if (loader) {
                 removeBigLoader();

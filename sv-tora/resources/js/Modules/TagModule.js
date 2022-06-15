@@ -18,13 +18,16 @@ import {generateElement } from "./GeneralModule";
 function createTag(classes, key, value) {
     let tag = generateElement("span", ["tag"].concat(classes));
     let tagDetails = generateElement("span", ["tag-details"]);
-    let tagKey = generateElement("span", ["tag-key"], key);
-    tagDetails.appendChild(tagKey);
-    if (value) {
+
+    if (key) {
+        let tagKey = generateElement("span", ["tag-key"], key);
+        tagDetails.appendChild(tagKey);
         tagDetails.appendChild(document.createTextNode(":"));
-        let tagValue = generateElement("span", ["tag-value"], value);
-        tagDetails.appendChild(tagValue);
     }
+
+    let tagValue = generateElement("span", ["tag-value"], value);
+    tagDetails.appendChild(tagValue);
+
     tag.appendChild(tagDetails);
     let deleteBtn = generateElement("a", ["delete"]);
     let deleteIcon = generateElement("i", ["material-icons"], "close");

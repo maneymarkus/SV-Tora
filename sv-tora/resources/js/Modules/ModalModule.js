@@ -77,6 +77,7 @@ let ModalWindow = function (modalType, header, content, confirmationCallback, ab
         if (main) {
             main.classList.remove("blur");
         }
+        body.style.overflow = "auto";
 
         window.setTimeout(function() {
             This.overlay.remove();
@@ -91,6 +92,7 @@ let ModalWindow = function (modalType, header, content, confirmationCallback, ab
         if (main) {
             main.classList.add("blur");
         }
+        body.style.overflow = "hidden";
         body.appendChild(This.overlay);
         This.modalWindowElement.dispatchEvent(openModalEvent);
 
@@ -188,7 +190,7 @@ ModalWindow.createModalWindow = function(modalType, header, content) {
             let closeBtn = generateElement("a", ["primary-button", "close-modal", "close", "red"]);
             closeBtn.appendChild(generateElement("i", ["material-icons"], "close"));
             closeBtn.appendChild(generateElement("p", [], "Schließen"));
-            baseModal.querySelector(".mw-body").appendChild(closeBtn);
+            baseModal.appendChild(closeBtn);
 
             if (content) {
                 baseModal.appendChild(content);
@@ -233,7 +235,7 @@ function createBaseModal(overlay, header, content) {
             modalContent.style.overflowY = "unset";
         }
     } else {
-        modalContent.appendChild(generateElement("p", [], content));
+        modalContent.innerHTML = content;
     }
     modalBody.appendChild(modalContent);
     modal.appendChild(modalBody);

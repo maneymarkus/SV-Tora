@@ -105,8 +105,8 @@ class FighterController extends Controller
     {
         $club = Club::getClub($request->input("Verein", null));
         $fighters = Fighter::join("people", "fighters.person_id", "=", "people.id")->join("clubs", "people.club_id", "=", "clubs.id")->select("fighters.*", "people.*","clubs.name as club_name")->get();
-        if ($fighters->where("first_name", "=", $request->input("Vorname"))->where("last_name", "=", $request->input("Nachname"))->where("type", "=", PersonTypes::FIGHTER)->where("club_name", "=", $club->name)->first() !== null) {
-            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Kämpfer \"" . $request->input("Vorname") . " " . $request->input("Nachname") . "\" existiert in diesem Verein schon.");
+        if ($fighters->where("first_name", "=", $request->input("Vorname"))->where("last_name", "=", $request->input("Nachname"))->where("birthdate", "=", Carbon::parse($request->input("Geburtsdatum"))->format("Y-m-d"))->where("type", "=", PersonTypes::FIGHTER)->where("club_name", "=", $club->name)->first() !== null) {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Ein Kämpfer mit dem Namen \"" . $request->input("Vorname") . " " . $request->input("Nachname") . "\" und dem Geburtsdatum \"" . $request->input("Geburtsdatum") . "\" existiert in diesem Verein schon.");
         }
         $newPerson = Person::create([
             "type" => PersonTypes::FIGHTER,
@@ -189,6 +189,15 @@ class FighterController extends Controller
         }
         $fighterName = $fighter->person->first_name . " " . $fighter->person->last_name;
         if ($fighter->delete()) {
+
+            // if fighter is enrolled in categories of active tournament -> reinitialize them
+            $categories = \App\Models\EnrolledFighter::join("tournaments", "tournaments.id", "=", "enrolled_fighters.tournament_id")->where("fighter_id", "=", $fighter->id)->where("tournaments.active", "=", true)->first()?->categories()->get();
+            if ($categories !== null) {
+                foreach ($categories as $category) {
+                    app(FightingSystemController::class)->reinitializeFightingSystem($category);
+                }
+            }
+
             return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer mit dem Namen \"" . $fighterName . "\" wurde erfolgreich gelöscht.");
         } else {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte der Kämpfer mit dem Namen \"" . $fighterName . "\" nicht gelöscht werden.");

@@ -51,7 +51,9 @@ function addBigLoader() {
  */
 function removeBigLoader() {
     let loader = document.querySelector("div.big-loader-container");
-    loader.remove();
+    if (loader) {
+        loader.remove();
+    }
 }
 
 /**
@@ -71,7 +73,9 @@ function addSmallLoader(parent) {
  */
 function removeSmallLoader(parent) {
     let loader = parent.querySelector("div.small-loader-container");
-    loader.remove();
+    if (loader) {
+        loader.remove();
+    }
 }
 
 /**

@@ -26,7 +26,7 @@ class FighterFactory extends Factory
     {
         return [
             "person_id" => Person::factory()->state(["type" => PersonTypes::FIGHTER]),
-            "birthdate" => $this->faker->date(),
+            "birthdate" => date("Y-m-d", rand(strtotime("01.01.2000"), strtotime("31.12.2017"))),
             "sex" => config("global.sex")[array_rand(config("global.sex"))],
             "graduation" => config("global.graduations")[array_rand(config("global.graduations"))],
         ];

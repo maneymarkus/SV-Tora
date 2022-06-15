@@ -13,12 +13,16 @@ span.input-error {
     top: 100%;
     border: 2px solid var(--error-light);
     border-top: 0;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     width: 100%;
     border-radius: 5px;
     padding: 0.5em;
     z-index: 100;
     text-align: left;
+}
+
+.darkmode span.input-error {
+    background-color: rgba(25, 25, 25, 0.9);
 }
 
 span.input-error i {
@@ -64,7 +68,7 @@ span.input-error .message {
     display: block;
     width: 4em;
     height: 2em;
-    background-color: #9B9B9B;
+    background-color: var(--theme-color-5);
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 2em;
@@ -101,8 +105,6 @@ span.input-error .message {
 
 .switch-container .text {
     font-size: 1.5em;
-    position: relative;
-    margin-left: 3.5em;
     top: 0.1em;
     cursor: pointer;
 }
@@ -202,6 +204,10 @@ input.time-input {
     color: var(--text-color);
     cursor: text;
     transition: color 0.2s ease;
+}
+
+.text-input-container.password label.icon {
+    cursor: pointer;
 }
 
 .text-input-container label.icon i,
@@ -626,13 +632,17 @@ input.time-input {
     top: 0;
     left: 0;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     width: 100vw;
     height: 100vh;
     transform: scale(0);
     z-index: 10000000;
     transition: 0.5s ease;
     font-size: 1rem; /* Adjust size */
+}
+
+.darkmode .datepicker-container {
+    background-color: rgba(25, 25, 25, 0.5);
 }
 
 .datepicker-container.show {
@@ -885,13 +895,17 @@ input.time-input {
     top: 0;
     left:0;
     overflow: auto;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.5);
     width: 100vw;
     height: 100vh;
     transform: scale(0);
     z-index: 1000000000;
     transition: 0.5s ease;
     font-size: 1rem; /* Adjust size */
+}
+
+.darkmode .timepicker-container {
+    background: rgba(25, 25, 25, 0.5);
 }
 
 .timepicker-container.show {
@@ -963,7 +977,7 @@ input.time-input {
 
 .timepicker .clockface .clockhand { /* line between dot and chosen time */
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(25, 25, 25, 0.25);
     width: 0.1em;
     height: 5em;
     top: 2.5em;
@@ -1255,11 +1269,7 @@ input.time-input {
     background-color: var(--accent-color-1-dark);
     margin-bottom: 0.25em;
     transition: transform 0.1s ease-out 0s, background-color 0.2s ease;
-    color: white;
-}
-
-.darkmode .file-input-container > i {
-    color: black;
+    color: var(--text-color);
 }
 
 .file-input-container:hover > i {
@@ -1299,6 +1309,7 @@ textarea {
     transition: 0.2s ease;
     cursor: text;
     position: relative;
+    color: var(--text-color);
 }
 
 .darkmode textarea {
@@ -1320,10 +1331,6 @@ textarea:hover {
 textarea:focus,
 textarea.filled {
     background-color: rgba(0, 0, 0, 0.15);
-}
-
-.darkmode textarea {
-    color: white;
 }
 
 textarea::placeholder {
@@ -1365,13 +1372,13 @@ textarea.incorrect {
     cursor: pointer;
     margin-top: -0.4rem; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
     transition: 0.2s ease;
-    box-shadow: 1px 1px 3px 0 black;
+    box-shadow: 1px 1px 3px 0 var(--box-shadow);
 }
 
 .range-input-container:hover ::-webkit-slider-thumb {
     transform: scale(1.5);
     background-color: var(--accent-color-1-light);
-    box-shadow: 1px 1px 5px 0 black;
+    box-shadow: 1px 1px 5px 0 var(--box-shadow);
 }
 
 .range-input-container ::-moz-range-thumb {
@@ -1381,7 +1388,7 @@ textarea.incorrect {
     background-color: var(--accent-color-1-dark);
     cursor: pointer;
     transition: 0.2s ease;
-    box-shadow: 1px 1px 3px 0 black;
+    box-shadow: 1px 1px 3px 0 var(--box-shadow);
 }
 
 .range-input-container:hover ::-moz-range-thumb {
@@ -1396,7 +1403,7 @@ textarea.incorrect {
     background-color: var(--accent-color-1-dark);
     cursor: pointer;
     transition: 0.2s ease;
-    box-shadow: 1px 1px 3px 0 black;
+    box-shadow: 1px 1px 3px 0 var(--box-shadow);
 }
 
 .range-input-container:hover ::-ms-thumb {

@@ -30,7 +30,7 @@
             <form class="password-reset clearfix" action="/password/reset" method="post">
                 @csrf
                 <input name="token" value="{{ $token }}" type="hidden"/>
-                <input name="email" value="{{ $email }}" type="hidden">
+                <x-inputs.text-input type="default" name="email" class="required" label="E-Mail-Adresse"></x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password" class="password-check required {{ $confirm_id }}" label="Neues Passwort"></x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password-confirmation" class="required confirm" data-confirm="{{ $confirm_id }}" label="Neues Passwort wiederholen"></x-inputs.text-input>
                 <button type="submit" class="secondary-button change-password-button submit-button">

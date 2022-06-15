@@ -30,7 +30,7 @@ jobs:
         with:
           server: 81.169.254.132
           port: 22
-          username: sv_tora@h2955237.stratoserver.net
+          username: sv_tora
           password: ${{ secrets.SFTP_PASSWORD }}
           local-dir: "./sv-tora/"
           server-dir: "./../../var/www/sv-tora/"

@@ -8,7 +8,7 @@
 
     <main class="limited legal">
 
-        <h1>Datenschutzerklärung</h1>
+        <h1>Datenschutz&shy;erklärung</h1>
 
         <h2>1. Datenschutz auf einen Blick</h2>
 

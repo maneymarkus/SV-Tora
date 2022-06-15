@@ -38,6 +38,14 @@ class Tournament extends Model
         return $this->hasMany(EnrolledPerson::class);
     }
 
+    public function enrolledFighters() {
+        return $this->hasMany(EnrolledFighter::class);
+    }
+
+    public function enrolledTeams() {
+        return $this->hasMany(EnrolledTeam::class);
+    }
+
     public function categories() {
         return $this->hasMany(Category::class);
     }
@@ -48,6 +56,13 @@ class Tournament extends Model
 
     public function excludedClubs() {
         return $this->belongsToMany(Club::class, "excluded_clubs");
+    }
+
+    public static function hasActiveTournament() {
+        if (Tournament::where("active", true)->first() !== null) {
+            return true;
+        }
+        return false;
     }
 
     public static function editableProperties(Tournament $tournament = null) {
@@ -67,6 +82,22 @@ class Tournament extends Model
         ];
 
         return $editableProperties;
+    }
+
+    public function calculateEstimatedEnd(): Carbon
+    {
+        $estimatedEndTime = Carbon::parse($this->time);
+        $maxTimeInSeconds = 0;
+
+        foreach ($this->fightPlaces as $fightPlace) {
+            $estimatedTimeInSeconds = $fightPlace->calculateTimeInSeconds();
+            if ($estimatedTimeInSeconds > $maxTimeInSeconds) {
+                $maxTimeInSeconds = $estimatedTimeInSeconds;
+            }
+        }
+
+        $estimatedEndTime->addSeconds($maxTimeInSeconds);
+        return $estimatedEndTime;
     }
 
 }

@@ -3,7 +3,7 @@
     <span data-name="{{ $name }}" class="select-input chosen placeholder">{{ $placeholder ?? "Auswählen..." }}</span>
     <i class="material-icons">expand_more</i>
     <div class="options">
-        @foreach($options as $option)
+        @foreach($selectableOptions as $option)
             <div class="option">{{ $option }}</div>
         @endforeach
     </div>

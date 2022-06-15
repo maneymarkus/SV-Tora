@@ -13,29 +13,29 @@
 */
 
 body {
-    --theme-color-1: #E5E5E5;
-    --theme-color-2: #FFFFFF;
-    --theme-color-3: #C8C8C8;
-    --theme-color-4: #9D9D9D;
-    --theme-color-5: #4D4D4D;
-
     --theme-color-1-light: #E5E5E5;
     --theme-color-2-light: #FFFFFF;
     --theme-color-3-light: #C8C8C8;
     --theme-color-4-light: #9D9D9D;
-    --theme-color-5-light: #4D4D4D;
+    --theme-color-5-light: #7b7b7b;
 
-    --theme-color-1-dark: #171717;
-    --theme-color-2-dark: #222222;
-    --theme-color-3-dark: #303030;
-    --theme-color-4-dark: #4a4a4a;
-    --theme-color-5-dark: #9b9b9b;
+    --theme-color-1-dark: #191919;
+    --theme-color-2-dark: #272727;
+    --theme-color-3-dark: #373737;
+    --theme-color-4-dark: #434343;
+    --theme-color-5-dark: #848484;
+
+    --theme-color-1: var(--theme-color-1-light);
+    --theme-color-2: var(--theme-color-2-light);
+    --theme-color-3: var(--theme-color-3-light);
+    --theme-color-4: var(--theme-color-4-light);
+    --theme-color-5: var(--theme-color-5-light);
 
     --disabled-light: #A0A0A0;
     --disabled-dark: #727272;
 
     --placeholder-color: #6B6B6B;
-    --text-color: #171717;
+    --text-color: #232323;
     --disabled-text-color: #8D8D8D;
 
     --text-shadow: #616161;
@@ -61,14 +61,15 @@ body {
 }
 
 body.darkmode {
-    --theme-color-1: #171717;
-    --theme-color-2: #222222;
-    --theme-color-3: #303030;
-    --theme-color-4: #4a4a4a;
-    --theme-color-5: #9b9b9b;
+    --theme-color-1: var(--theme-color-1-dark);
+    --theme-color-2: var(--theme-color-2-dark);
+    --theme-color-3: var(--theme-color-3-dark);
+    --theme-color-4: var(--theme-color-4-dark);
+    --theme-color-5: var(--theme-color-5-dark);
 
     --placeholder-color: #B4B4B4;
     --text-color: white;
+    --disabled-text-color: #797979;
 
     --text-shadow: black;
     --box-shadow: black;
@@ -87,7 +88,7 @@ body.darkmode {
 
 html {
     height: 100%;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: white;
     line-height: 1.2;
     font-family: "Baloo Chettan 2", sans-serif;
@@ -112,11 +113,11 @@ body:before {
     background-position: center;
     background-repeat: repeat;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0.15;
 }
 
 body.darkmode:before {
-    opacity: 1;
+    opacity: 0.7;
 }
 
 main {
@@ -232,7 +233,7 @@ table, .table, th, td {
 
 @keyframes color-blink {
     from {
-        color: white;
+        color: var(--text-color);
     }
     to {
         color: var(--accent-color-1-light);
@@ -361,20 +362,17 @@ a.go-back i {
 
 
 @media only screen and (min-width: 600px) {
-    html {
-        font-size: 1.1rem;
-    }
 }
 
 @media only screen and (min-width: 768px) {
     html {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 }
 
 @media only screen and (min-width: 992px) {
     html {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 
     main {

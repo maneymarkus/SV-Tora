@@ -3,7 +3,7 @@
 @section("content")
 
     <main>
-        <a class="link" href="{{ url()->previous("/dashboard") }}">zurück</a>
+        <a class="link" href="{{ $backUrl ?? url()->previous("/dashboard") }}">zurück</a>
 
         <x-table class="smartphone-optimized" :columns="$columns" :rows="$rows" actions="true" filter="true" editable="true" deletable="true" selectable="false">
             <x-slot name="heading">Kämpfer des Teams <span class="highlighted-span">{{ $teamName }}</span></x-slot>

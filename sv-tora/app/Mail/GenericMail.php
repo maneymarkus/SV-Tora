@@ -19,13 +19,6 @@ class GenericMail extends Mailable
     public String $customSubject;
 
     /**
-     * Array contains all the mail addresses of the receivers
-     *
-     * @var Array
-     */
-    public Array $receivers;
-
-    /**
      * Contains the content of the mail
      *
      * @var String
@@ -33,15 +26,38 @@ class GenericMail extends Mailable
     public String $content;
 
     /**
+     * Determines if a button linking to the dashboard should be included
+     *
+     * @var bool
+     */
+    public bool $includeButton;
+
+    /**
+     * The url the button should link to
+     *
+     * @var string
+     */
+    public string $buttonUrl;
+
+    /**
+     * The path to possibly attached files
+     *
+     * @var array|null
+     */
+    public ?array $attachmentFiles;
+
+    /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($subject, $receivers, $content)
+    public function __construct($subject, $content, $includeButton = false, $attachmentFiles = null)
     {
         $this->customSubject = $subject;
-        $this->receivers = $receivers;
         $this->content = $content;
+        $this->includeButton = $includeButton;
+        $this->buttonUrl = url("/dashboard");
+        $this->attachmentFiles = $attachmentFiles;
     }
 
     /**
@@ -51,8 +67,18 @@ class GenericMail extends Mailable
      */
     public function build()
     {
-        return $this
+        $email = $this
             ->subject($this->customSubject)
             ->markdown('emails.generic-mail');
+
+        if ($this->attachmentFiles !== null) {
+            foreach ($this->attachmentFiles as $attachmentFile) {
+                $email->attach($attachmentFile["path"], [
+                    "as" => $attachmentFile["name"],
+                ]);
+            }
+        }
+
+        return $email;
     }
 }

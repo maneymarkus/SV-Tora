@@ -27,6 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        # clear expired tokens
+        $schedule->command('auth:clear-resets')->hourly();
+
+        # tournament tasks
         $schedule->call(function () {
             $tournament = Tournament::latest()->first();
             if ($tournament !== null && $tournament->active) {

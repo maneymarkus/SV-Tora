@@ -1,13 +1,7 @@
-@php
-
-    use \App\Helper\GeneralHelper;
-
-@endphp
-
 <div {{ $attributes->merge(["class" => "checkbox-group input-container"]) }}>
-    @foreach($options as $option)
+    @foreach($checkableOptions as $option)
         @php
-            $id = GeneralHelper::uniqueRandomIdentifier();
+            $id = \App\Helper\GeneralHelper::uniqueRandomIdentifier();
             if ($option["checked"]) {
                 $checked = "checked";
             } else {

@@ -35,7 +35,7 @@ class TournamentTemplate extends Model
             "Maximalalter" => GeneralHelper::addOtherChoosableOptions("age", $tournamentTemplate?->age_max),
             "Mindest-Graduierung" => GeneralHelper::addOtherChoosableOptions("graduations", $tournamentTemplate?->graduation_min),
             "Maximal-Graduierung" => GeneralHelper::addOtherChoosableOptions("graduations", $tournamentTemplate?->graduation_max),
-            "Teams" => $tournamentTemplate?->teams,
+            "Teams" => $tournamentTemplate?->team,
             "Kihon" => $tournamentTemplate?->kihon,
         ];
 

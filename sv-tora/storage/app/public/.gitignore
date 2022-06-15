@@ -1,2 +1,6 @@
 *
 !.gitignore
+!categories
+!categories/Kategorien.pdf
+!categories/Kategorie_Teilnehmer_Kämpfer.xlsx
+!categories/Kategorie_Teilnehmer_Teams.xlsx

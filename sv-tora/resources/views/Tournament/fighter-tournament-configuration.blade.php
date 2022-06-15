@@ -48,7 +48,7 @@
                                         @php
                                             $participationRadioOptions = $options["participationRadioOptions"];
                                         @endphp
-                                        <x-inputs.radio-buttons class="required" name="{{ $examinationType }}" :options="$participationRadioOptions"></x-inputs.radio-buttons>
+                                        <x-inputs.radio-buttons class="required" name="{{ $examinationType }}" :radio-options="$participationRadioOptions"></x-inputs.radio-buttons>
                                         @if(isset($options["configurationSelectOptions"]))
                                             @php
                                                 $configurationSelectOptions = $options["configurationSelectOptions"];
@@ -59,7 +59,7 @@
                                                     $disabledClass = "disabled";
                                                 }
                                             @endphp
-                                            <x-inputs.select-input class="{{ $disabledClass }}" name="{{ $name }}" :options="$configurationSelectOptions">
+                                            <x-inputs.select-input class="{{ $disabledClass }}" name="{{ $name }}" :selectable-options="$configurationSelectOptions">
                                                 <x-slot name="placeholder">Kategorie auswählen</x-slot>
                                             </x-inputs.select-input>
                                         @endif

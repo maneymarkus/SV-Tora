@@ -32,9 +32,9 @@
             </p>
         @endif
 
-        <div class="registration-container form-container small">
+        <div class="registration-container small form-container">
             <h2>Registrieren</h2>
-            <form class="registration clearfix" action="/registration" method="post">
+            <form class="registration clearfix" action="{{ url("/registration") }}" method="POST">
                 @csrf
                 <input name="token" value="{{ $token }}" type="hidden"/>
                 <x-inputs.text-input type="default" name="name" class="required" label="Name">
@@ -49,7 +49,10 @@
                 </x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password" class="password-check required {{ $confirm_id }}" label="Passwort"></x-inputs.text-input>
                 <x-inputs.text-input type="password" name="password-confirmation" class="required confirm" data-confirm="{{ $confirm_id }}" label="Passwort wiederholen"></x-inputs.text-input>
-                <button type="submit" class="secondary-button disabled register-button submit-button">
+                <p>
+                    Hinweis: Das Passwort muss mindestens 8 Zeichen lang sein, Groß- und Kleinbuchstaben, mindestens eine Zahl und mindestens ein Symbol (Sonderzeichen) enthalten.
+                </p>
+                <button type="submit" class="secondary-button register-button submit-button">
                     <span class="text">Registrieren</span>
                 </button>
             </form>

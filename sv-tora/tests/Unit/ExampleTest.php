@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use App\Helper\FightingSystems\ConsolationTree;
+use App\Models\Category;
 use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase
@@ -15,4 +17,5 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(true);
     }
+
 }

@@ -28,7 +28,7 @@ class EnrolledTeam extends Model
     }
 
     public function categories() {
-        return $this->belongsToMany(Category::class, "enrolled_team_category", "category_id", "enrolled_team_id");
+        return $this->belongsToMany(Category::class, "enrolled_team_category", "enrolled_team_id", "category_id");
     }
 
 }

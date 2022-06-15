@@ -114,7 +114,8 @@ img {
 .logo {
     height: 50px;
     max-height: 50px;
-    width: 375px;
+    width: 50px;
+    max-width: 50px;
 }
 
 /* Body */

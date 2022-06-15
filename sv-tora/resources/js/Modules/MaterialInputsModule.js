@@ -1507,7 +1507,7 @@ class FileInput extends Input {
     }
 
     getValue() {
-        return this.inputElement.value;
+        return this.inputElement.files;
     }
 
     /**
@@ -1847,5 +1847,7 @@ export {
     getInputObject,
     compareDates,
     compareTimes,
-    createQuickTextInput
+    createQuickTextInput,
+    RangeInput,
+    inputs,
 }

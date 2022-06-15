@@ -20,6 +20,7 @@ class CreateFightersTable extends Migration
             $table->enum("sex", config("global.sex"));
             $table->enum("graduation", config("global.graduations"));
 
+            $table->unique(["person_id", "birthdate"]);
             $table->foreign("person_id")->references("id")->on("people")->onDelete("cascade");
             $table->timestamps();
         });

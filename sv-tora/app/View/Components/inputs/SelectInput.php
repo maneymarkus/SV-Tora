@@ -11,23 +11,23 @@ class SelectInput extends Component
      * The name of the input field for backend identification
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * The available options in this select input
-     * @var string[]
+     * @var array
      */
-    public $options;
+    public array $selectableOptions;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $options)
+    public function __construct(string $name, array $selectableOptions)
     {
         $this->name = $name;
-        $this->options = $options;
+        $this->selectableOptions = $selectableOptions;
     }
 
     /**

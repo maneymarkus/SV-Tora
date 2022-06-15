@@ -6,37 +6,10 @@
     let dependencies = ["MaterialInputsModule", "AccordionModule", "CarouselModule", "ModalModule", "CategoryModule", "PersonModule"];
     App.GeneralModule.checkDependencies(dependencies);
 
-    let personTypes = App.GeneralModule.generalVariables.personTypes;
-    let fightingSystemTypes = App.GeneralModule.generalVariables.fightingSystemTypes;
-
-    let fighter1 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "sdfg8sdf87g", "Vorname1", "Nachname1", "SV Tora", "19.03.1997", "m", "1. Kyu");
-    let fighter2 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "fkt54ktertn4", "Vorname2", "Nachname2", "SV Tora 1", "19.03.1997", "f", "2. Kyu");
-    let fighter3 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "nhk345hiukj", "Vorname3", "Nachname3", "SV Tora 2", "19.03.1999", "m", "4. Kyu");
-    let fighter4 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "reuith45tkh", "Vorname4", "Nachname4", "SV Tora 3", "15.07.1999", "m", "1. Dan");
-    let fighter5 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "bgbrk34hb4te", "Vorname5", "Nachname5", "SV Tora 4", "15.07.1999", "f", "1. Dan");
-    let fighter6 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "kenrkj3oh3h4", "Vorname6", "Nachname6", "SV Tora 4", "15.07.1999", "f", "1. Dan");
-    let fighter7 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "as3ertdj3lkh", "Vorname7", "Nachname7", "SV Tora 4", "15.07.1999", "f", "1. Dan");
-    let fighter8 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "ln456h345h6", "Vorname8", "Nachname8", "SV Tora 4", "15.07.1999", "f", "1. Dan");
-    let fighter9 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "asdf86ad7ff", "Vorname9", "Nachname9", "SV Tora 4", "15.07.1999", "f", "1. Dan");
-    let fighter10 = App.PersonModule.createPersonFactory(personTypes.FIGHTER, "al4t4l3htjk4", "Vorname10", "Nachname10", "SV Tora 4", "15.07.1999", "f", "1. Dan");
-
-    let dogEatDog = App.FightingSystemModule.createFightingSystemFactory(fightingSystemTypes.DOGEATDOG, [fighter1, fighter2, fighter3, fighter4]);
-
-    let koSystem = App.FightingSystemModule.createFightingSystemFactory(fightingSystemTypes.KO, [fighter1, fighter2, fighter3, fighter4, fighter5, fighter6, fighter7, fighter8, fighter9]);
-
-
-    let tableSystem = App.FightingSystemModule.createFightingSystemFactory(fightingSystemTypes.TABLES, [fighter1, fighter2, fighter3, fighter4, fighter5]);
-
-    function initializeCategoryObjects() {
-        // Todo: Call backend and retrieve all categories as objects
-    }
-
-
-
-
     let fightingAccordions = [];
 
     let carouselElement = document.querySelector("div.carousel-container");
+    let slides = carouselElement.querySelectorAll("div.page");
     App.CarouselModule.deactivateCarousel(carouselElement);
 
     let FightingAccordion = function(accordion) {
@@ -64,19 +37,23 @@
 
             if (target.classList.contains("bar-header")) {
                 App.CarouselModule.enableAllSlides(carouselElement);
-                let categoryName = target.querySelector("span.category-name").innerHTML.trim();
-                let categoryGraduation = target.querySelector("span.graduation").innerHTML.trim();
-                let categoryAge = target.querySelector("span.category-age").innerHTML.trim();
-                let categorySex = target.querySelector("span.category-sex").innerHTML.trim();
-                let categoryMemberCount = target.querySelector("span.count-members").innerHTML.trim();
+                let categoryName = target.querySelector("span.category-name").textContent.trim();
+                let categoryGraduation = target.querySelector("span.graduation").textContent.trim();
+                let categoryAge = target.querySelector("span.category-age").textContent.trim();
+                let categorySex = target.querySelector("span.category-sex").textContent.trim();
+                let categoryMemberCount = parseInt(target.querySelector("span.count-members").textContent.trim());
 
-                if (parseInt(categoryMemberCount) > 5) {
-                    disableFightingSystem("Jeder-Gegen-Jeden");
+                if (target.parentElement.classList.contains("open")) {
+                    enableCards();
+                } else {
+                    disableCards(categoryMemberCount);
+                    if (categoryMemberCount <= 0) {
+                        window.setTimeout(function () {
+                            App.ModalModule.infoModal("Nicht genügend Teilnehmer", "Diese Katgorie verfügt noch nicht über genügend Mitglieder (aktuell 0), um ein Kampfsystem auszuwählen. Füge der Kategorie also erst Mitglieder hinzu und versuche es dann erneut.");
+                        }, 500);
+                    }
                 }
 
-                if (parseInt(categoryMemberCount) > 12) {
-                    disableFightingSystem("Tafelsystem");
-                }
                 return;
             }
 
@@ -90,7 +67,7 @@
                 target = target.parentElement;
             }
 
-            if (target.classList.contains("fighting-system")) {
+            if (target.classList.contains("fighting-system") && target.nodeName === "A") {
                 if (This.inheritance.openBar.classList.contains("prepared")) {
                     App.ModalModule.confirmModal("Kampfsystem wählen...", "Willst du wirklich ein anderes Kampfsystem wählen? Eventuelle Änderungen, die du schon gemacht hast, werden damit überschrieben und das kann nicht rückgängig gemacht werden.", This.chooseFightingSystem);
                 } else {
@@ -99,26 +76,16 @@
             }
 
             if (target.classList.contains("print")) {
-                let printOptions = []
-                printOptions.push({"text" : "Teilnehmerliste", "value" : "member-list", "checked" : false});
-                if (This.inheritance.openBar.classList.contains("prepared")) {
-                    printOptions.push({"text": "Kampfsystem", "value": "fight-system", "checked": false});
-                } else {
-                    printOptions.push({"text": "Kampfsystem", "value": "fight-system", "checked": false, "disabled" : true});
-                }
-                let printChoice = App.MaterialInputsModule.createInput(App.GeneralModule.generalVariables.inputTypes.CHECKBOX, [], undefined, "print-choice", undefined, undefined, undefined, printOptions);
-                App.ModalModule.confirmModal("Drucken", printChoice.inputContainer, function () {
-                    App.ModalModule.infoModal("Drucken", "Der Drucker ist gemein und mit so jemandem möchte ich nicht zusammen arbeiten. Sorry :/");
-                });
+                // simply do nothing
+                //let url = target.getAttribute("href");
+                //window.open(url, "_blank");
             }
 
             if (target.classList.contains("edit-fighting-system")) {
-                let bar = target;
-                while (bar.nodeName !== "BODY" && !bar.classList.contains("accordion-bar")) {
-                    bar = bar.parentElement;
-                }
-                let categoryName = bar.querySelector(".bar-header span.category-name").innerHTML.trim();
-                changeFightingSystemParameter(categoryName);
+                let url = target.getAttribute("href");
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.GET, url, (response) => {
+                    changeFightingSystemConfig(response);
+                }, undefined, true);
             }
         }
 
@@ -136,12 +103,18 @@
                 target = target.parentElement;
             }
             if (target.classList.contains("page")) {
-                let fightingSystem = target.querySelector("h3").innerText.trim();
-                let openBar = This.inheritance.openBar;
-                openBar.querySelector("a.fighting-system").innerHTML = fightingSystem;
-                if (!openBar.classList.contains("prepared")) {
-                    This.barIsPrepared(openBar);
+                let fightingSystem = target.querySelector("h3").textContent.trim();
+                let data = {
+                    "fighting_system" : fightingSystem,
                 }
+                let openBar = This.inheritance.openBar;
+                let url = openBar.getAttribute("data-category-url") + "/fighting-system/assign";
+                App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, () => {
+                    openBar.querySelector("a.fighting-system").textContent = fightingSystem;
+                    if (!openBar.classList.contains("prepared")) {
+                        This.barIsPrepared(openBar);
+                    }
+                }, data, true);
             }
         }
 
@@ -150,17 +123,41 @@
             let icon = App.GeneralModule.generateElement("i", ["material-icons", "prepared"], "done");
             bar.querySelector(".bar-header").appendChild(icon);
             App.PrimaryButtonModule.enablePrimaryButton(bar.querySelector("a.edit-fighting-system"));
+            App.PrimaryButtonModule.enablePrimaryButton(bar.querySelector("a.print"));
         }
 
     };
 
-    function changeFightingSystemParameter(categoryName) {
-        koSystem.change();
+    function changeFightingSystemConfig(response) {
+        let modal = App.ModalModule.confirmModal(response["heading"], response["html"], function () {
+            let data = {"config" : App.FightingSystemModule.translateToJson(modal.modalWindowElement.querySelector(".mw-content"))};
+            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, response["updateUrl"], undefined, data, true);
+        });
+        if (modal.modalWindowElement.querySelector(".draggable")) {
+            let modalContent = modal.modalWindowElement.querySelector(".mw-content");
+            App.FightingSystemModule.applyDragAndDrop(modalContent);
+        }
+        if (modal.modalWindowElement.querySelector(".range-input-container")) {
+            let rangeInputContainer = modal.modalWindowElement.querySelector(".range-input-container");
+            console.log(rangeInputContainer);
+            App.MaterialInputsModule.inputs.push(new App.MaterialInputsModule.RangeInput(rangeInputContainer));
+        }
     }
 
-    function disableFightingSystem(system) {
-        let slide = App.CarouselModule.getSlideByContent(carouselElement, "h3", system);
-        App.CarouselModule.disableSlide(slide);
+    function disableCards(countFighters) {
+        slides.forEach(slide => {
+            let minFighters = parseInt(slide.getAttribute("data-min-fighters"));
+            let maxFighters = parseInt(slide.getAttribute("data-max-fighters"));
+            if (countFighters < minFighters || countFighters > maxFighters) {
+                App.CarouselModule.disableSlide(slide);
+            }
+        });
+    }
+
+    function enableCards() {
+        slides.forEach(slide => {
+            App.CarouselModule.enableSlide(slide);
+        });
     }
 
     let accordionElements = document.querySelectorAll("div.accordion");

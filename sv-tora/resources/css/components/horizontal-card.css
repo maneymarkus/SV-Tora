@@ -95,13 +95,9 @@
 }
 
 .horizontal-card:hover .district {
-    color: #3E3E3E;
+    color: var(--text-color);
     font-size: 3.5em;
-    text-shadow: 1px 1px 4px black;
-}
-
-.darkmode .horizontal-card:hover .district {
-    color: #C6C6C6;
+    text-shadow: 1px 1px 4px var(--text-shadow);
 }
 
 .horizontal-card .count {

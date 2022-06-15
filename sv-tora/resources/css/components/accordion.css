@@ -118,12 +118,12 @@
 }
 
 .bar-header:hover .open-indicator {
-    color: #171717;
+    color: var(--theme-color-1);
     transform: translateY(-50%) scale(1.5);
 }
 
 .accordion-bar.open .open-indicator {
-    color: #171717;
+    color: var(--theme-color-1);
     transform: translateY(-50%) rotate(180deg);
 }
 
@@ -153,9 +153,13 @@
     height: 0;
     transition: height 0.5s ease 0s, border-color 0.2s ease 0s, border-width 0.2s ease 0.2s, opacity 0.2s ease 0.5s;
     overflow: hidden;
-    background-color: rgba(23, 23, 23, 0.5);
-    border: 0 solid rgba(23, 23, 23, 0.5);
+    background-color: rgba(157, 157, 157, 0.5);
+    border: 0 solid rgba(25, 25, 25, 0.5);
     cursor: auto;
+}
+
+.darkmode .bar-content {
+    background-color: rgba(25, 25, 25, 0.5);
 }
 
 .open .bar-content {

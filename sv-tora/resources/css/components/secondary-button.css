@@ -23,7 +23,7 @@
   cursor: pointer;
   display: inline-block;
   letter-spacing: 0.1em;
-  background: var(--theme-color-3);
+  background: var(--theme-color-1);
   transition: 0.5s ease, background-color 0.5s;
   font-size: 0.9rem;
   height: auto;
@@ -31,10 +31,6 @@
   color: var(--text-color);
   padding: 0.5em 2em;
   box-shadow: 0 2px 8px 3px var(--box-shadow);
-}
-
-.darkmode .secondary-button {
-  background-color: var(--theme-color-1);
 }
 
 .secondary-button:hover,
@@ -61,14 +57,10 @@
   z-index: 1;
   width: calc(100% + 6px);
   height: calc(100% - 1em);
-  background: var(--theme-color-3);
+  background: var(--theme-color-1);
   top: 0.5em;
   left: -3px;
   transition: 0.4s ease;
-}
-
-.darkmode .secondary-button:before {
-  background: var(--theme-color-1);
 }
 
 .secondary-button:after {
@@ -77,14 +69,10 @@
   z-index: 1;
   width: calc(100% - 1em);
   height: calc(100% + 4px);
-  background: var(--theme-color-3);
+  background: var(--theme-color-1);
   top: -2px;
   left: 0.5em;
   transition: 0.4s ease;
-}
-
-.darkmode .secondary-button:after {
-  background: var(--theme-color-1);
 }
 
 .secondary-button:hover:before,
@@ -141,8 +129,8 @@
 }
 
 .secondary-button.disabled {
-  color: #4A4A4A;
-  border-color: #4A4A4A;
+  color: var(--disabled-text-color);
+  border-color: var(--disabled-text-color);
   cursor: not-allowed;
 }
 

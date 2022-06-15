@@ -43,14 +43,16 @@ let TableActionsContainer = function(tableActionsContainer) {
     /**
      * This functions listens for clicks on the add entity button and triggers the modal window that requires the necessary input from the user and then adds the newly configured element to the table
      */
-    this.addEntityButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        let url = This.addEntityButton.getAttribute("href");
-        sendRequest(GeneralModule.generalVariables.requests.GET, url + "/create", (data) => {
-            let entity = This.addEntityButton.querySelector("p").innerText.split(" ")[0];
-            This.connectedTableObject.addingEntity(data, entity, url);
-        }, undefined, true);
-    });
+    if (this.addEntityButton) {
+        this.addEntityButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            let url = This.addEntityButton.getAttribute("href");
+            sendRequest(GeneralModule.generalVariables.requests.GET, url + "/create", (data) => {
+                let entity = This.addEntityButton.querySelector("p").innerText.split(" ")[0];
+                This.connectedTableObject.addingEntity(data, entity, url);
+            }, undefined, true);
+        });
+    }
 
     if (this.printButton) {
         this.printButton.addEventListener("click", function () {

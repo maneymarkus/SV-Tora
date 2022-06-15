@@ -44,7 +44,7 @@
                                 {{ $tournamentTemplate->graduation_min . " - " . $tournamentTemplate->graduation_max }}
                             </p>
                             <p data-name="teams" data-key="Teams">
-                                {{ $tournamentTemplate->teams === true ? "Ja" : "Nein" }}
+                                {{ $tournamentTemplate->team === true ? "Ja" : "Nein" }}
                             </p>
                             <p data-name="kihon" data-key="Kihon">
                                 {{ $tournamentTemplate->kihon === true ? "Ja" : "Nein" }}

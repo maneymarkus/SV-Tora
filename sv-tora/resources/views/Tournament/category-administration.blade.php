@@ -12,11 +12,17 @@
 
 @section("content")
 
-    <main>
+    <main class="limited">
         <x-tournament-admin-info :tournament="$tournament"></x-tournament-admin-info>
 
-        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
-        <h1>Starter</h1>
+        <a class="link" href="{{ url("/tournaments/" . $tournament->id) }}">zurück</a>
+        <h1>Kategorien</h1>
+        @if($tournament->categories->count() > 0)
+            <div style="text-align: right">
+                <x-primary-button target="_blank" class="print-all" href="{{ $printAllCategoriesUrl }}" icon-name="print" text="Alle Kategorien drucken"></x-primary-button>
+            </div>
+        @endif
+
 
         @php
           $createCategoryUrl = url("tournaments/" . $tournament->id . "/categories")
@@ -26,7 +32,7 @@
             <h3 class="subheading">Kihon</h3>
             @php
                 # All the Kihon categories
-                $kihonCategories = $tournament->categories->where("examination_type", "=", "Kihon");
+                $kihonCategories = $tournament->categories()->where("examination_type", "=", "Kihon")->orderBy("name")->get();
             @endphp
 
             <div class="accordion">
@@ -91,7 +97,7 @@
         <h3 class="subheading">Kata</h3>
         @php
             # All the Kata categories
-            $kataCategories = $tournament->categories->where("examination_type", "=", "Kata");
+            $kataCategories = $tournament->categories()->where("examination_type", "=", "Kata")->orderBy("name")->get();
         @endphp
 
         <div class="accordion">
@@ -154,7 +160,7 @@
         <h3 class="subheading">Kumite</h3>
         @php
             # All the Kumite categories
-            $kumiteCategories = $tournament->categories->where("examination_type", "=", "Kumite");
+            $kumiteCategories = $tournament->categories()->where("examination_type", "=", "Kumite")->orderBy("name")->get();
         @endphp
 
         <div class="accordion">
@@ -218,7 +224,7 @@
             <h3 class="subheading">Team</h3>
             @php
                 # All the Team categories
-                $teamCategories = $tournament->categories->where("examination_type", "=", "Team");
+                $teamCategories = $tournament->categories()->where("examination_type", "=", "Team")->orderBy("name")->get();
             @endphp
 
             <div class="accordion">
@@ -252,7 +258,7 @@
                             <table>
                                 @foreach($category->teams as $enrolledTeam)
                                     @php
-                                        $deleteFighterUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/teams/" . $enrolledTeam->id);
+                                        $deleteTeamUrl = url("/tournaments/" . $tournament->id . "/categories/" . $category->id . "/teams/" . $enrolledTeam->id);
                                     @endphp
                                     <tr>
                                         <td class="number">{{ $loop->iteration }}</td>
@@ -261,7 +267,7 @@
                                         <td class="members">{{ implode(", ", $enrolledTeam->team->fighters()->get()->map(function ($fighter) {return $fighter->person->first_name . " " . $fighter->person->last_name;})->toArray()) }}</td>
                                         <td class="members"><a class="link" href={{ url("/entities/teams/" . $enrolledTeam->team->id . "/fighters") }}>Team-Übersicht</a></td>
                                         <td class="delete">
-                                            <x-primary-button class="delete-fighter warning" href="{{ $deleteFighterUrl }}" icon-name="delete" text="Team entfernen"></x-primary-button>
+                                            <x-primary-button class="delete-fighter warning" href="{{ $deleteTeamUrl }}" icon-name="delete" text="Team entfernen"></x-primary-button>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -1,8 +1,8 @@
 @component("mail::message")
 Hey Admins,<br />
 User "{{ $username }}" ist aktuell keinem Verein zugeordnet.
-Bitte behebt das Problem, indem ihr ihn einem Verein zuordnet oder den User löscht.
-Er selbst möchte dem Verein "{{ $preferredClub }}" zugeordnet werden.
+Bitte behebt das Problem, indem ihr diesen User einem Verein zuordnet oder den User löscht.
+Der User hat angegeben, dass er dem Verein "{{ $preferredClub }}" zugeordnet werden möchte.
 <br />
 <br />
 Der Button führt euch zu der Übersichtsseite der User, wo ihr das Problem beheben könnt.

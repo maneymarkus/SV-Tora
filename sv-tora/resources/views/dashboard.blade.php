@@ -21,41 +21,29 @@
         <div class="fade-wrapper">
             <div class="clearfix">
                 <div class="container-medium">
+                    @php
+                        $activeTournaments = \App\Models\Tournament::where("active", true)->get()->reject(function (\App\Models\Tournament $tournament) {
+                            return $tournament->excludedClubs->contains(\Illuminate\Support\Facades\Auth::user()->club);
+                        });
+                    @endphp
                     @if(\Illuminate\Support\Facades\Gate::allows("admin"))
-                        @if(\App\Models\Tournament::latest()->first()?->active)
-                            <a class="tournaments" href="{{ url("/tournament/dashboard") }}">
-                                <h3 class="heading">Wettkampf</h3>
-                                <span class="tournament-name">{{ \App\Models\Tournament::latest()->first()?->tournamentTemplate->tournament_name }}</span>
-                                <p class="subheading">Zum Wettkampf-Dashboard</p>
-                            </a>
-                        @else
-                            <a class="tournaments no-tournament" href="{{ url("/tournament/dashboard") }}">
-                                <h3 class="heading">Zum Wettkampf Dashboard</h3>
-                                <p class="subheading">{{ \App\Models\Tournament::all()->count() }} erfolgreich veranstaltete Wettkämpfe</p>
-                            </a>
-                        @endif
-                    @else
-                        @if(\App\Models\Tournament::latest()->first()?->active && !\App\Models\Tournament::latest()->first()?->excludedClubs->contains(\Illuminate\Support\Facades\Auth::user()->club))
-                            <a class="tournaments" href="{{ url("/tournament/dashboard") }}">
-                                <h3 class="heading">Wettkampf</h3>
-                                <span class="tournament-name">{{ \App\Models\Tournament::latest()->first()?->tournamentTemplate->tournament_name }}</span>
-                                <p class="subheading">Zum Wettkampf-Dashboard</p>
-                            </a>
-                        @else
-                            <div class="no-tournament">
-                                <h3 class="heading">Wettkampf</h3>
-                                <p>Zur Zeit findet kein Wettkampf statt</p>
+                        <a class="tournaments" href="{{ url("/tournaments") }}">
+                            <h3 class="heading">Zum Wettkampf Dashboard</h3>
+                            <div class="info">
+                                <p class="subheading"><span>{{ $activeTournaments->count() }}</span> {{ $activeTournaments->count() === 1 ? "aktiver Wettkampf" : "aktive Wettkämpfe" }}</p>
+                                <p class="subheading"><span>{{ \App\Models\Tournament::where("active", false)->get()->count() }}</span> erfolgreich veranstaltete Wettkämpfe (bisher)</p>
                             </div>
-                        @endif
+                        </a>
+                    @else
+                        <a class="tournaments" href="{{ url("/tournaments") }}">
+                            <h3 class="heading">Zum Wettkampf Dashboard</h3>
+                            <div class="info">
+                                <p class="subheading"><span>{{ $activeTournaments->count() }}</span> {{ $activeTournaments->count() === 1 ? "aktiver Wettkampf" : "aktive Wettkämpfe" }}</p>
+                            </div>
+                        </a>
                     @endif
 
                 </div>
-
-                @php
-                    $personCount = \App\Models\Person::all()->count();
-                    $teamCount = \App\Models\Team::all()->count();
-                    $clubCount = \App\Models\Club::all()->count();
-                @endphp
 
                 <div class="container-medium">
                     <x-horizontal-card title="Personen" href="/entities/people" number="{{ $personCount }}"></x-horizontal-card>
@@ -71,18 +59,24 @@
                 @can("admin")
                     <x-primary-button class="mail" text="E-Mail schreiben" icon-name="mail" href="/mail"></x-primary-button>
                     <x-primary-button class="documents" text="Dokumente" icon-name="description" href="/documents"></x-primary-button>
-                    <x-primary-button class="messages" text="Nachrichten" icon-name="message" href="/messages"></x-primary-button>
+
+                    {{-- <x-primary-button class="messages" text="Nachrichten" icon-name="message" href="/messages"></x-primary-button> --}}
                     <x-primary-button class="settings" text="Einstellungen" icon-name="settings" href="/settings"></x-primary-button>
                 @endcan
-                <x-primary-button class="invite" text="User einladen" icon-name="person_add"></x-primary-button>
+                @php
+                    $invitePermissions = \Illuminate\Support\Facades\Gate::allows("has-permission", \App\Helper\Permissions::INVITE_USERS);
+                @endphp
+                <x-primary-button class="invite" text="User einladen" icon-name="person_add" data-full-permission="{{ $invitePermissions }}"></x-primary-button>
+                <x-primary-button target="_blank" href="https://www.sv-tora.de/" class="home" text="SV Tora Website" icon-name="home"></x-primary-button>
             </div>
 
         </div>
 
-        <a class="creator-button" href="{{ url("/creator") }}">?</a>
+        {{--<a class="creator-button" href="{{ url("/creator") }}">?</a>--}}
 
     </main>
 
-    <x-footer></x-footer>
+
+    {{-- <x-footer></x-footer> --}}
 
 @endsection

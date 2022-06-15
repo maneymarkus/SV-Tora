@@ -18,6 +18,7 @@ class CreateFightPlacesTable extends Migration
 
             $table->unsignedBigInteger("tournament_id")->index();
             $table->string("name");
+            $table->json("breaks")->nullable();
 
             $table->unique(["tournament_id", "name"]);
             $table->foreign("tournament_id")->references("id")->on("tournaments")->onDelete("cascade");

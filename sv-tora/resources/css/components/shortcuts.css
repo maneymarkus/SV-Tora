@@ -40,7 +40,7 @@
 }
 
 .shortcuts .shortcuts-container {
-    background-color: var(--theme-color-3);
+    background-color: var(--theme-color-5);
     position: relative;
     top: 0;
     left: 0;
@@ -54,9 +54,9 @@
     box-shadow: 10px 0 10px var(--box-shadow) inset;
 }
 
-.darkmode .shortcuts-container {
-     background-color: var(--theme-color-1);
- }
+.darkmode .shortcuts .shortcuts-container {
+    background-color: var(--theme-color-1);
+}
 
 .shortcuts:after {
     content: '\E315';
@@ -69,16 +69,17 @@
     left: 100%;
     display: inline-block;
     border-radius: 0 5em 5em 0;
-    background-color: var(--theme-color-3);
+    background-color: var(--theme-color-5);
     box-shadow: 0 0 10px 5px var(--box-shadow);
     z-index: -1;
-    color: var(--accent-color-1-dark);
+    color: var(--accent-color-1-light);
     transition: 0.5s ease;
     margin-left: -0.2em;
 }
 
 .darkmode .shortcuts:after {
     background-color: var(--theme-color-1);
+    color: var(--accent-color-1-dark);
 }
 
 .shortcuts:hover:after,
@@ -91,6 +92,7 @@
     top: 0;
     left: 0;
     font-size: 1em;
+    color: white;
 }
 
 @media only screen and (min-width: 600px) {

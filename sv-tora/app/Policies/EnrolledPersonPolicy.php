@@ -36,9 +36,6 @@ class EnrolledPersonPolicy
      */
     public function viewAny(User $user, Tournament $tournament)
     {
-        if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
-            return false;
-        }
         return !$tournament->excludedClubs->contains($user->club);
     }
 
@@ -51,9 +48,6 @@ class EnrolledPersonPolicy
      */
     public function view(User $user, Tournament $tournament, EnrolledPerson $enrolledPerson)
     {
-        if (Carbon::today() <= Carbon::parse($tournament->enrollment_start) || Carbon::today() >= Carbon::parse($tournament->enrollment_end)) {
-            return false;
-        }
         return !$tournament->excludedClubs->contains($user->club) && $enrolledPerson->fighter->person->club == $user->club;
     }
 

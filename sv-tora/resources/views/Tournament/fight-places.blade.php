@@ -15,7 +15,7 @@
     <main class="limited">
         <x-tournament-admin-info :tournament="$tournament"></x-tournament-admin-info>
 
-        <a class="link" href="{{ url("/tournament/dashboard") }}">zurück</a>
+        <a class="link" href="{{ url("/tournaments/" . $tournament->id) }}">zurück</a>
         <h1>Pools</h1>
 
         <div class="fight-places-container">
@@ -29,7 +29,7 @@
                     <h2 class="fight-place-name">{{ $fightPlace->name }}</h2>
                     <x-primary-button class="rename" href="{{ $editUrl }}" text="Namen ändern" icon-name="edit"></x-primary-button>
                     <x-primary-button class="delete warning" href="{{ $deleteUrl }}" text="Pool löschen" icon-name="delete"></x-primary-button>
-                    <p class="fights"><span class="count-fights">0</span> Kämpfe</p>
+                    <p class="fights"><span class="count-fights">{{ $fightPlace->categories->count() }}</span> Kategorien</p>
                 </div>
             @endforeach
 

@@ -40,10 +40,10 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::model("coach", Person::class);
         Route::model("referee", Person::class);
-        Route::model("helper", Person::class);
+        Route::model("desk_supporter", Person::class);
         Route::model("enrolled_coach", EnrolledPerson::class);
         Route::model("enrolled_referee", EnrolledPerson::class);
-        Route::model("enrolled_helper", EnrolledPerson::class);
+        Route::model("enrolled_desk_supporter", EnrolledPerson::class);
 
         $this->configureRateLimiting();
 

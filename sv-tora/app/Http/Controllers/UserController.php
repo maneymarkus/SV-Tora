@@ -9,10 +9,12 @@ use App\Helper\Roles;
 use App\Models\Club;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -87,7 +89,6 @@ class UserController extends Controller
     {
         $editable = [
             "name" => "Der Name wurde erfolgreich geändert.",
-            "password" => "Das Passwort wurde erfolgreich geändert.",
             "dark_mode" => "Der Design Modus wurde erfolgreich geändert.",
             "smartphone_optimized_tables" => "Die Tabellenoptimierung wurde erfolgreich geändert."
         ];
@@ -110,6 +111,17 @@ class UserController extends Controller
         }
     }
 
+    public function updatePassword(Request $request, User $user) {
+        $givenOldPassword = $request->input("oldPassword");
+        Log::info($givenOldPassword);
+        if (!Hash::check($givenOldPassword, $user->password)) {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das alte Passwort stimmt nicht mit den gespeicherten Daten überein.");
+        }
+        $user->password = Hash::make($request->input("password"));
+        $user->save();
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Das Passwort wurde erfolgreich geändert.");
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -130,6 +142,10 @@ class UserController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte keine Rolle mit dem Namen \"" . $request->input("Rolle") . "\" gefunden werden.!");
         }
 
+        if ($role->name === Roles::ADMIN && $club->name !== "SV Tora") {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Ein User eines anderen Vereins (als SV Tora) kann kein Administrator sein.");
+        }
+
         $user->club_id = $club->id;
         $user->role_id = $role->id;
         $user->save();
@@ -140,6 +156,9 @@ class UserController extends Controller
     public function updateAdminPermissions(Request $request, User $admin) {
         $this->authorize("updateAdminPermissions", $admin);
         if (Gate::allows("has-permission", Permissions::UPDATE_ADMIN_PERMISSIONS)) {
+            if ($admin->name === "Superuser") {
+                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Die Rechte des Superusers können nicht geändert werden.");
+            }
             $permissions = $request->all();
             $grantedPermissions = array_filter($permissions, function ($granted) {
                 return $granted;
@@ -175,6 +194,9 @@ class UserController extends Controller
 
     public function destroyAdmin(User $admin) {
         if (Gate::allows("has-permission", Permissions::DELETE_ADMINS)) {
+            if ($admin->name === "Superuser") {
+                return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Superuser kann nicht gelöscht werden.");
+            }
             $adminName = $admin->name;
             $admin->delete();
             return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Admin \"" . $adminName . "\" wurde erfolgreich gelöscht!");
@@ -189,10 +211,10 @@ class UserController extends Controller
         $userMails = [];
 
         foreach ($users as $user) {
-            array_push($userMails, [
+            $userMails[] = [
                 "name" => $club->name,
                 "mail" => $user->email,
-            ]);
+            ];
         }
 
         return $userMails;
@@ -213,14 +235,19 @@ class UserController extends Controller
     }
 
 
-    public function getMailsFromUsersFromInvitedClubs() {
-        // TODO
-        return [];
-    }
-
-
     public function getMailsFromUsersFromEnrolledClubs() {
-        //TODO
+        if (Tournament::latest()->first()?->active) {
+            $clubs = app(TournamentController::class)->getEnrolledClubs(Tournament::latest()->first());
+
+            $userMails = [];
+
+            foreach ($clubs as $c) {
+                $club = Club::find($c["id"]);
+                $userMails = array_merge($userMails, $this->getMailsFromUsersOfClub($club));
+            }
+
+            return $userMails;
+        }
         return [];
     }
 
@@ -230,7 +257,7 @@ class UserController extends Controller
         $clubs = [];
 
         foreach ($receivers as $receiver) {
-            array_push($clubs, Club::where("name", "=", $receiver)->first());
+            $clubs[] = Club::where("name", "=", $receiver)->first();
         }
 
         $userMails = [];

@@ -45,9 +45,13 @@ nav.nav {
         radial-gradient(black 15%, transparent 16%) 10px 10px,
         radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
         radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 10px 11px;
-    background-color: rgba(30, 30, 30, 0.9);
+    background-color: rgba(69, 69, 69, 0.9);
     background-size: 20px 20px;
     backdrop-filter: blur(5px);
+}
+
+.darkmode nav.nav {
+    background-color: rgba(25, 25, 25, 0.9);
 }
 
 nav.nav.open {

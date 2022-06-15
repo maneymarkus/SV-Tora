@@ -38,9 +38,26 @@
                 return;
             }
             if (App.FormModule.checkForm(mailForm, true)) {
-                let data = App.TranslationModule.translateInputsToObject(mailForm);
-                data["receivers"] = receivers;
+                App.LoaderModule.addBigLoader();
+                let formData = new FormData();
+                receivers.forEach(receiver => {
+                    formData.append("receivers[]", receiver);
+                });
+
+                formData.append("subject", document.getElementById("subject").value);
+
+                formData.append("content", document.querySelector("textarea[name='content']").value);
+
+                if (document.querySelector("input[name='include-button']")) {
+                    formData.append("include-button", document.querySelector("input[name='include-button']").value);
+                }
+
+                [...document.querySelector(".file-input-container input").files].forEach(file => {
+                    formData.append("attached-files[]", file);
+                });
+
                 App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, sendButton.getAttribute("href"), () => {
+                    App.LoaderModule.removeBigLoader();
                     document.querySelector("main").classList.add("sent");
                     window.setTimeout(function () {
                         envelope.innerHTML = "mail";
@@ -48,7 +65,7 @@
                     window.setTimeout(function () {
                         window.location.href = cancelButton.getAttribute("href");
                     }, 3000);
-                }, data);
+                }, formData);
             }
         });
 

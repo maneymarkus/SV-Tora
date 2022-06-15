@@ -74,7 +74,7 @@
     left: -15%;
     margin: 0;
     font-size: 5rem;
-    color: black;
+    color: var(--theme-color-1);
     opacity: 0.2;
     text-align: center;
     font-weight: 900;
@@ -125,13 +125,9 @@
 }
 
 .card:hover .district {
-    color: #3E3E3E;
+    color: var(--text-color);
     top: 45%;
     font-size: 2rem;
-}
-
-.darkmode .card:hover .district {
-    color: #C6C6C6;
 }
 
 @media only screen and (min-width: 600px) {

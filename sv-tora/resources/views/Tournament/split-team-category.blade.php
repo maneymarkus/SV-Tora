@@ -44,7 +44,7 @@
                 <h2 class="fighter-name">{{ $enrolledTeam->team->name }}</h2>
                 <p class="clearfix">Maximales Alter: <span class="age">{{ $enrolledTeam->team->getHighestAge() }}</span></p>
                 <p class="clearfix">Verein: <span class="club">{{ $enrolledTeam->team->club->name }}</span></p>
-                <p class="no-display member_id">{{ $enrolledTeam->team->id }}</p>
+                <p class="no-display member-id">{{ $enrolledTeam->id }}</p>
             </div>
         @endforeach
     @endif

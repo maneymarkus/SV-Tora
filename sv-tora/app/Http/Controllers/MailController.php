@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Helper\GeneralHelper;
 use App\Helper\NotificationTypes;
 use App\Mail\GenericMail;
+use App\Mail\TournamentInvitationMail;
 use App\Models\Tournament;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
@@ -21,8 +23,26 @@ class MailController extends Controller
         $receiverMails = $request->input("receivers");
         $subject = $request->input("subject");
         $content = $request->input("content");
+        $files = array();
+
+        if ($request->hasFile("attached-files")) {
+            foreach ($request->file("attached-files") as $file) {
+                $attachmentFile = [];
+                $path = $file->store("/public/temp");
+                $attachmentFile["path"] = storage_path("app/" . $path);
+                $attachmentFile["name"] = $file->getClientOriginalName();
+                $files[] = $attachmentFile;
+            }
+        }
+
+        $includeButton = $request->input("include-button") ?? false;
         foreach ($receiverMails as $receiverMail) {
-            Mail::to($receiverMail)->send(new GenericMail($subject, $receiverMails, $content));
+            if (session("tournamentInvitation") !== null) {
+                Mail::to($receiverMail)->send(new TournamentInvitationMail(session("tournamentInvitation"), $subject, $content, $files));
+                session()->forget("tournamentInvitation");
+            } else {
+                Mail::to($receiverMail)->send(new GenericMail($subject, $content, $includeButton, $files));
+            }
         }
 
         if (Mail::failures()) {
@@ -33,19 +53,28 @@ class MailController extends Controller
 
     }
 
+    public function inviteClubsToTournament(Tournament $tournament) {
+        $subject = "Neuer Wettkampf des SV Tora Berlin e.V. am " . Carbon::parse($tournament->date)->format("d.m.Y");
+        $content = "Der SV Tora Berlin e.V. lädt zum Wettkampf " . $tournament->tournamentTemplate->tournament_name . " am " . Carbon::parse($tournament->date)->format("d.m.Y") . " ein.\n";
+        $content .= "Alle weiteren wichtigen Infos finden Sie im Wettkampf System auf dem Wettkampf Dashboard.";
+        session(["tournamentInvitation" => $tournament]);
+        return response()->view("mail", ["subject" => $subject, "content" => $content]);
+    }
+
     public function informClubsAboutTournamentCancellation() {
-        $invitedClubs = app(UserController::class)->getMailsFromUsersFromInvitedClubs();
-        $subject = "Absage des SV Tora Berlin e.V. Wettkampfes";
-        $content = "Leider muss der geplante Wettkampf des SV Tora Berlin e.V. aufgrund ungünsiger Umstände ausfallen.";
-        return response()->view("mail", ["emails" => $invitedClubs, "subject" => $subject, "content" => $content]);
+        $tournamentInfo = session("tournamentInfo");
+        $enrolledClubs = $tournamentInfo["enrolledClubs"];
+        $subject = "Absage des SV Tora Berlin e.V. Wettkampfes vom " . $tournamentInfo["date"] . " um " . $tournamentInfo["time"];
+        $content = "Leider muss der geplante Wettkampf des SV Tora Berlin e.V. unerwartet ausfallen.";
+        return response()->view("mail", ["emails" => $enrolledClubs, "subject" => $subject, "content" => $content]);
     }
 
     public function informClubsAboutTournamentChange(Tournament $tournament) {
-        $invitedClubs = app(UserController::class)->getMailsFromUsersFromInvitedClubs();
+        $enrolledClubs = app(UserController::class)->getMailsFromUsersFromEnrolledClubs();
         $subject = "Änderung des SV Tora Berlin e.V. Wettkampfes";
         $date = Carbon::parse($tournament->date)->format("d.m.Y");
         $content = "Der am " . $date . " stattfindende " . $tournament->tournamentTemplate->tournament_name . " wurde geändert.";
-        return response()->view("mail", ["emails" => $invitedClubs, "subject" => $subject, "content" => $content]);
+        return response()->view("mail", ["emails" => $enrolledClubs, "subject" => $subject, "content" => $content]);
     }
 
 }

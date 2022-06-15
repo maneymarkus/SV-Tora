@@ -1,5 +1,5 @@
 @extends('errors::minimal')
 
-@section('title', __('Forbidden'))
+@section('title', __('Verboten'))
 @section('code', '403')
-@section('message', __($exception->getMessage() ?: 'Forbidden'))
+@section('message', __($exception->getMessage() ?: 'Du darfst diesen Bereich der Website nicht besuchen'))

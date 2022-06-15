@@ -1,6 +1,6 @@
 <span {{ $attributes->merge(["class" => "tag"]) }}>
     <span class="tag-details">
-        @if(isset($key))
+        @isset($key)
             <span class="tag-key">{{ $key }}</span>:
         @endif
         <span class="tag-value">{{ $value }}</span>

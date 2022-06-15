@@ -33,11 +33,7 @@
         </div>
         <form class="document-upload" method="POST" action="{{ url("/documents") }}" enctype="multipart/form-data">
             @csrf
-            <label for="document-input" class="file-input-container input-container">
-                <input type="file" name="document" id="document-input" multiple />
-                <i class="material-icons">publish</i>
-                <span class="file-name">Datei auswählen...</span>
-            </label>
+            <x-inputs.file-input name="documents" id="document-input"></x-inputs.file-input>
             <br />
             <button type="submit" class="secondary-button disabled upload-button" >
                 <span class="text">Upload</span>

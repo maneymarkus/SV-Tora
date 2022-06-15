@@ -1,15 +1,12 @@
-@php
-
-    use \App\Helper\GeneralHelper;
-
-    $check = false;
-
-@endphp
-
 <div {{ $attributes->merge(["class" => "radio-group input-container"]) }}>
-    @foreach($options as $option)
+    @php
+        if(!isset($check)) {
+            $check = false;
+        }
+    @endphp
+    @foreach($radioOptions as $option)
         @php
-            $id = GeneralHelper::uniqueRandomIdentifier();
+            $id = \App\Helper\GeneralHelper::uniqueRandomIdentifier();
             if ($option["checked"] && !$check) {
                 $checked = "checked";
                 $check = true;

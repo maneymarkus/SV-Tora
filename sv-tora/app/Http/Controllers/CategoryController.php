@@ -8,9 +8,16 @@ use App\Models\Category;
 use App\Models\EnrolledFighter;
 use App\Models\EnrolledTeam;
 use App\Models\Fighter;
+use App\Models\FightingSystem;
 use App\Models\Team;
 use App\Models\Tournament;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Clegginabox\PDFMerger\PDFMerger;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -27,7 +34,29 @@ class CategoryController extends Controller
      */
     public function index(Tournament $tournament)
     {
-        return response()->view("Tournament.category-administration", ["tournament" => $tournament]);
+        $enrollmentActive = false;
+        if (Carbon::today() >= Carbon::parse($tournament->enrollment_start) && Carbon::today() <= Carbon::parse($tournament->enrollment_end)) {
+            $enrollmentActive = true;
+        }
+        $printAllCategoriesUrl = url("/tournaments/" . $tournament->id . "/categories/print");
+        return response()->view("Tournament.category-administration", ["tournament" => $tournament, "enrollmentActive" => $enrollmentActive, "printAllCategoriesUrl" => $printAllCategoriesUrl]);
+    }
+
+    public function printCategoriesOverview(Tournament $tournament) {
+        if ($tournament->excludedClubs->contains(Auth::user()->club)) {
+            abort(403);
+        }
+
+        $categories = $tournament->categories()->orderBy("name")->get();
+        $pdf = Pdf::loadView("Tournament.print-category-overview", ["tournament" => $tournament, "categories" => $categories, "isAdmin" => Auth::user()->isAdmin()]);
+        $pdfPath = "tournaments/" . $tournament->id . "/categories";
+        if (!is_dir(storage_path("app/public/" . dirname($pdfPath)))) {
+            mkdir(storage_path("app/public/" . dirname($pdfPath)), recursive: true);
+        }
+        $tempFileMetaData = stream_get_meta_data(tmpfile());
+        $pdf->save($tempFileMetaData["uri"]);
+        $path = Storage::disk("public")->putFile($pdfPath, new File($tempFileMetaData["uri"]));
+        return Storage::disk("public")->download($path);
     }
 
     /**
@@ -57,7 +86,7 @@ class CategoryController extends Controller
         if (!in_array($examinationType, $possibleExaminationTypes)) {
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Diese Prüfungsform ist im betroffenen Wettkampf nicht zulässig!");
         }
-        Category::create([
+        $newCategory = Category::create([
             "name" => $newCategoryName,
             "tournament_id" => $tournament->id,
             "examination_type" => $request->input("Prüfungsform"),
@@ -67,6 +96,13 @@ class CategoryController extends Controller
             "age_max" => $request->input("Maximalalter"),
             "sex" => $request->input("Geschlecht"),
         ]);
+        if ($newCategory->examination_type === "Team") {
+            $fightingSystem = FightingSystem::firstWhere("name", "=", "Tafelsystem");
+            $newCategory->fightingSystem()->associate($fightingSystem);
+            $newCategory->prepared = true;
+            $newCategory->save();
+            app(FightingSystemController::class)->reinitializeFightingSystem($newCategory);
+        }
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die neue Kategorie \"" . $newCategoryName . "\" wurde erfolgreich angelegt. Die Seite lädt in 5 Sekunden neu, um die neue Kategorie anzuzeigen.");
     }
 
@@ -90,17 +126,11 @@ class CategoryController extends Controller
     }
 
 
-    /**
-     * This function generates a printable PDF containing the category metadata and members
-     *
-     * @param Category $category
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     */
-    public function printCategory(Tournament $tournament, Category $category) {
+    public function generateCategoryPdf(Tournament $tournament, Category $category) {
         if ($category->fighters->count() > 0) {
-            $spreadsheetPath = base_path() . "/storage/app/public/Kategorie_Teilnehmer_Kämpfer.xlsx";
+            $spreadsheetPath = base_path() . "/storage/app/public/categories/Kategorie_Teilnehmer_Kämpfer.xlsx";
         } else {
-            $spreadsheetPath = base_path() . "/storage/app/public/Kategorie_Teilnehmer_Teams.xlsx";
+            $spreadsheetPath = base_path() . "/storage/app/public/categories/Kategorie_Teilnehmer_Teams.xlsx";
         }
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $spreadsheet = $reader->load($spreadsheetPath);
@@ -108,7 +138,7 @@ class CategoryController extends Controller
 
         # insert category data
         $sheet->setCellValue("E1", $category->name);
-        $sheet->setCellValue("B3", $category->examination_type);
+        $sheet->setCellValue("B3", $category->examination_type . " " . $category->kumite_type);
         $sheet->setCellValue("D3", $category->age_min . " - " . $category->age_max);
         $sheet->setCellValue("G3", $category->sex);
         if ($category->graduation_min === $category->graduation_max) {
@@ -150,15 +180,44 @@ class CategoryController extends Controller
         $sheet->setCellValue("J6", $counter);
 
         # create directories and set save path
-        $fileName = "Kategorie -" . $category->name . "- Teilnehmer.pdf";
-        $savePath = base_path() . "/storage/app/public/Wettkampf_ID_" . $tournament->id . "/" . $fileName;
+        $fileName = "Kategorie - " . $category->name . " - Teilnehmer.pdf";
+        $savePath = base_path() . "/storage/app/public/tournaments/" . $tournament->id . "/categories/" . $category->id . "/". $fileName;
         if (!is_dir(pathinfo($savePath, PATHINFO_DIRNAME))) {
             mkdir(pathinfo($savePath, PATHINFO_DIRNAME), 0777, true);
         }
 
         $writer = new Mpdf($spreadsheet);
         $writer->save($savePath);
-        return Storage::download("/public/Wettkampf_ID_" . $tournament->id . "/" . $fileName);
+    }
+
+
+    /**
+     * This function generates a printable PDF containing the category metadata and members
+     *
+     * @param Category $category
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function printCategory(Tournament $tournament, Category $category) {
+        self::generateCategoryPdf($tournament, $category);
+        $fileName = "Kategorie - " . $category->name . " - Teilnehmer.pdf";
+        return Storage::download("/public/tournaments/" . $tournament->id . "/categories/" . $category->id . "/" . $fileName);
+    }
+
+
+    public function printAllCategories(Tournament $tournament) {
+        $pdf = new PDFMerger();
+        foreach ($tournament->categories()->orderBy("name")->get() as $category) {
+            if ($category->fighters->count() > 0) {
+                self::generateCategoryPdf($tournament, $category);
+                $fileName = "Kategorie - " . $category->name . " - Teilnehmer.pdf";
+                $pdfPath = storage_path("app/public/tournaments/" . $tournament->id . "/categories/" . $category->id . "/". $fileName);
+                $pdf->addPDF($pdfPath, orientation: "P");
+            }
+        }
+
+        $totalPdfPath = "tournaments/" . $tournament->id . "/categories/AlleKategorien.pdf";
+        $pdf->merge("file", storage_path("app/public/" . $totalPdfPath));
+        return Storage::disk("public")->download($totalPdfPath);
     }
 
 
@@ -178,8 +237,9 @@ class CategoryController extends Controller
 
 
     public function splitCategory(Request $request, Tournament $tournament, Category $category) {
-        $categories = $request->input("categories");
-        foreach($categories as $categoryName => $members) {
+        $newCategories = $request->input("categories");
+        foreach($newCategories as $newCategoryInfo) {
+            $categoryName = $newCategoryInfo["categoryName"];
             if (Category::where("tournament_id", "=", $tournament->id)->where("name", "=", $categoryName)->first() != null) {
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Eine Kategorie mit dem Namen \"" . $categoryName . "\" existiert schon. Bitte wähle also einen anderen Namen.");
             }
@@ -187,24 +247,25 @@ class CategoryController extends Controller
                 "name" => $categoryName,
                 "tournament_id" => $tournament->id,
                 "examination_type" => $category->examination_type,
-                "graduation" => $category->graduation,
-                "age_start" => $category->age_start,
-                "age_end" => $category->age_end,
+                "graduation_min" => $category->graduation_min,
+                "graduation_max" => $category->graduation_max,
+                "age_min" => $category->age_min,
+                "age_max" => $category->age_max,
                 "sex" => $category->sex,
             ]);
-            foreach($members as $m) {
+            foreach($newCategoryInfo["members"] as $m) {
                 if ($category->teams->count() > 0) {
-                    $team = Team::find($m->id);
+                    $team = EnrolledTeam::find($m["id"]);
                     $newCategory->teams()->save($team);
                 } else {
-                    $fighter = Fighter::find($m->id);
+                    $fighter = EnrolledFighter::find($m["id"]);
                     $newCategory->fighters()->save($fighter);
                 }
             }
         }
         $oldCategoryName = $category->name;
         $category->delete();
-        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $oldCategoryName . "\" wurde erfolgreich geteilt!");
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $oldCategoryName . "\" wurde erfolgreich geteilt! Du wirst gleich zur Übersicht der Kategorien zurückgeleitet.");
     }
 
 
@@ -219,6 +280,7 @@ class CategoryController extends Controller
         $mergeCategory->fighters()->saveMany($category->fighters);
         $oldCategoryName = $category->name;
         $category->delete();
+        app(FightingSystemController::class)->reinitializeFightingSystem($mergeCategory);
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $oldCategoryName . "\" wurde erfolgreich mit der Kategorie \"" . $mergeCategory->name . "\" zusammen geführt. Die Seite läd in 5 Sekunden neu, um die Änderung anzuzeigen.");
     }
 
@@ -276,12 +338,16 @@ class CategoryController extends Controller
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Der Kämpfer \"" . $fighter->person->fullName() . "\" existiert schon in dieser Kategorie und kann daher nicht hinzugefügt werden.");
             }
 
-            $enrolledFighter = EnrolledFighter::create([
-                "fighter_id" => $fighter->id,
-                "tournament_id" => $tournament->id,
-            ]);
+            $enrolledFighter = $fighter->enrolledConfigurations()->where("tournament_id", "=", $tournament->id)->first();
+            if ($enrolledFighter === null) {
+                $enrolledFighter = EnrolledFighter::create([
+                    "fighter_id" => $fighter->id,
+                    "tournament_id" => $tournament->id,
+                ]);
+            }
             $category->fighters()->attach($enrolledFighter->id);
         }
+        app(FightingSystemController::class)->reinitializeFightingSystem($category);
         return json_encode(["redirectUrl" => url("/tournaments/" . $tournament->id . "/categories")]);
     }
 
@@ -305,13 +371,17 @@ class CategoryController extends Controller
                 return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Das Team \"" . $team->name . "\" existiert schon in dieser Kategorie und kann daher nicht hinzugefügt werden.");
             }
 
-            $newEnrolledTeam = EnrolledTeam::create([
-                "team_id" => $team->id,
-                "tournament_id" => $tournament->id,
-            ]);
+            $enrolledTeam = $team->enrolledTeams()->where("tournament_id", "=", $tournament->id)->first();
+            if ($enrolledTeam === null) {
+                $enrolledTeam = EnrolledTeam::create([
+                    "team_id" => $team->id,
+                    "tournament_id" => $tournament->id,
+                ]);
+            }
 
-            $category->teams()->attach($newEnrolledTeam->id);
+            $category->teams()->attach($enrolledTeam->id);
         }
+        app(FightingSystemController::class)->reinitializeFightingSystem($category);
         return json_encode(["redirectUrl" => url("/tournaments/" . $tournament->id . "/categories")]);
     }
 
@@ -330,7 +400,12 @@ class CategoryController extends Controller
         }
         $fighterName = $enrolledFighter->fighter->person->fullName();
         $enrolledFighter->delete();
-        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Der Kämpfer \"" . $fighterName . "\" wurde aus der Kategorie entfernt.");
+        $fightingSystem = app(FightingSystemController::class)->reinitializeFightingSystem($category);
+        $message = "Der Kämpfer \"" . $fighterName . "\" wurde aus der Kategorie entfernt.";
+        if ($fightingSystem === null) {
+            $message .= " Aktuell sind weniger Kämpfer in der Kategorie, als vom schon zugeteilten Kampfsystem mindestens benötigt werden. Daher wurde das Kampfsystem zurückgesetzt.";
+        }
+        return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, $message);
     }
 
     /**
@@ -347,6 +422,7 @@ class CategoryController extends Controller
         }
         $teamName = $enrolledTeam->team->name;
         $enrolledTeam->delete();
+        app(FightingSystemController::class)->reinitializeFightingSystem($category);
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Das Team \"" . $teamName . "\" wurde aus der Kategorie entfernt.");
     }
 
@@ -354,13 +430,35 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $category
+     * @param Tournament $tournament
+     * @param \App\Models\Category $category
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tournament $tournament, Category $category)
     {
         $categoryName = $category->name;
+        // get entities (fighters/teams) affected by category deletion
+        $affectedEntities = $category->entities()?->get();
         $category->delete();
+
+        // check if entities also enrolled in other categories, otherwise delete
+        if ($affectedEntities !== null) {
+            foreach ($affectedEntities as $affectedEntity) {
+                if ($affectedEntity->categories->count() <= 0) {
+                    $affectedEntity->delete();
+                }
+            }
+        }
         return GeneralHelper::sendNotification(NotificationTypes::SUCCESS, "Die Kategorie \"" . $categoryName . "\" wurde erfolgreich gelöscht.");
     }
+
+    public function destroyAllEmptyCategories()
+    {
+        foreach (Category::all() as $category) {
+            if ($category->fighters->count() === 0 && $category->teams->count() === 0) {
+                $category->delete();
+            }
+        }
+    }
+
 }

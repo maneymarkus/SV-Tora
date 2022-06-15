@@ -64,16 +64,11 @@ let TimeSchedule = function (timeSchedule) {
         // calculate start time in minutes
         let currentDate = new Date();
 
-        // TODO: reactivate
-        //let currentTimeInMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
-        let currentTimeInMinutes = 900;
+        let currentTimeInMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
         let startTimeInMinutes = 0;
         let parts = This.startTime.split(":");
         startTimeInMinutes += parseInt(parts[0]) * 60;
         startTimeInMinutes += parseInt(parts[1]);
-
-        // TODO: get expected end time from backend
-        let expectedEndInMinutes = undefined;
 
         // calculate max end time in minutes
         let maxEndTimeRelative = This.lengthInHours * 60;
@@ -124,7 +119,6 @@ let TimeSchedule = function (timeSchedule) {
      * @param countHours {number} This variable determines how high the container should be and can also contain fractions of hours
      */
     this.setHeightOfTimeContainer = function (countHours) {
-        // TODO: calculation of height and width of elements should be done in backend
         let heightOf1Hour = ONE_MINUTE_LENGTH_IN_EM * 60;
 
         // the height is calculated in this way: 5em are needed for the headings of the locations and any paddings and margins in the container and each hour needs the equalling length of one minute times 60 of space
@@ -185,6 +179,7 @@ let TimeSchedule = function (timeSchedule) {
                 This.timeScaleElement.appendChild(span);
             }
 
+            This.lengthInHours = chosenDuration;
             This.setHeightOfTimeContainer(chosenDuration);
 
         });

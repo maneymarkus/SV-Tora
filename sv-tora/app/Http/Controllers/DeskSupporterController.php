@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-class HelperController extends Controller
+class DeskSupporterController extends Controller
 {
 
     /**
@@ -18,7 +18,7 @@ class HelperController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(Person::class, 'person');
+        $this->authorizeResource(Person::class, 'desk_supporter');
     }
 
     /**
@@ -28,7 +28,7 @@ class HelperController extends Controller
      */
     public function index()
     {
-        return app(PersonController::class)->index(PersonTypes::HELPER, "/entities/helpers/", "/entities/helpers/", "/entities/helpers/", "Helfer", "Helfer");
+        return app(PersonController::class)->index(PersonTypes::DESK_SUPPORTER, "/entities/desk-supporters/", "/entities/desk-supporters/", "/entities/desk-supporters/", "Tischbesetzungen", "Tischbesetzung");
     }
 
     /**
@@ -49,7 +49,7 @@ class HelperController extends Controller
      */
     public function store(Request $request)
     {
-        return app(PersonController::class)->store($request, PersonTypes::HELPER);
+        return app(PersonController::class)->store($request, PersonTypes::DESK_SUPPORTER);
     }
 
     /**

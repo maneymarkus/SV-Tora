@@ -7,6 +7,7 @@
     App.GeneralModule.checkDependencies(dependencies);
 
     const BREAK_MAX = 90;
+    let currentLength = 3;
 
     // length in rem for coherent depiction in frontend
     const ONE_MINUTE_LENGTH = App.GeneralModule.generalVariables.ONE_MINUTE_LENGTH;
@@ -21,20 +22,6 @@
     let timeBlocksContainer = document.querySelector("div.time-blocks-container");
     let categoryContainer = timeBlocksContainer.querySelector(".category-container");
 
-    function initialization() {
-
-        let categoryTimeBlocks = document.querySelectorAll(".time-block.category");
-
-        categoryTimeBlocks.forEach((categoryTimeBlock) => {
-            let duration = categoryTimeBlock.querySelector("p").innerText;
-            let individualIdentifier = "tippy-" + App.GeneralModule.createUniqueRandomIdentifier();
-            categoryTimeBlock.classList.add(individualIdentifier);
-            App.TooltipModule.createTooltip("div." + individualIdentifier, duration);
-        });
-
-    }
-    initialization();
-
     buttonContainer.addEventListener("click", function (e) {
         let target = e.target;
         while (target.nodeName !== "BODY" && !target.classList.contains("primary-button")) {
@@ -44,10 +31,28 @@
         // Save and exit
         if (target.classList.contains("save")) {
             e.preventDefault();
-            //TODO: save configuration and afterwards go to dashboard
-            App.ModalModule.confirmModal("Änderungen Speichern und Verlassen", "Deine Änderungen werden gespeichert und du kommst nun zum Wettkampf-Dashboard zurück.", function () {
-                window.location.href = saveButton.getAttribute("href");
+            let schedule = {};
+            document.querySelectorAll(".locations div.fight-place").forEach(fightPlaceElement => {
+                const fightPlaceId = fightPlaceElement.getAttribute("data-fight-place-id");
+                schedule[fightPlaceId] = [];
+                fightPlaceElement.querySelectorAll(".time-block").forEach(timeBlockElement => {
+                    if (timeBlockElement.classList.contains("category")) {
+                        const categoryId = timeBlockElement.getAttribute("data-category-id");
+                        schedule[fightPlaceId].push(categoryId);
+                    }
+                    if (timeBlockElement.classList.contains("break")) {
+                        const breakDuration = timeBlockElement.querySelector("span.duration").textContent;
+                        schedule[fightPlaceId].push("break:" + breakDuration);
+                    }
+                });
             });
+            const data = {"schedule" : schedule};
+            let url = target.getAttribute("href");
+            App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, function () {
+                App.ModalModule.confirmModal("Änderungen gespeichert. Verlassen?", "Deine Änderungen wurden gespeichert. Willst du nun zum Wettkampf-Dashboard zurück?", function () {
+                    window.location.href = backButton.getAttribute("href");
+                });
+            }, data, true);
         }
 
         // completely reset any changes
@@ -69,8 +74,9 @@
 
         // go back to dashboard without saving
         if (target.classList.contains("back")) {
+            e.preventDefault();
             App.ModalModule.confirmModal("Seite verlassen", "Deine Änderungen werden nicht gespeichert und du kommst zum Wettkampf-Dashboard zurück.", function () {
-                window.location.href = saveButton.getAttribute("href");
+                window.location.href = backButton.getAttribute("href");
             });
         }
 

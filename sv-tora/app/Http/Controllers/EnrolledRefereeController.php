@@ -18,7 +18,11 @@ class EnrolledRefereeController extends Controller
     public function index(Tournament $tournament)
     {
         return app(EnrolledPersonController::class)
-            ->index($tournament, PersonTypes::REFEREE, url("/tournaments/" . $tournament->id . "/enrolled/referees/add"), url("/tournaments/" . $tournament->id . "/enrolled/referees/"), "Kampfrichter", "Kampfrichter");
+            ->index($tournament, PersonTypes::REFEREE, url("/tournaments/" . $tournament->id . "/enrolled/referees/add"), url("/tournaments/" . $tournament->id . "/enrolled/referees/"), url("/entities/referees/"), "Kampfrichter", "Kampfrichter");
+    }
+
+    public function print(Tournament $tournament) {
+        return app(EnrolledPersonController::class)->print($tournament, PersonTypes::REFEREE, "Kampfrichter");
     }
 
     /**

@@ -124,7 +124,7 @@ $fight_place_options = ["Pool 1", "Pool 2", "Pool 3"];
 
             <h1>Wettkampftag! - Pool&shy;übersicht</h1>
 
-            <x-inputs.select-input name="fight-place" :options="$fight_place_options">
+            <x-inputs.select-input name="fight-place" :selectable-options="$fight_place_options">
                 <x-slot name="placeholder">Wähle einen Pool</x-slot>
             </x-inputs.select-input>
 

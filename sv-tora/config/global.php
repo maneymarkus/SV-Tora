@@ -16,8 +16,21 @@ return [
     */
     "sex" => [
         "m",
+        "w"
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sex with mixed
+    |--------------------------------------------------------------------------
+    |
+    | This variable contains all the different available genders including mixed
+    |
+    */
+    "sex-with-mixed" => [
+        "m",
         "w",
-        "m/w",
+        "m/w"
     ],
 
     /*
@@ -65,6 +78,6 @@ return [
     | This variable contains the maximum amount of team members allowed
     |
     */
-    "MAX_TEAM_MEMBERS" => 5,
+    "MAX_TEAM_MEMBERS" => 6,
 
 ];
