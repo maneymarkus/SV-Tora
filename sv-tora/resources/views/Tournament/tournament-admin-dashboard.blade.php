@@ -53,14 +53,7 @@
                     <p><span class="count-kihon-categories">{{ $tournament->categories()->where("examination_type", "=", "Kihon")->get()->count() }}</span> Kihon Kategorie(n)</p>
                 @endif
                 <p><span class="count-kata-categories">{{ $tournament->categories()->where("examination_type", "=", "Kata")->get()->count() }}</span> Kata Kategorie(n)</p>
-                <p><span class="count-kumite-categories">{{ $tournament->categories()
-                                                            ->where("examination_type", "=", "Kumite")
-                                                            ->orWhere("examination_type", "=", "Kumite (Kihon Ippon)")
-                                                            ->orWhere("examination_type", "=", "Kumite (Jiyu Ippon)")
-                                                            ->orWhere("examination_type", "=", "Kumite (Shobu Ippon)")
-                                                            ->orderBy("name")->get()->count() }}
-                    </span> Kumite Kategorie(n)
-                </p>
+                <p><span class="count-kumite-categories">{{ $tournament->categories()->where("examination_type", "=", "Kumite")->get()->count() }}</span> Kumite Kategorie(n)</p>
                 @if($tournament->tournamentTemplate->team)
                     <p><span class="count-team-categories">{{ $tournament->categories()->where("examination_type", "=", "Team")->get()->count() }}</span> Team Kategorie(n)</p>
                 @endif
@@ -85,7 +78,7 @@
             <a class="schedule topic-container dashboard-container" href="{{ $changeScheduleUrl }}">
                 <h3>Zeitplan</h3>
                 <p>Voraussichtliches Ende des Wettkampfes: <span class="duration">{{ $tournament->calculateEstimatedEnd()->format("H:i") }}h</span></p>
-                @foreach(\App\Models\FightPlace::orderBy("created_at")->get() as $fightPlace)
+                @foreach($tournament->fightPlaces()->orderBy("created_at")->get() as $fightPlace)
                     <p><span class="duration">{{ \Carbon\Carbon::today()->set("second", $fightPlace->calculateTimeInSeconds())->format("H:i") }}h</span> auf {{ $fightPlace->name }}</p>
                 @endforeach
             </a>
@@ -96,23 +89,25 @@
                 <p class="clearfix" style="text-align: center"><a class="link" href="{{ url("/tournaments/" . $tournament->id . "/categories/overview") }}" style="font-size: inherit">Kategorienübersicht</a></p>
             </div>
 
-            <div class="actions clearfix dashboard-container">
-                <div class="change-actions">
-                    <x-primary-button class="change-status" href="{{ $changeTournamentStatusUrl }}" text="Status ändern" icon-name="build"></x-primary-button>
-                    <x-primary-button class="change-tournament" href="{{ $changeTournamentUrl }}" text="Wettkampf ändern" icon-name="settings"></x-primary-button>
-                    <x-primary-button class="change-category" href="{{ $changeCategoriesUrl }}" text="Kategorien administrieren" icon-name="group"></x-primary-button>
-                    <x-primary-button class="change-fight-system" href="{{ $changeFightingSystemsUrl }}" text="Kampfsysteme wählen" icon-name="view_carousel"></x-primary-button>
-                    <x-primary-button class="exclude-clubs" href="{{ $excludeClubsUrl }}" text="Verein ausschließen" icon-name="block"></x-primary-button>
-                    <x-primary-button class="change-places" href="{{ $changeFightingPlacesUrl }}"  text="Pools verwalten" icon-name="space_bar"></x-primary-button>
-                    <x-primary-button class="change-schedule" href="{{ $changeScheduleUrl }}"  text="Zeitplan managen" icon-name="schedule"></x-primary-button>
-                    <x-primary-button class="invite-clubs" href="{{ $inviteClubsUrl }}"  text="Vereine zum Wettkampf einladen" icon-name="group_add"></x-primary-button>
+            @if ($tournament->active)
+                <div class="actions clearfix dashboard-container">
+                    <div class="change-actions">
+                        <x-primary-button class="change-status" href="{{ $changeTournamentStatusUrl }}" text="Status ändern" icon-name="build"></x-primary-button>
+                        <x-primary-button class="change-tournament" href="{{ $changeTournamentUrl }}" text="Wettkampf ändern" icon-name="settings"></x-primary-button>
+                        <x-primary-button class="change-category" href="{{ $changeCategoriesUrl }}" text="Kategorien administrieren" icon-name="group"></x-primary-button>
+                        <x-primary-button class="change-fight-system" href="{{ $changeFightingSystemsUrl }}" text="Kampfsysteme wählen" icon-name="view_carousel"></x-primary-button>
+                        <x-primary-button class="exclude-clubs" href="{{ $excludeClubsUrl }}" text="Verein ausschließen" icon-name="block"></x-primary-button>
+                        <x-primary-button class="change-places" href="{{ $changeFightingPlacesUrl }}"  text="Pools verwalten" icon-name="space_bar"></x-primary-button>
+                        <x-primary-button class="change-schedule" href="{{ $changeScheduleUrl }}"  text="Zeitplan managen" icon-name="schedule"></x-primary-button>
+                        <x-primary-button class="invite-clubs" href="{{ $inviteClubsUrl }}"  text="Vereine zum Wettkampf einladen" icon-name="group_add"></x-primary-button>
+                    </div>
+                    @if($progressStep == 4)
+                        <x-primary-button class="complete-tournament accent-1" href="{{ $completeTournamentUrl }}" text="Wettkampf abschließen" icon-name="done"></x-primary-button>
+                    @else
+                        <x-primary-button class="warning cancel-tournament" href="{{ $deleteTournamentUrl }}" text="Wettkampf absagen" icon-name="close"></x-primary-button>
+                    @endif
                 </div>
-                @if($progressStep == 4)
-                    <x-primary-button class="complete-tournament accent-1" href="{{ $completeTournamentUrl }}" text="Wettkampf abschließen" icon-name="done"></x-primary-button>
-                @else
-                    <x-primary-button class="warning cancel-tournament" href="{{ $deleteTournamentUrl }}" text="Wettkampf absagen" icon-name="close"></x-primary-button>
-                @endif
-            </div>
+            @endif
 
             @php
                 $enrolledPersons = \App\Models\EnrolledPerson::join("people", "people.id", "=", "enrolled_people.person_id")

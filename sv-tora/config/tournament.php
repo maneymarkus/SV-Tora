@@ -65,9 +65,6 @@ return [
         "Kihon",
         "Kata",
         "Kumite",
-        "Kumite (Kihon Ippon)",
-        "Kumite (Jiyu Ippon)",
-        "Kumite (Shobu Ippon)",
         "Team",
     ],
 
@@ -79,10 +76,10 @@ return [
     | This variable contains the Kumite categories that a fighter might have the choice on
     |
     */
-    "kumite_categories" => [
-        "Kihon_Ippon_Kumite",
-        "Jiyu_Ippon_Kumite",
-        "Shobu_Ippon_Kumite",
+    "kumite_types" => [
+        "Kihon Ippon Kumite",
+        "Jiyu Ippon Kumite",
+        "Shobu Ippon Kumite",
     ],
 
     /*

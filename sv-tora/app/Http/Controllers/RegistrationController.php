@@ -215,7 +215,7 @@ class RegistrationController extends Controller
         }
 
         if ($invitation->role->name !== Roles::ADMIN) {
-            return view("auth.admin-registration", ["token" => $token, "email" => $email])->withErrors(["error" => "Ihre Einladung ist nicht für diese Seite gültig (diese Seite ist nur für die Registrierung von Administratoren). Probieren Sie es unter " . route("registration", ["token" => $invitation->token])]);
+            return view("auth.admin-registration", ["token" => $token, "email" => $email])->withErrors(["error" => "Ihre Einladung ist nicht für diese Seite gültig (diese Seite ist nur für die Registrierung von Administratoren). Probieren Sie es unter " . route("registration", ["token" => $invitation->token]) . " erneut."]);
         }
 
         $newAdmin = User::create([

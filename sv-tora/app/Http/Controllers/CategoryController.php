@@ -43,7 +43,7 @@ class CategoryController extends Controller
     }
 
     public function printCategoriesOverview(Tournament $tournament) {
-        if (!$tournament->active && !$tournament->excludedClubs->contains(Auth::user()->club)) {
+        if ($tournament->excludedClubs->contains(Auth::user()->club)) {
             abort(403);
         }
 
@@ -138,7 +138,7 @@ class CategoryController extends Controller
 
         # insert category data
         $sheet->setCellValue("E1", $category->name);
-        $sheet->setCellValue("B3", $category->examination_type);
+        $sheet->setCellValue("B3", $category->examination_type . " " . $category->kumite_type);
         $sheet->setCellValue("D3", $category->age_min . " - " . $category->age_max);
         $sheet->setCellValue("G3", $category->sex);
         if ($category->graduation_min === $category->graduation_max) {

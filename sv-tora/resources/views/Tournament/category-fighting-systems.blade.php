@@ -18,9 +18,12 @@
         <a class="link" href="{{ url("/tournaments/" . $tournament->id) }}">zurück</a>
 
         <h1>Kampfsysteme der Kategorien</h1>
-        <div style="text-align: right">
-            <x-primary-button target="_blank" class="print-all" href="{{ $printAllFightingSystemsUrl }}" icon-name="print" text="Alle Kategorien drucken"></x-primary-button>
-        </div>
+
+        @if($tournament->categories->count() > 0)
+            <div style="text-align: right">
+                <x-primary-button target="_blank" class="print-all" href="{{ $printAllFightingSystemsUrl }}" icon-name="print" text="Alle Kategorien drucken"></x-primary-button>
+            </div>
+        @endif
 
         @if($tournament->tournamentTemplate->kihon)
             <h3 class="subheading">Kihon</h3>
@@ -122,12 +125,7 @@
         <h3 class="subheading">Kumite</h3>
         @php
             # All the Kumite categories
-        $kumiteCategories = $tournament->categories()
-                ->where("examination_type", "=", "Kumite")
-                ->orWhere("examination_type", "=", "Kumite (Kihon Ippon)")
-                ->orWhere("examination_type", "=", "Kumite (Jiyu Ippon)")
-                ->orWhere("examination_type", "=", "Kumite (Shobu Ippon)")
-                ->orderBy("name")->get();
+            $kumiteCategories = $tournament->categories()->where("examination_type", "=", "Kumite")->orderBy("name")->get();
         @endphp
 
         <div class="accordion">

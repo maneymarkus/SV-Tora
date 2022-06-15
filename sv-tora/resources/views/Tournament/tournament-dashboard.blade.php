@@ -36,7 +36,7 @@
             <p>
                 Voraussichtliches Ende des Wettkampfes: <span class="duration">{{ $tournament->calculateEstimatedEnd()->format("H:i") }}h</span>
                 <br />
-                (Hierbei handelt es sich um eine Schätzung. Diese Schätzung kann sich durchaus noch verändern und hängt vom Fortschritt der Planung des Wettkampfes ab.)
+                <span style="font-size: 0.8em; color: inherit;">(Hierbei handelt es sich um eine Schätzung. Diese Schätzung kann sich durchaus noch verändern und hängt vom Fortschritt der Planung des Wettkampfes ab.)</span>
             </p>
             <p class="more-spacing">Anmeldezeitraum:</p>
             <p><span data-name="enrollment-start" class="enrollment-start">{{ \Carbon\Carbon::parse($tournament->enrollment_start)->format("d.m.Y") }}</span> - <span data-name="enrollment-end" class="enrollment-end">{{ \Carbon\Carbon::parse($tournament->enrollment_end)->format("d.m.Y") }}</span></p>
@@ -67,11 +67,16 @@
             @php
                 $enrolledPersons = \App\Models\EnrolledPerson::join("people", "people.id", "=", "enrolled_people.person_id")
                     ->select("enrolled_people.*", "people.type as type", "people.id as person_id", "people.club_id as club_id")
-                    ->where("club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
+                    ->where("club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id)
+                    ->where("tournament_id", "=", $tournament->id);
                 $enrolledFighters = \App\Models\EnrolledFighter::join("fighters", "fighters.id", "=", "enrolled_fighters.fighter_id")
                     ->join("people", "people.id", "=", "fighters.person_id")
-                    ->where("club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
-                $enrolledTeams = \App\Models\EnrolledTeam::with("team")->get()->where("team.club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
+                    ->where("club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id)
+                    ->where("tournament_id", "=", $tournament->id);
+                $enrolledTeams = \App\Models\EnrolledTeam::with("team")
+                    ->where("tournament_id", "=", $tournament->id)
+                    ->get()
+                    ->where("team.club_id", "=", \Illuminate\Support\Facades\Auth::user()->club->id);
             @endphp
             <div class="persons-container dashboard-container">
                 <h3>Personen Anmeldungen</h3>

@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
@@ -16,17 +17,21 @@ class PasswordController extends Controller
 
         // no validation because there is no explicit form to return the possible error(s) to
         $request->validate([
-            "email" => "bail|required|email|max:255"
+            "email" => "required|email"
         ]);
 
         // show nice loading animation :)
         sleep(1);
 
+        Log::info($request->input("email"));
+
         $status = Password::sendResetLink(
             $request->only("email")
         );
 
-        return $status === Password::RESET_LINK_SENT ? GeneralHelper::sendNotification("success", "Die E-Mail zum Zurücksetzen Ihres Passwortes wurde versendet.") :  GeneralHelper::sendNotification("error", "Leider konnte die Mail nicht versendet werden. Bitte versuchen Sie es später erneut.");
+        return $status === Password::RESET_LINK_SENT
+            ? GeneralHelper::sendNotification("success", "Die E-Mail zum Zurücksetzen Ihres Passwortes wurde versendet.")
+            :  GeneralHelper::sendNotification("error", __($status));
 
     }
 

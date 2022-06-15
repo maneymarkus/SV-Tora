@@ -72,8 +72,18 @@
 
 .user-profile p {
     font-size: 1.25em;
-    margin: 2em 0;
+    margin: 0.5em 0;
     text-shadow: 2px 2px 5px var(--text-shadow);
+}
+
+.user-profile p:first-of-type {
+    margin-top: 2em;
+    font-weight: bold;
+}
+
+.user-profile p:last-of-type {
+    margin-bottom: 2em;
+    font-size: 1em;
 }
 
 .user-profile .secondary-button {

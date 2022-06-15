@@ -29,6 +29,7 @@ class Category extends Model
         "name",
         "tournament_id",
         "examination_type",
+        "kumite_type",
         "graduation_min",
         "graduation_max",
         "age_min",

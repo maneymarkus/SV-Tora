@@ -142,6 +142,10 @@ class UserController extends Controller
             return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Leider konnte keine Rolle mit dem Namen \"" . $request->input("Rolle") . "\" gefunden werden.!");
         }
 
+        if ($role->name === Roles::ADMIN && $club->name !== "SV Tora") {
+            return GeneralHelper::sendNotification(NotificationTypes::ERROR, "Ein User eines anderen Vereins (als SV Tora) kann kein Administrator sein.");
+        }
+
         $user->club_id = $club->id;
         $user->role_id = $role->id;
         $user->save();

@@ -13,6 +13,10 @@
     </style>
 
     <main>
+        @if(\Illuminate\Support\Facades\Auth::user()->isAdmin() && !$tournament->active)
+            <p class="error"><strong>Warnung:</strong> Dieser Wettkampf ist schon abgeschlossen. Du kannst als Admin zwar noch Änderungen vornehmen, aber solltest dir diese genau überlegen, da du damit die Historie verfälschen könntest.</p>
+        @endif
+
         <a class="link" href="{{ url("/tournaments/" . $tournament->id) }}">zurück</a>
 
         @php

@@ -36,8 +36,14 @@ class TournamentController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $activeTournaments = Tournament::where("active", true)->get();
         $hostedTournaments = Tournament::where("active", false)->get();
+        if (!$user->isAdmin()) {
+            $activeTournaments = $activeTournaments->reject(function (Tournament $tournament) use ($user) {
+                return $tournament->excludedClubs->contains($user->club);
+            });
+        }
         return response()->view("Tournament.tournament-overview", ["activeTournaments" => $activeTournaments, "hostedTournaments" => $hostedTournaments]);
     }
 
@@ -122,33 +128,27 @@ class TournamentController extends Controller
      */
     public function show(Tournament $tournament)
     {
-        if (Tournament::latest()->first()?->active) {
-            $tournament = Tournament::latest()->first();
-            $progressStep = $tournament->status;
-            if (Gate::allows("admin")) {
-                return response()->view("Tournament.tournament-admin-dashboard", [
-                    "tournament" => $tournament,
-                    "progressStep" => $progressStep,
-                    "changeTournamentStatusUrl" => url("/tournaments/" . $tournament->id . "/status"),
-                    "deleteTournamentUrl" => url("/tournaments/" . $tournament->id),
-                    "changeTournamentUrl" => url("/tournaments/" . $tournament->id),
-                    "changeCategoriesUrl" => url("/tournaments/" . $tournament->id . "/categories"),
-                    "changeFightingSystemsUrl" => url("/tournaments/" . $tournament->id . "/categories/fighting-systems"),
-                    "changeFightingPlacesUrl" => url("/tournaments/" . $tournament->id . "/fight-places"),
-                    "changeScheduleUrl" => url("/tournaments/" . $tournament->id . "/schedule"),
-                    "completeTournamentUrl" => url("/tournaments/" . $tournament->id . "/finish"),
-                    "excludeClubsUrl" => url("/tournaments/" . $tournament->id),
-                    "inviteClubsUrl" => url("/mail/tournament-invitation/" . $tournament->id),
-                ]);
-            } else {
-                return response()->view("Tournament.tournament-dashboard", ["tournament" => $tournament, "progressStep" => $progressStep]);
-            }
+        $progressStep = $tournament->status;
+        if (Gate::allows("admin")) {
+            return response()->view("Tournament.tournament-admin-dashboard", [
+                "tournament" => $tournament,
+                "progressStep" => $progressStep,
+                "changeTournamentStatusUrl" => url("/tournaments/" . $tournament->id . "/status"),
+                "deleteTournamentUrl" => url("/tournaments/" . $tournament->id),
+                "changeTournamentUrl" => url("/tournaments/" . $tournament->id),
+                "changeCategoriesUrl" => url("/tournaments/" . $tournament->id . "/categories"),
+                "changeFightingSystemsUrl" => url("/tournaments/" . $tournament->id . "/categories/fighting-systems"),
+                "changeFightingPlacesUrl" => url("/tournaments/" . $tournament->id . "/fight-places"),
+                "changeScheduleUrl" => url("/tournaments/" . $tournament->id . "/schedule"),
+                "completeTournamentUrl" => url("/tournaments/" . $tournament->id . "/finish"),
+                "excludeClubsUrl" => url("/tournaments/" . $tournament->id),
+                "inviteClubsUrl" => url("/mail/tournament-invitation/" . $tournament->id),
+            ]);
         } else {
-            if (Gate::allows("admin")) {
-                return response()->view("Tournament.no-tournament");
-            } else {
-                return redirect()->route("dashboard");
+            if (!$tournament->active) {
+                return redirect("/tournaments");
             }
+            return response()->view("Tournament.tournament-dashboard", ["tournament" => $tournament, "progressStep" => $progressStep]);
         }
     }
 
@@ -273,6 +273,11 @@ class TournamentController extends Controller
         if ($statusCode >= 2) {
             if (Carbon::parse($tournament->enrollment_end) > Carbon::today()) {
                 $tournament->enrollment_end = Carbon::today()->subDay()->format("Y-m-d");
+            }
+        }
+        if ($statusCode >= 3) {
+            if (Carbon::parse($tournament->date) > Carbon::today()) {
+                $tournament->date = Carbon::today()->format("Y-m-d");
             }
         }
 

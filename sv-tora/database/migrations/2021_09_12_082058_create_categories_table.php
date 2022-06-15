@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string("name");
             $table->unsignedBigInteger("tournament_id")->index();
             $table->enum("examination_type", config("tournament.examination_types"));
+            $table->enum("kumite_type", config("tournament.kumite_types"))->nullable();
             $table->enum("graduation_min", config("global.graduations"));
             $table->enum("graduation_max", config("global.graduations"));
             $table->enum("sex", array_merge(config("global.sex"), ["m/w"]));

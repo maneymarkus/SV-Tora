@@ -21,11 +21,16 @@
         <div class="fade-wrapper">
             <div class="clearfix">
                 <div class="container-medium">
+                    @php
+                        $activeTournaments = \App\Models\Tournament::where("active", true)->get()->reject(function (\App\Models\Tournament $tournament) {
+                            return $tournament->excludedClubs->contains(\Illuminate\Support\Facades\Auth::user()->club);
+                        });
+                    @endphp
                     @if(\Illuminate\Support\Facades\Gate::allows("admin"))
                         <a class="tournaments" href="{{ url("/tournaments") }}">
                             <h3 class="heading">Zum Wettkampf Dashboard</h3>
                             <div class="info">
-                                <p class="subheading"><span>{{ $activeTournaments = \App\Models\Tournament::where("active", true)->get()->count() }}</span> {{ $activeTournaments === 1 ? "aktiver Wettkampf" : "aktive Wettkämpfe" }}</p>
+                                <p class="subheading"><span>{{ $activeTournaments->count() }}</span> {{ $activeTournaments->count() === 1 ? "aktiver Wettkampf" : "aktive Wettkämpfe" }}</p>
                                 <p class="subheading"><span>{{ \App\Models\Tournament::where("active", false)->get()->count() }}</span> erfolgreich veranstaltete Wettkämpfe (bisher)</p>
                             </div>
                         </a>
@@ -33,7 +38,7 @@
                         <a class="tournaments" href="{{ url("/tournaments") }}">
                             <h3 class="heading">Zum Wettkampf Dashboard</h3>
                             <div class="info">
-                                <p class="subheading"><span>{{ $activeTournaments = \App\Models\Tournament::where("active", true)->get()->count() }}</span> {{ $activeTournaments === 1 ? "aktiver Wettkampf" : "aktive Wettkämpfe" }}</p>
+                                <p class="subheading"><span>{{ $activeTournaments->count() }}</span> {{ $activeTournaments->count() === 1 ? "aktiver Wettkampf" : "aktive Wettkämpfe" }}</p>
                             </div>
                         </a>
                     @endif

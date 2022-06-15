@@ -2,10 +2,6 @@ main {
     padding-bottom: 10rem;
 }
 
-main p, main a.link {
-    font-size: 1.25rem;
-}
-
 .time-actions {
     padding: 2rem 0;
     display: flex;

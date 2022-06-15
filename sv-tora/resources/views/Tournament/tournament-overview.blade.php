@@ -13,7 +13,7 @@
 @section("content")
 
     <main class="limited">
-        <a class="link" href="{{ url()->previous() }}">zurück</a>
+        <a class="link" href="{{ url()->previous("/dashboard") }}">zurück</a>
         <h1>Aktive Wettkämpfe</h1>
         <div class="active-tournaments">
             @if(\App\Models\Tournament::hasActiveTournament())

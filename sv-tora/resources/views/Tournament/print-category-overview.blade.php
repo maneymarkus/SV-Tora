@@ -78,7 +78,7 @@
             @foreach($categories as $category)
                 <tr>
                     <td>{{ $category->name }}</td>
-                    <td>{{ $category->examination_type }}</td>
+                    <td>{{ $category->examination_type . " " . $category->kumite_type }}</td>
                     <td>{{ $category->age_min }} - {{ $category->age_max }}</td>
                     <td>{{ $category->sex }}</td>
                     <td>{{ $category->graduation_min }} - {{ $category->graduation_max }}</td>

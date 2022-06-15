@@ -162,7 +162,7 @@
     function completeTournament(url) {
         App.SendRequestModule.sendRequest(App.GeneralModule.generalVariables.requests.POST, url, function () {
             ModalModule.infoModal("Wettkampf erfolgreich abgeschlossen", "Der Wettkampf wurde erfolgreich abgeschlossen. Hoffentlich habt ihr den Wettkampf ebenfalls erfolgreich abgeschlossen. Bis zum nächsten Mal. (Beim Klick auf \"OK\" oder beim Schließen des Modals lädt die Seite neu und du kannst einen neuen Wettkampf erstellen)", function () {
-                window.location.reload();
+                window.location.href = "/tournaments";
             });
         }, undefined, true);
     }

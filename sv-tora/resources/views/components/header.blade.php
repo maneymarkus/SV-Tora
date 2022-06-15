@@ -8,6 +8,7 @@
         <div class="user-profile">
             <div class="user-wrapper">
                 <p class="username">{{ auth()->user()->name }}</p>
+                <p class="club-name">{{ auth()->user()->club->name }}</p>
                 <x-secondary-button class="settings" text="Profil Einstellungen" href="/user/settings"></x-secondary-button>
                 <x-secondary-button class="logout accent-1" text="Abmelden"></x-secondary-button>
             </div>
